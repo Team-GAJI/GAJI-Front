@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('./assets/font/NanumSquareNeo-Variable.woff') format('truetype');
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('./assets/font/NanumSquareNeoTTF-aLt.woff') format('woff2');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('./assets/font/NanumSquareNeoTTF-bRg.woff') format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('./assets/font/NanumSquareNeoTTF-cBd.woff') format('woff2');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('./assets/font/NanumSquareNeoTTF-dEb.woff') format('woff2');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('./assets/font/NanumSquareNeoTTF-eHv.woff') format('woff2');
+  font-weight: 900;
+}
+
+
+
+
+body {
+  margin: 0 auto;
+  position: relative;
+  overflow-x:hidden;
+  font-family: 'NanumSquareNeo';
+}
+
