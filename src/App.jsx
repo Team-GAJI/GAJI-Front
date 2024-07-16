@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'; 
-import CommunityPage from './pages/LoginPage';
+import CommunityPage from './pages/CommunityPage';
 
 
 function App() {
