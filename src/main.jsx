@@ -5,11 +5,9 @@ import { Provider } from 'react-redux'
 import {store} from './store/store.jsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom'
-import StudyCategory from './pages/StudyCategory.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <StudyCategory/>
     <BrowserRouter>
     <Provider store={store}>
     <App />
