@@ -13,13 +13,13 @@ const NavbarContainer = styled.div`
   color: #fff;
 `;
 
-const Header = styled.header`
-  padding: 10px 20px;
-  background-color: #2B2E38;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+// const Header = styled.header`
+//   padding: 10px 20px;
+//   background-color: #2B2E38;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// `;
 
 const Button = styled.button`
   background-color: transparent;
@@ -58,11 +58,7 @@ const SidebarButton = styled(Button)`
   color: #3e4251;
   padding: 6px 10px;
   font-weight: ${props => (props.bold ? 'bold' : 'normal')};
-  ${props =>
-    props.large &&
-    css`
-      font-size: 18px;
-    `}
+  ${props => props.large && `font-size: 18px;`}
 `;
 
 const SidebarDivider = styled.div`
@@ -190,7 +186,7 @@ const StudyRoom = () => {
 
   return (
     <NavbarContainer>
-      <Header>
+      {/* <Header>
         <h1>스터디룸</h1>
         <div>
           <Button>트러블 슈팅 게시판</Button>
@@ -198,7 +194,7 @@ const StudyRoom = () => {
           <Button>스터디 일정 정하기</Button>
           <Button>채팅방</Button>
         </div>
-      </Header>
+      </Header> */}
       <MainSection>
         {/*왼쪽 사이드*/}
         <Sidebar>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import HotPostPreview from './HotPostPreview';
-import SearchIcon from '../../assets/icons/searchicon.svg?react';
+import SearchIcon from '../../assets/icons/searchIcon.svg?react';
 import PostPreview from './PostPreview';
 import BlogPreview from './BlogPreview';
 
@@ -44,21 +44,21 @@ const CommunityHomePosts = ({ activeButton }) => {
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-      	  </StyledSelect>
+          </StyledSelect>
           <StyledSelect name="sort">
             <option value="1">정렬</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-      	  </StyledSelect>
+          </StyledSelect>
           <StyledSelect name="filter">
             <option value="1">필터</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-      	  </StyledSelect>
+          </StyledSelect>
         </SelectWrapper>
         <CreatePostButton>
           + {activeButton === '블로그' ? '블로그' : '게시글'} 작성하기

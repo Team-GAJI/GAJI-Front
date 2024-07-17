@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logos/logo.svg';
 import backImage from '../assets/images/mypageBackground.png';
-import Footer from './Footer';
 import StudyRecruitment from './StudyRecruitment';
-
 import DetailCategory from './DetailCategory';
 import SortingCategory from './SortingCategory';
 import FilterCategory from './FilterCategory';
@@ -18,29 +16,6 @@ const HeaderWrapper = styled.div`
     padding: 0 3.1em;
 `;
 
-const RowWrapper = styled.div`
-    padding-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 60em; 
-    margin-top: 10px; 
-`;
-
-const SidebarToggle = styled.div`
-    cursor: pointer;
-    font-size: 20px;
-    padding: 0.8125em;
-`;
-
-const AuthButton = styled.div`
-    font-size: 0.8125em;
-    width: 123px;
-    border: 1px solid #161A3F;
-    border-radius: 10px;
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
-`;
 
 const RowLogoWrapper = styled.div`
     display: flex;
@@ -208,17 +183,12 @@ const StudyCategory = () => {
     return (
         <HeaderWrapper>
             <ContentWrapper>
-                {/* 상단 사이드바 토글 버튼과 로그인 버튼 */}
-                <RowWrapper>
-                    <SidebarToggle>☰</SidebarToggle>
-                    <AuthButton>LOG IN</AuthButton>
-                </RowWrapper>
 
                 {/* 로고와 로고 텍스트 */}
                 <RowLogoWrapper>
                     <LogoImage src={Logo} alt="로고" />
                     <LogoText>스터디</LogoText>
-                    <Text>'가지'고 싶은 스터디를 검색해보세요!</Text>
+                    <Text>`가지`고 싶은 스터디를 검색해보세요!</Text>
                     <InputStudy placeholder="검색어를 입력해주세요" />
                 </RowLogoWrapper>
 
@@ -259,8 +229,6 @@ const StudyCategory = () => {
                 <MoreButton>더보기</MoreButton>
 
             </ContentWrapper>
-            {/* Footer-아래 */}
-            <Footer />
         </HeaderWrapper>
     );
 };

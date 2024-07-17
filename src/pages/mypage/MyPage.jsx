@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import backGroundUrl from '../../assets/images/mypageBackground.png';
-import userProfileUrl from '../../assets/images/userprofile.png';
+import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
+import userProfileUrl from '../../assets/images/mypage/userProfile.png';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../components/style/Button';
 import Logo from '../../components/common/Logo';
-import BellIcon from '../../assets/icons/bellicon.svg?react';
-import SendIcon from '../../assets/icons/sendicon.svg?react';
+import BellIcon from '../../assets/icons/mypage/bellicon.svg?react';
+import SendIcon from '../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../components/style/Color';
 import Calendar from './Calendar';
 import MyPost from './MyPost';

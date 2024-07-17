@@ -20,7 +20,7 @@ const CommunityPage = () => {
             <HeaderWrapper>
                 <StyledLogoIcon />
                 <Title>{title}</Title>
-                <LogoText>'가지'고 싶은 지식을 나누고 성장해요 !</LogoText>
+                <LogoText>`가지`고 싶은 지식을 나누고 성장해요 !</LogoText>
                 <ButtonsWrapper>
                     <StyledButton 
                         isActive={activeButton === '커뮤니티 홈'}
@@ -105,7 +105,6 @@ const StyledButton = styled.button`
 
 const PostsWrapper = styled.div`
     padding-top: 2.5em;
-    height: 15em;
     background-color: #F0EAFF;
     text-align: center;
 `;
