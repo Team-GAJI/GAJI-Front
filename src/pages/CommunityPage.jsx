@@ -58,7 +58,6 @@ const CommunityPage = () => {
 
 export default CommunityPage;
 
-/* CSS */
 const HeaderWrapper = styled.div`
     margin-top: 2em;
     height: 16.5em;
