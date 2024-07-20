@@ -50,7 +50,7 @@ const LoginPage = () => {
         console.log('로그인시작');
         // 구글 로그인 로직을 여기서 처리하고 토큰을 받아옵니다.
         handleGoogleLogin();
-        const userToken = 'sampleToken'; // 예제 토큰
+        const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
         dispatch(setTokens(userToken));
         setModal(true)
     };
