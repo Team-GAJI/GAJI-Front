@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
-import userProfileUrl from '../../assets/images/mypage/userProfile.png';
-import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../components/style/Button';
-import Logo from '../../components/common/Logo';
-import BellIcon from '../../assets/icons/mypage/bellicon.svg?react';
-import SendIcon from '../../assets/icons/mypage/sendicon.svg?react';
-import { Color } from '../../components/style/Color';
-import Calendar from './Calendar';
-import MyPost from './MyPost';
-import PastStudyList from './PastStudyList';
-import CurrentStudyList from './CurrentStudyList';
+import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
+import userProfileUrl from '../assets/images/mypage/userProfile.png';
+import { PuppleButton, PuppleButton2, PuppleButton3 } from '../components/style/Button';
+import Logo from '../components/common/Logo';
+import BellIcon from '../assets/icons/mypage/bellicon.svg?react';
+import SendIcon from '../assets/icons/mypage/sendicon.svg?react';
+import { Color } from '../components/style/Color';
+import Calendar from '../components/mypage/Calendar';
+import MyPost from '../components/mypage/MyPost';
+import PastStudyList from '../components/mypage/PastStudyList';
+import CurrentStudyList from '../components/mypage/CurrentStudyList';
 
 const MyPage = () => {
 

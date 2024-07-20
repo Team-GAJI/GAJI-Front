@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PrevMonth from '../../assets/icons/prevmonth.svg?react';
 import NextMonth from '../../assets/icons/nextmonth.svg?react';
-import { Color } from '../../components/style/Color';
+import { Color } from '../style/Color';
 
 const Calendar = () => {
     const [date, setDate] = useState(new Date());

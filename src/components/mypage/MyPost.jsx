@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Color } from '../../components/style/Color';
-import { PuppleButton } from '../../components/style/Button';
+import { Color } from '../style/Color';
+import { PuppleButton } from '../style/Button';
 
 const MyPost = () => {
     return (
