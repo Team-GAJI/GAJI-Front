@@ -6,7 +6,7 @@ import { Color } from '../components/style/Color';
 import { GoogleLoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useDispatch } from 'react-redux';
-import { loadToken, setToken } from '../feautres/auth/authSlice';
+import { loadTokens, setTokens } from '../feautres/auth/authSlice'; 
 import { useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
     // const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
-        dispatch(loadToken());
+        dispatch(loadTokens());
     }, [dispatch]);
 
     const handleGoogleLogin = async () => {
@@ -51,7 +51,7 @@ const LoginPage = () => {
         // 구글 로그인 로직을 여기서 처리하고 토큰을 받아옵니다.
         handleGoogleLogin();
         const userToken = 'sampleToken'; // 예제 토큰
-        dispatch(setToken(userToken));
+        dispatch(setTokens(userToken));
         setModal(true)
     };
 
@@ -59,8 +59,8 @@ const LoginPage = () => {
         if (isAgreed) {
             console.log('로그인시작');
             // 구글 로그인 로직을 여기서 처리하고 토큰을 받아옵니다.
-            const userToken = 'sampleToken'; // 예제 토큰
-            dispatch(setToken(userToken));
+            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
+            dispatch(setTokens(userToken));
             setModal(true)
         } else {
             alert("필수 약관에 동의해야 합니다.");
