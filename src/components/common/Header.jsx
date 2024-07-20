@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuIcon from '../../assets/icons/common/menuBar.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeToken } from '../../feautres/auth/authSlice';
-import { useDispatch } from 'react-redux';
 
 const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [auth, setAuth] = useState(false);
+    const token = useSelector((state) => state.auth.token);
     const [menuVisible, setMenuVisible] = useState(false);
 
     const handleLogout = () => {
         dispatch(removeToken());
-        setAuth(false);
     };
 
     const toggleMenu = () => {
@@ -22,8 +21,8 @@ const Header = () => {
 
     return (
         <HeaderWrapper>
-            <RowWrapper>
-                <StyledMenuIcon onClick={toggleMenu} />
+            <RowWrapper onMouseEnter={toggleMenu} onMouseLeave={toggleMenu}>
+                <StyledMenuIcon onMouseEnter={toggleMenu} onMouseLeave={toggleMenu} />
                 {menuVisible && (
                     <MenuWrapper>
                         <Text onClick={() => navigate('/')}>홈</Text>
@@ -34,7 +33,7 @@ const Header = () => {
                     </MenuWrapper>
                 )}
             </RowWrapper>
-            {auth ? (
+            {token ? (
                 <AuthButton onClick={handleLogout}>LOG OUT</AuthButton>
             ) : (
                 <AuthButton onClick={() => navigate('/login')}>LOG IN</AuthButton>
