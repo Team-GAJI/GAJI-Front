@@ -1,4 +1,3 @@
-// components/Header.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuIcon from '../../assets/icons/common/menuBar.svg?react';
@@ -22,17 +21,15 @@ const Header = () => {
 
     return (
         <HeaderWrapper>
-            <RowWrapper onMouseEnter={toggleMenu} onMouseLeave={toggleMenu}>
-                <StyledMenuIcon menuVisible={menuVisible} />
-                {menuVisible && (
-                    <MenuWrapper>
-                        <Text onClick={() => navigate('/')}>홈</Text>
-                        <Text onClick={() => navigate('/study')}>스터디</Text>
-                        <Text onClick={() => navigate('/community')}>커뮤니티</Text>
-                        <Text onClick={() => navigate('/')}>로드맵</Text>
-                        <Text onClick={() => navigate('/')}>강의</Text>
-                    </MenuWrapper>
-                )}
+            <RowWrapper>
+                <StyledMenuIcon  onClick={toggleMenu} menuVisible={menuVisible} />
+                <MenuWrapper menuVisible={menuVisible}>
+                    <Text onClick={() => navigate('/')}>홈</Text>
+                    <Text onClick={() => navigate('/study')}>스터디</Text>
+                    <Text onClick={() => navigate('/community')}>커뮤니티</Text>
+                    <Text onClick={() => navigate('/')}>로드맵</Text>
+                    <Text onClick={() => navigate('/')}>강의</Text>
+                </MenuWrapper>
             </RowWrapper>
             {accessToken ? (
                 <AuthButton onClick={handleLogout}>LOG OUT</AuthButton>
@@ -70,15 +67,18 @@ const RowWrapper = styled.div`
 `;
 
 const MenuWrapper = styled.div`
+    visibility: ${(props) => (props.menuVisible ? 'visible' : 'hidden')};
+    opacity: ${(props) => (props.menuVisible ? '1' : '0')};
+    transition: visibility 0.3s ease, opacity 0.3s ease;
     display: flex;
     gap: 4.25em;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 `;
 
 const StyledMenuIcon = styled(MenuIcon)`
     width: 1.44em;
     cursor: pointer;
-    fill: ${(props) => (props.menuVisible ? '#8E59FF' : '#c8c8c8')};
+    fill: ${(props) => (props.menuVisible ? '#8E59FF' : '#000000')};
+    transition: fill 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 `;
 
 const Text = styled.div`
