@@ -5,11 +5,12 @@ import { Provider } from 'react-redux'
 import {store} from './store/store.jsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom'
-import StudyRoom from './pages/StudyRoom.jsx';
+import CreateStudy from './pages/CreateStudy.jsx';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <StudyRoom/>
+    <CreateStudy/>
     <BrowserRouter>
     <Provider store={store}>
     <App />
