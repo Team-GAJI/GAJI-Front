@@ -59,7 +59,6 @@ const CommunityPage = () => {
 export default CommunityPage;
 
 const HeaderWrapper = styled.div`
-    margin-top: 2em;
     height: 16.5em;
     background-image: url(${BackgroundImage});
     background-size: cover;
@@ -96,7 +95,7 @@ const StyledButton = styled.button`
     border: none;
     border-radius: 8px;
     width: 10em;
-    height: 2.2em;
+    height: 54px;;
     background-color: ${({ isActive }) => (isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)')}; 
     color: white;
     font-size: 1.4em;

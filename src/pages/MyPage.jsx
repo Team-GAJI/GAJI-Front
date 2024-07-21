@@ -1,16 +1,13 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
-import userProfileUrl from '../assets/images/mypage/userProfile.png';
-import { PuppleButton, PuppleButton2, PuppleButton3 } from '../components/style/Button';
+import { PuppleButton } from '../components/style/Button';
 import Logo from '../components/common/Logo';
-import BellIcon from '../assets/icons/mypage/bellicon.svg?react';
-import SendIcon from '../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../components/style/Color';
 import Calendar from '../components/mypage/Calendar';
 import MyPost from '../components/mypage/MyPost';
-import PastStudyList from '../components/mypage/PastStudyList';
-import CurrentStudyList from '../components/mypage/CurrentStudyList';
+import StudyList from '../components/mypage/StudyList';
+import UserInfo from '../components/mypage/UserInfo';
 
 const MyPage = () => {
     const [scroll, setScroll] = useState('home');
@@ -34,8 +31,6 @@ const MyPage = () => {
         window.scrollTo({ top: yPosition, behavior: 'smooth' });
     };
 
-    const userName = 'USER 1023';
-    const userGrade = 'Gold';
 
     return (
         <MyPageWrapper>
@@ -58,32 +53,11 @@ const MyPage = () => {
                 </RowWrapper>
             </Header>
             <ContentWrapper>
-                <UserWrapper ref={homeRef}>
-                    <RowWrapper2>
-                        <UserImage />
-                        <ColumnWrapper>
-                            <UserName>{userName} 님</UserName>
-                            <UserGrade>{userGrade} Member</UserGrade>
-                            <WelcomeText>마이페이지에 오신 것을 환영합니다!</WelcomeText>
-                        </ColumnWrapper>
-                    </RowWrapper2>
-                    <ColumnWrapper>
-                        <NameEditButton>닉네임 수정하기</NameEditButton>
-                        <RowWrapper3>
-                            <ColumnWrapper2>
-                                <MarketingButton><BellIcon /></MarketingButton>
-                                <GreyText>마케팅 수신</GreyText>
-                            </ColumnWrapper2>
-                            <ColumnWrapper2>
-                                <MarketingButton><SendIcon /></MarketingButton>
-                                <GreyText>쪽지 보내기</GreyText>
-                            </ColumnWrapper2>
-                        </RowWrapper3>
-                    </ColumnWrapper>
-                </UserWrapper>
 
+                <UserInfo ref={homeRef}/>
+            
                 <RowWrapper4 ref={studyRoomRef}>
-                    <CurrentStudyList /><PastStudyList />
+                    <StudyList isCurrent={true}/><StudyList isCurrent={false}/>
                 </RowWrapper4>
 
                 <RowWrapper4 ref={calendarRef}>
@@ -139,36 +113,15 @@ const RowWrapper = styled.div`
     gap: 7px;
 `;
 
-const RowWrapper2 = styled.div`
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 41px;
-    height: auto;
-`;
 
-const RowWrapper3 = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 188px;
-    height: auto;
-`;
 
 const RowWrapper4 = styled.div`
     display: flex;
     gap: 2em;
 `;
 
-const ColumnWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    height: auto;
-`;
 
-const ColumnWrapper2 = styled(ColumnWrapper)`
-    gap: 0.5em;
-`;
+
 
 const StyledPuppleButton = styled(PuppleButton)`
     width: 223px;
@@ -178,13 +131,6 @@ const StyledPuppleButton = styled(PuppleButton)`
     background-color: ${({ $isActive }) => ($isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)')};
 `;
 
-const UserImage = styled.div`
-    width: 138px;
-    height: 138px;
-    border-radius: 10px;
-    background-image: url(${userProfileUrl});
-    background-size: cover;
-`;
 
 const ContentWrapper = styled.div`
     display: flex;
@@ -194,47 +140,4 @@ const ContentWrapper = styled.div`
     gap: 4em;
 `;
 
-const UserWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
-    height: 166px;
-    border-radius: 10px;
-    background-color: #F0EAFF;
-`;
 
-const UserName = styled(Color)`
-    font-size: 1.25em;
-    font-weight: 800;
-`;
-
-const UserGrade = styled(PuppleButton)`
-    width: 125px;
-    height: 25px;
-`;
-
-const WelcomeText = styled.div`
-    font-size: 1em;
-    font-weight: 700;
-    color: #A2A3B2;
-`;
-
-const NameEditButton = styled(PuppleButton2)`
-    background-color: #B693FF;
-    width: 100%;
-    height: 40px;
-    font-weight: 700;
-`;
-
-const MarketingButton = styled(PuppleButton3)`
-    width: 90px;
-    height: 40px;
-`;
-
-const GreyText = styled.div`
-    text-align: center;
-    font-size: 0.6875em;
-    color: #C9C7DA;
-    font-weight: 700;
-`;
