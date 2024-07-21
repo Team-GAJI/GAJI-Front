@@ -26,10 +26,6 @@ const MyPost = () => {
                     <PostInfo>카테고리 | 작성자, 2시간 전, 조회수 123 | 좋아요 10</PostInfo>
                 </PostListItem>
             </PostListWrapper>
-
-            <MorePostButton>
-                더보기
-            </MorePostButton>
         </MyPostWrapper>
     );
 };
@@ -108,10 +104,3 @@ const PostInfo = styled.div`
     color: #D0D1D9;
 `;
 
-const MorePostButton = styled(PuppleButton)`
-    margin-bottom : 41px;
-    width : 197px;
-    height : 53px;
-    font-size : 1.25em;
-    font-weight : 700;
-`;

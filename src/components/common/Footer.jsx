@@ -2,17 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import { Color } from '../style/Color';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+    const navigate = useNavigate();
+
     return (
         <FooterWrapper>
             <RowWrapper>
-                <Text>홈</Text>
-                <Text>스터디</Text>
-                <Text>커뮤니티</Text>
-                <Text>로드맵</Text>
-                <Text>강의</Text>
-                <Text>마이페이지</Text>
+                <Text onClick={() => navigate('/')}>홈</Text>
+                <Text onClick={() => navigate('/study')}>스터디</Text>
+                <Text onClick={() => navigate('/community')}>커뮤니티</Text>
+                <Text onClick={() => navigate('/')}>로드맵</Text>
+                <Text onClick={() => navigate('/')}>강의</Text>
+                <Text onClick={() => navigate('/mypage')}>마이페이지</Text>
             </RowWrapper>
             <RowLogoWrapper>
                 <StyledLogo/>
