@@ -14,16 +14,22 @@ const UserInfo = forwardRef((props, ref) => {
 
     const handleNameEdit = () => {
         if (isEditing) {
-            // Save the new user name
             setIsEditing(false);
         } else {
-            // Enable editing mode
             setIsEditing(true);
         }
     };
 
     const handleNameChange = (event) => {
         setUserName(event.target.value);
+    };
+
+    const handleMarketingClick = () => {
+        alert('마케팅 수신 설정이 변경되었습니다.');
+    };
+
+    const handleSendMessageClick = () => {
+        alert('준비중인 기능입니다.');
     };
 
     return (
@@ -51,11 +57,11 @@ const UserInfo = forwardRef((props, ref) => {
                 </NameEditButton>
                 <RowWrapper3>
                     <ColumnWrapper2>
-                        <MarketingButton><BellIcon /></MarketingButton>
+                        <MarketingButton onClick={handleMarketingClick}><BellIcon /></MarketingButton>
                         <GreyText>마케팅 수신</GreyText>
                     </ColumnWrapper2>
                     <ColumnWrapper2>
-                        <MarketingButton><SendIcon /></MarketingButton>
+                        <MarketingButton onClick={handleSendMessageClick}><SendIcon /></MarketingButton>
                         <GreyText>쪽지 보내기</GreyText>
                     </ColumnWrapper2>
                 </RowWrapper3>
@@ -151,6 +157,8 @@ const UserNameInput = styled.input`
     color : #8E59FF;
     font-size: 1.25em;
     font-weight: 800;
+    // 아래 font-family추가
+    font-family: 'NanumSquareNeo';
     border: none;
     outline: none;
     background-color : transparent;

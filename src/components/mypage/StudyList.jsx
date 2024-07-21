@@ -1,9 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Color } from '../style/Color';
-import RightArrow from '../../assets/icons/rightarrow.svg?react';
 import studyProfileUrl from '../../assets/images/studyprofile.png';
 
+const dummyStudyList = [
+    {
+        name: 'React 기본 스터디',
+        description: 'React의 기본 개념과 Hooks를 공부하는 스터디입니다.',
+    },
+    {
+        name: 'JavaScript 심화 스터디',
+        description: 'JavaScript의 심화 개념을 공부하고 프로젝트를 진행합니다.',
+    },
+    {
+        name: '알고리즘 문제 풀이',
+        description: '알고리즘 문제를 함께 풀고 토론하는 스터디입니다.',
+    },
+    {
+        name: '웹 디자인 스터디',
+        description: '웹 디자인의 기본 원리와 최신 트렌드를 공부합니다.',
+    },
+    {
+        name: '풀스택 개발 스터디',
+        description: '풀스택 개발의 전체 과정을 함께 배우고 프로젝트를 진행합니다.',
+    },
+];
 const StudyList = ({ isCurrent }) => {
     return (
         <StudyListWrapper>
@@ -12,27 +33,15 @@ const StudyList = ({ isCurrent }) => {
                     <ExtraBold>{isCurrent ? "현재 스터디룸" : "이전 스터디룸"}</ExtraBold>
                 </RowWrapper>
                 <ListWrapper>
-                    <ListItem>
+                {dummyStudyList.map((study, index) => (
+                    <ListItem key={index}>
                         <StudyProfile/>
                         <ColumnWrapper>
-                            <StudyName>스터디 명</StudyName>
-                            <StudyText>스터디 설명 50자까지만 보이게</StudyText>
+                            <StudyName>{study.name}</StudyName>
+                            <StudyText>{study.description}</StudyText>
                         </ColumnWrapper>
                     </ListItem>
-                    <ListItem>
-                        <StudyProfile/>
-                        <ColumnWrapper>
-                            <StudyName>스터디 명</StudyName>
-                            <StudyText>스터디 설명 50자까지만 보이게</StudyText>
-                        </ColumnWrapper>
-                    </ListItem>
-                    <ListItem>
-                        <StudyProfile/>
-                        <ColumnWrapper>
-                            <StudyName>스터디 명</StudyName>
-                            <StudyText>스터디 설명 50자까지만 보이게</StudyText>
-                        </ColumnWrapper>
-                    </ListItem>
+                ))}
                 </ListWrapper>
             </Wrapper>
         </StudyListWrapper>
@@ -41,24 +50,23 @@ const StudyList = ({ isCurrent }) => {
 
 export default StudyList;
 
-export const StyledRightArrow = styled(RightArrow)`
-    width : 0.495em;
-`;
 
-export const StudyListWrapper = styled.div`
+const StudyListWrapper = styled.div`
     width : 100%;
     display : flex;
     gap :2em;
 `;
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
     width : 100%;
     display : flex;
     flex-direction : column;
     gap : 2em;
 `;
 
-export const ListWrapper = styled.div`
+const ListWrapper = styled.div`
+    height : 60%;
+    overflow: scroll;
     border: 1px solid #8E59FF;
     border-radius: 20px;
     padding : 2.5em;
@@ -67,45 +75,47 @@ export const ListWrapper = styled.div`
     gap : 1em;
 `;
 
-export const ListItem = styled.div`
+const ListItem = styled.div`
     display : flex;
     gap : 1em;
     border-bottom : 1px solid #8E59FF;
     padding-bottom : 1.25em;
 `;
 
-export const RowWrapper = styled.div`
+const RowWrapper = styled.div`
     width : 100%;
     display : flex;
     align-items : center;
     justify-content: space-between;
 `;
 
-export const ColumnWrapper = styled.div`
+const ColumnWrapper = styled.div`
     display : flex;
     flex-direction : column;
     justify-content : center;
     gap : 0.5em;
 `;
 
-export const ExtraBold = styled(Color)`
+const ExtraBold = styled(Color)`
     font-weight : 800;
     font-size : 1.25em;
 `;
 
-export const StudyName = styled.div`
+const StudyName = styled.div`
     font-size : 1em;
     font-weight : 700;
 `;
 
-export const StudyText = styled.div`
+const StudyText = styled.div`
     font-size : 1em;
     font-weight : 700;
     color : #7E7D80;
 `;
 
-export const StudyProfile = styled.div`
+const StudyProfile = styled.div`
     background-image: url(${studyProfileUrl});
-    width : 60px;
-    height : 60px;
+    background-size: contain;
+background-repeat: no-repeat;
+    width : 20%;
+    height : 3em;
 `;
