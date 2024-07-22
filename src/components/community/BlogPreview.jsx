@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import LikeIcon from '../../assets/icons/fillLikeIcon.svg?react';
-import BlogBackground from '../../assets/images/blogBackground.png';
-import UserProfileImg from '../../assets/images/userProfile.png';
+import LikeIcon from '../../assets/icons/community/fillLikeIcon.svg?react';
+import BlogBackground from '../../assets/images/community/blogBackground.png';
+import UserProfileImg from '../../assets/images/community/userProfile.png';
+import { useNavigate } from 'react-router-dom';
 
 const BlogPreview = () => {
+    /* useNavigate */
+    const navigate = useNavigate();
+
     return (
-        <PostWrapper>
+        <PostWrapper onClick={() => {navigate("/community/post");}}>
             <LikeWrapper>
                 <StyledLikeIcon /><Like>10</Like>
             </LikeWrapper>

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BackgroundImage from '../assets/images/communityBackground.png';
+import BackgroundImage from '../assets/images/community/communityBackground.png';
 import LogoIcon from '../assets/logos/logo.svg?react';
-import CommunityHomePosts from '../components/communityMain/CommunityHomePosts';
+import CommunityHomePosts from '../components/community/CommunityHomePosts';
 
 const CommunityPage = () => {
     /* state 관리 */
-    const [activeButton, setActiveButton] = useState('커뮤니티 홈');
-    const [title, setTitle] = useState('커뮤니티');
+    const [activeButton, setActiveButton] = useState('프로젝트');
+    const [title, setTitle] = useState('프로젝트');
 
     /* 버튼 클릭 시 상태 변경 */
     const handleButtonClick = (buttonText) => {
         setActiveButton(buttonText);
-        setTitle(buttonText === '커뮤니티 홈' ? '커뮤니티' : buttonText);
+        setTitle(buttonText);
     };
 
     return (
@@ -22,25 +22,19 @@ const CommunityPage = () => {
                 <Title>{title}</Title>
                 <LogoText>`가지`고 싶은 지식을 나누고 성장해요 !</LogoText>
                 <ButtonsWrapper>
-                    <StyledButton 
-                        isActive={activeButton === '커뮤니티 홈'}
-                        onClick={() => handleButtonClick('커뮤니티 홈')}
-                    >
-                        커뮤니티 홈
-                    </StyledButton>
-                    <StyledButton 
+                    <StyledButton
                         isActive={activeButton === '프로젝트'}
                         onClick={() => handleButtonClick('프로젝트')}
                     >
                         프로젝트
                     </StyledButton>
-                    <StyledButton 
+                    <StyledButton
                         isActive={activeButton === '질문'}
                         onClick={() => handleButtonClick('질문')}
                     >
                         질문
                     </StyledButton>
-                    <StyledButton 
+                    <StyledButton
                         isActive={activeButton === '블로그'}
                         onClick={() => handleButtonClick('블로그')}
                     >
@@ -49,6 +43,7 @@ const CommunityPage = () => {
                 </ButtonsWrapper>
             </HeaderWrapper>
             <PostsWrapper>
+                <HotPostsBackground></HotPostsBackground>
                 <HotPostText>HOT 게시물</HotPostText>
                 <CommunityHomePosts activeButton={activeButton}/>
             </PostsWrapper>
@@ -58,9 +53,9 @@ const CommunityPage = () => {
 
 export default CommunityPage;
 
+/* CSS */
 const HeaderWrapper = styled.div`
-    margin-top: 2em;
-    height: 16.5em;
+    height: 16.1875em;
     background-image: url(${BackgroundImage});
     background-size: cover;
     display: flex;
@@ -92,7 +87,7 @@ const ButtonsWrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-    margin: 4px;
+    margin: 0.1786em;
     border: none;
     border-radius: 8px;
     width: 10em;
@@ -104,12 +99,22 @@ const StyledButton = styled.button`
 `;
 
 const PostsWrapper = styled.div`
-    padding-top: 2.5em;
-    background-color: #F0EAFF;
     text-align: center;
+    position: relative;
+`;
+
+const HotPostsBackground = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 18.75em;
+    background-color: #F0EAFF;
+    z-index: -1;
 `;
 
 const HotPostText = styled.div`
+    padding-top: 2em;
     font-size: 1.5em;
     font-weight: 800;
     color: #8E59FF;

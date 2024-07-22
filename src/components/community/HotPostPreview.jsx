@@ -1,10 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import HotPostBackground from '../../assets/images/hotPostBackground.png';
+import HotPostBackground from '../../assets/images/community/hotPostBackground.png';
+import { useNavigate } from 'react-router-dom';
 
 const HotPostPreview = () => {
+  /* useNavigate */
+  const navigate = useNavigate();
+
   return (
-    <PostWrapper>
+    <PostWrapper onClick={() => {navigate("/community/post");}}>
         <PostContentContainer>
             <PostTitle>프로젝트 이름</PostTitle>
             <SkillsWrapper>
@@ -35,7 +39,7 @@ const PostWrapper = styled.div`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   &:hover{
     transform: translateY(-1.3em);
-    box-shadow: 0 10px 20px #C8C8C8;
+    box-shadow: 0 0.625em 1.25em #C8C8C8;
   }
 `;
 
