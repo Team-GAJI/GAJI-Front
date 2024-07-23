@@ -113,7 +113,6 @@ const WritePost = () => {
         <>
             {/* 제목 */}
             <TitleWrapper>
-                <Title>게시글 제목</Title>
                 <TitleInput
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -178,12 +177,6 @@ export default WritePost;
 /* CSS */
 const TitleWrapper = styled.div`
     width: 59.125em;
-`;
-
-const Title = styled.div`
-    margin: 1em;
-    color: #161A3F;
-    font-weight: 800;
 `;
 
 const TitleInput = styled.input`

@@ -12,6 +12,7 @@ import CommentContainer from '../components/communityPost/CommentContainer';
 import { useLocation } from 'react-router-dom';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
+import Hashtag from '../components/communityWritePost/Hashtag';
 
 /* 세자리마다 콤마 기능 */
 const formatNumberWithCommas = (number) => {
@@ -92,12 +93,12 @@ const CommunityPostPage = () => {
                     <Title>
                         {title}
                     </Title>
-                    {/* 게시글 기술 */}
-                    <SkillsWrapper>
-                        <Skill>#Spring</Skill>
-                        <Skill>#Spring</Skill>
-                        <Skill>#Spring</Skill>
-                    </SkillsWrapper>
+                    {/* 게시글 해시태그 */}
+                    <HashtagWrapper>
+                        <Hashtag/>
+                        <Hashtag/>
+                        <Hashtag/>
+                    </HashtagWrapper>
                     {/* 게시글 상호작용 */}
                     <InteractionWrapper>
                         <BookMarkWrapper>
@@ -232,20 +233,8 @@ const Title = styled.div`
     font-weight: 800;
 `;
 
-const SkillsWrapper = styled.div`
+const HashtagWrapper = styled.div`
     display: flex;
-    text-align: center;
-`;
-
-const Skill = styled.div`
-    margin-right: 0.4em;
-    border-radius: 15px;
-    width: 7em;
-    height: 1.8182em;
-    background-color: #8E59FF;
-    color: white;
-    font-size: 0.6875em;
-    line-height: 1.8182em;
 `;
 
 const InteractionWrapper = styled.div`

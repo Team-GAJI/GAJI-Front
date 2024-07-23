@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../assets/images/community/communityBackground.png';
 import LogoIcon from '../assets/logos/logo.svg?react';
+import Hashtag from '../components/communityWritePost/Hashtag';
 import WritePost from '../components/communityWritePost/WritePost';
 
 const CommunityWritePostPage = () => {
@@ -65,6 +66,13 @@ const CommunityWritePostPage = () => {
                     </HashtagInputWrapper>
                 </PostOptionWrapper>
 
+                <PostTitle>게시글 제목</PostTitle>
+                {/* 해시태그 */}
+                <HashtagWrapper>
+                    <Hashtag/>
+                    <Hashtag/>
+                    <Hashtag/>
+                </HashtagWrapper>
                 {/* 작성 공간 */}
                 <WritePost/>
             </PostsWrapper>
@@ -177,4 +185,16 @@ const HashtagInput = styled.input`
         font-weight: 800;
     }
     font-family: 'NanumSquareNeo';
+`;
+
+const PostTitle = styled.div`
+    width: 57.125em;
+    margin: 1em;
+    color: #161A3F;
+    font-weight: 800;
+`;
+
+const HashtagWrapper = styled.div`
+    width: 57.125em;
+    display: flex;
 `;
