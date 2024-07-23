@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../assets/images/community/communityBackground.png';
 import LogoIcon from '../assets/logos/logo.svg?react';
-import Hashtag from '../components/communityWritePost/Hashtag';
-import WritePost from '../components/communityWritePost/WritePost';
+import Hashtag from '../components/communityWrite/Hashtag';
+import WritePost from '../components/communityWrite/WritePost';
 
-const CommunityWritePostPage = () => {
+const CommunityWritePage = () => {
     /* state 관리 */
     const [activeButton, setActiveButton] = useState('프로젝트');
     const [title, setTitle] = useState('프로젝트');
@@ -80,7 +80,7 @@ const CommunityWritePostPage = () => {
     );
 };
 
-export default CommunityWritePostPage;
+export default CommunityWritePage;
 
 /* CSS */
 const HeaderWrapper = styled.div`
@@ -195,6 +195,7 @@ const PostTitle = styled.div`
 `;
 
 const HashtagWrapper = styled.div`
+    margin-bottom: 0.7em;
     width: 57.125em;
     display: flex;
 `;

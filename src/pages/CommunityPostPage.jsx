@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import PostWriterInfo from '../components/communityPost/PostWriterInfo';
 import BackgroundImage from '../assets/images/community/communityBackground.png';
 import UserProfileImg from '../assets/images/community/userProfile.png';
-import BookMarkIcon from '../assets/icons/community/postBookMark.svg?react';
-import LikeIcon from '../assets/icons/community/postLike.svg?react';
-import ReportIcon from '../assets/icons/community/postReport.svg?react';
-import DownArrowIcon from '../assets/icons/community/downArrow.svg?react';
+import BookMarkIcon from '../assets/icons/communityPost/postBookMark.svg?react';
+import LikeIcon from '../assets/icons/communityPost/postLike.svg?react';
+import ReportIcon from '../assets/icons/communityPost/postReport.svg?react';
+import DownArrowIcon from '../assets/icons/communityPost/downArrow.svg?react';
 import ExtraPostPreview from '../components/communityPost/ExtraPostPreview';
 import CommentContainer from '../components/communityPost/CommentContainer';
 import { useLocation } from 'react-router-dom';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
-import Hashtag from '../components/communityWritePost/Hashtag';
+import Hashtag from '../components/communityWrite/Hashtag';
 
 /* 세자리마다 콤마 기능 */
 const formatNumberWithCommas = (number) => {

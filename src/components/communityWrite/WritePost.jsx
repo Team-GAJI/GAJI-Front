@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import BoldIcon from '../../assets/icons/communityWritePost/bold.svg?react';
-import ItalicIcon from '../../assets/icons/communityWritePost/italic.svg?react';
-import ThroughIcon from '../../assets/icons/communityWritePost/through.svg?react';
-import ImageIcon from '../../assets/icons/communityWritePost/image.svg?react';
-import LinkIcon from '../../assets/icons/communityWritePost/link.svg?react';
+import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
+import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
+import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
+import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
+import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 
 const WritePost = () => {
     /* 상태 관리 */
