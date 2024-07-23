@@ -9,6 +9,9 @@ import ReportIcon from '../assets/icons/community/postReport.svg?react';
 import DownArrowIcon from '../assets/icons/community/downArrow.svg?react';
 import ExtraPostPreview from '../components/communityPost/ExtraPostPreview';
 import CommentContainer from '../components/communityPost/CommentContainer';
+import { useLocation } from 'react-router-dom';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
 
 /* 세자리마다 콤마 기능 */
 const formatNumberWithCommas = (number) => {
@@ -55,6 +58,11 @@ const CommunityPostPage = () => {
         setIsWriterInfoVisible(!isWriterInfoVisible);
     };
 
+    /* 게시글 작성에서 정보 가져오기 */
+    const location = useLocation();
+    const title = location.state?.title || "게시글 제목입니다";
+    const content = location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구";
+    
     return (
         <>
             {/* 헤더 */}
@@ -82,7 +90,7 @@ const CommunityPostPage = () => {
 
                     {/* 게시글 제목 */}
                     <Title>
-                        게시글 제목입니다
+                        {title}
                     </Title>
                     {/* 게시글 기술 */}
                     <SkillsWrapper>
@@ -146,28 +154,9 @@ const CommunityPostPage = () => {
 
             {/* 게시글 내용 */}
             <PostContentWrapper>
+                {/* 게시글 본문 */}
                 <PostContent>
-                    세상에는 정말 다양한 이야기들이 존재합니다. 예를 들어, 어느 한적한 마을에는 작은 고양이 카페가 있었어요. <br />
-                    그 카페에는 고양이들이 마음껏 뛰어놀 수 있는 커다란 나무 구조물이 있고, 창밖으로는 아름다운 정원이 펼쳐져 있었어요. <br />
-                    손님들은 고양이들과 놀기도 하고, 향기로운 커피를 마시며 여유로운 시간을 보낼 수 있었죠. <br />
-                    그 마을의 주민들은 매일 아침 일찍 일어나서 정원을 가꾸고, 고양이들에게 맛있는 간식을 주며 하루를 시작했어요. <br />
-                    어느 날, 그 마을에 여행객들이 찾아왔어요. 그들은 도시의 번잡함에서 벗어나 조용한 휴식을 찾고 있었죠. <br />
-                    여행객들은 고양이 카페에 들러 고양이들과 함께 시간을 보내면서 마음의 안정을 찾았어요. <br />
-                    그 중 한 명은 화가였는데, 그는 이곳에서 영감을 받아 멋진 그림을 그리기 시작했어요. <br />
-                    고양이들이 뛰어노는 모습을 담은 그의 그림은 많은 사람들에게 사랑을 받았고, 결국 그는 이 마을에 정착하게 되었답니다. <br />
-                    시간이 지나면서, 그 마을은 점점 유명해졌어요. 사람들이 소문을 듣고 하나둘씩 방문하기 시작했고, 고양이 카페는 더욱 번창하게 되었어요. <br />
-                    마을 사람들은 여행객들을 환영하며, 그들과 함께 마을의 평화로운 분위기를 즐겼죠. 고양이들도 여행객들과 금방 친해졌고, 그들은 마을의 작은 스타가 되었어요. <br />
-                    어느 날, 고양이 카페에 특별한 손님이 찾아왔어요. 그는 세계적으로 유명한 작가였는데, 이곳의 아름다움에 반해 새로운 소설을 쓰기로 결심했어요. <br />
-                    그는 고양이 카페와 마을 사람들의 이야기를 소재로 한 소설을 집필하기 시작했어요. <br />
-                    그의 소설은 출간되자마자 베스트셀러가 되었고, 많은 독자들이 그 마을에 방문하게 되었어요. <br />
-                    마을은 점점 더 번영하게 되었고, 사람들은 서로의 이야기를 나누며 따뜻한 우정을 쌓아갔어요. <br />
-                    이처럼 한적한 마을의 작은 고양이 카페가 많은 사람들에게 기쁨과 영감을 주게 된 이야기는 매우 특별해요. <br />
-                    사람들은 이곳에서 일상의 소소한 행복을 찾고, 고양이들과의 교감을 통해 마음의 평화를 얻었죠. 결국, <br />
-                    이 마을은 고양이들과 사람들이 함께 어우러져 살아가는 평화로운 낙원이 되었어요. <br />
-                    이야기를 마치며, 우리는 때때로 작은 것들이 우리에게 큰 기쁨을 줄 수 있다는 것을 잊지 말아야 해요. <br />
-                    고양이 카페처럼 소박하지만 특별한 곳에서 우리는 삶의 소중한 순간들을 찾을 수 있어요. <br />
-                    이 이야기처럼 우리도 일상의 작은 행복을 소중히 여기며 살아간다면, 더 행복한 삶을 살 수 있을 거예요. <br />
-                    이렇게 아무 말 대잔치를 해보았습니다. 조금이나마 재미있으셨길 바라요!
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
                 </PostContent>
 
                 {/* 다음 게시물 div */}
@@ -318,7 +307,7 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
     margin-left: 0.4em;
     width: 0.9em;
     height: 0.9em;
-    transition: all ease 0.5s;
+    transition: all 0.5s ease;
     transform: rotate(${(props) => (props.isVisible ? '-180deg' : '0deg')});
 `;
 

@@ -124,6 +124,7 @@ const StyledSearchInput = styled.input`
   border: none;
   width: 100%;
   height: 2em;
+  font-weight: 800;
   -webkit-appearance: none;
   &:focus{
     outline: none;

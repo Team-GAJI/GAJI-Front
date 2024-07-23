@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../assets/images/community/communityBackground.png';
 import LogoIcon from '../assets/logos/logo.svg?react';
+import WritePost from '../components/communityWritePost/WritePost';
 
 const CommunityWritePostPage = () => {
     /* state 관리 */
@@ -45,7 +46,27 @@ const CommunityWritePostPage = () => {
 
             {/* 게시글 작성 */}
             <PostsWrapper>
+                <PostOptionWrapper>
+                    <CategorySelect name="category">
+                        <option value="1">카테고리</option>
+                        <option value="2">개발</option>
+                        <option value="3">인공지능</option>
+                        <option value="4">하드웨어</option>
+                        <option value="5">보안</option>
+                        <option value="6">네트워크-클라우드</option>
+                        <option value="7">어학</option>
+                        <option value="8">디자인</option>
+                        <option value="9">비즈니스-PM</option>
+                        <option value="10">독서 모임</option>
+                        <option value="11">기타</option>
+                    </CategorySelect>
+                    <HashtagInputWrapper>
+                        # <HashtagInput placeholder='해시태그를 작성해주세요'/>
+                    </HashtagInputWrapper>
+                </PostOptionWrapper>
 
+                {/* 작성 공간 */}
+                <WritePost/>
             </PostsWrapper>
         </>
     );
@@ -99,6 +120,61 @@ const StyledButton = styled.button`
 `;
 
 const PostsWrapper = styled.div`
-    text-align: center;
+    margin: 2.5em 0 6em 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: relative;
+`;
+
+const PostOptionWrapper = styled.div`
+    margin-bottom: 2.5em;
+    width: 57.125em;
+    display: flex;
+`;
+
+const CategorySelect = styled.select`
+    margin-right: 1.2em;
+    padding-left: 1em;
+    border: 1px solid #8E59FF;
+    border-radius: 10px;
+    width: 28.8125em;
+    height: 3.1875em;
+    background-color: transparent;
+    color: #8E59FF;
+    font-size: 1em;
+    font-weight: 800;
+    cursor: pointer;
+    &:focus{
+        outline: none;
+    }
+`;
+
+const HashtagInputWrapper = styled.div`
+    padding-left: 1.5em;
+    border: 1px solid #8E59FF;
+    border-radius: 10px;
+    width: 27.5em;
+    height: 3.1875em;
+    line-height: 3.185em;
+    background-color: transparent;
+    color: #8E59FF;
+    font-weight: 800;
+`;
+
+const HashtagInput = styled.input`
+    border: none;
+    width: 29em;
+    background-color: transparent;
+    font-weight: 800;
+    -webkit-appearance: none;
+    &:focus{
+        outline: none;
+    }
+    &::placeholder{
+        color: #A2A3B2;
+        font-weight: 800;
+    }
+    font-family: 'NanumSquareNeo';
 `;
