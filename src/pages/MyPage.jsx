@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import { PuppleButton } from '../components/style/Button';
@@ -30,6 +30,10 @@ const MyPage = () => {
 
         window.scrollTo({ top: yPosition, behavior: 'smooth' });
     };
+
+    useEffect(()=>{
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    },[])
 
     return (
         <MyPageWrapper>
