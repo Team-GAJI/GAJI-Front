@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/logos/logo.svg';
 import backImage from '../../assets/images/mypageBackground.png';
@@ -38,10 +38,24 @@ const StudyCategory = () => {
     const [selectedSorting, setSelectedSorting] = useState("정렬");
     const [selectedFilter, setSelectedFilter] = useState("필터");
 
+    const [isLongText, setIsLongText] = useState(false);
+    const buttonRef = useRef(null);
+
+    useEffect(() => {
+        const checkTextLength = () => {
+            if (buttonRef.current) {
+                setIsLongText(buttonRef.current.scrollWidth > buttonRef.current.clientWidth);
+            }
+        };
+
+        checkTextLength(); // 초기 확인
+        window.addEventListener('resize', checkTextLength); // 리사이즈 이벤트에 따라 확인
+
+        return () => window.removeEventListener('resize', checkTextLength); // 정리
+    }, [selectedCategory],[selectedFilter]);
+
     const handleDetailClick = () => {
         setShowDetail(prev => !prev);
-        setShowSorting(false); 
-        setShowFilter(false); 
     };
 
     const handleCategorySelect = (category) => {
@@ -95,37 +109,52 @@ const StudyCategory = () => {
 
                 {/* 카테고리 메뉴 선택 */}
                 <RowSelectWrapper>
-            <Container>
-                <SelectButton onClick={handleDetailClick}>{selectedCategory} 
-                <Icons src={Arrow} alt="아래보기" style={{width: '10px', height: 'auto',  marginLeft: '20px'}}/>
-                </SelectButton>
-                {showDetail && (
-                    <AbsoluteContainer1>
-                        <DetailCategory onSelect={handleCategorySelect} />
-                    </AbsoluteContainer1>
-                )}
-            </Container>
-            <Container>
-                <SelectButton onClick={handleSortingClick}>{selectedSorting} 
-                <Icons src={Arrow} alt="아래보기" style={{width: '10px', height: 'auto', marginLeft: '40px'}}/>
-                </SelectButton>
-                {showSorting && (
-                    <AbsoluteContainer2>
-                        <SortingCategory onSelect={handleSortingSelect} />
-                    </AbsoluteContainer2>
-                )}
-            </Container>
-            <Container>
-                <SelectButton onClick={handleFilterClick}>{selectedFilter} 
-                <Icons src={Arrow} alt="아래보기" style={{width: '10px', height: 'auto' ,marginLeft: '40px'}}/>
-                </SelectButton>
-                {showFilter && (
-                    <AbsoluteContainer3>
-                        <FilterCategory onSelect={handleFilterSelect} />
-                    </AbsoluteContainer3>
-                )}
-            </Container>
-            <CreateButton><Icons src={Plus} alt="플러스" style={{width: '10px', height: 'auto' }}/>스터디 만들기</CreateButton>
+                <Container>
+                    <SelectButton
+                        ref={buttonRef}
+                        isLongText={isLongText}
+                        onClick={handleDetailClick}
+                    >
+                        <SelectButtonContent>
+                            {selectedCategory}
+                        </SelectButtonContent>
+                        <Icons src={Arrow} alt="아래보기" />
+                    </SelectButton>
+                    {showDetail && (
+                        <AbsoluteContainer1>
+                            <DetailCategory onSelect={handleCategorySelect} />
+                        </AbsoluteContainer1>
+                    )}
+                </Container>
+                <Container>
+                    <SelectButton onClick={handleSortingClick}>{selectedSorting} 
+                    <Icons src={Arrow} alt="아래보기" style={{width: '0.625em', height: 'auto', marginLeft: '2.5em'}}/>
+                    </SelectButton>
+                    {showSorting && (
+                        <AbsoluteContainer2>
+                            <SortingCategory onSelect={handleSortingSelect} />
+                        </AbsoluteContainer2>
+                    )}
+                </Container>
+                <Container>
+                    <SelectButton
+                        ref={buttonRef}
+                        isLongText={isLongText}
+                        onClick={handleFilterClick}
+                    >
+                        <SelectButtonContent>
+                            {selectedFilter}
+                        </SelectButtonContent>
+                        <Icons src={Arrow} alt="아래보기" />
+                    </SelectButton>
+                    {showFilter && (
+                        <AbsoluteContainer3>
+                            <FilterCategory onSelect={handleFilterSelect} />
+                        </AbsoluteContainer3>
+                    )}
+                </Container>
+
+            <CreateButton><Icons src={Plus} alt="플러스" style={{width: '0.625em', height: 'auto' }}/>스터디 만들기</CreateButton>
         </RowSelectWrapper>
 
                 <DivisionLine />
@@ -164,7 +193,6 @@ const StudyCategory = () => {
 };
 
 export default StudyCategory;
-
 const HeaderWrapper = styled.div`
     z-index: 5;
     background-color: #FBFAFF;
@@ -175,29 +203,29 @@ const HeaderWrapper = styled.div`
 `;
 
 const RowWrapper = styled.div`
-    padding-top: 20px;
+    padding-top: 1.25em; 
     display: flex;
     align-items: center;
     gap: 60em; 
-    margin-top: 10px; 
+    margin-top: 0.625em; 
 `;
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
-    gap: 10px; 
+    gap: 0.625em; 
 `;
 const SidebarToggle = styled.div`
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.25em; 
     padding: 0.8125em;
 `;
 
 const AuthButton = styled.div`
     font-size: 0.8125em;
-    width: 123px;
+    width: 7.6875em; 
     border: 1px solid #161A3F;
-    border-radius: 10px;
+    border-radius: 0.625em; 
     font-weight: 800;
     padding: 0.8125em;
     text-align: center;
@@ -209,7 +237,7 @@ const RowLogoWrapper = styled.div`
     gap: 0.9em;
     flex-direction: column; 
     justify-content: center; 
-    padding: 20px; 
+    padding: 1.25em; 
 
     background-image: url(${backImage}); 
     background-repeat: no-repeat; 
@@ -218,7 +246,7 @@ const RowLogoWrapper = styled.div`
 `;
 
 const LogoImage = styled.img`
-    width: 40px; 
+    width: 2.5em; 
     height: auto;
 `;
 
@@ -242,8 +270,8 @@ const InputWrapper = styled.div`
 
 const InputStudy = styled.input`
   width: 100%;
-  height: 25px;
-  border-radius: 8px;
+  height: 1.5625em;
+  border-radius: 0.5em; 
   border: 1px solid #C8C8C8;
   padding: 0.5em;
   padding-left: 2em; 
@@ -257,15 +285,15 @@ const Icon = styled.img`
   left: 0.5em;
   top: 50%;
   transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
+  width: 1em;
+  height: 1em;
 `;
 const RowSelectWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    margin-left: 20px;
-    gap: 10px; 
+    margin-top: 0.625em; 
+    margin-left: 1.25em; 
+    gap: 0.625em; 
     position: relative; 
 `;
 const AbsoluteContainer1 = styled.div`
@@ -275,62 +303,85 @@ const AbsoluteContainer1 = styled.div`
     background: transparent; 
     border: none; 
     z-index: 1000;
-
 `;
 const AbsoluteContainer2 = styled.div`
     position: absolute;
     top: 60%;
-    left: 143px;
+    left: 8.9375em;
     background: transparent; 
     border: none; 
     z-index: 1000;
-
 `;
 const AbsoluteContainer3 = styled.div`
     position: absolute;
     top: 60%;
-    left: 285px;
+    left: 17.8125em;
     background: transparent; 
     border: none; 
     z-index: 1000;
-
 `;
 
 const CategoryButton = styled.div`
     font-size: 0.8125em;
-    width: 100px;
+    width: 7.75em; 
     background-color: #BB9CFF;
-    border-radius: 8px;
+    border-radius: 0.5em; 
     font-weight: 800;
     padding: 0.8125em;
     text-align: center;
     color: #fff;
-    margin-right: 10px; 
+    margin-right: 0.625em; 
 `;
-
 const SelectButton = styled.div`
-    font-size: 0.8125em;
-    width: 100px;
+    font-size: 0.8em; 
+    width: 7.75em;
+    min-width: 7.75em; 
     border: 1px solid #C8C8C8;
-    border-radius: 8px;
+    border-radius: 0.5em; 
     font-weight: 800;
     padding: 0.8125em;
     text-align: center;
     color: #C8C8C8;
-    margin-right: 10px; 
+    margin-right: 0.625em;
+    margin-top: 0.3125em;
+    margin-left: 0.25em;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+
+    ${props => props.isLongText && `
+        font-size: 0.8em;
+        span {
+            display: inline-block;
+            transform: scale(0.875); 
+            transform-origin: left;
+            margin-right: -1.1em; 
+        }
+    `}
+
+    &:hover {
+        border: 1px solid #fff;
+    }
 `;
 
+const SelectButtonContent = styled.span`
+    display: inline-block;
+   
+`;
 const ButtonWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 20px;
-    gap: 1px; 
-    margin-top : 20px;
+    margin-left: 1.25em; 
+    gap: 0.0625em;
+    margin-top: 1.25em; 
 `;
 
 const CreateButton = styled(SelectButton)`
     background-color: #8E59FF;
-    border-radius: 8px;
+    border-radius: 0.5em; 
     font-size: 0.8125em;
     font-weight: 700;
     text-align: center;
@@ -338,8 +389,8 @@ const CreateButton = styled(SelectButton)`
     color: #FFFFFF;
     cursor: pointer;
     margin-left: auto;
-    width: 100px;
-    margin-right: 20px;
+    width: 7.25em; 
+    margin-right: 1em; 
 `;
 
 const OpenButton = styled(SelectButton)`
@@ -350,13 +401,13 @@ const OpenButton = styled(SelectButton)`
     color: #C8C8C8;
     cursor: pointer;
     margin-left: auto;
-    width: 100px;
-    margin-right: 60px;
+    width: 6.25em; 
+    margin-right: 3.75em; 
 `;
 
 const MoreButton = styled.div`
     background-color: #8E59FF;
-    border-radius: 8px;
+    border-radius: 0.5em; 
     font-size: 0.8125em;
     font-weight: 700;
     text-align: center;
@@ -364,15 +415,15 @@ const MoreButton = styled.div`
     color: #FFFFFF;
     cursor: pointer;
     margin-left: auto;
-    width: 300px;
+    width: 18.75em; 
     margin: 0 auto;
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin-top: 3.125em;
+    margin-bottom: 1.875em; 
 `;
 
 const DivisionLine = styled.div`
     border-top: 1px solid #C8C8C8;
-    margin: 20px 0px;
+    margin: 1.25em 0px; 
 `;
 
 const ContentWrapper = styled.div`
@@ -382,9 +433,9 @@ const ContentWrapper = styled.div`
 
 const GridContainer = styled.div`
     display: grid;
-    gap: 16px;
+    gap: 1em; 
     max-width: 100%; 
-    padding: 1px; 
+    padding: 0.0625em; 
     box-sizing: border-box;
 `;
 
@@ -394,8 +445,8 @@ const GridRow = styled.div`
 `;
 
 const Icons = styled.img`
-    width: 12px; 
+    width: 0.75em; 
     height: auto;
-    margin-top : 5%;
-    margin-right : 8px;
+    margin-top: 0.3125em;
+    margin-left : 0.5em;
 `;

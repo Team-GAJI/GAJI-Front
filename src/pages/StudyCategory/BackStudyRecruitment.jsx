@@ -35,14 +35,15 @@ const CardItemWrapper = styled.div`
     background-size: cover; 
     background-position: center; 
     border: 1px solid #C8C8C8; 
-    border-radius: 8px;
-    width: 250px;
-    height : 300px;
-    margin-top: 20px;
-    padding : 20px 10px; 0px; 10px;
+    border-radius: 0.5em; 
+    width: 15.625em;  
+    height : 20.32em;
+    margin-top: 1.25em; 
+    padding: 1.25em 0.625em 0 0.625em;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1); 
 `;
+
 const StyledWrapper = styled.div`
     width: 100%;
 `;
@@ -51,49 +52,54 @@ const InfoTextWrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 8px;
-    gap: 6px; 
+    margin-bottom: 0.5em; 
+    gap: 0.375em;
 `;
+
 const TextWrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 160px; 
-    margin-top: 40px;
+    gap: 10em; 
+    margin-top: 2.5em; 
 `;
+
 const Text = styled.p`
     border: 1px solid #C8C8C8;
-    border-radius: 10px;
+    border-radius: 0.625em; 
     font-weight: 800;
     font-size: 0.8em;
-    width: 60px;
-    height: 20px;
+    width: 4.75em; 
+    height: 1.25em; 
     text-align: center;
     color: #fff;
-    line-height: 20px; 
-    margin: 0; 
+    line-height: 1.25em; 
+    margin: 0;
 `;
+
 const SecondInfoText = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 0.5em; 
 `;
+
 const ActivityTitle = styled.h2`
     color: #fff;
     font-size: 1.125em;
     margin: 0;
-    margin-bottom: 8px;
+    margin-bottom: 0.5em; 
     font-weight: 800; 
 `;
+
 const DeadlineTitle = styled.div`
     color: #fff;
     font-size: 1.125em;
-    margin-top: 5px;
-    margin-left: 80px;
-    margin-bottom: 8px;
+    margin-top: 0.3125em;
+    margin-left: 4em; 
+    margin-bottom: 0.5em; 
     font-weight: 800; 
-
 `;
+
 const ExplanationTitle = styled.h3`
     color: #fff;
     cursor: pointer;
@@ -101,6 +107,7 @@ const ExplanationTitle = styled.h3`
     margin: 0;
     word-break: break-word; 
 `;
+
 const DetailButton = styled.div`
     font-size: 0.7em;
     font-weight: 700;
@@ -109,6 +116,7 @@ const DetailButton = styled.div`
     margin-top: auto;
     text-align: right;
 `;
+
 const TimeText = styled.div`
     font-size: 0.7em;
     font-weight: 700;

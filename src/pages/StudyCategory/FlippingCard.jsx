@@ -23,8 +23,8 @@ export default FlippingCard;
 
 const FlipContainer = styled.div`
     perspective: 1000px;
-    width: 300px;
-    height: 400px;
+    width: 18.75em; /* 300px */
+    height: 25em; /* 400px */
 `;
 
 const Flipper = styled.div`

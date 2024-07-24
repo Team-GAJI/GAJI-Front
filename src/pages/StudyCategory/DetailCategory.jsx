@@ -24,10 +24,10 @@ export default DetailCategory;
 const ContentWrapper = styled.div`
     background-color: rgba(22, 26, 63, 0.7);
     border: 1px solid rgba(22, 26, 63, 0.7);
-    border-radius: 8px;
-    width: 122px;
-    height: 270px;
-    margin-top: 10px;
+    border-radius: 0.5em; 
+    width: 7.625em;
+    height: 15.5em; 
+    margin-top: 1.25em;
     overflow: hidden;
 `;
 
@@ -39,9 +39,9 @@ const SelectButton = styled.div`
     font-weight: 800;
     padding: 0.8125em;
     text-align: center;
-    margin-left: 4px;
+    margin-left: 0.4em; 
     color: #fff;
-    margin-top: 5px;
+    margin-top:  0.3125em;
     transition: border-color 0.5s ease;
 
     &:hover {
