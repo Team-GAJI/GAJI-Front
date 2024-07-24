@@ -80,6 +80,11 @@ const RowWrapper2 = styled.div`
     align-items: center;
     gap: 41px;
     height: auto;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 20px;
+    }
 `;
 
 const RowWrapper3 = styled.div`
@@ -87,6 +92,12 @@ const RowWrapper3 = styled.div`
     justify-content: space-between;
     width: 188px;
     height: auto;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        justify-content: space-between;
+        gap : 1em;
+    }
 `;
 
 const ColumnWrapper = styled.div`
@@ -94,6 +105,11 @@ const ColumnWrapper = styled.div`
     flex-direction: column;
     gap: 1em;
     height: auto;
+
+    @media (max-width: 768px) {
+        align-items: center;
+        gap: 1em;
+    }
 `;
 
 const ColumnWrapper2 = styled(ColumnWrapper)`
@@ -106,6 +122,11 @@ const UserImage = styled.div`
     border-radius: 10px;
     background-image: url(${userProfileUrl});
     background-size: cover;
+
+    @media (max-width: 768px) {
+        width: 90px;
+        height: 90px;
+    }
 `;
 
 const UserWrapper = styled.div`
@@ -116,22 +137,41 @@ const UserWrapper = styled.div`
     height: 166px;
     border-radius: 10px;
     background-color: #F0EAFF;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        height: auto;
+        padding :1em;
+        box-sizing : border-box;
+    }
 `;
 
 const UserName = styled(Color)`
     font-size: 1.25em;
     font-weight: 800;
+
+    @media (max-width: 768px) {
+        font-size: 1em;
+    }
 `;
 
 const UserGrade = styled(PuppleButton)`
-    width: 125px;
-    height: 25px;
+    width: 7.8125em;
+    height: 1.5625em;
+
+    @media (max-width: 768px) {
+        box-sizing : border-box;
+    }
 `;
 
 const WelcomeText = styled.div`
     font-size: 1em;
     font-weight: 700;
     color: #A2A3B2;
+
+    @media (max-width: 768px) {
+        margin-bottom : 1em;
+    }
 `;
 
 const NameEditButton = styled(PuppleButton2)`
@@ -139,11 +179,20 @@ const NameEditButton = styled(PuppleButton2)`
     width: 100%;
     height: 40px;
     font-weight: 700;
+
+    @media (max-width: 768px) {
+        height: 35px;
+    }
 `;
 
 const MarketingButton = styled(PuppleButton3)`
     width: 90px;
     height: 40px;
+
+    @media (max-width: 768px) {
+        width: 80px;
+        height: 35px;
+    }
 `;
 
 const GreyText = styled.div`
@@ -151,6 +200,10 @@ const GreyText = styled.div`
     font-size: 0.6875em;
     color: #C9C7DA;
     font-weight: 700;
+
+    @media (max-width: 768px) {
+        font-size: 0.625em;
+    }
 `;
 
 const UserNameInput = styled.input`
@@ -165,5 +218,9 @@ const UserNameInput = styled.input`
     width: 100%;
     & : focus {
         outline: none;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 1em;
     }
 `;

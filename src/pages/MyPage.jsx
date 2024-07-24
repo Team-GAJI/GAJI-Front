@@ -25,12 +25,11 @@ const MyPage = () => {
         if (section === 'calendar') ref = calendarRef;
         if (section === 'mypost') ref = myPostRef;
 
-        const yOffset = -370; // 375px 아래로 이동
+        const yOffset = -370; // 370px 아래로 이동
         const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
         window.scrollTo({ top: yPosition, behavior: 'smooth' });
     };
-
 
     return (
         <MyPageWrapper>
@@ -75,6 +74,7 @@ const MyPage = () => {
 export default MyPage;
 
 const MyPageWrapper = styled.div`
+    position : relative;
     width: 100%;
     height: 100%;
     display: flex;
@@ -92,13 +92,19 @@ const Header = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 259px;
+    height: 16.1875em;
     background-color: #FBFAFF;
     background-image: url(${backGroundUrl});
+
+    @media (max-width: 768px) {
+        top: 80px;
+        height: auto;
+        padding: 2em 1em;
+    }
 `;
 
 const MyPageLogo = styled(Logo)`
-    width: 64px;
+    width: 4em;
 `;
 
 const MyPageTitle = styled(Color)`
@@ -106,38 +112,64 @@ const MyPageTitle = styled(Color)`
     margin-bottom: 1.5625em;
     font-size: 1.5em;
     font-weight: 800;
+
+    @media (max-width: 768px) {
+        font-size: 1.25em;
+        margin-top: 0.75em;
+        margin-bottom: 1em;
+    }
 `;
 
 const RowWrapper = styled.div`
     display: flex;
-    gap: 7px;
+    gap: 0.4375em;
+
 `;
-
-
 
 const RowWrapper4 = styled.div`
     display: flex;
     gap: 2em;
+    justify-content: center;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5em;
+    }
 `;
 
-
-
-
 const StyledPuppleButton = styled(PuppleButton)`
-    width: 223px;
-    height: 54px;
+    box-sizing : border-box;
+    width: 10em;
+    height: 2.25em;
     font-size: 1.25em;
     font-weight: 700;
     background-color: ${({ $isActive }) => ($isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)')};
+    @media (max-width: 768px) {
+        width: 5em;
+        height: 3em;
+        font-size: 1em;
+    }
+    @media (min-width: 768px) and (max-width: 991px) {
+        width: 10em;
+        height: 3em;
+        font-size: 1em;
+    }
 `;
-
 
 const ContentWrapper = styled.div`
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    width: 70%;
-    margin-top: 259px;
+    width: 60%;
+    margin-top: 16.1875em;
     gap: 4em;
+
+    @media (max-width: 1199px){
+        width: 90%;
+        margin-top: 16.1875em;
+    }
+    @media (max-width: 768px) {
+        width: 90%;
+        margin-top: 13.1875em;
+    }
 `;
-
-

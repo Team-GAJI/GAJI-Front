@@ -13,7 +13,6 @@ const Calendar = () => {
     const year = date.getFullYear();
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-    // 달력 날짜 출력
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -23,13 +22,11 @@ const Calendar = () => {
     const nextMonthStartDay = (firstDayOfMonth + daysInMonth) % 7;
 
     const cells = [];
-    
 
     const handleDateClick = (day) => {
         setSelectedDate(new Date(currentYear, currentMonth, day));
     };
 
-    // 이전 달의 날짜 추가
     for (let i = firstDayOfMonth; i > 0; i--) {
         cells.push(
             <Cell key={`prev-${i}`} className="empty">
@@ -38,7 +35,6 @@ const Calendar = () => {
         );
     }
 
-    // 현재 달의 날짜 추가
     for (let day = 1; day <= daysInMonth; day++) {
         const isSelectedDate =
             selectedDate.getDate() === day &&
@@ -46,13 +42,12 @@ const Calendar = () => {
             selectedDate.getFullYear() === currentYear;
 
         cells.push(
-            <Cell key={day} isSelected={isSelectedDate} onClick={() => handleDateClick(day)}>
+            <Cell key={day} $isSelected={isSelectedDate} onClick={() => handleDateClick(day)}>
                 {day}
             </Cell>
         );
     }
 
-    // 다음 달의 날짜 추가
     for (let i = 1; i <= (7 - nextMonthStartDay) % 7; i++) {
         cells.push(
             <Cell key={`next-${i}`} className="empty">
@@ -71,31 +66,28 @@ const Calendar = () => {
 
     return (
         <CalendarWrapper>
-
             <CalendarWrapper1>
-                    <Header>
-                        <StyledPrevMonth onClick={prevMonth} />
-                        <MonthYear>
-                            {`${year}년`} <Color>{`${monthName}`}</Color>
-                        </MonthYear>
-                        <StyledNextMonth onClick={nextMonth} />
-                    </Header>
-
-                    <Grid>
-                        {days.map((day, index) => (
-                            <Day key={index}>{day}</Day>
-                        ))}
-                        {cells}
-                    </Grid>
+                <Header>
+                    <StyledPrevMonth onClick={prevMonth} />
+                    <MonthYear>
+                        {`${year}년`} <Color>{`${monthName}`}</Color>
+                    </MonthYear>
+                    <StyledNextMonth onClick={nextMonth} />
+                </Header>
+                <Grid>
+                    {days.map((day, index) => (
+                        <Day key={index}>{day}</Day>
+                    ))}
+                    {cells}
+                </Grid>
                 <AddGoogleCalendarButton>구글 캘린더 연동하기</AddGoogleCalendarButton>
             </CalendarWrapper1>
-            <Task selectedDate={selectedDate}/>
+            <Task selectedDate={selectedDate} />
         </CalendarWrapper>
     );
 };
 
 export default Calendar;
-
 
 const StyledPrevMonth = styled(PrevMonth)`
     width: 0.61em;
@@ -108,27 +100,42 @@ const StyledNextMonth = styled(NextMonth)`
 `;
 
 const CalendarWrapper = styled.div`
-    width : 100%;
-    display : grid;
-    height : 28.125em;
+    width: 100%;
+    display: grid;
+    height: 28.125em;
     grid-template-columns: repeat(2, 1fr);
-    border-top : 1px solid #D0D1D9;
+    border-top: 1px solid #d0d1d9;
+
+    @media (max-width: 768px) {
+        height : auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+    }
 `;
 
 const CalendarWrapper1 = styled.div`
-    position : relative;
+    display : flex;
+    flex-direction : column;
+    justify-content :center;
+    align-items : center;
+    position: relative;
     width: 100%;
-    height : 100%;
-    border-right : 1px solid #D0D1D9;
-    padding-top : 3em;
-    padding-right : 1em;
-    box-sizing : border-box;
+    height: 100%;
+    border-right: 1px solid #d0d1d9;
+    padding-top: 3em;
+    padding-right: 1em;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #d0d1d9;
+        padding-bottom: 1em;
+    }
 `;
 
-
-
 const Header = styled.div`
-    width : 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,36 +144,41 @@ const Header = styled.div`
 `;
 
 const MonthYear = styled.div`
-    font-size : 1.25em;
+    font-size: 1.25em;
     font-weight: 800;
 `;
 
 const Grid = styled.div`
+    width : 100%;
+    padding : 1em;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
     gap: 1em;
+    font-size : 1em;
+    place-items: center center;
+    
 `;
 
 const Day = styled.div`
     padding: 0.625em;
     text-align: center;
+    box-sizing: border-box;
 `;
 
 const Cell = styled.div`
-    box-sizing : border-box;
-    text-align : center;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 2.5em; 
-    width: 2.5em;  
+    height: 2.5em;
+    width: 2.5em;
     padding: 0.625em;
-    font-weight: ${props => props.isSelected ?  '600' : '400'};
-    color: ${props => props.isSelected ? '#FFFFFF' : '#000000'};
-    background-color: ${props => props.isSelected ? '#8E59FF' : 'transparent'};
-    border-radius: ${props => props.isSelected ? '100%' : 'none'};
-    box-shadow: ${props =>  props.isSelected ? '0px 4px 0.625em rgba(129, 76, 161, 0.19)' : 'none'};
+    font-weight: ${props => (props.$isSelected ? '600' : '400')};
+    color: ${props => (props.$isSelected ? '#ffffff' : '#000000')};
+    background-color: ${props => (props.$isSelected ? '#8e59ff' : 'transparent')};
+    border-radius: ${props => (props.$isSelected ? '100%' : 'none')};
+    box-shadow: ${props => (props.$isSelected ? '0px 4px 0.625em rgba(129, 76, 161, 0.19)' : 'none')};
     cursor: pointer;
     &.empty {
         color: #ccc;
@@ -174,12 +186,14 @@ const Cell = styled.div`
 `;
 
 const AddGoogleCalendarButton = styled(PuppleButton)`
-    position : absolute;
-    bottom : 0;
-    left: 50%;  
+    position: absolute;
+    bottom: 0;
+    left: 50%;
     transform: translateX(-50%);
-
-    font-weight : 800;
-    width : 12.38em;
-    height : 2.44em;
+    font-weight: 800;
+    width: 12.38em;
+    height: 2.44em;
+    @media (max-width: 768px) {
+        margin-bottom: 1em;
+    }
 `;
