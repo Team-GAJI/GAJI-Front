@@ -58,6 +58,7 @@ const PostTitle = styled.div`
 
 const SkillsWrapper = styled.div`
   margin: 0.8em;
+  width: 12.4em;
   display: flex;
   flex-direction: row;
   align-items: center;
