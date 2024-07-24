@@ -65,7 +65,7 @@ const MyPage = () => {
                 </div>
 
                 <div ref={myPostRef}>
-                    <MyPost />
+                    <MyPost/>
                 </div>
             </ContentWrapper>
         </MyPageWrapper>
