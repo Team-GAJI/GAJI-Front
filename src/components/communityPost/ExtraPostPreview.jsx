@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import CloseButton from '../../assets/icons/community/closeButton.svg?react';
 
 const ExtraPostPreview = () => {
-    /* state 관리 */
+    // state 관리
     const [isPostVisible, setIsPostVisible] = useState(true);
 
-    /* 창 닫기 기능 */
+    // 창 닫기 기능
     const postVisibility = () => {
         setIsPostVisible(!isPostVisible);
     };

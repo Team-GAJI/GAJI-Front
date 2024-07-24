@@ -6,7 +6,7 @@ import UserProfileImg from '../../assets/images/community/userProfile.png';
 import { useNavigate } from 'react-router-dom';
 
 const BlogPreview = () => {
-    /* useNavigate */
+    // useNavigate
     const navigate = useNavigate();
 
     return (

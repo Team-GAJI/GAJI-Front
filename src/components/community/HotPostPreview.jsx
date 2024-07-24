@@ -4,7 +4,7 @@ import HotPostBackground from '../../assets/images/community/hotPostBackground.p
 import { useNavigate } from 'react-router-dom';
 
 const HotPostPreview = () => {
-  /* useNavigate */
+  // useNavigate
   const navigate = useNavigate();
 
   return (

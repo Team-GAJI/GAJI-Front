@@ -14,22 +14,22 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import Hashtag from '../components/communityWrite/Hashtag';
 
-/* 세자리마다 콤마 기능 */
+// 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 const CommunityPostPage = () => {
-    /* 북마크, 좋아요 개수 */
+    // 북마크, 좋아요 개수
     const bookMarkCount = 300;
     const likeCount = 6000;
 
-    /* state 관리 */
+    // state 관리
     const [isOptionVisible, setIsOptionVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState('모집 완료');
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
 
-    /* 작성자 정보 모달 외부 클릭 감지 */
+    // 작성자 정보 모달 외부 클릭 감지
     const modalRef = useRef();
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -43,23 +43,23 @@ const CommunityPostPage = () => {
         };
     }, [modalRef]);
 
-    /* 게시글 상태 버튼 텍스트 */
+    // 게시글 상태 버튼 텍스트
     const toggleOptionVisibility = () => {
         setIsOptionVisible(!isOptionVisible);
     };
 
-    /* 게시글 상태 옵션 선택 */
+    // 게시글 상태 옵션 선택
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
         setIsOptionVisible(false);
     };
 
-    /* 작성자 정보 모달 기능 */
+    // 작성자 정보 모달 기능
     const toggleWriterInfoVisibility = () => {
         setIsWriterInfoVisible(!isWriterInfoVisible);
     };
 
-    /* 게시글 작성에서 정보 가져오기 */
+    // 게시글 작성에서 정보 가져오기
     const location = useLocation();
     const title = location.state?.title || "게시글 제목입니다";
     const content = location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구";

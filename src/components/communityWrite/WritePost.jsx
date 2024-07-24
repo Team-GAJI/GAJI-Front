@@ -8,7 +8,7 @@ import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 
 const WritePost = () => {
-    /* 상태 관리 */
+    // 상태 관리
     const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(0);
@@ -16,7 +16,7 @@ const WritePost = () => {
     const [fontSize, setFontSize] = useState('0');
     const textareaRef = useRef(null);
 
-    /* 제목 하단바 색상 관리 */
+    // 제목 하단바 색상 관리
     const handlePurpleHr = () => {
         setStyledHr(true);
     };
@@ -24,7 +24,7 @@ const WritePost = () => {
         setStyledHr(false);
     };
     
-    /* 제목 크기 적용 함수 */
+    // 제목 크기 적용 함수
     const applyFontSize = (e) => {
         const value = e.target.value;
         setFontSize(value);
@@ -41,14 +41,14 @@ const WritePost = () => {
         textarea.focus();
     };
 
-    /* 엔터 키 이벤트 핸들러 */
+    // 엔터 키 이벤트 핸들러
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             setFontSize('0');
         }
     };
 
-    /* 포맷팅 적용 함수 */
+    // 포맷팅 적용 함수
     const applyFormatting = (syntax) => {
         const textarea = textareaRef.current;
         const { selectionStart, selectionEnd } = textarea;
@@ -68,7 +68,7 @@ const WritePost = () => {
         textarea.focus();
     };
 
-    /* 링크 추가 함수 */
+    // 링크 추가 함수
     const addLink = () => {
         const textarea = textareaRef.current;
         const { selectionStart, selectionEnd } = textarea;
@@ -84,7 +84,7 @@ const WritePost = () => {
         textarea.focus();
     };
 
-    /* 이미지 추가 함수 */
+    // 이미지 추가 함수
     const addImage = () => {
         const textarea = textareaRef.current;
         const { selectionStart, selectionEnd } = textarea;
@@ -100,13 +100,13 @@ const WritePost = () => {
         textarea.focus();
     };
 
-    /* 마크다운 내용, 글자 수 관리 */
+    // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
         setMarkdown(e.target.value);
         setLengthCount(e.target.value.length);
     };
 
-    /* useNavigate */
+    // useNavigate
     const navigate = useNavigate();
 
     return (

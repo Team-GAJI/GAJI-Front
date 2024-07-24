@@ -5,7 +5,7 @@ import LikeIcon from '../../assets/icons/community/emptyLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 
 const PostPreview = () => {
-    /* useNavigate */
+    // useNavigate
     const navigate = useNavigate();
 
     return (
