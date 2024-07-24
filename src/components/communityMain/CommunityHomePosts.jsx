@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import HotPostPreview from './HotPostPreview';
-import SearchIcon from '../../assets/icons/searchIcon.svg?react';
+import SearchIcon from '../../assets/icons/common/searchIcon.svg?react';
 import PostPreview from './PostPreview';
 import BlogPreview from './BlogPreview';
 

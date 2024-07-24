@@ -65,17 +65,22 @@ const Wrapper = styled.div`
 `;
 
 const ListWrapper = styled.div`
-    height : 60%;
-    overflow: scroll;
+    box-sizing:border-box;
+    height : 20em;
+    overflow-y: hidden;
     border: 1px solid #8E59FF;
     border-radius: 20px;
     padding : 2.5em;
     display : flex;
     flex-direction : column;
     gap : 1em;
+    &:hover{
+        overflow-y: scroll;
+    }
 `;
 
 const ListItem = styled.div`
+    box-sizing:border-box;
     display : flex;
     gap : 1em;
     border-bottom : 1px solid #8E59FF;

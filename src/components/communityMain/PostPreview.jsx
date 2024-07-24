@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import UserProfileImg from '../../assets/images/userProfile.png';
-import LikeIcon from '../../assets/icons/emptyLikeIcon.svg?react';
+import LikeIcon from '../../assets/icons/common/emptyLikeIcon.svg?react';
 
 const PostPreview = () => {
     return (

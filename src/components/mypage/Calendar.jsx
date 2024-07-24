@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/prevmonth.svg?react';
-import NextMonth from '../../assets/icons/nextmonth.svg?react';
+import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
+import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../style/Color';
+import { PuppleButton } from '../../style/Button';
+import Task from './Task';
 
 const Calendar = () => {
     const [date, setDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const monthName = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear();
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -20,7 +23,11 @@ const Calendar = () => {
     const nextMonthStartDay = (firstDayOfMonth + daysInMonth) % 7;
 
     const cells = [];
-    const today = new Date();
+    
+
+    const handleDateClick = (day) => {
+        setSelectedDate(new Date(currentYear, currentMonth, day));
+    };
 
     // 이전 달의 날짜 추가
     for (let i = firstDayOfMonth; i > 0; i--) {
@@ -33,12 +40,13 @@ const Calendar = () => {
 
     // 현재 달의 날짜 추가
     for (let day = 1; day <= daysInMonth; day++) {
-        const isToday = 
-            today.getDate() === day && 
-            today.getMonth() === currentMonth && 
-            today.getFullYear() === currentYear;
+        const isSelectedDate =
+            selectedDate.getDate() === day &&
+            selectedDate.getMonth() === currentMonth &&
+            selectedDate.getFullYear() === currentYear;
+
         cells.push(
-            <Cell key={day} isToday={isToday}>
+            <Cell key={day} isSelected={isSelectedDate} onClick={() => handleDateClick(day)}>
                 {day}
             </Cell>
         );
@@ -62,26 +70,32 @@ const Calendar = () => {
     };
 
     return (
-        <CalendarContainer>
-            <Header>
-                <StyledPrevMonth onClick={prevMonth} />
-                <MonthYear>
-                    {`${year}년`} <Color>{`${monthName}`}</Color>
-                </MonthYear>
-                <StyledNextMonth onClick={nextMonth} />
-            </Header>
+        <CalendarWrapper>
 
-            <Grid>
-                {days.map((day, index) => (
-                    <Day key={index}>{day}</Day>
-                ))}
-                {cells}
-            </Grid>
-        </CalendarContainer>
+            <CalendarWrapper1>
+                    <Header>
+                        <StyledPrevMonth onClick={prevMonth} />
+                        <MonthYear>
+                            {`${year}년`} <Color>{`${monthName}`}</Color>
+                        </MonthYear>
+                        <StyledNextMonth onClick={nextMonth} />
+                    </Header>
+
+                    <Grid>
+                        {days.map((day, index) => (
+                            <Day key={index}>{day}</Day>
+                        ))}
+                        {cells}
+                    </Grid>
+                <AddGoogleCalendarButton>구글 캘린더 연동하기</AddGoogleCalendarButton>
+            </CalendarWrapper1>
+            <Task selectedDate={selectedDate}/>
+        </CalendarWrapper>
     );
 };
 
 export default Calendar;
+
 
 const StyledPrevMonth = styled(PrevMonth)`
     width: 0.61em;
@@ -93,10 +107,25 @@ const StyledNextMonth = styled(NextMonth)`
     cursor: pointer;
 `;
 
-const CalendarContainer = styled.div`
-    margin: 0 auto;
-    text-align: center;
+const CalendarWrapper = styled.div`
+    width : 100%;
+    display : grid;
+    height : 28.125em;
+    grid-template-columns: repeat(2, 1fr);
+    border-top : 1px solid #D0D1D9;
 `;
+
+const CalendarWrapper1 = styled.div`
+    position : relative;
+    width: 100%;
+    height : 100%;
+    border-right : 1px solid #D0D1D9;
+    padding-top : 3em;
+    padding-right : 1em;
+    box-sizing : border-box;
+`;
+
+
 
 const Header = styled.div`
     width : 100%;
@@ -108,6 +137,7 @@ const Header = styled.div`
 `;
 
 const MonthYear = styled.div`
+    font-size : 1.25em;
     font-weight: 800;
 `;
 
@@ -119,20 +149,37 @@ const Grid = styled.div`
 `;
 
 const Day = styled.div`
-    padding: 10px;
-
+    padding: 0.625em;
+    text-align: center;
 `;
 
 const Cell = styled.div`
-    padding: 10px;
-    font-weight: ${props => props.isToday ? '600' : '400'};
-    color: #979699;
-    text-align: center;
-    color: ${props => props.isToday ? '#FFFFFF' : '#000000'};
-    background-color: ${props => props.isToday ? '#8E59FF' : 'transparent'};
-    border-radius: ${props => props.isToday ? '100%' : 'none'};
-    box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19);  100%' : 'none'};
+    box-sizing : border-box;
+    text-align : center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5em; 
+    width: 2.5em;  
+    padding: 0.625em;
+    font-weight: ${props => props.isSelected ?  '600' : '400'};
+    color: ${props => props.isSelected ? '#FFFFFF' : '#000000'};
+    background-color: ${props => props.isSelected ? '#8E59FF' : 'transparent'};
+    border-radius: ${props => props.isSelected ? '100%' : 'none'};
+    box-shadow: ${props =>  props.isSelected ? '0px 4px 0.625em rgba(129, 76, 161, 0.19)' : 'none'};
+    cursor: pointer;
     &.empty {
         color: #ccc;
     }
+`;
+
+const AddGoogleCalendarButton = styled(PuppleButton)`
+    position : absolute;
+    bottom : 0;
+    left: 50%;  
+    transform: translateX(-50%);
+
+    font-weight : 800;
+    width : 12.38em;
+    height : 2.44em;
 `;

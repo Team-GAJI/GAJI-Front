@@ -25,7 +25,7 @@ const MyPage = () => {
         if (section === 'calendar') ref = calendarRef;
         if (section === 'mypost') ref = myPostRef;
 
-        const yOffset = -380; // 50px 아래로 이동
+        const yOffset = -370; // 375px 아래로 이동
         const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
         window.scrollTo({ top: yPosition, behavior: 'smooth' });
@@ -60,9 +60,9 @@ const MyPage = () => {
                     <StudyList isCurrent={true}/><StudyList isCurrent={false}/>
                 </RowWrapper4>
 
-                <RowWrapper4 ref={calendarRef}>
-                    <Calendar /><Calendar />
-                </RowWrapper4>
+                <div ref={calendarRef}>
+                    <Calendar/>
+                </div>
 
                 <div ref={myPostRef}>
                     <MyPost />
@@ -85,7 +85,7 @@ const MyPageWrapper = styled.div`
 
 const Header = styled.div`
     top: 104px;
-    z-index: 1;
+    z-index: 2;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -135,7 +135,7 @@ const StyledPuppleButton = styled(PuppleButton)`
 const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    width: 65%;
+    width: 70%;
     margin-top: 259px;
     gap: 4em;
 `;
