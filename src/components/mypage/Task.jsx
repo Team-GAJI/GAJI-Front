@@ -196,7 +196,8 @@ const TaskWrapper = styled.div`
     box-sizing: border-box;
     padding-top: 3em;
     position: relative;
-    margin-left: 2em;
+    margin-left: 1em;
+    padding-right :1em;
     width: 100%;
     height: 100%;
     display: flex;
@@ -238,10 +239,6 @@ const ListItem = styled.div`
     padding: 1em;
     margin-bottom: 1em;
 
-    @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 `;
 
 const ColumnWrapper = styled.div`
@@ -271,6 +268,7 @@ const RepeatCheck = styled(TaskCheckBox)`
     width: 1em;
     height: 1em;
     margin-right: 0.8125em;
+    box-sizing: border-box;
 `;
 
 const StudyName = styled.div`

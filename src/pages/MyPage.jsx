@@ -63,13 +63,13 @@ const MyPage = () => {
                     <StudyList isCurrent={true}/><StudyList isCurrent={false}/>
                 </RowWrapper4>
 
-                <div ref={calendarRef}>
+                <Div ref={calendarRef}>
                     <Calendar/>
-                </div>
+                </Div>
 
-                <div ref={myPostRef}>
+                <Div ref={myPostRef}>
                     <MyPost/>
-                </div>
+                </Div>
             </ContentWrapper>
         </MyPageWrapper>
     );
@@ -77,6 +77,9 @@ const MyPage = () => {
 
 export default MyPage;
 
+const Div = styled.div`
+    width : 100%;
+`
 const MyPageWrapper = styled.div`
     position : relative;
     width: 100%;
@@ -165,6 +168,7 @@ const ContentWrapper = styled.div`
     justify-content: center;
     flex-direction: column;
     width: 60%;
+    margin-left: 0 auto; 
     margin-top: 16.1875em;
     gap: 4em;
 

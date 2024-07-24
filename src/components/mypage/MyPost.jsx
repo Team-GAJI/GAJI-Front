@@ -10,8 +10,68 @@ const MyPost = () => {
     const [category, setCategory] = useState(0);
 
     const dummyPosts = [
-        // 더미 포스트 데이터
+        {
+            postState: '작성중',
+            postTitle: 'React 사용법 질문',
+            postText: 'React에서 상태 관리를 어떻게 하면 좋을까요?',
+            postInfo: '2024-07-01 | 댓글 2개'
+        },
+        {
+            postState: '완료',
+            postTitle: '프로젝트 팀 모집',
+            postText: '프론트엔드 개발자를 모집합니다. React, Redux 사용 경험이 필요합니다.',
+            postInfo: '2024-07-02 | 댓글 5개'
+        },
+        {
+            postState: '작성중',
+            postTitle: '블로그 포스팅 주제 추천',
+            postText: '어떤 주제로 블로그를 작성하면 좋을지 추천해주세요.',
+            postInfo: '2024-07-03 | 댓글 1개'
+        },
+        {
+            postState: '완료',
+            postTitle: '스터디 모집: 알고리즘',
+            postText: '매주 알고리즘 문제를 함께 풀어갈 스터디원을 모집합니다.',
+            postInfo: '2024-07-04 | 댓글 3개'
+        },
+        {
+            postState: '작성중',
+            postTitle: 'React Hook 질문',
+            postText: 'useEffect와 useState를 어떻게 조합하면 좋을까요?',
+            postInfo: '2024-07-05 | 댓글 4개'
+        },
+        {
+            postState: '완료',
+            postTitle: '백엔드 개발자 구인',
+            postText: 'Node.js와 Express를 다룰 수 있는 백엔드 개발자를 구합니다.',
+            postInfo: '2024-07-06 | 댓글 6개'
+        },
+        {
+            postState: '작성중',
+            postTitle: 'CSS Grid와 Flexbox 비교',
+            postText: 'CSS Grid와 Flexbox의 차이점에 대해 설명해주세요.',
+            postInfo: '2024-07-07 | 댓글 2개'
+        },
+        {
+            postState: '완료',
+            postTitle: '블로그 포스트: JavaScript',
+            postText: 'JavaScript의 비동기 처리에 대한 블로그 포스트입니다.',
+            postInfo: '2024-07-08 | 댓글 3개'
+        },
+        {
+            postState: '작성중',
+            postTitle: 'Next.js vs Create React App',
+            postText: 'Next.js와 Create React App 중 어떤 것을 선택해야 할까요?',
+            postInfo: '2024-07-09 | 댓글 4개'
+        },
+        {
+            postState: '완료',
+            postTitle: '스터디 모집: 데이터 구조',
+            postText: '데이터 구조에 대해 깊이 있게 공부할 스터디원을 모집합니다.',
+            postInfo: '2024-07-10 | 댓글 5개'
+        }
     ];
+    
 
     const getPosts = useCallback(async () => {
         if (isLoading) return;
@@ -78,6 +138,7 @@ const MyPostWrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 1.875em;
+    box-sizing : border-box;
     padding: 1em;
 
     @media (max-width: 768px) {
@@ -141,7 +202,6 @@ const PostListWrapper = styled.div`
 
 const PostListItem = styled.div`
     width: 100%;
-    max-width: 600px;
     box-sizing: border-box;
     padding: 1em;
     display: flex;
