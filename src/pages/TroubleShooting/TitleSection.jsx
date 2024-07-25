@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "../../assets/logos/logo.svg";
-import BackgroundImage from "../../assets/images/titleBackground.png"; // Ensure this path is correct
+import BackgroundImage from "../../assets/images/titleBackground.png";
 
 const TitleSection = () => {
   return (
@@ -36,26 +36,29 @@ const LogoImg = styled.img`
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 20px;
   color: #8e59ff;
-  margin: 20px 0;
+  margin: 10px 0;
 `;
 
 const NavButtons = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 40px;
   gap: 20px;
 `;
 
 const NavButton = styled.button`
   background-color: #8e59ff;
+  background-color: rgba(142, 89, 255, 0.6);
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
+  width: 224px;
   cursor: pointer;
 
   &:hover {
-    background-color: #5548c8;
+    background-color: #8e59ff;
   }
 `;

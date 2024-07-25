@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Category = () => {
   return (
@@ -24,19 +25,23 @@ const CategoryContainer = styled.div`
 
 const Dropdown = styled.select`
   padding: 10px;
-  border: 1px solid #6c63ff;
+  border: 1px solid #d0d1d9;
   border-radius: 5px;
   background-color: transparent;
-  color: #6c63ff;
+  color: #d0d1d9;
+  width: 123px;
+  text-align: center;
+  text-align-last: center;
 `;
 
 const CreatePostButton = styled.button`
-  background-color: #6c63ff;
+  background-color: #8e59ff;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  width: 171px;
 
   &:hover {
     background-color: #5548c8;

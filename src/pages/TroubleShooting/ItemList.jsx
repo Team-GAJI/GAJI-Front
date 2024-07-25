@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import UserIcon from "../../assets/icons/usericon.svg";
+import ExampleImage from "../../assets/images/example.png";
 
 const items = [
   {
@@ -72,13 +74,16 @@ const ItemList = () => {
     <ItemGrid>
       {items.map((item) => (
         <Item key={item.id}>
-          <ItemImage src="path_to_image" alt={item.title} />
+          <ItemImage src={ExampleImage} alt={item.title} />
           <ItemContent>
             <ItemTitle>{item.title}</ItemTitle>
             <ItemDetails>
-              <ItemUser>{item.user}</ItemUser>
+              <ItemUser>
+                <UserIconImg src={UserIcon} alt="user icon" />
+                {item.user}
+              </ItemUser>
               <ItemTime>{item.time}</ItemTime>
-              <ItemViews>Views: {item.views}</ItemViews>
+              <ItemViews>조회 {item.views}</ItemViews>
             </ItemDetails>
           </ItemContent>
         </Item>
@@ -102,6 +107,7 @@ const Item = styled.div`
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  border: 1px solid #8e59ff;
 `;
 
 const ItemImage = styled.img`
@@ -111,31 +117,40 @@ const ItemImage = styled.img`
 `;
 
 const ItemContent = styled.div`
-  padding: 15px;
+  padding: 14px;
 `;
 
 const ItemTitle = styled.h2`
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 16px;
+  margin-bottom: 30px;
 `;
 
 const ItemDetails = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 `;
 
 const ItemUser = styled.p`
-  font-size: 14px;
-  color: #555;
+  font-size: 12px;
+  color: #d0d1d9;
+  display: flex;
+  align-items: center;
+`;
+
+const UserIconImg = styled.img`
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
 `;
 
 const ItemTime = styled.p`
   font-size: 12px;
-  color: #888;
+  color: #d0d1d9;
 `;
 
 const ItemViews = styled.p`
   font-size: 12px;
-  color: #888;
+  color: #d0d1d9;
 `;
