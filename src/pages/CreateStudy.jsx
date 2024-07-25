@@ -27,7 +27,6 @@ const CreateStudy = () => {
     const [isOn, setisOn] = useState(false);
 
     const toggleHandler = () => {
-      // isOn의 상태를 변경하는 메소드를 구현
       setisOn(!isOn)
     };
 
