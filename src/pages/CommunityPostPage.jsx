@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PostWriterInfo from '../components/communityPost/PostWriterInfo';
 import BackgroundImage from '../assets/images/community/communityBackground.png';
@@ -29,20 +29,6 @@ const CommunityPostPage = () => {
     const [selectedOption, setSelectedOption] = useState('모집 완료');
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
 
-    // 작성자 정보 모달 외부 클릭 감지
-    const modalRef = useRef();
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                setIsWriterInfoVisible(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [modalRef]);
-
     // 게시글 상태 버튼 텍스트
     const toggleOptionVisibility = () => {
         setIsOptionVisible(!isOptionVisible);
@@ -54,9 +40,12 @@ const CommunityPostPage = () => {
         setIsOptionVisible(false);
     };
 
-    // 작성자 정보 모달 기능
-    const toggleWriterInfoVisibility = () => {
-        setIsWriterInfoVisible(!isWriterInfoVisible);
+     // 작성자 정보 모달 기능
+     const showWriterInfo = () => {
+        setIsWriterInfoVisible(true);
+    };
+    const hideWriterInfo = () => {
+        setIsWriterInfoVisible(false);
     };
 
     // 게시글 작성에서 정보 가져오기
@@ -72,8 +61,10 @@ const CommunityPostPage = () => {
                 <TitleWrapper>
                     {/* 게시글 상세정보 */}
                     <TitleDetail>
-                        <StyledUserProfileImg onClick={toggleWriterInfoVisibility} src={UserProfileImg} alt='user profile'/>
-                        <Writer onClick={toggleWriterInfoVisibility}>user1023</Writer>
+                        <StyledUserProfileImg
+                            onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}
+                            src={UserProfileImg} alt='user profile'/>
+                        <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>user1023</Writer>
                         <StyledBar>|</StyledBar>
                         프로젝트
                         <StyledBar>|</StyledBar>
@@ -85,8 +76,8 @@ const CommunityPostPage = () => {
                     </TitleDetail>
 
                     {/* 작성자 정보 모달창 */}
-                    <PostWriterInfoWrapper isVisible={isWriterInfoVisible}>
-                        <PostWriterInfo ref={modalRef} />
+                    <PostWriterInfoWrapper isVisible={isWriterInfoVisible} onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
+                        <PostWriterInfo />
                     </PostWriterInfoWrapper>
 
                     {/* 게시글 제목 */}
@@ -193,7 +184,6 @@ const TitleWrapper = styled.div`
 `;
 
 const TitleDetail = styled.div`
-    margin-bottom: 1.5em;
     display: flex;
     color: #D0D1D9;
     font-size: 0.8125em;
@@ -227,7 +217,7 @@ const PostWriterInfoWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    margin-bottom: 0.5em;
+    margin: 0.8em 0 0.5em 0;
     width: 25em;
     color: #8E59FF;
     font-size: 2em;
