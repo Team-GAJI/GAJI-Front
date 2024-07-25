@@ -39,8 +39,14 @@ const StudyCategory = () => {
     const [selectedFilter, setSelectedFilter] = useState("필터");
 
     const [isLongText, setIsLongText] = useState(false);
+    
     const buttonRef = useRef(null);
+    //정렬, 카테고리, 필터를 하나라도 선택하면 카테고리 안 보이게, 버튼 색상 바꾸고
+    const [isCategorySelected, setIsCategorySelected] = useState(false);
+    const [isSortingSelected, setIsSortingSelected] = useState(false);  
+    const [isFilterSelected, setIsFilterSelected] = useState(false); 
 
+    // 카테고리, 필터 버튼 선택할 때 긴 글이 나오면 줄바꿈이 일어나서 글자 크기를 줄이도록 하기위해 설정함...
     useEffect(() => {
         const checkTextLength = () => {
             if (buttonRef.current) {
@@ -48,43 +54,49 @@ const StudyCategory = () => {
             }
         };
 
-        checkTextLength(); // 초기 확인
-        window.addEventListener('resize', checkTextLength); // 리사이즈 이벤트에 따라 확인
+        checkTextLength(); 
+        window.addEventListener('resize', checkTextLength); 
 
-        return () => window.removeEventListener('resize', checkTextLength); // 정리
+        return () => window.removeEventListener('resize', checkTextLength); 
     }, [selectedCategory],[selectedFilter]);
 
     const handleDetailClick = () => {
-        setShowDetail(prev => !prev);
+        setShowDetail(!showDetail); 
+        setShowSorting(false); 
+        setShowFilter(false);
+        setIsCategorySelected(!isCategorySelected); 
+        setIsSortingSelected(false);   
+        setIsFilterSelected(false);   
     };
-
+    
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         setShowDetail(false);
     };
-
+    
     const handleSortingClick = () => {
-        setShowSorting(prev => !prev);
+        setShowSorting(!showSorting);
         setShowDetail(false); 
-        setShowFilter(false); 
+        setShowFilter(false);
+        setIsSortingSelected(!isSortingSelected); 
     };
-
+    
     const handleSortingSelect = (sorting) => {
         setSelectedSorting(sorting);
         setShowSorting(false);
     };
-
+    
     const handleFilterClick = () => {
-        setShowFilter(prev => !prev);
+        setShowFilter(!showFilter);
         setShowDetail(false); 
-        setShowSorting(false); 
+        setShowSorting(false);
+        setIsFilterSelected(!isFilterSelected); 
     };
-
+    
     const handleFilterSelect = (filter) => {
         setSelectedFilter(filter);
         setShowFilter(false);
     };
-    
 
     return (
         <>
@@ -114,6 +126,7 @@ const StudyCategory = () => {
                         ref={buttonRef}
                         isLongText={isLongText}
                         onClick={handleDetailClick}
+                        isSelected={isCategorySelected} 
                     >
                         <SelectButtonContent>
                             {selectedCategory}
@@ -127,8 +140,12 @@ const StudyCategory = () => {
                     )}
                 </Container>
                 <Container>
-                    <SelectButton onClick={handleSortingClick}>{selectedSorting} 
-                    <Icons src={Arrow} alt="아래보기" style={{width: '0.625em', height: 'auto', marginLeft: '2.5em'}}/>
+                    <SelectButton
+                        onClick={handleSortingClick}
+                        isSelected={isSortingSelected}
+                    >
+                        {selectedSorting} 
+                        <Icons src={Arrow} alt="아래보기" style={{width: '0.625em', height: 'auto', marginLeft: '2.5em'}}/>
                     </SelectButton>
                     {showSorting && (
                         <AbsoluteContainer2>
@@ -141,6 +158,7 @@ const StudyCategory = () => {
                         ref={buttonRef}
                         isLongText={isLongText}
                         onClick={handleFilterClick}
+                        isSelected={isFilterSelected} 
                     >
                         <SelectButtonContent>
                             {selectedFilter}
@@ -153,8 +171,7 @@ const StudyCategory = () => {
                         </AbsoluteContainer3>
                     )}
                 </Container>
-
-            <CreateButton><Icons src={Plus} alt="플러스" style={{width: '0.625em', height: 'auto' }}/>스터디 만들기</CreateButton>
+            <CreateButton><PlusIcons src={Plus} alt="플러스" style={{width: '0.625em', height: 'auto' }}/>스터디 만들기</CreateButton>
         </RowSelectWrapper>
 
                 <DivisionLine />
@@ -162,10 +179,12 @@ const StudyCategory = () => {
                 {/* 그리드 컨테이너 시작 */}
                 {categories.map((category, index) => (
                     <GridContainer key={index}>
-                        <ButtonWrapper>
-                            <CategoryButton>{category.title}</CategoryButton>
-                            <OpenButton>{category.buttonText} &nbsp; &gt; </OpenButton>
-                        </ButtonWrapper>
+                        {!isCategorySelected && (
+                            <ButtonWrapper>
+                                <CategoryButton>{category.title}</CategoryButton>
+                                <OpenButton>{category.buttonText} &nbsp; &gt; </OpenButton>
+                            </ButtonWrapper>
+                        )}
                         <GridRow>
                             {cardData.map(item => (
                                 <FlippingCard
@@ -336,12 +355,10 @@ const SelectButton = styled.div`
     font-size: 0.8em; 
     width: 7.75em;
     min-width: 7.75em; 
-    border: 1px solid #C8C8C8;
     border-radius: 0.5em; 
     font-weight: 800;
     padding: 0.8125em;
     text-align: center;
-    color: #C8C8C8;
     margin-right: 0.625em;
     margin-top: 0.3125em;
     margin-left: 0.25em;
@@ -351,6 +368,10 @@ const SelectButton = styled.div`
     display: flex;
     align-items: center; 
     justify-content: center; 
+    
+    color: ${props => props.isSelected ? '#8E59FF' : '#C8C8C8'}; 
+    background-color: ${props => props.isSelected ? '#FFF' : '#FFF'}; 
+    border: ${props => props.isSelected ? '1px solid  #8E59FF' : '1px solid #C8C8C8'}; 
 
     ${props => props.isLongText && `
         font-size: 0.8em;
@@ -448,5 +469,11 @@ const Icons = styled.img`
     width: 0.75em; 
     height: auto;
     margin-top: 0.3125em;
-    margin-left : 0.5em;
+    margin-left : 2em;
+`;
+const PlusIcons = styled.img`
+    width: 1em; 
+    height: auto;
+    margin-top: 0.2em;
+    margin-right : 0.5em;
 `;
