@@ -54,6 +54,11 @@ const PostContentContainer = styled.div`
 const PostTitle = styled.div`
   margin: 1.1em 0.8em;
   font-weight: bold;
+  // 말줄임 처리
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const SkillsWrapper = styled.div`

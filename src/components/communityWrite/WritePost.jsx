@@ -6,6 +6,8 @@ import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
 import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
 import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
 
 const WritePost = () => {
     // 상태 관리
@@ -14,6 +16,7 @@ const WritePost = () => {
     const [lengthCount, setLengthCount] = useState(0);
     const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
 
     // 제목 하단바 색상 관리
@@ -109,6 +112,14 @@ const WritePost = () => {
     // useNavigate
     const navigate = useNavigate();
 
+    // 모달 열고 닫기 함수
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <>
             {/* 제목 */}
@@ -140,6 +151,10 @@ const WritePost = () => {
                 <StyledBar>|</StyledBar>
                 <StyledImageIcon onClick={addImage}/>
                 <StyledLinkIcon onClick={addLink}/>
+                <StyledBar>|</StyledBar>
+                <StyledPreviewButton onClick={openModal}>
+                    미리보기
+                </StyledPreviewButton>
             </ToolbarWrapper>
 
             {/* 내용 */}
@@ -168,6 +183,16 @@ const WritePost = () => {
                 });}}>
                 게시글 업로드
             </SubmitButton>
+
+            {/* 모달 */}
+            {isModalOpen && (
+                <ModalOverlay onClick={closeModal}>
+                    <ModalContent onClick={(e) => e.stopPropagation()}>
+                        <CloseButton onClick={closeModal}>x</CloseButton>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
         </>
     );
 }
@@ -203,8 +228,8 @@ const StyledTitleHr = styled.hr`
     margin: 0 1em;
     border: none;
     height: 1.5px;
-    background-color: ${(props) => (props.styledHr == true ? '#8E59FF' : '#A2A3B2')};
-    box-shadow: ${(props) => (props.styledHr == true ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
+    background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
+    box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
     transition: all 0.3s ease
 `;
 
@@ -220,7 +245,7 @@ const ToolbarWrapper = styled.div`
 `;
 
 const StyledFontSizeSelect = styled.select`
-    padding-left: 0.5em;
+    padding-left: 0.7em;
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 6em;
@@ -274,7 +299,7 @@ const StyledImageIcon = styled(ImageIcon)`
 `;
 
 const StyledLinkIcon = styled(LinkIcon)`
-    margin: 0 2em;
+    margin-left:2em;
     width: 1.2em;
     height: 1.2em;
     &:hover{
@@ -335,6 +360,20 @@ const StyledContentHr = styled.hr`
     background-color: rgba(162, 163, 178, 0.4);
 `;
 
+const StyledPreviewButton = styled.div`
+    border: 1px solid #8E59FF;
+    border-radius: 10px;
+    width: 6em;
+    height: 1.75em;
+    line-height: 1.75em;
+    text-align: center;
+    background-color: transparent;
+    color: #8E59FF;
+    font-size: 1em;
+    font-weight: 800;
+    cursor: pointer;
+`;
+
 const SubmitButton = styled.button`
     margin-top: 2em;
     border: none;
@@ -350,4 +389,36 @@ const SubmitButton = styled.button`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
+`;
+
+// 모달
+const ModalOverlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+const ModalContent = styled.div`
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 10px;
+    width: 57em;
+    max-height: 25em;
+    // max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+`;
+const CloseButton = styled.button`
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
 `;

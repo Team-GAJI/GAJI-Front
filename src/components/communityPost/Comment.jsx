@@ -11,7 +11,7 @@ const Comment = () => {
                 <UserName>닉네임</UserName>
                 <RelativeTime>2024. 03. 01 작성</RelativeTime>
             </WriterWrapper>
-            <Content>댓글입니다 뭐라고 쓸까요? 정말 좋은 글이네요 귀여운 고양이 냥냥</Content>
+            <Content>댓글입니다 뭐라고 쓸까요? 정말 좋은 글이네요 귀여운 고양이</Content>
             <ReplyWrapper>
                 <StyledReplyIcon/>
                 <ReplyText>답글달기</ReplyText>
@@ -56,7 +56,7 @@ const RelativeTime = styled.div`
 
 const Content = styled.div`
     margin-bottom: 0.8em;
-    width: 75em;
+    width: 50em;
     color: #161A3F;
     font-weight: bold;
 `;

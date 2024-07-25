@@ -227,10 +227,12 @@ const PostWriterInfoWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    margin-bottom: 0.5em;    
+    margin-bottom: 0.5em;
+    width: 25em;
     color: #8E59FF;
     font-size: 2em;
     font-weight: 800;
+    word-wrap: break-word;
 `;
 
 const HashtagWrapper = styled.div`
