@@ -1,14 +1,18 @@
 import React from 'react'
 import styled from 'styled-components';
-import UserProfileImg from '../../assets/images/userProfile.png';
-import LikeIcon from '../../assets/icons/common/emptyLikeIcon.svg?react';
+import UserProfileImg from '../../assets/images/community/userProfile.png';
+import LikeIcon from '../../assets/icons/community/emptyLikeIcon.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const PostPreview = () => {
+    /* useNavigate */
+    const navigate = useNavigate();
+
     return (
         <PageWrapper>
             <PostState>모집중</PostState>
-            <Title>게시글 제목입니다</Title>
-            <Content>내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
+            <Title onClick={() => {navigate("/community/post");}}>게시글 제목입니다</Title>
+            <Content onClick={() => {navigate("/community/post");}}>내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
                     안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
                     안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요.
             </Content>
@@ -63,6 +67,9 @@ const Content = styled.div`
     font-size: 1.025em;
     overflow: hidden;
     line-height: 1.4em;
+    &:hover{
+        cursor: pointer;
+    }
 `;
 
 const PostInfoWrapper = styled.div`
@@ -103,7 +110,6 @@ const StyledLikeIcon = styled(LikeIcon)`
     margin-right: 0.5em;
     width: 1.3em;
     height: 1.3em;
-    cursor: pointer;
 `;
 
 const Like = styled.div`
