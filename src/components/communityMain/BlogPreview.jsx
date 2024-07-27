@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import LikeIcon from '../../assets/icons/fillLikeIcon.svg?react';
+import LikeIcon from '../../assets/icons/common/fillLikeIcon.svg?react';
 import BlogBackground from '../../assets/images/blogBackground.png';
 import UserProfileImg from '../../assets/images/userProfile.png';
 
