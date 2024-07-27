@@ -1,13 +1,25 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'; 
 import LoginPage from './pages/LoginPage';
+import MainLayOut from './layout/MainLayOut';
+import CommunityPage from './pages/CommunityPage';
+import MyPage from './pages/MyPage';
+import StudyRoom from './pages/StudyRoom';
+import StudyCategory from './pages/StudyCategory';
 
 
 function App() {
   return (
     <>
     <Routes>
-      <Route exact path="/" element={<LoginPage/>}/>
+    <Route path="/login" element={<LoginPage/>}/>
+      <Route element={<MainLayOut/>}>
+      <Route path="/" element={<CommunityPage/>}/>
+      <Route path="/community" element={<CommunityPage/>}/>
+      <Route path="/mypage" element={<MyPage/>}/>
+      <Route path="/studyroom" element={<StudyRoom/>}/>
+      <Route path="/study" element={<StudyCategory/>}/>  
+    </Route>
     </Routes>
     </>
   )
