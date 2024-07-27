@@ -83,16 +83,6 @@ const Calendar = () => {
 
 export default Calendar;
 
-const StyledPrevMonth = styled(PrevMonth)`
-    width: 0.61em;
-    cursor: pointer;
-`;
-
-const StyledNextMonth = styled(NextMonth)`
-    width: 0.61em;
-    cursor: pointer;
-`;
-
 const CalendarContainer = styled.div`
     margin: 0 auto;
     text-align: center;
