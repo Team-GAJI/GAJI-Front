@@ -11,11 +11,13 @@ const PostPreview = () => {
     return (
         <PageWrapper>
             <PostState>모집중</PostState>
-            <Title onClick={() => {navigate("/community/post");}}>게시글 제목입니다</Title>
-            <Content onClick={() => {navigate("/community/post");}}>내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
-                    안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
-                    안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요.
-            </Content>
+            <ContentWrapper onClick={() => {navigate("/community/post");}}>
+                <Title>게시글 제목입니다</Title>
+                <Content>내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
+                        안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
+                        안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요.
+                </Content>
+            </ContentWrapper>
             <PostInfoWrapper>
                 <PostType>프로젝트</PostType><StyledBar>|</StyledBar>
                 <StyledUserProfileImg src={UserProfileImg} alt='user profile'/>
@@ -51,14 +53,17 @@ const PostState = styled.div`
     text-align: center;
 `;
 
+const ContentWrapper = styled.div`
+    &:hover{
+        cursor: pointer;
+    }
+`;
+
 const Title = styled.p`
     margin-top: 0.8em;
     color: #8E59FF;
     font-size: 1.2em;
     font-weight: bold;
-    &:hover{
-        cursor: pointer;
-    }
 `;
 
 const Content = styled.div`
@@ -67,9 +72,6 @@ const Content = styled.div`
     font-size: 1.025em;
     overflow: hidden;
     line-height: 1.4em;
-    &:hover{
-        cursor: pointer;
-    }
 `;
 
 const PostInfoWrapper = styled.div`

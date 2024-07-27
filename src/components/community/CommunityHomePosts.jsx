@@ -4,8 +4,12 @@ import HotPostPreview from './HotPostPreview';
 import SearchIcon from '../../assets/icons/community/searchIcon.svg?react';
 import PostPreview from './PostPreview';
 import BlogPreview from './BlogPreview';
+import { useNavigate } from 'react-router-dom';
 
 const CommunityHomePosts = ({ activeButton }) => {
+  /* useNavigate */
+  const navigate = useNavigate();
+
   return (
     <PageWrapper>
       {/* Hot 게시물 */}
@@ -22,7 +26,7 @@ const CommunityHomePosts = ({ activeButton }) => {
         <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
       </SearchInputWrapper>
 
-      {/* 게시글 필터 및 작성버튼 */}
+      {/* 게시글 필터 */}
       <SelectAndButtonWrapper>
         <SelectWrapper>
           <StyledSelect name="category">
@@ -51,7 +55,9 @@ const CommunityHomePosts = ({ activeButton }) => {
             <option value="5">인원 제한 없음</option>
           </StyledSelect>
         </SelectWrapper>
-        <CreatePostButton>
+
+        {/* 게시글 작성 */}
+        <CreatePostButton onClick={() => {navigate("/community/write");}}>
           + {activeButton} 작성하기
         </CreatePostButton>
       </SelectAndButtonWrapper>
@@ -118,6 +124,7 @@ const StyledSearchInput = styled.input`
   border: none;
   width: 100%;
   height: 2em;
+  font-weight: 800;
   -webkit-appearance: none;
   &:focus{
     outline: none;
