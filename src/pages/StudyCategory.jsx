@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logos/logo.svg';
 import backImage from '../assets/images/mypageBackground.png';
-import StudyRecruitment from './StudyRecruitment';
-import DetailCategory from './DetailCategory';
-import SortingCategory from './SortingCategory';
-import FilterCategory from './FilterCategory';
+import StudyRecruitment from './StudyCategory/StudyRecruitment';
+import DetailCategory from './StudyCategory/DetailCategory';
+import SortingCategory from './StudyCategory/SortingCategory';
+import FilterCategory from './StudyCategory/FilterCategory';
 
 const HeaderWrapper = styled.div`
     z-index: 5;

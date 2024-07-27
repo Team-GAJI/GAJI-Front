@@ -5,6 +5,6 @@ import authReducer from '../feautres/auth/authSlice'
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-      community: communityReducer,
+        community: communityReducer,
     },
 });

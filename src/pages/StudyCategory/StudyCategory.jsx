@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Logo from '../../assets/logos/logo.svg';
 import backImage from '../../assets/images/mypageBackground.png';
 import Footer from '../Footer';
-import StudyRecruitment from '../StudyCategory/StudyRecruitment';
 import FlippingCard from '../StudyCategory/FlippingCard';
 
 import DetailCategory from '../StudyCategory/DetailCategory';
@@ -112,7 +111,7 @@ const StudyCategory = () => {
                 <RowLogoWrapper>
                     <LogoImage src={Logo} alt="로고" />
                     <LogoText>스터디</LogoText>
-                    <Text>'가지'고 싶은 스터디를 검색해보세요!</Text>
+                    <Text>`가지`고 싶은 스터디를 검색해보세요!</Text>
                     <InputWrapper>
                         <Icon src={Vector} alt="검색 아이콘" />
                         <InputStudy placeholder="    검색어를 입력해주세요" />
