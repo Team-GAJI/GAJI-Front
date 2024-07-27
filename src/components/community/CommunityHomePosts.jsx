@@ -97,6 +97,8 @@ const CommunityHomePosts = () => {
           <BlogPreview />
           <BlogPreview />
           <BlogPreview />
+          <BlogPreview />
+          <BlogPreview />
         </BlogPreviewWrapper>
       ) : (
         <PostPreviewWrapper>

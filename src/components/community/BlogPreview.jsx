@@ -43,6 +43,7 @@ const PostWrapper = styled.div`
     margin: 1.2em;
     width: 21.6em;
     height: 21.6em;
+    font-size: 0.7489em;
     background-image: url(${BlogBackground});
     background-size: cover;
     background-color: rgba(208,209,217,0.2);
@@ -81,8 +82,8 @@ const PostContentContainer = styled.div`
 `;
 
 const PostTitle = styled.div`
-    margin: 1.5em 1.7455em 1em 1.7455em;
-    font-size: 1.1em;
+    margin: 1.2692em 1.47696em 0.84615em 1.4770em;
+    font-size: 1.3em;
     font-weight: bold;
 `;
 
