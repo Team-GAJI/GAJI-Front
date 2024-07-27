@@ -1,19 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import HotPostPreview from './HotPostPreview';
 import SearchIcon from '../../assets/icons/community/searchIcon.svg?react';
 import PostPreview from './PostPreview';
 import BlogPreview from './BlogPreview';
 import { useNavigate } from 'react-router-dom';
 
-const CommunityHomePosts = ({ activeButton }) => {
-  /* useNavigate */
+const CommunityHomePosts = () => {
+  // Redux 상태 가져오기
+  const { title } = useSelector((state) => state.community);
+
+  // useNavigate
   const navigate = useNavigate();
+
+  // 필터 옵션 분류
+  const filterOptions = {
+    프로젝트: [
+      { value: '0', label: '필터' },
+      { value: '1', label: '모집 중' },
+      { value: '2', label: '모집 완료' }
+    ],
+    질문: [
+      { value: '0', label: '필터' },
+      { value: '3', label: '미완료 질문' },
+      { value: '4', label: '해결 완료' }
+    ],
+    블로그: []
+  };
 
   return (
     <PageWrapper>
       {/* Hot 게시물 */}
       <HotPostsWrapper>
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
         <HotPostPreview />
         <HotPostPreview />
         <HotPostPreview />
@@ -30,42 +55,44 @@ const CommunityHomePosts = ({ activeButton }) => {
       <SelectAndButtonWrapper>
         <SelectWrapper>
           <StyledSelect name="category">
-            <option value="1">카테고리</option>
-            <option value="2">개발</option>
-            <option value="3">인공지능</option>
-            <option value="4">하드웨어</option>
-            <option value="5">보안</option>
-            <option value="6">네트워크-클라우드</option>
-            <option value="7">어학</option>
-            <option value="8">디자인</option>
-            <option value="9">비즈니스-PM</option>
-            <option value="10">독서 모임</option>
-            <option value="11">기타</option>
+            <option value="0">카테고리</option>
+            <option value="1">개발</option>
+            <option value="2">인공지능</option>
+            <option value="3">하드웨어</option>
+            <option value="4">보안</option>
+            <option value="5">네트워크-클라우드</option>
+            <option value="6">어학</option>
+            <option value="7">디자인</option>
+            <option value="8">비즈니스-PM</option>
+            <option value="9">독서 모임</option>
+            <option value="10">기타</option>
           </StyledSelect>
           <StyledSelect name="sort">
-            <option value="1">정렬</option>
-            <option value="2">인기순</option>
-            <option value="3">최신순</option>
+            <option value="0">정렬</option>
+            <option value="1">인기순</option>
+            <option value="2">최신순</option>
           </StyledSelect>
-          <StyledSelect name="filter">
-            <option value="1">필터</option>
-            <option value="2">모집 중</option>
-            <option value="3">모집 완료</option>
-            <option value="4">인원 제한</option>
-            <option value="5">인원 제한 없음</option>
-          </StyledSelect>
+          {title !== '블로그' && (
+            <StyledSelect name="filter">
+              {filterOptions[title].map(option => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </StyledSelect>
+          )}
         </SelectWrapper>
 
         {/* 게시글 작성 */}
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
-          + {activeButton} 작성하기
+          + {title} 작성하기
         </CreatePostButton>
       </SelectAndButtonWrapper>
       <StyledHr />
 
       {/* 게시글 미리보기 */}
-      {activeButton === '블로그' ? (
+      {title === '블로그' ? (
         <BlogPreviewWrapper>
+          <BlogPreview />
+          <BlogPreview />
           <BlogPreview />
           <BlogPreview />
           <BlogPreview />
@@ -97,12 +124,22 @@ const PageWrapper = styled.div`
 `;
 
 const HotPostsWrapper = styled.div`
-  height: 20em;
+  margin: 2em 0;
+  width: 63em;
+  height: 18em;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
   text-align: center;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 8px;
+    background: none;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    width: 1px;
+    border-radius: 30px;
+    background-color: #D0D1D9;
+  }
 `;
 
 const SearchInputWrapper = styled.div`

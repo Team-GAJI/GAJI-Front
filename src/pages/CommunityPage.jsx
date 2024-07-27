@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { setActiveButton } from '../feautres/community/communitySlice';
 import BackgroundImage from '../assets/images/community/communityBackground.png';
 import LogoIcon from '../assets/logos/logo.svg?react';
 import CommunityHomePosts from '../components/community/CommunityHomePosts';
 
 const CommunityPage = () => {
-    /* state 관리 */
-    const [activeButton, setActiveButton] = useState('프로젝트');
-    const [title, setTitle] = useState('프로젝트');
+    // Redux 상태 가져오기
+    const { activeButton, title } = useSelector((state) => state.community);
+    const dispatch = useDispatch();
 
-    /* 버튼 클릭 시 상태 변경 */
+    // 버튼 클릭 시 상태 변경
     const handleButtonClick = (buttonText) => {
-        setActiveButton(buttonText);
-        setTitle(buttonText);
+        dispatch(setActiveButton(buttonText));
     };
 
     return (
@@ -45,7 +46,7 @@ const CommunityPage = () => {
             <PostsWrapper>
                 <HotPostsBackground></HotPostsBackground>
                 <HotPostText>HOT 게시물</HotPostText>
-                <CommunityHomePosts activeButton={activeButton}/>
+                <CommunityHomePosts/>
             </PostsWrapper>
         </>
     );

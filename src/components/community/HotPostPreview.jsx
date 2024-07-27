@@ -4,7 +4,7 @@ import HotPostBackground from '../../assets/images/community/hotPostBackground.p
 import { useNavigate } from 'react-router-dom';
 
 const HotPostPreview = () => {
-  /* useNavigate */
+  // useNavigate
   const navigate = useNavigate();
 
   return (
@@ -27,7 +27,7 @@ export default HotPostPreview;
 const PostWrapper = styled.div`
   border: 1px solid #8E59FF;
   border-radius: 8px;
-  margin: 0 1em;
+  margin: 0 0.8em;
   width: 14em;
   height: 14em;
   background-image: url(${HotPostBackground});
@@ -54,10 +54,16 @@ const PostContentContainer = styled.div`
 const PostTitle = styled.div`
   margin: 1.1em 0.8em;
   font-weight: bold;
+  // 말줄임 처리
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const SkillsWrapper = styled.div`
   margin: 0.8em;
+  width: 12.4em;
   display: flex;
   flex-direction: row;
   align-items: center;

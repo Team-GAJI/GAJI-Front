@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ProfileImg from '../../assets/images/community/writerProfile.png';
 import SendMessageIcon from '../../assets/icons/community/sendMessage.svg?react';
 
-const PostWriterInfo = forwardRef((props, ref) => {
+const PostWriterInfo = () => {
     return (
-        <ProfileWrapper ref={ref}>
+        <ProfileWrapper>
             {/* 프로필 */}
             <ProfileDetailWrapper>
                 <StyledProfileImg src={ProfileImg} alt='writer profile'/>
@@ -32,7 +32,7 @@ const PostWriterInfo = forwardRef((props, ref) => {
             </SendMessageWrapper>
         </ProfileWrapper>
     );
-});
+};
 
 PostWriterInfo.displayName = 'PostWriterInfo';
 

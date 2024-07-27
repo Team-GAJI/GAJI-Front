@@ -5,7 +5,7 @@ import LikeIcon from '../../assets/icons/community/emptyLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 
 const PostPreview = () => {
-    /* useNavigate */
+    // useNavigate
     const navigate = useNavigate();
 
     return (
@@ -13,9 +13,10 @@ const PostPreview = () => {
             <PostState>모집중</PostState>
             <ContentWrapper onClick={() => {navigate("/community/post");}}>
                 <Title>게시글 제목입니다</Title>
-                <Content>내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
-                        안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
-                        안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요.
+                <Content>
+                    내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
+                    안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
+                    안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요.
                 </Content>
             </ContentWrapper>
             <PostInfoWrapper>
@@ -61,17 +62,29 @@ const ContentWrapper = styled.div`
 
 const Title = styled.p`
     margin-top: 0.8em;
+    width: 20em;
     color: #8E59FF;
     font-size: 1.2em;
     font-weight: bold;
+    // 말줄임 처리
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 `;
 
 const Content = styled.div`
     height: 4.5em;
+    line-height: 1.5em;
     color: #A2A3B2;
     font-size: 1.025em;
+    // 말줄임 처리
+    text-overflow: ellipsis;
     overflow: hidden;
-    line-height: 1.4em;
+    word-break: break-word;    
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 `;
 
 const PostInfoWrapper = styled.div`

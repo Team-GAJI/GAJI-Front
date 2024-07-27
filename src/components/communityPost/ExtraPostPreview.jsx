@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CloseButton from '../../assets/icons/community/closeButton.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const ExtraPostPreview = () => {
-    /* state 관리 */
+    // state 관리
     const [isPostVisible, setIsPostVisible] = useState(true);
 
-    /* 창 닫기 기능 */
+    // 창 닫기 기능
     const postVisibility = () => {
         setIsPostVisible(!isPostVisible);
     };
 
+    // useNavigate
+    const navigate = useNavigate();
+
     return (
-        <PostWrapper isVisible={isPostVisible}>
+        <PostWrapper isVisible={isPostVisible} onClick={() => {navigate("/community/post");}}>
             <LeftWrapper></LeftWrapper>
             <RightWrapper>
                 <TextWrapper>
@@ -63,14 +67,26 @@ const TextWrapper = styled.div`
 
 const Title = styled.div`
     margin-bottom: 0.8em;
+    width: 10em;
     color: #161A3F;
     font-size: 1.25em;
     font-weight: 800;
+    // 말줄임 처리
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 `;
 
 const Content = styled.div`
+    width: 18em;
     color: #A2A3B2;
     font-weight: bold;
+    // 말줄임 처리
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 `;
 
 const StyledCloseButton = styled(CloseButton)`
