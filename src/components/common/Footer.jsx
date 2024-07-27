@@ -15,7 +15,7 @@ const Footer = () => {
                 <Text>마이페이지</Text>
             </RowWrapper>
             <RowLogoWrapper>
-                <Logo/>
+                <StyledLogo/>
                 <LogoText>가지고 싶은 스터디, <Color>GAJI</Color></LogoText>
             </RowLogoWrapper>
             <FooterText>@ Copyright 2024_GAJI</FooterText>
@@ -24,6 +24,10 @@ const Footer = () => {
 };
 
 export default Footer;
+
+const StyledLogo = styled(Logo)`
+    width : 57px;
+`;
 
 const FooterWrapper = styled.div`
     background-color : #E8E9EC;

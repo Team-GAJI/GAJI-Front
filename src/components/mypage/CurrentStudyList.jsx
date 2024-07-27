@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Color } from '../../components/style/Color';
+import { Color } from '../style/Color';
 import RightArrow from '../../assets/icons/rightarrow.svg?react';
 import studyProfileUrl from '../../assets/images/studyprofile.png';
 
