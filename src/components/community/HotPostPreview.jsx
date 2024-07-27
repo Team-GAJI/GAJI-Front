@@ -27,7 +27,7 @@ export default HotPostPreview;
 const PostWrapper = styled.div`
   border: 1px solid #8E59FF;
   border-radius: 8px;
-  margin: 0 1em;
+  margin: 0 0.8em;
   width: 14em;
   height: 14em;
   background-image: url(${HotPostBackground});

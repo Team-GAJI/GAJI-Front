@@ -37,6 +37,12 @@ const CommunityHomePosts = () => {
         <HotPostPreview />
         <HotPostPreview />
         <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
+        <HotPostPreview />
       </HotPostsWrapper>
       
       {/* 검색창 */}
@@ -116,12 +122,22 @@ const PageWrapper = styled.div`
 `;
 
 const HotPostsWrapper = styled.div`
-  height: 20em;
+  margin: 2em 0;
+  width: 63em;
+  height: 18em;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
   text-align: center;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 8px;
+    background: none;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    width: 1px;
+    border-radius: 30px;
+    background-color: #D0D1D9;
+  }
 `;
 
 const SearchInputWrapper = styled.div`

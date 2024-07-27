@@ -409,7 +409,6 @@ const ModalContent = styled.div`
     border-radius: 10px;
     width: 57em;
     max-height: 25em;
-    // max-height: 80vh;
     overflow-y: auto;
     position: relative;
 `;
