@@ -1,30 +1,38 @@
-// features/auth/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    token: null,
-    };
+    accessToken: null,
+    refreshToken: null,
+};
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setToken: (state, action) => {
-        state.token = action.payload;
-        localStorage.setItem('token', action.payload);
+        setTokens: (state, action) => {
+            state.accessToken = action.payload.accessToken;
+            state.refreshToken = action.payload.refreshToken;
+            localStorage.setItem('accessToken', action.payload.accessToken);
+            localStorage.setItem('refreshToken', action.payload.refreshToken);
         },
-        removeToken: (state) => {
-        state.token = null;
-        localStorage.removeItem('token');
+        removeTokens: (state) => {
+            state.accessToken = null;
+            state.refreshToken = null;
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
         },
-        loadToken: (state) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            state.token = token;
-        }
+        loadTokens: (state) => {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (accessToken) {
+                state.accessToken = accessToken;
+            }
+            if (refreshToken) {
+                state.refreshToken = refreshToken;
+            }
         },
     },
 });
 
-export const { setToken, removeToken, loadToken } = authSlice.actions;
+export const { setTokens, removeTokens, loadTokens } = authSlice.actions;
 export default authSlice.reducer;
