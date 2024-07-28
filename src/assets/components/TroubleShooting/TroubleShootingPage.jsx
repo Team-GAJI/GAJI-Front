@@ -4,7 +4,7 @@ import Header from "./Header";
 import TitleSection from "./TitleSection";
 import Category from "./Category";
 import ItemList from "./ItemList";
-import Footer from "../Footer";
+import Footer from "../../../pages/Footer";
 
 const TroubleShootingPage = () => {
   return (

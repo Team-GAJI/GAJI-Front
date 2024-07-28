@@ -1,25 +1,33 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 const Category = () => {
   return (
-    <CategoryContainer>
-      <Dropdown>
-        <option value="정렬">정렬</option>
-      </Dropdown>
-      <CreatePostButton>+ 트러블 슈팅 등록</CreatePostButton>
-    </CategoryContainer>
+    <CategoryWrapper>
+      <CategoryContainer>
+        <Dropdown>
+          <option value="정렬">정렬</option>
+          <option value="최신 순">최신 순</option>
+          <option value="인기 순">인기 순</option>
+        </Dropdown>
+        <CreatePostButton>+ 트러블 슈팅 등록</CreatePostButton>
+      </CategoryContainer>
+    </CategoryWrapper>
   );
 };
 
 export default Category;
 
+const CategoryWrapper = styled.div`
+  width: 100%;
+  border-bottom: 1px solid #d0d1d9;
+  margin-bottom: 20px;
+`;
+
 const CategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   padding: 20px;
 `;
 
@@ -32,6 +40,11 @@ const Dropdown = styled.select`
   width: 123px;
   text-align: center;
   text-align-last: center;
+
+  &:focus {
+    border-color: #8e59ff;
+    outline: none;
+  }
 `;
 
 const CreatePostButton = styled.button`

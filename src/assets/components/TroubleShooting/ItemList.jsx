@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import UserIcon from "../../assets/icons/usericon.svg";
-import ExampleImage from "../../assets/images/example.png";
+import UserIcon from "../../icons/usericon.svg"; // UserIcon 경로를 정확히 확인하세요
+import ItemImageSrc from "../../images/Rectangle 16.png"; // 올바른 이미지 경로로 수정
 
 const items = [
   {
@@ -67,6 +67,118 @@ const items = [
     time: "1시간 전",
     views: 50,
   },
+  {
+    id: 10,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 11,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 12,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 13,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 14,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 15,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 16,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 17,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 18,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 19,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 20,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 21,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 22,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 23,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 24,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
+  {
+    id: 25,
+    title: "트러블 슈팅 내용",
+    user: "user1023",
+    time: "1시간 전",
+    views: 50,
+  },
 ];
 
 const ItemList = () => {
@@ -74,7 +186,7 @@ const ItemList = () => {
     <ItemGrid>
       {items.map((item) => (
         <Item key={item.id}>
-          <ItemImage src={ExampleImage} alt={item.title} />
+          <ItemImage src={ItemImageSrc} alt={item.title} />
           <ItemContent>
             <ItemTitle>{item.title}</ItemTitle>
             <ItemDetails>
@@ -96,10 +208,11 @@ export default ItemList;
 
 const ItemGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+  max-width: 1200px;
   width: 100%;
-  padding: 20px;
+  margin-bottom: 100px;
 `;
 
 const Item = styled.div`
