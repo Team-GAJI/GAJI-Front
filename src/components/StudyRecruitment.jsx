@@ -2,6 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../assets/logos/logo.svg';
 
+
+const StudyRecruitment = () => {
+    return (
+        <CardItemWrapper>
+            <StyledWrapper>
+                <ImageWrapper>
+                    <Image src={Logo} alt="로고" />
+                </ImageWrapper>
+                <ContentWrapper>
+                    <InfoTextWrapper>
+                        <Text>모집중</Text>
+                        <Text>n명 지원</Text>
+                    </InfoTextWrapper>
+                    <SecondInfoText>
+                        <ActivityTitle>제목입니다</ActivityTitle>
+                        <ActivityTitle>D-5</ActivityTitle> {/* 기능 넣어야한다아아앙 */}
+                    </SecondInfoText>
+                    <ExplanationTitle>설명며어어어어어어어엉어어어어ㅓ어어 </ExplanationTitle>
+                    <DetailButton>N명 모집중!</DetailButton> 
+                </ContentWrapper>
+            </StyledWrapper>  
+        </CardItemWrapper>
+    );
+};
+
+export default StudyRecruitment;
+
 const CardItemWrapper = styled.div`
     background-color: #fff;
     border: 1px solid #C8C8C8; 
@@ -93,29 +120,3 @@ const DetailButton = styled.div`
     margin-top: auto;
     text-align: right;
 `;
-
-const StudyRecruitment = () => {
-    return (
-        <CardItemWrapper>
-            <StyledWrapper>
-                <ImageWrapper>
-                    <Image src={Logo} alt="로고" />
-                </ImageWrapper>
-                <ContentWrapper>
-                    <InfoTextWrapper>
-                        <Text>모집중</Text>
-                        <Text>n명 지원</Text>
-                    </InfoTextWrapper>
-                    <SecondInfoText>
-                        <ActivityTitle>제목입니다</ActivityTitle>
-                        <ActivityTitle>D-5</ActivityTitle> {/* 기능 넣어야한다아아앙 */}
-                    </SecondInfoText>
-                    <ExplanationTitle>설명며어어어어어어어엉어어어어ㅓ어어 </ExplanationTitle>
-                    <DetailButton>N명 모집중!</DetailButton> 
-                </ContentWrapper>
-            </StyledWrapper>  
-        </CardItemWrapper>
-    );
-};
-
-export default StudyRecruitment;

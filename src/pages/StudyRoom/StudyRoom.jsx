@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import Logo from '../assets/logos/logo.svg';
-import backImage from '../assets/images/mypageBackground.png';
-import Footer from './Footer';
-import StudyRecruitment from './StudyRecruitment';
-import Book from '../assets/images/Rectangle 34624913.png';
-import Plus from '../assets/icons/Plus.png';
-import AlarmIcon from '../assets/icons/Alarm.png';
+import backImage from '../../assets/images/mypageBackground.png';
+import Footer from '../Footer';
+import StudyRecruitment from '../../components/StudyRecruitment';
+import Book from '../../assets/images/StudyRoom/Rectangle 34624913.png';
+import Plus from '../../assets/icons/StudyRoom/Plus.png';
+import AlarmIcon from '../../assets/icons/StudyRoom/Alarm.png';
 
 
 const StudyCategory = () => {
@@ -30,6 +29,14 @@ const StudyCategory = () => {
       }));
     };
 
+    const alarmData = {
+      1: 3, 
+      2: 5,   
+    };
+  
+    const id = 1;  
+    const alarmCount = alarmData[id]; 
+    
     return (
         <>
         <HeaderWrapper>
@@ -42,7 +49,6 @@ const StudyCategory = () => {
 
                 {/* 로고와 로고 텍스트 */}
                 <RowLogoWrapper>
-                    <LogoImage src={Logo} alt="로고" />
                     <LogoText>스터디룸</LogoText>
                 </RowLogoWrapper>
 
@@ -64,20 +70,12 @@ const StudyCategory = () => {
                             </React.Fragment>
                         ))}
                         </Sidebar1>
-                        <Sidebar2>
-                        <Text>스터디장 메뉴</Text>
-                        <SidebarButton>스터디명 수정</SidebarButton>
-                        <SidebarButton>스터디 일정 수정</SidebarButton>
-                        <SidebarButton>커리큘럼 수정</SidebarButton>
-                        <SidebarButton>스터디 자료 수정</SidebarButton>
-                        <SidebarButton>진행방식 수정</SidebarButton>
-                        <SidebarButton>게시판 만들기</SidebarButton>
-                        </Sidebar2>
+                        <Sidebar2Button>스터디 관리</Sidebar2Button>
                     </SidebarWrapper>
 
                     <MainContent>
                         <Container>
-                            <MainText>스터디 명</MainText>
+                            <MainText>스터디 이름</MainText>
                             <TagButton># 태그</TagButton>
                             <TagButton># 태그</TagButton>
                             <OpenButton>모집중 D-5</OpenButton>  {/*버튼 이름 수정...?*/}
@@ -93,10 +91,10 @@ const StudyCategory = () => {
                         <DivisionLine />
                         <MinorText>공지사항</MinorText>
                         <InputWrapper>
-                            <Icon src={AlarmIcon} alt="공지" style={{ width: '10px', height: 'auto' }}/>
+                            <Icon src={AlarmIcon} alt="공지" />
                             <StyledInput placeholder=" 공지사항 | 여러분 이건 꼭 아셔야 합니다?! 모르면 이 스터디 못함~~ 알아줘이잉이히이잉" />
+                            <NoticeButton1>{alarmCount}</NoticeButton1>
                         </InputWrapper>
-                        
                         <MinorText>스터디 자료</MinorText>
                         {/* 그리드 컨테이너 시작 */}
                         <div style={{ flex: 1 }}>
@@ -190,8 +188,11 @@ const StudyCategory = () => {
                             <Task3><CloudyText>0%</CloudyText></Task3>
                         </TaskWrapper>
                         </CircleContainer>
-                        
-                <MoreButton>스터디 단체 채팅방 입장하기</MoreButton>
+                <MoreWrapper>
+                  <MoreButton>스터디 단체 채팅방 입장하기</MoreButton>
+                  <NoticeButton2>{alarmCount}</NoticeButton2>
+                </MoreWrapper>        
+               
                 <DivisionLine2 />
                  {/* 그리드 컨테이너 시작 */}
                  <div style={{ flex: 1 }}>
@@ -239,24 +240,24 @@ const HeaderWrapper = styled.div`
 `;
 
 const RowWrapper = styled.div`
-    padding-top: 20px;
+    padding-top: 1.25em;  
     display: flex;
     align-items: center;
-    gap: 60em; 
-    margin-top: 10px; 
+    gap: 60em;  
+    margin-top: 0.625em; 
 `;
 
 const SidebarToggle = styled.div`
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.25em;
     padding: 0.8125em;
 `;
 
 const AuthButton = styled.div`
     font-size: 0.8125em;
-    width: 123px;
-    border: 1px solid #161A3F;
-    border-radius: 10px;
+    width: 7.6875em; 
+    border: 0.0625em solid #161A3F; 
+    border-radius: 0.625em; 
     font-weight: 800;
     padding: 0.8125em;
     text-align: center;
@@ -266,62 +267,54 @@ const RowLogoWrapper = styled.div`
     display: flex;
     align-items: center;
     gap: 0.9em;
-    flex-direction: column; 
-    justify-content: center; 
-    padding: 20px; 
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.25em;
 
-    background-image: url(${backImage}); 
-    background-repeat: no-repeat; 
-    background-size: cover; 
+    background-image: url(${backImage});
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
 `;
 
-const LogoImage = styled.img`
-    width: 40px; 
-    height: auto; 
-`;
-
 const LogoText = styled.div`
-    font-size: 1em;
-    font-weight: 700;
+    font-size: 1.25em;
+    font-weight: 800;
     color: #8E59FF;
 `;
-
-
 
 const RowSelectWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    margin-left: 300px;
-    gap: 10px; 
+    margin-top: 0.625em;
+    margin-left: 18.75em; 
+    gap: 0.825em; 
 `;
-
 
 const SelectButton = styled.div`
     background-color: #8E59FF;
-    border-radius: 8px;
+    border-radius: 0.5em;
     font-size: 0.8125em;
     font-weight: 700;
     text-align: center;
     padding: 0.8125em;
     color: #FFFFFF;
     cursor: pointer;
-    width: 120px;
+    width: 10.5em; 
 `;
 
 const ButtonWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 20px;
-    gap: 10px; 
-    margin-top : 20px;
+    margin-left: 1.25em; 
+    gap: 0.625em; 
+    margin-top: 1.25em; 
 `;
 
 const TagButton = styled(SelectButton)`
     background-color: #fff;
-    border : 1px solid #8E59FF;
-    border-radius: 8px;
+    border: 0.0625em solid #8E59FF; 
+    border-radius: 0.5em;
     font-size: 0.8125em;
     font-weight: 700;
     text-align: center;
@@ -329,9 +322,9 @@ const TagButton = styled(SelectButton)`
     color: #8E59FF;
     cursor: pointer;
     margin-right: auto;
-    width: 80px;
-    margin-right: 1px;
-    margin-left: 20px;
+    width: 5em; 
+    margin-right: 0.0625em; 
+    margin-left: 1.25em;
 `;
 
 const OpenButton = styled(SelectButton)`
@@ -342,13 +335,13 @@ const OpenButton = styled(SelectButton)`
     color: #fff;
     cursor: pointer;
     margin-left: auto;
-    width: 120px;
-    margin-right: 20px;
+    width: 10.5em; 
+    margin-right: 1.25em; 
 `;
 
 const MoreButton = styled.div`
     background-color: #8E59FF;
-    border-radius: 8px;
+    border-radius: 0.5em; 
     font-size: 0.8125em;
     font-weight: 700;
     text-align: center;
@@ -356,222 +349,222 @@ const MoreButton = styled.div`
     color: #FFFFFF;
     cursor: pointer;
     margin-left: auto;
-    width: 300px;
+    width: 18.75em; 
     margin: 0 auto;
-    margin-top: 60px;
-    margin-bottom: 30px;
+    margin-top: 3.75em; 
+    margin-bottom: 1.875em; 
 `;
 
 const DivisionLine = styled.div`
-    border-top: 1px solid #A2A3B2;
-    margin: 20px 0px;
+    border-top: 0.0625em solid #A2A3B2; 
+    margin: 1.25em 0px; 
     width: 98%;
 `;
+
 const DivisionLine2 = styled.div`
-    border-top: 1.8px solid #8E59FF;
-    margin: 20px 0px;
+    border-top: 0.1125em solid #8E59FF; 
+    margin: 1.25em 0px; 
     width: 98%;
 `;
+
 const ContentWrapper = styled.div`
     overflow-y: auto;
     flex-grow: 1;
 `;
-/* 모집 카드 스타일 */
+
 const GridContainer = styled.div`
     display: grid;
-    gap: 20px;
+    gap: 1.25em; 
 `;
 
 const GridRow = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 1.25em; 
 `;
 
-/*스터디 자료 카드 스타일 */
 const DataGridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 10px; 
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.625em; 
   width: 100%;
 `;
 
 const DataGridRow = styled.div`
-  display: contents
+  display: contents;
 `;
 
-/* n주차 스타일 */
 const Sidebar1 = styled.aside`
-  
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 8px;
-  width: 150px;
-  height : 400px;
-  margin-top: 20px;
+  border: 0.0625em solid #A2A3B2; 
+  border-radius: 0.5em; 
+  width: 9.375em; 
+  height: 25em; 
+  margin-top: 1.25em; 
 `;
 
-const Sidebar2 = styled.aside`
-  
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 8px;
-  width: 150px;
-  height : 310px;
-  margin-top: 20px;
+const Sidebar2Button = styled.button`
+  background-color: #8E59FF;
+  border: 0.0625em solid #8E59FF;
+  color: #fff;
+  border-radius: 0.5em; 
+  font-weight: 700;
+  width: 11.375em; 
+  height: 3.125em; 
+  margin-top: 0.625em; 
 `;
 
-const Text = styled.div`
-    color: #8E59FF;
-    font-weight: 700;
-    margin-top: 10px;
-    background-color: transparent;
-    padding: 8px 10px;
-    font-weight: 18px;
-    text-align: center;
-`;
-
-const SidebarButton = styled.div`
-  margin-top: 10px;
+const SidebarButton = styled.button`
   background-color: transparent;
   color: #A2A3B2;
-  padding: 8px 10px;
-  font-weight: 18px;
-  text-align: center;
- `;
 
- const SidebarWrapper = styled.div`
-  display: flex;
-  flex-direction: column; 
-  gap: 20px; 
+  font-weight: 1.125em; 
+  margin-top: 0.625em; 
+  padding: 0.6em 0.625em; 
+  text-align: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    border : 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    color: #8E59FF;
+    margin-left: 0.4em; 
+    margin-right : 0.4em;
+  }
 `;
 
- /* Main 글 스타일 */
+const SidebarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25em; 
+`;
+
 const MainSection = styled.section`
   display: flex;
   flex: 1;
   background-color: #fff;
-  padding-top: 30px;
+  padding-top: 1.875em; 
   overflow: auto;
-  flex-direction: row; 
-  gap: 20px; 
+  flex-direction: row;
+  gap: 1.25em; 
 `;
+
 const MainContent = styled.div`
   flex: 1;
-  padding: 20px;
+  padding: 1.25em; 
   color: #000;
   display: flex;
   flex-direction: column;
 `;
 
-/* 과제 달성도 (원)*/
 const CircleContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 0.625em;
+  margin-top: 1.875em; 
 `;
 
 const Circle = styled.div`
-  width: 60px;
-  height: 60px;
-  background-color: #8E59FF;
+  width: 4em; 
+  height: 4em;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  font-size: 10px;
-  transition: all 0.3s ease;
-  color : #fff;
+  background-color: #8E59FF;
+  cursor: pointer;
 `;
 
 const DefaultText = styled.div`
   position: absolute;
   opacity: 1;
   transition: opacity 0.3s ease;
+  color : #fff;
+  font-size : 0.8125em;
+  align-items: center;
+  margin-top :  1.9em;
+  margin-left: 0.7em;
 `;
+
 const Task1 = styled.li`
   list-style: none;  
   position: relative;
-  padding-left: 25px;
-  margin-bottom: 15px;
+  padding-left: 1.5625em; 
+  margin-bottom: 0.9375em; 
   &::before {
     content: '';
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 15px;
-    height: 15px;
+    width: 0.9375em; 
+    height: 0.9375em; 
     background-color: #8E59FF;
-    border: 1px solid #8E59FF;
-    border-radius: 2px;
+    border: 0.0625em solid #8E59FF; 
+    border-radius: 0.125em;
   }
 `;
 
 const Task2 = styled.li`
   list-style: none;  
   position: relative;
-  padding-left: 25px;
-  margin-bottom: 15px;
+  padding-left: 1.5625em; 
+  margin-bottom: 0.9375em; 
   &::before {
     content: '';
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 15px;
-    height: 15px;
+    width: 0.9375em; 
+    height: 0.9375em; 
     background-color: #8E59FF;
-    opacity : 60%;
-    border: 1px solid #8E59FF;
-    border-radius: 2px;
+    opacity: 60%;
+    border: 0.0625em solid #8E59FF; 
+    border-radius: 0.125em; 
   }
 `;
 
 const Task3 = styled.li`
   list-style: none;  
   position: relative;
-  padding-left: 25px;
-  margin-bottom: 15px;
+  padding-left: 1.5625em; 
+  margin-bottom: 0.9375em;
   &::before {
     content: '';
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 15px;
-    height: 15px;
+    width: 0.9375em; 
+    height: 0.9375em;
     background-color: #fff;
-    border: 1px solid #8E59FF;
-    border-radius: 2px;
+    border: 0.0625em solid #8E59FF; 
+    border-radius: 0.125em;
   }
 `;
+
 const TaskWrapper = styled.div`
-    margin-left : 140px;
-    display: flex;
-    align-items: center;
-    gap: 1em; 
+  margin-left: 8.75em; 
+  display: flex;
+  align-items: center;
+  gap: 1em; 
 `;
 
 /* 과제 리스트 */
 const TaskSquare = styled.div`
-  width: 350px;
-  height: 120px;
-  border: 1px solid #A2A3B2;
-  border-radius: 20px;
+  width: 21.875em; 
+  height: 7.5em; 
+  border: 0.0625em solid #A2A3B2; 
+  border-radius: 1.25em; 
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 20px;
-
+  padding: 1.25em; 
 `;
+
 const TaskList = styled.ul`
   list-style: none;
   padding: 0;
@@ -581,19 +574,19 @@ const TaskList = styled.ul`
 
 const TaskItem = styled.li`
   position: relative;
-  padding-left: 25px;
-  margin-bottom: 15px;
+  padding-left: 1.5625em; 
+  margin-bottom: 0.9375em; 
   &::before {
     content: '';
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 15px;
-    height: 15px;
+    width: 0.9375em; 
+    height: 0.9375em; 
     background-color: ${({ isActive }) => (isActive ? '#8E59FF' : '#fff')};
-    border: 1px solid ${({ isActive }) => (isActive ? '#8E59FF' : '#8E59FF')};
-    border-radius: 2px;
+    border: 0.0625em solid ${({ isActive }) => (isActive ? '#8E59FF' : '#8E59FF')}; 
+    border-radius: 0.125em; 
   }
 
   ${({ isActive }) =>
@@ -602,50 +595,50 @@ const TaskItem = styled.li`
     color: #A2A3B2; 
     text-decoration: line-through;
   `}
-
 `;
+
 const TaskContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `;
 
-/*글자 스타일*/
+/* 글자 스타일 */
 const Container = styled.div`
   display: flex;
   align-items: center;
 `;
 
 const MainText = styled.h1`
-    font-size: 30px;
-    font-weight: 700px;
-    color : #8E59FF;
+  font-size: 1em;
+  font-weight: 700;
+  color: #8E59FF;
 `;
-const CloudyText = styled.p`
-    color : #A2A3B2;
-    font-size: 15px;
-    font-weight: 700px;
 
+const CloudyText = styled.p`
+  color: #A2A3B2;
+  font-size: 0.9375em; 
+  font-weight: 700;
 `;
 
 const MinorText = styled.h3`
-    font-size: 1.2em;
-    font-weight: 700;
-`;
-const CountText = styled.p`
-    color : #A2A3B2;
-    font-size: 15px;
-    font-weight: 700px;
-    margin-left: auto;
-    width: 100px;
-    margin-right: 20px;
+  font-size: 1em;
+  font-weight: 800;
 `;
 
+const CountText = styled.p`
+  color: #A2A3B2;
+  font-size: 0.9375em;
+  font-weight: 700;
+  margin-left: auto;
+  width: 6.25em;
+  margin-right: 1.25em; 
+`;
 
 const StudyData = styled.div`
-  width: 220px;
-  height: 120px;
-  border: 1px solid #8E59FF;
-  border-radius: 20px;
+  width: 13.75em; 
+  height: 7.5em; 
+  border: 0.0625em solid #8E59FF; 
+  border-radius: 1.25em; 
   overflow: hidden; 
   display: flex;
   position: relative;
@@ -657,7 +650,6 @@ const LeftSide = styled.div`
   background-image: url(${Book});
   background-size: cover;
   background-position: center;
-  /*border-right: 1px solid #000;*/ 
 `;
 
 const RightSide = styled.div`
@@ -666,124 +658,130 @@ const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center; 
-  margin-left : 5px;
-
+  margin-left: 0.3125em; 
 `;
 
 const Textarea = styled.textarea`
-  width: calc(100% - 40px); 
-  height: calc(100% - 40px); 
+  width: calc(100% - 2.5em); 
+  height: calc(100% - 2.5em); 
   resize: none;
   border: none;
-  font-size: 14px;
-  margin-top: 2px;
-  outline : none;
+  font-size: 0.875em; 
+  margin-top: 0.125em; 
+  outline: none;
   overflow: hidden;
 `;
+
 const StudyText = styled.div`
-  font-size: 0.9125em ;
+  font-size: 0.9125em;
   font-weight: 800;
-  margin-top: 20px; 
- 
+  margin-top: 1.25em; 
 `;
+
 const MyRightText = styled.p`
-    color: #8E59FF;
-    font-weight: 800;
-    background-color: transparent;
-    margin-left : 20px;
-    padding: 10px 10px;
-    font-size: 2em ;
-    text-align: center;
+  color: #8E59FF;
+  font-weight: 800;
+  background-color: transparent;
+  margin-left: 1.25em; 
+  padding: 0.625em 0.625em; 
+  font-size: 2em;
+  text-align: center;
 `;
+
 const TaskText = styled.p`
-    color: #000;
-    font-weight: 800;
-    background-color: transparent;
-    margin-left : 0.1em;
-    padding: 0.2em 0em;
-    font-size: 1em ;
-    margin-bottom: -0.625em;
-    margin-top: 3.75em;
+  color: #000;
+  font-weight: 800;
+  background-color: transparent;
+  margin-left: 0.1em;
+  padding: 0.2em 0em;
+  font-size: 1em;
+  margin-bottom: -0.625em; 
+  margin-top: 3.75em; 
 `;
+
 const DeadlineText = styled.p`
-    color: #000;
-    font-weight: 800;
-    background-color: transparent;
-    margin-left : 0.1em;
-    padding: 0.2em 0em;
-    font-size: 1em ;
-    margin-bottom: -0.625em;
-    margin-top: 0.625em;  
+  color: #000;
+  font-weight: 800;
+  background-color: transparent;
+  margin-left: 0.1em;
+  padding: 0.2em 0em;
+  font-size: 1em;
+  margin-bottom: -0.625em; 
+  margin-top: 0.625em; 
 `;
+
 const CountTaskText = styled.p`
-    color: #8E59FF;
-    font-weight: 600;
-    background-color: transparent;
-    margin-left : 0.1em;
-    padding: 1px 0px;
-    font-size: 1em ;
+  color: #8E59FF;
+  font-weight: 600;
+  background-color: transparent;
+  margin-left: 0.1em;
+  padding: 1px 0px;
+  font-size: 1em;
 `;
+
 const DayText = styled.p`
-    color: #8E59FF;
-    font-weight: 700;
-    margin-top: 0.9375em;
-    background-color: transparent;
-    padding: 0.5em 0.5em;
-    text-align: center;
+  color: #8E59FF;
+  font-weight: 700;
+  margin-top: 0.9375em; 
+  background-color: transparent;
+  padding: 0.5em 0.5em;
+  text-align: center;
 `;
+
 const MonthText = styled.p`
-    color: #A2A3B2;
-    font-weight: 600;
-    background-color: transparent;
-    margin-left : -2px;
-    padding: 1px 0px;
-    font-size: 1em ;
+  color: #A2A3B2;
+  font-weight: 600;
+  background-color: transparent;
+  margin-left: -0.125em; 
+  padding: 0.0625em 0px; 
+  font-size: 1em;
 `;
-/* N주 상세 설명 */ 
+
+/* N주 상세 설명 */
 const WeekSquare = styled.div`
-  width: 350px;
-  height: 60px;
-  border: 1px solid;
-  border-radius: 10px 0 0 10px;  
+  width: 21.875em; 
+  height: 3.75em; 
+  border: 0.0625em solid; 
+  border-radius: 0.625em 0 0 0.625em; 
   display: flex;
   align-items: center; 
   justify-content: center; 
   position: relative;
   background-color: #8E59FF;
-  font-size: 15px;
+  font-size: 0.9375em; 
   font-weight: bold; 
   color: #fff;
 `;
 
-const InputWeek = styled.input`
-    width: 350px;
-    height: 60px;
-    border-radius: 8px;
-    border: 1px solid #fff;
-    outline : none;
-    margin-top: 0.5em;
+const InputWeek = styled.textarea`
+  width: 25em; 
+  height: 5em; 
+  border-radius: 0.5em; 
+  border: 0.0625em solid #fff; 
+  outline: none;
+  margin-top: 1.5em;
+  resize: none; 
+  padding: 0.5em; 
 
-    &::placeholder {
-        color: #C8C8C8;
-    }
+  &::placeholder {
+    color: #C8C8C8;
+  }
 `;
 
 /* 내 과제 */
-
 const MyStudyData = styled.div`
-  border-radius: 20px;
+  border-radius: 1.25em; 
   overflow: hidden; 
   display: flex;
   position: relative;
-  width: 350px;
-  height: 120px;
-  border: 1px solid #A2A3B2;
-  border-radius: 20px;
+  width: 21.875em; 
+  height: 7.5em;
+  border: 0.0625em solid #A2A3B2; 
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 20px;
+  padding: 1.25em;
 `;
 
 const MyLeftSide = styled.div`
@@ -791,7 +789,7 @@ const MyLeftSide = styled.div`
   height: 200%;
   background-size: cover;
   background-position: center;
-  border-right: 1px solid #A2A3B2; 
+  border-right: 0.0625em solid #A2A3B2; 
 `;
 
 const MyRightSide = styled.div`
@@ -800,14 +798,14 @@ const MyRightSide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center; 
-  padding: 10px 20px; 
+  padding: 0.625em 1.25em; 
 `;
 
 /* 아이콘 */
 const Icons = styled.img`
-    width: 12px; 
-    height: auto;
-    margin-right : 10px;
+  width: 0.75em; 
+  height: auto;
+  margin-right: 0.625em;
 `;
 
 const InputWrapper = styled.div`
@@ -817,22 +815,60 @@ const InputWrapper = styled.div`
 `;
 
 const StyledInput = styled.input`
-  padding-left: 30px; 
+  padding-left: 1.875em; 
   width: 95%;
-  height: 30px;
-  border-radius: 8px;
-  border: 1px solid #8E59FF;
-  border-radius: 8px;
-
+  height: 2.5em; 
+  border-radius: 0.5em; 
+  border: 0.0625em solid #8E59FF; 
+  outline: none;
   &::placeholder {
     color: #C8C8C8;
   }
 `;
+
 const Icon = styled.img`
   position: absolute;
-  left: 10px;
+  left: 0.9375em; 
   top: 50%;
   transform: translateY(-50%);
-  width: 10px;
+  width: 0.75em; 
   height: auto;
+`;
+
+/* 공지사항 알림 */
+const NoticeButton1 = styled.button`
+  border-radius: 50%;  
+  border: 0.0625em solid #FF0043;
+  width: 1.875em;
+  height: 1.875em; 
+  background-color: #FF0043;
+  color: white;
+  font-size: 0.8125em; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;  
+  top: -0.825em; 
+  right: 0.425em; 
+`;
+
+const MoreWrapper = styled.div`
+  position: relative; 
+  display: inline-block; 
+`;
+
+const NoticeButton2 = styled.button`
+  border-radius: 50%;  
+  border: 0.0625em solid #FF0043; 
+  width: 1.875em; 
+  height: 1.875em; 
+  background-color: #FF0043;
+  color: white;
+  font-size: 0.8125em; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;  
+  top: 2.8125em; 
+  right: 25.4em; 
 `;
