@@ -8,6 +8,7 @@ import CommunityWritePage from './pages/CommunityWritePage';
 import MyPage from './pages/MyPage';
 import StudyRoom from './pages/StudyRoom';
 import StudyCategory from './pages/StudyCategory';
+import Notice from './pages/NoticeRoom/NoticeRoom.jsx';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
     <>
     <Routes>
     <Route path="/login" element={<LoginPage/>}/>
-      <Route element={<MainLayOut/>}>
+      <Route>
       <Route path="/" element={<CommunityPage/>}/>
       <Route path="/community" element={<CommunityPage/>}/>
       <Route path="/community/post" element={<CommunityPostPage/>}/>
@@ -23,6 +24,8 @@ function App() {
       <Route path="/mypage" element={<MyPage/>}/>
       <Route path="/studyroom" element={<StudyRoom/>}/>
       <Route path="/study" element={<StudyCategory/>}/>
+      <Route exact path="/notice" element={<Notice/>}/>
+
     </Route>
     </Routes>
     </>
