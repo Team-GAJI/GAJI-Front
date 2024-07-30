@@ -9,7 +9,7 @@ const QuestionPreview = ({key, state, title, content, type, userProfileImg, writ
 
     return (
         <PageWrapper key={key}>
-            <PostState>{state}</PostState>
+            <PostState state={state}>{state}</PostState>
             <ContentWrapper onClick={() => {navigate("/community/post");}}>
                 <Title>{title}</Title>
                 <Content>
@@ -44,7 +44,7 @@ const PostState = styled.div`
     border-radius: 15px;
     width: 8em;
     height: 1.7em;
-    background-color: #8E59FF;
+    background-color: ${({ state }) => (state === '해결완료' ? '#A2A3B2' : '#8E59FF')};
     color: white;
     font-size: 0.7em;
     line-height: 1.7em;

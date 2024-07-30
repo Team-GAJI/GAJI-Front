@@ -51,7 +51,6 @@ const CommunityHomePosts = () => {
     };
   }, [getProjects]);
 
-
   // 질문 불러오기 기능
   const getQuestions = useCallback(async () => {
     if (isLoading) return;
@@ -81,13 +80,12 @@ const CommunityHomePosts = () => {
     };
   }, [getQuestions]);
 
-
   // 블로그 불러오기 기능
   const getBlogs = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
     setTimeout(() => {
-      const newPosts = dummyBlogPosts.slice((blogPage - 1) * 2, blogPage * 4); // 페이지당 8개씩 로드
+      const newPosts = dummyBlogPosts.slice((blogPage - 1) * 4, blogPage * 4); // 페이지당 4개씩 로드
       setBlogs((prevPosts) => [...prevPosts, ...newPosts]);
       setBlogPage((prevPage) => prevPage + 1);
       setIsLoading(false);
@@ -195,9 +193,9 @@ const CommunityHomePosts = () => {
       {/* 게시글 미리보기 */}
       {title === '블로그' ? (
         <BlogPreviewWrapper>
-          {blogs.map((post, index) => (
+          {blogs.map((post) => (
             <BlogPreview
-              key={index}
+              key={post.postId}
               title={post.postTitle}
               content={post.postContent}
               background={post.postBackgroundImg}
@@ -213,9 +211,9 @@ const CommunityHomePosts = () => {
         </BlogPreviewWrapper>
       ) : title === '질문' ? (
         <PostPreviewWrapper>
-          {questions.map((post, index) => (
+          {questions.map((post) => (
             <QuestionPreview
-              key={index}
+              key={post.postId}
               state={post.postState}
               title={post.postTitle}
               content={post.postContent}
@@ -232,9 +230,9 @@ const CommunityHomePosts = () => {
         </PostPreviewWrapper>
       ) : (
         <PostPreviewWrapper>
-          {projects.map((post, index) => (
+          {projects.map((post) => (
             <ProjectPreview
-              key={index}
+              key={post.postId}
               state={post.postState}
               title={post.postTitle}
               content={post.postContent}

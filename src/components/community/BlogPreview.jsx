@@ -8,7 +8,7 @@ const BlogPreview = ({key, title, content, background, userProfileImg, writer, a
     const navigate = useNavigate();
 
     return (
-        <PostWrapper key={key} onClick={() => {navigate("/community/post");}} style={{ backgroundImage: `url(${background})` }}>
+        <PostWrapper key={key} onClick={() => {navigate("/community/post");}} background={background}>
             <LikeWrapper>
                 <StyledLikeIcon /><Like>{like}</Like>
             </LikeWrapper>
@@ -42,6 +42,7 @@ const PostWrapper = styled.div`
     width: 21.6em;
     height: 21.6em;
     font-size: 0.7489em;
+    background-image: ${({background}) => `url(${background})`};
     background-size: cover;
     background-color: rgba(208,209,217,0.2);
     display: flex;
