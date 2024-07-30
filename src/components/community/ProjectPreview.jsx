@@ -1,39 +1,36 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
-import UserProfileImg from '../../assets/images/community/userProfile.png';
 import LikeIcon from '../../assets/icons/community/emptyLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 
-const PostPreview = () => {
+const ProjectPreview = ({key, state, title, content, type, userProfileImg, writer, ago, views, like}) => {
     // useNavigate
     const navigate = useNavigate();
 
     return (
-        <PageWrapper>
-            <PostState>모집중</PostState>
+        <PageWrapper key={key}>
+            <PostState>{state}</PostState>
             <ContentWrapper onClick={() => {navigate("/community/post");}}>
-                <Title>게시글 제목입니다</Title>
+                <Title>{title}</Title>
                 <Content>
-                    내용 미리보기. 300자 보이게 해주시면 됨 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
-                    안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 
-                    안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요.
+                    {content}
                 </Content>
             </ContentWrapper>
             <PostInfoWrapper>
-                <PostType>프로젝트</PostType><StyledBar>|</StyledBar>
-                <StyledUserProfileImg src={UserProfileImg} alt='user profile'/>
-                <Writer>user1023</Writer>
-                <Ago>1시간 전</Ago>
-                <Views>조회 50</Views><StyledBar>|</StyledBar>
+                <PostType>{type}</PostType><StyledBar>|</StyledBar>
+                <StyledUserProfileImg src={userProfileImg} alt='user profile'/>
+                <Writer>{writer}</Writer>
+                <Ago>{ago}</Ago>
+                <Views>조회 {views}</Views><StyledBar>|</StyledBar>
                 <StyledLikeIcon />
-                <Like>30</Like>
+                <Like>{like}</Like>
             </PostInfoWrapper>
             <StyledHr />
         </PageWrapper>
     );
 };
 
-export default PostPreview;
+export default ProjectPreview;
 
 /* CSS */
 const PageWrapper = styled.div`
