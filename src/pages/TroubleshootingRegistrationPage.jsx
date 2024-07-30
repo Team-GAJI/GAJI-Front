@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../assets/images/troubleshooting/titleBackground.png";
 import LogoIcon from "../assets/logos/logo.svg?react";
@@ -6,6 +6,28 @@ import Hashtag from "../components/communityWrite/Hashtag";
 import WritePost from "../components/communityWrite/WritePost";
 
 const TroubleshootingRegistrationPage = () => {
+  const [hashtags, setHashtags] = useState([""]);
+
+  const handleKeyPress = (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (hashtags.length < 3 && hashtags[index] !== "") {
+        setHashtags([...hashtags, ""]);
+      }
+    }
+  };
+
+  const handleChange = (e, index) => {
+    const newHashtags = [...hashtags];
+    newHashtags[index] = e.target.value;
+    setHashtags(newHashtags);
+  };
+
+  const handleRemove = (index) => {
+    const newHashtags = hashtags.filter((_, i) => i !== index);
+    setHashtags(newHashtags);
+  };
+
   return (
     <>
       {/* Header */}
@@ -22,22 +44,19 @@ const TroubleshootingRegistrationPage = () => {
       {/* Form */}
       <PostsWrapper>
         <PostOptionWrapper>
-          <CategorySelect name="category">
-            <option value="1">카테고리</option>
-            <option value="2">개발</option>
-            <option value="3">인공지능</option>
-            <option value="4">하드웨어</option>
-            <option value="5">보안</option>
-            <option value="6">네트워크-클라우드</option>
-            <option value="7">어학</option>
-            <option value="8">디자인</option>
-            <option value="9">비즈니스-PM</option>
-            <option value="10">독서 모임</option>
-            <option value="11">기타</option>
-          </CategorySelect>
-          <HashtagInputWrapper>
-            # <HashtagInput placeholder="해시태그를 작성해주세요" />
-          </HashtagInputWrapper>
+          <Label>스터디 이름</Label>
+          {hashtags.map((hashtag, index) => (
+            <HashtagInputWrapper key={index}>
+              #{" "}
+              <HashtagInput
+                placeholder="해시태그를 작성해주세요"
+                value={hashtag}
+                onChange={(e) => handleChange(e, index)}
+                onKeyPress={(e) => handleKeyPress(e, index)}
+              />
+              <RemoveButton onClick={() => handleRemove(index)}>x</RemoveButton>
+            </HashtagInputWrapper>
+          ))}
         </PostOptionWrapper>
 
         <PostTitle>게시글 제목</PostTitle>
@@ -105,40 +124,33 @@ const PostOptionWrapper = styled.div`
   margin-bottom: 2.5em;
   width: 57.125em;
   display: flex;
+  align-items: center;
 `;
 
-const CategorySelect = styled.select`
-  margin-right: 1.2em;
-  padding-left: 1em;
-  border: 1px solid #8e59ff;
-  border-radius: 10px;
-  width: 28.8125em;
-  height: 3.1875em;
-  background-color: transparent;
+const Label = styled.div`
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-right: 1em;
   color: #8e59ff;
-  font-size: 1em;
-  font-weight: 800;
-  cursor: pointer;
-  &:focus {
-    outline: none;
-  }
 `;
 
 const HashtagInputWrapper = styled.div`
-  padding-left: 1.5em;
-  border: 1px solid #8e59ff;
-  border-radius: 10px;
-  width: 27.5em;
-  height: 3.1875em;
-  line-height: 3.185em;
+  padding-left: 1em;
+  border: 1.5px solid #8e59ff;
+  border-radius: 20px;
+  width: 13em;
+  height: 3em;
+  line-height: 3em;
   background-color: transparent;
   color: #8e59ff;
   font-weight: 800;
+  margin-right: 1em;
+  position: relative;
 `;
 
 const HashtagInput = styled.input`
   border: none;
-  width: 29em;
+  width: 12em;
   background-color: transparent;
   font-weight: 800;
   -webkit-appearance: none;
@@ -150,6 +162,18 @@ const HashtagInput = styled.input`
     font-weight: 800;
   }
   font-family: "NanumSquareNeo";
+`;
+
+const RemoveButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5px;
+  border: none;
+  background: none;
+  color: #8e59ff;
+  cursor: pointer;
+  font-weight: bold;
 `;
 
 const PostTitle = styled.div`
