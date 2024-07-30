@@ -1,30 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-import BackgroundImage from "../../../assets/images/titleBackground.png";
+import BackgroundImage from "../../../assets/images/troubleshooting/titleBackground.png";
 
 const TitleSection = () => {
   return (
-    <TitleContainer>
-      <Title>스터디룸</Title>
-      <NavButtons>
-        <NavButton>스터디 홈</NavButton>
-        <NavButton>트러블슈팅</NavButton>
-        <NavButton>정보나눔</NavButton>
-        <NavButton>채팅방</NavButton>
-      </NavButtons>
-    </TitleContainer>
+    <BackgroundWrapper>
+      <TitleContainer>
+        <Title>스터디룸</Title>
+        <NavButtons>
+          <NavButton>스터디 홈</NavButton>
+          <NavButton>트러블슈팅</NavButton>
+          <NavButton>정보나눔</NavButton>
+          <NavButton>채팅방</NavButton>
+        </NavButtons>
+      </TitleContainer>
+    </BackgroundWrapper>
   );
 };
 
 export default TitleSection;
 
-const TitleContainer = styled.div`
-  text-align: center;
+const BackgroundWrapper = styled.div`
   background-image: url(${BackgroundImage});
   background-size: cover;
   background-position: center;
-  padding: 40px 0;
   border-radius: 10px;
+  padding: 40px 0;
+  font-family: "NanumSquareNeo", sans-serif; /* Ensure the font is applied */
+`;
+
+const TitleContainer = styled.div`
+  text-align: center;
 `;
 
 const Title = styled.h1`
@@ -32,6 +38,7 @@ const Title = styled.h1`
   color: #8e59ff;
   margin-bottom: 30px;
   font-weight: 800;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const NavButtons = styled.div`
@@ -53,6 +60,7 @@ const NavButton = styled.button`
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: background-color 0.3s ease;
+  font-family: "NanumSquareNeo", sans-serif;
 
   &:hover {
     background-color: rgba(142, 89, 255, 1);

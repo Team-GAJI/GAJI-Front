@@ -212,7 +212,7 @@ const ItemGrid = styled.div`
   gap: 20px;
   max-width: 1200px;
   width: 100%;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const Item = styled.div`

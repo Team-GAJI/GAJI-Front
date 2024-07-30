@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import TroubleShootingPage from "./assets/components/TroubleShooting/TroubleShootingPage";
+import TroubleshootingRegistrationPage from "./pages/TroubleshootingRegistrationPage";
 import StudyCategory from "./assets/components/StudyCategory/StudyCategory";
 import MainLayOut from "./layout/MainLayOut";
 import CommunityPage from "./pages/CommunityPage";
@@ -24,6 +25,10 @@ function App() {
         <Route path="/studyroom" element={<StudyRoom />} />
         <Route path="/study" element={<StudyCategory />} />
         <Route path="/troubleshooting" element={<TroubleShootingPage />} />
+        <Route
+          path="/troubleshooting-register"
+          element={<TroubleshootingRegistrationPage />}
+        />
         <Route path="/study-category" element={<StudyCategory />} />
       </Route>
     </Routes>

@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Category = ({ onSelect }) => {
   const [selectedOption, setSelectedOption] = useState("정렬");
   const [isOpen, setIsOpen] = useState(false);
   const sortingOptions = ["인기순", "최신순"];
+  const navigate = useNavigate(); // Use useNavigate
 
   const handleSelect = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
     onSelect(option);
+  };
+
+  const handleCreatePost = () => {
+    navigate("/troubleshooting-register"); // Navigate to the registration page
   };
 
   return (
@@ -30,7 +36,9 @@ const Category = ({ onSelect }) => {
             </OptionsContainer>
           )}
         </DropdownContainer>
-        <CreatePostButton>+ 트러블 슈팅 등록</CreatePostButton>
+        <CreatePostButton onClick={handleCreatePost}>
+          + 트러블 슈팅 등록
+        </CreatePostButton>
       </CategoryContainer>
     </CategoryWrapper>
   );
@@ -54,7 +62,7 @@ const CategoryContainer = styled.div`
 
 const DropdownContainer = styled.div`
   position: relative;
-  width: 150px;
+  width: 130px;
 `;
 
 const SelectedOption = styled.div`
@@ -69,6 +77,7 @@ const SelectedOption = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8em;
+  font-weight: bolder;
 `;
 
 const OptionsContainer = styled.div`
@@ -103,6 +112,7 @@ const CreatePostButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   width: 171px;
+  font-weight: semi-bold;
 
   &:hover {
     background-color: #5548c8;
