@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/mypageBackground.png';
-import Logo from '../assets/logos/logo.svg';
-import DeleteIcon from '../assets/icons/delete-circled-outline.png'
-import Calendar from './Calendar';
-import Footer from './Footer.jsx';
+import backImage from '../../assets/images/mypageBackground.png';
+
+import DeleteIcon from '../../assets/icons/CreateStudy/CreateStudyDelete.png'
+import Calendar from './CreateCalendar.jsx';
+
 const CreateStudy = () => {
 
     const [studyName, setStudyName] = useState('');
@@ -21,6 +21,7 @@ const CreateStudy = () => {
     const data = [
         { id: 1, week: 'Week 1', title: '커리큘럼 제목 1'  },
         { id: 2, week: 'Week 2', title: '커리큘럼 제목 2'  },
+        { id: 3, week: 'Week 3', title: '커리큘럼 제목 3'  },
         // 나중에 추가
     ];
 
@@ -45,8 +46,7 @@ const CreateStudy = () => {
         </HeaderWrapper>
 
         <RowLogoWrapper>
-                <LogoImage src={Logo} alt="로고" />
-                <LogoText>스터디 만들기</LogoText>
+                <MainText>스터디 만들기</MainText>
                 <Text>'가지'고 싶은 스터디를 만들어보세요!</Text>
                 <RowSelectWrapper>
                     <SelectButton>스터디 만들기 </SelectButton>
@@ -168,7 +168,7 @@ const CreateStudy = () => {
         </MainSection>
 
     </Wrapper>
-    <Footer />
+
     </> 
     );
 };
@@ -195,7 +195,11 @@ const RowContainer = styled.div`
     justify-content: space-between; 
     gap: 5px; 
 `;
-
+const MainText = styled.p`
+    font-size: 1.3em;
+    font-weight: 800;
+    color: #8E59FF;
+`;
 /* Header css */
 const HeaderWrapper = styled.div`
     z-index : 5;
@@ -243,21 +247,12 @@ const RowLogoWrapper = styled.div`
     gap: 0.9em;
     flex-direction: column; 
     justify-content: center; 
-    padding: 20px; 
+    padding: 18px; 
     margin-top : 100px;
     background-image: url(${backImage}); 
     background-repeat: no-repeat; 
     background-size: cover; 
     background-position: center;
-`;
-const LogoImage = styled.img`
-    width: 40px; 
-    height: auto; 
-`;
-const LogoText = styled.div`
-    font-size: 1em;
-    font-weight: 700;
-    color: #8E59FF;
 `;
 const RowSelectWrapper = styled.div`
     display: flex;
@@ -518,7 +513,7 @@ const InputStudyData = styled.input`
     padding: 0.5em;
     margin-top: 0.5em;
     margin :0px 40px 20px 40px;
-
+    outline : none;
     &::placeholder {
         color: #C8C8C8;
     }
@@ -536,24 +531,23 @@ const Text5 = styled.p`
 /* 스터디 자료 링크 */
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); 
-  grid-gap: 340px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px; 
+  padding: 0 40px; 
   width: 100%;
-  max-width: 600px; 
-  margin-top: 20px;
-  padding: 0;
-  box-sizing: border-box; 
+  max-width: 1000px;
+  margin: 20px auto 0; 
+  box-sizing: border-box;
 `;
 
 const StudyData = styled.div`
-  width: 400px;
-  height: 130px;
+  width: 260px;
+  height: 100px;
   border: 1px solid #8E59FF;
   border-radius: 5px;
   overflow: hidden; 
   display: flex;
   position: relative;
-  margin-left : 40px;
 `;
 
 const LeftSide = styled.div`
@@ -564,7 +558,7 @@ const LeftSide = styled.div`
 
   background-size: cover;
   background-position: center;
-  border-right: 1px solid #000;*/ 
+  border-right: 1px solid #000;
 `;
 
 const RightSide = styled.div`
@@ -573,7 +567,7 @@ const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center; 
-  padding: 10px 20px; 
+  padding: 10px 25px; 
 `;
 
 const Textarea = styled.textarea`
@@ -592,10 +586,12 @@ const StudyText = styled.div`
   margin-bottom: 10px; 
 `;
 const Icons = styled.img`
-    width: 15px; 
+    width: 12px; 
     height: auto;
-    margin-left : 200px;
-    margin-top : -10px;
+    margin-left : 90px;
+    margin-top : 5px;
+    
+
 `;
 
 
@@ -672,13 +668,10 @@ const Text7 = styled.p`
 `;
 
 
-const CalendarWrapper = styled.div`
-    margin : 40px 0px 10px 40px;
-`;
 const DivisionLine3 = styled.div`
   border-left: 1px solid #A2A3B2; 
   height: 420px; 
-  margin: 15px;
+  margin: 10px;
 `;
 const StartButton = styled.button`
     background-color: #fff;
@@ -724,4 +717,8 @@ const RowWrapper2 = styled.div`
 `;
 const DeadlineWrapper = styled.div`
     margin : 40px 0px 20px 0px;
+`;
+
+const CalendarWrapper = styled.div`
+    margin : 40px 0px 20px 40px;
 `;
