@@ -535,10 +535,10 @@ const Popup = styled.div`
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    display: ${props => (props.show ? 'block' : 'none')};
+    display: ${props => (props.show ? 'flex' : 'none')};
     width: 350px; 
     max-width: 90%;
-    display: flex;
+
     flex-direction: column;
     align-items: center;
     justify-content: center;
