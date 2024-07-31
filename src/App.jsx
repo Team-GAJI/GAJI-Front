@@ -6,8 +6,7 @@ import CommunityPage from './pages/CommunityPage';
 import CommunityPostPage from './pages/CommunityPostPage';
 import CommunityWritePage from './pages/CommunityWritePage';
 import MyPage from './pages/MyPage';
-import StudyRoom from './pages/StudyRoom';
-import StudyCategory from './pages/StudyCategory';
+import StudyManage from './pages/StudyManage/StudyManage';
 
 
 function App() {
@@ -21,8 +20,7 @@ function App() {
       <Route path="/community/post" element={<CommunityPostPage/>}/>
       <Route path="/community/write" element={<CommunityWritePage/>}/>
       <Route path="/mypage" element={<MyPage/>}/>
-      <Route path="/studyroom" element={<StudyRoom/>}/>
-      <Route path="/study" element={<StudyCategory/>}/>
+      <Route path="/studymanage" element={<StudyManage/>}/>
     </Route>
     </Routes>
     </>
