@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import userProfileUrl from '../assets/images/userprofile.png';
-import SendIcon from '../assets/icons/sendicon.svg?react';
+import userProfileUrl from '../../assets/images/StudyDetail/StudyDetailuserProfile.png';
+import SendIcon from '../../assets/icons/StudyDetail/StudyDetailsendicon.svg';
 
 const User = () => {
     const userName = 'USER 1023';
