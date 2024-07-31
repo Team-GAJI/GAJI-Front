@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import backImage from '../../assets/images/mypageBackground.png';
 
 import DeleteIcon from '../../assets/icons/StudyManage/StudyManageDelete.png';
-import Calendar from './StudyManageCalendar.jsx';
+import Calendar from '../../components/StudyManage/StudyManageCalendar.jsx';
 
 const CreateStudy = () => {
 
