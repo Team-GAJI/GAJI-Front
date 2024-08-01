@@ -1,32 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import LikeIcon from '../../assets/icons/community/fillLikeIcon.svg?react';
-import BlogBackground from '../../assets/images/community/blogBackground.png';
-import UserProfileImg from '../../assets/images/community/userProfile.png';
 import { useNavigate } from 'react-router-dom';
 
-const BlogPreview = () => {
+const BlogPreview = ({key, title, content, background, userProfileImg, writer, ago, views, like}) => {
     // useNavigate
     const navigate = useNavigate();
 
     return (
-        <PostWrapper onClick={() => {navigate("/community/post");}}>
+        <PostWrapper key={key} onClick={() => {navigate("/community/post");}} background={background}>
             <LikeWrapper>
-                <StyledLikeIcon /><Like>10</Like>
+                <StyledLikeIcon /><Like>{like}</Like>
             </LikeWrapper>
             <PostContentContainer>
-                <PostTitle>블로그 제목</PostTitle>
+                <PostTitle>{title}</PostTitle>
                 <Content>
-                    설명입니다 설명설명 설명설명입니다 설명설명 설명설명입니다 설명설명 설명설명입니다 설명설명 설명...
+                    {content}
                 </Content>
                 <PostInfoWrapper>
                     <InfoLeftWrapper>
-                        <StyledUserProfileImg src={UserProfileImg} alt='user profile'/>
-                        <Writer>user1023</Writer>
+                        <StyledUserProfileImg src={userProfileImg} alt='user profile'/>
+                        <Writer>{writer}</Writer>
                     </InfoLeftWrapper>
                     <InfoRightWrapper>
-                        <Ago>1시간 전</Ago>
-                        <Views>조회 50</Views>
+                        <Ago>{ago}</Ago>
+                        <Views>{views}</Views>
                     </InfoRightWrapper>
                 </PostInfoWrapper>
             </PostContentContainer>
@@ -44,7 +42,7 @@ const PostWrapper = styled.div`
     width: 21.6em;
     height: 21.6em;
     font-size: 0.7489em;
-    background-image: url(${BlogBackground});
+    background-image: ${({background}) => `url(${background})`};
     background-size: cover;
     background-color: rgba(208,209,217,0.2);
     display: flex;
@@ -83,8 +81,14 @@ const PostContentContainer = styled.div`
 
 const PostTitle = styled.div`
     margin: 1.2692em 1.47696em 0.84615em 1.4770em;
+    width: 13.5em;
     font-size: 1.3em;
     font-weight: bold;
+    // 말줄임 처리
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 `;
 
 const Content = styled.div`
@@ -92,6 +96,13 @@ const Content = styled.div`
     height: 4em;
     line-height: 1.4em;
     font-size: 0.8125em;
+    // 말줄임 처리
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-word;    
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 `;
 
 const PostInfoWrapper = styled.div`
