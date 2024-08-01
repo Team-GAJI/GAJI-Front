@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MainLayOut from './layout/MainLayOut';
 import CommunityPage from './pages/CommunityPage';
+import StudyCategory from './pages/StudyCategory/StudyCategory';
 import CommunityPostPage from './pages/CommunityPostPage';
 import CommunityWritePage from './pages/CommunityWritePage';
 import MyPage from './pages/MyPage';
