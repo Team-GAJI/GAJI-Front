@@ -20,7 +20,6 @@ function App() {
     <Routes>
       <Route exact path="/login" element={<LoginPage/>}/>
       <Route element={<MainLayOut/>}>
-        <Route exact path="/studyroom" element={<StudyRoomPage/>}/>      
         <Route path="/" element={<CommunityPage/>}/>
         <Route path="/community" element={<CommunityPage/>}/>
         <Route path="/community/post" element={<CommunityPostPage/>}/>
