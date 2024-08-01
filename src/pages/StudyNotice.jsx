@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import Footer from '../Footer';
+import Footer from './Footer';
 import backImage from '../../assets/images/mypageBackground.png';
 import NoticeAlarm from '../../assets/icons/NoticeRoom/NoticeAlarm.png';
 

@@ -3,17 +3,14 @@ import TroubleshootingRegistrationPage from "./pages/TroubleshootingRegistration
 import './App.css'
 import { Routes, Route } from 'react-router-dom'; 
 import LoginPage from './pages/LoginPage';
-import MainLayOut from './layout/MainLayOut';
 import CommunityPage from './pages/CommunityPage';
-import StudyCategory from './pages/StudyCategory/StudyCategory';
+import StudyCategory from './pages/StudyCategory';
 import CommunityPostPage from './pages/CommunityPostPage';
 import CommunityWritePage from './pages/CommunityWritePage';
 import MyPage from './pages/MyPage';
-import StudyRoom from './pages/StudyRoom/StudyRoom.jsx';
-import StudyManage from './pages/StudyManage/StudyManage';
-import StudyCategory from './pages/StudyCategory';
-import StudyNotice from './pages/StudyNotice/StudyNotice.jsx';
+import StudyRoom from './pages/StudyRoom';
 
+import CreateStudy from './pages/CreateStudy';
 
 function App() {
   return (

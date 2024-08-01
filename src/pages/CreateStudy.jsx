@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../../assets/images/mypageBackground.png';
+import backImage from '../assets/images/mypageBackground.png';
 
-import DeleteIcon from '../../assets/icons/StudyManage/StudyManageDelete.png';
-import Calendar from '../../components/StudyManage/StudyManageCalendar.jsx';
+import DeleteIcon from '../assets/icons/CreateStudy/CreateStudyDelete.png'
+import Calendar from '../components/CreateStudy/CreateCalendar.jsx';
 
 const CreateStudy = () => {
 
@@ -46,28 +46,13 @@ const CreateStudy = () => {
         </HeaderWrapper>
 
         <RowLogoWrapper>
-                <MainText>스터디 관리 페이지</MainText>
+                <MainText>스터디 만들기</MainText>
                 <Text>'가지'고 싶은 스터디를 만들어보세요!</Text>
-                <RowWrapper1>
-                    <MainButton>저장하기</MainButton>
-                    <MainButton>미리보기</MainButton>
-                </RowWrapper1>
-
+                <MainButton>스터디 만들기</MainButton>
         </RowLogoWrapper>
 
         <MainSection>
-        <SidebarWrapper>
-                        <Sidebar1>
-                        <BasicInfoButton>기본정보</BasicInfoButton>
-                        {[...Array(9)].map((_, index) => (
-                            <React.Fragment key={index}>
-                            <SidebarButton1 bold={index === 0}>{index + 1}주차</SidebarButton1>
-                            {index < 8 }
-                            </React.Fragment>
-                        ))}
-                        </Sidebar1>
-
-                    </SidebarWrapper>
+            
             <Container>
                 <Text2>스터디 기본정보</Text2>
                 <MainWrapper1>
@@ -203,11 +188,12 @@ const MainText = styled.p`
     font-weight: 800;
     color: #8E59FF;
     margin-bottom: 0.2em;
+    
 `;
 
 const MainButton = styled.button`
     font-size: 0.8125em;
-    width: 10.25em;
+    width: 18.25em;
     background-color: #8E59FF;
     border: 1px solid #8E59FF;
     border-radius: 1em;
@@ -215,57 +201,8 @@ const MainButton = styled.button`
     padding: 0.8125em;
     text-align: center;
     color: #fff;
-    opacity : 60%;
-`;
-const SidebarWrapper = styled.div`
-    position: absolute; 
-    margin-top: 1.25em; 
-    right: -2.375em; 
-    height: 100vh; 
-    width: 15.625em;
-    padding: 1.25em; 
-    box-sizing: border-box;
-
-`;
-const Sidebar1 = styled.aside`
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 0.5em; 
-  width: 11.25em; 
-  height: 30.625em; 
-  margin-top: 1.9375em; 
 `;
 
-const SidebarButton1 = styled.div`
-  background-color: transparent;
-  color: #A2A3B2;
-
-  font-weight: 1.125em; 
-  margin-top: 0.625em; 
-  padding: 0.6em 0.625em; 
-  text-align: center;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    border : 1px solid #8E59FF;
-    border-radius: 0.5em; 
-    color: #8E59FF;
-    margin-left: 0.4em; 
-    margin-right : 0.4em;
-  }
- `;
- const BasicInfoButton = styled(SidebarButton1)`
-   font-size: 1em;
-   font-weight: 1.125em; 
-   background-color: #8E59FF;
-   border: none;
-   background-color: transparent;
-   color: #A2A3B2;
-`;
 /* Header css */
 const HeaderWrapper = styled.div`
     z-index: 5;
@@ -289,13 +226,7 @@ const RowWrapper = styled.div`
     display: flex;
     gap: 4.25em;
 `;
-const RowWrapper1 = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 2.125em;
-    justify-content: center;
-    align-items: center;
-`;
+
 const HeaderText = styled.div`
     font-size: 1em;
     color: #8E59FF;
@@ -325,7 +256,7 @@ const RowLogoWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     padding: 1.125em; 
-    margin-top: 0.625em; 
+    margin-top: 5.625em; 
     background-image: url(${backImage});
     background-repeat: no-repeat;
     background-size: cover;
@@ -342,14 +273,13 @@ const Text = styled.p`
 /* 화면 분활 (오른쪽 사이드) */
 const MainSection = styled.section`
   display: flex;
-  flex: 1;
-  padding-top: 30px;
-  /*overflow: auto;*/
-  flex-direction: row; 
-  gap: 20px; 
-  flex-direction: column; 
-  position: relative;
-  margin-bottom : 40px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh; 
+  padding: 20px;
+  box-sizing: border-box;
 `;
 
 const SidebarButton = styled.div`

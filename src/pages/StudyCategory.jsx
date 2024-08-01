@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import backImage from '../../assets/images/mypageBackground.png';
-import Footer from '../Footer';
-import FlippingCard from '../../components/StudyCategory/FlippingCard';
+import backImage from '../assets/images/mypageBackground.png';
+import Footer from './Footer';
+import FlippingCard from '../components/StudyCategory/FlippingCard';
 
-import DetailCategory from '../../components/StudyCategory/DetailCategory';
-import SortingCategory from '../../components/StudyCategory/SortingCategory';
-import FilterCategory from '../../components/StudyCategory/FilterCategory';
+import DetailCategory from '../components/StudyCategory/DetailCategory';
+import SortingCategory from '../components/StudyCategory/SortingCategory';
+import FilterCategory from '../components/StudyCategory/FilterCategory';
 
-import Plus from '../../assets/icons/StudyCategory/Categoryplusicon.png';
-import Arrow from '../../assets/icons/StudyCategory/CategoryArrow.png';
-import Logo from '../../assets/logos/logo.svg';
+import Plus from '../assets/icons/StudyCategory/Categoryplusicon.png';
+import Arrow from '../assets/icons/StudyCategory/CategoryArrow.png';
+import Logo from '../assets/logos/logo.svg';
 
 const StudyCategory = () => {
     const categories = [
