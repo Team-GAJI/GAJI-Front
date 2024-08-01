@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import backImage from '../assets/images/mypageBackground.png';
-import Footer from './Footer';
-import StudyRecruitment from '../components/StudyRoom/StudyRecruitment';
-import Book from '../assets/images/StudyRoom/Rectangle 34624913.png';
-import Plus from '../assets/icons/StudyRoom/Plus.png';
-import AlarmIcon from '../assets/icons/StudyRoom/Alarm.png';
+import styled from 'styled-components';
+import backImage from '../assets/images/common/mypageBackground.png'
+import StudyRecruitment from '../components/studyRoom/StudyRecruitment';
+import Book from '../assets/images/studyRoom/Rectangle 34624913.png';
+import Plus from '../assets/icons/studyRoom/Plus.png';
+import AlarmIcon from '../assets/icons/studyRoom/Alarm.png';
 
 
-const StudyCategory = () => {
+const StudyRoomPage = () => {
   
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
 
@@ -41,12 +40,6 @@ const StudyCategory = () => {
         <>
         <HeaderWrapper>
             <ContentWrapper>
-                {/* 상단 사이드바 토글 버튼과 로그인 버튼 */}
-                <RowWrapper>
-                    <SidebarToggle>☰</SidebarToggle>
-                    <AuthButton>LOG IN</AuthButton>
-                </RowWrapper>
-
                 {/* 로고와 로고 텍스트 */}
                 <RowLogoWrapper>
                     <LogoText>스터디룸</LogoText>
@@ -222,13 +215,11 @@ const StudyCategory = () => {
    
             </ContentWrapper>
         </HeaderWrapper>
-            {/* Footer-아래 */}
-            <Footer />
         </>
     );
 };
 
-export default StudyCategory;
+export default StudyRoomPage;
 
 const HeaderWrapper = styled.div`
     z-index: 5;
@@ -237,30 +228,6 @@ const HeaderWrapper = styled.div`
     display: flex;
     flex-direction: column; 
     padding: 0 3.1em;
-`;
-
-const RowWrapper = styled.div`
-    padding-top: 1.25em;  
-    display: flex;
-    align-items: center;
-    gap: 60em;  
-    margin-top: 0.625em; 
-`;
-
-const SidebarToggle = styled.div`
-    cursor: pointer;
-    font-size: 1.25em;
-    padding: 0.8125em;
-`;
-
-const AuthButton = styled.div`
-    font-size: 0.8125em;
-    width: 7.6875em; 
-    border: 0.0625em solid #161A3F; 
-    border-radius: 0.625em; 
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
 `;
 
 const RowLogoWrapper = styled.div`

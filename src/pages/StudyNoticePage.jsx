@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import backImage from '../assets/images/common/mypageBackground.png';
+import NoticeAlarm from '../assets/icons/noticeRoom/NoticeAlarm.png';
 
-import Footer from './Footer';
-import backImage from '../../assets/images/mypageBackground.png';
-import NoticeAlarm from '../../assets/icons/NoticeRoom/NoticeAlarm.png';
-
-const NoticeRoom = () => {
+const StudyNoticePage = () => {
 
     const notices = [
         {
@@ -120,12 +118,11 @@ const NoticeRoom = () => {
      </ContentWrapper>
         </HeaderWrapper>
 
-            <Footer/>
         </>
     );
 };
 
-export default NoticeRoom;
+export default StudyNoticePage;
 
 const HeaderWrapper = styled.div`
     z-index: 5;

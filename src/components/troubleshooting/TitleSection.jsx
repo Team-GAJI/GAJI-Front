@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import BackgroundImage from "../../../assets/images/troubleshooting/titleBackground.png";
+import BackgroundImage from "../../assets/images/troubleshooting/titleBackground.png";
 
 const TitleSection = () => {
   return (

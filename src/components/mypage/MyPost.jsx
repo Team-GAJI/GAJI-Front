@@ -12,19 +12,19 @@ const MyPost = () => {
     const dummyPosts = [
         {
             postState: '작성중',
-            postTitle: 'React 사용법 질문',
+            postTitle: 'React 사용법 질문1',
             postText: 'React에서 상태 관리를 어떻게 하면 좋을까요?',
             postInfo: '2024-07-01 | 댓글 2개'
         },
         {
             postState: '완료',
-            postTitle: '프로젝트 팀 모집',
+            postTitle: '프로젝트 팀 모집2',
             postText: '프론트엔드 개발자를 모집합니다. React, Redux 사용 경험이 필요합니다.',
             postInfo: '2024-07-02 | 댓글 5개'
         },
         {
             postState: '작성중',
-            postTitle: '블로그 포스팅 주제 추천',
+            postTitle: '블로그 포스팅 주제 추천3',
             postText: '어떤 주제로 블로그를 작성하면 좋을지 추천해주세요.',
             postInfo: '2024-07-03 | 댓글 1개'
         },

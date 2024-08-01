@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import StudyRecruitment from '../StudyCategory/StudyRecruitment';
-import BackStudyRecruitment from '../StudyCategory/BackStudyRecruitment';
+import StudyRecruitment from '../studyCategory/StudyRecruitment';
+import BackStudyRecruitment from './BackStudyRecruitment';
 
 
 const FlippingCard = () => {

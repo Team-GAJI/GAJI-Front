@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import UserIcon from "../../icons/usericon.svg"; // UserIcon 경로를 정확히 확인하세요
-import ItemImageSrc from "../../images/Rectangle 16.png"; // 올바른 이미지 경로로 수정
+import UserIcon from "../../assets/icons/common/usericon.svg"; // UserIcon 경로를 정확히 확인하세요
+import ItemImageSrc from "../../assets/images/common/Rectangle16.png"; // 올바른 이미지 경로로 수정
 
 const items = [
   {

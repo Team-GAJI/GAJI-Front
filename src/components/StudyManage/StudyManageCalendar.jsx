@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/StudyManage/StudyManageprevmonth.svg';
-import NextMonth from '../../assets/icons/StudyManage/StudyManagenextmonth.svg';
+import PrevMonth from '../../assets/icons/studyManage/StudyManageprevmonth.svg';
+import NextMonth from '../../assets/icons/studyManage/StudyManagenextmonth.svg';
 
 const Calendar = () => {
     const [date, setDate] = useState(new Date());

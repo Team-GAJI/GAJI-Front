@@ -1,18 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/mypageBackground.png';
-import Footer from './Footer';
-import FlippingCard from '../components/StudyCategory/FlippingCard';
+import backImage from '../assets/images/common/mypageBackground.png';
+import FlippingCard from '../components/studyCategory/FlippingCard';
 
-import DetailCategory from '../components/StudyCategory/DetailCategory';
-import SortingCategory from '../components/StudyCategory/SortingCategory';
-import FilterCategory from '../components/StudyCategory/FilterCategory';
+import DetailCategory from '../components/studyCategory/DetailCategory';
+import SortingCategory from '../components/studyCategory/SortingCategory';
+import FilterCategory from '../components/studyCategory/FilterCategory';
 
-import Plus from '../assets/icons/StudyCategory/Categoryplusicon.png';
-import Arrow from '../assets/icons/StudyCategory/CategoryArrow.png';
+import Plus from '../assets/icons/studyCategory/Categoryplusicon.png';
+import Arrow from '../assets/icons/studyCategory/CategoryArrow.png';
 import Logo from '../assets/logos/logo.svg';
 
-const StudyCategory = () => {
+const StudyCategoryPage = () => {
     const categories = [
         { title: '# 백엔드', buttonText: '모두보기' },
         { title: '# 백엔드', buttonText: '모두보기' },
@@ -104,16 +103,10 @@ const StudyCategory = () => {
         <>
         <HeaderWrapper>
             <ContentWrapper>
-                {/* 상단 사이드바 토글 버튼과 로그인 버튼 */}
-                <RowWrapper>
-                    <SidebarToggle>☰</SidebarToggle>
-                    <AuthButton>LOG IN</AuthButton>
-                </RowWrapper>
-
                 {/* 로고와 로고 텍스트 */}
                 <RowLogoWrapper>
                     <LogoText>스터디</LogoText>
-                    <Text>'가지'고 싶은 스터디를 검색해보세요!</Text>
+                    <Text>`가지`고 싶은 스터디를 검색해보세요!</Text>
                     <InputWrapper>
                         <Icon src={Logo} alt="검색 아이콘" />
                         <InputStudy placeholder="  검색어를 입력해주세요" />
@@ -205,16 +198,13 @@ const StudyCategory = () => {
 
                 <MoreButton>더보기</MoreButton>
 
-            </ContentWrapper>
-          
+            </ContentWrapper> 
         </HeaderWrapper>
-        {/* Footer-아래 */}
-        <Footer />
         </>
     );
 };
 
-export default StudyCategory;
+export default StudyCategoryPage;
 const HeaderWrapper = styled.div`
     z-index: 5;
     background-color: #FBFAFF;
@@ -224,34 +214,14 @@ const HeaderWrapper = styled.div`
     padding: 0 3.1em;
 `;
 
-const RowWrapper = styled.div`
-    padding-top: 1.25em; 
-    display: flex;
-    align-items: center;
-    gap: 60em; 
-    margin-top: 0.625em; 
-`;
+
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
     gap: 0.625em; 
 `;
-const SidebarToggle = styled.div`
-    cursor: pointer;
-    font-size: 1.25em; 
-    padding: 0.8125em;
-`;
 
-const AuthButton = styled.div`
-    font-size: 0.8125em;
-    width: 7.6875em; 
-    border: 1px solid #161A3F;
-    border-radius: 0.625em; 
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
-`;
 
 const RowLogoWrapper = styled.div`
     display: flex;
@@ -267,10 +237,6 @@ const RowLogoWrapper = styled.div`
     background-position: center;
 `;
 
-const LogoImage = styled.img`
-    width: 2.5em; 
-    height: auto;
-`;
 
 const LogoText = styled.div`
     font-size: 1em;

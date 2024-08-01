@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../../assets/images/mypageBackground.png';
+import backImage from '../assets/images/common/mypageBackground.png';
+import DeleteIcon from '../assets/icons/studyManage/StudyManageDelete.png';
+import Calendar from '../components/studyManage/StudyManageCalendar.jsx';
 
-import DeleteIcon from '../../assets/icons/StudyManage/StudyManageDelete.png';
-import Calendar from '../components/StudyManage/StudyManageCalendar.jsx';
-
-const CreateStudy = () => {
+const StudyManagePage = () => {
 
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');
@@ -47,7 +46,7 @@ const CreateStudy = () => {
 
         <RowLogoWrapper>
                 <MainText>스터디 관리 페이지</MainText>
-                <Text>'가지'고 싶은 스터디를 만들어보세요!</Text>
+                <Text>`s가지`고 싶은 스터디를 만들어보세요!</Text>
                 <RowWrapper1>
                     <MainButton>저장하기</MainButton>
                     <MainButton>미리보기</MainButton>
@@ -173,7 +172,8 @@ const CreateStudy = () => {
     );
 };
 
-export default CreateStudy;
+export default StudyManagePage;
+
 const Wrapper = styled.div`
     z-index: 5;
     background-color: #FBFAFF;

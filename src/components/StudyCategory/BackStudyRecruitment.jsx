@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../../assets/logos/logo.svg';
-import Backimage from '../../assets/images/StudyCategory/Rectangle 16.png';
+import Backimage from '../../assets/images/studyCategory/Rectangle16.png';
 
 
 const BackStudyRecruitment = () => {
