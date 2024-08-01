@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../../assets/images/mypageBackground.png';
+import backImage from '../assets/images/mypageBackground.png';
 
-import DeleteIcon from '../../assets/icons/CreateStudy/CreateStudyDelete.png'
-import Calendar from '../../components/CreateStudy/CreateCalendar.jsx';
+import DeleteIcon from '../assets/icons/CreateStudy/CreateStudyDelete.png'
+import Calendar from '../components/CreateStudy/CreateCalendar.jsx';
 
 const CreateStudy = () => {
 
@@ -188,6 +188,7 @@ const MainText = styled.p`
     font-weight: 800;
     color: #8E59FF;
     margin-bottom: 0.2em;
+    
 `;
 
 const MainButton = styled.button`
@@ -255,7 +256,7 @@ const RowLogoWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     padding: 1.125em; 
-    margin-top: 0.625em; 
+    margin-top: 5.625em; 
     background-image: url(${backImage});
     background-repeat: no-repeat;
     background-size: cover;
