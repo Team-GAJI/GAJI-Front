@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import backImage from '../../assets/images/mypageBackground.png';
 import Footer from '../Footer';
-import StudyRecruitment from '../../components/StudyRecruitment';
+import StudyRecruitment from '../../components/StudyRoom/StudyRecruitment';
 import Book from '../../assets/images/StudyRoom/Rectangle 34624913.png';
 import Plus from '../../assets/icons/StudyRoom/Plus.png';
 import AlarmIcon from '../../assets/icons/StudyRoom/Alarm.png';

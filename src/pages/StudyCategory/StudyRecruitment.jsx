@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../assets/logos/logo.svg';
+import Logo from '../../assets/logos/logo.svg';
+
 
 
 const StudyRecruitment = () => {
@@ -29,14 +30,15 @@ const StudyRecruitment = () => {
 
 export default StudyRecruitment;
 
+
 const CardItemWrapper = styled.div`
     background-color: #fff;
     border: 1px solid #C8C8C8; 
-    border-radius: 8px;
-    width: 250px;
-    margin-top: 20px;
+    border-radius: 0.5em; 
+    width: 16.625em; 
+    margin-top: 1.25em; 
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1); 
 `;
 
 const StyledWrapper = styled.div`
@@ -46,7 +48,7 @@ const StyledWrapper = styled.div`
 const ImageWrapper = styled.div`
     position: relative;
     height: 0;
-    padding-top: 75%;
+    padding-top: 75%; 
     overflow: hidden;
     background: #eee;
     display: flex;
@@ -65,41 +67,42 @@ const Image = styled.img`
 `;
 
 const ContentWrapper = styled.div`
-    padding: 16px;
+    padding: 1em; 
+    height: 110px;
 `;
 
 const InfoTextWrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 8px;
-    gap: 6px; 
+    margin-bottom: 0.5em; 
+    gap: 0.375em; 
 `;
 
 const Text = styled.p`
     border: 1px solid #C8C8C8;
-    border-radius: 10px;
+    border-radius: 0.625em; 
     font-weight: 800;
     font-size: 0.8em;
-    width: 60px;
-    height: 20px;
+    width: 4.75em; 
+    height: 1.25em; 
     text-align: center;
     color: #747881;
-    line-height: 20px; 
-    margin: 0; 
+    line-height: 1.25em; 
+    margin: 0;
 `;
 
 const SecondInfoText = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 0.5em; 
 `;
 
 const ActivityTitle = styled.h2`
     color: #000;
     font-size: 1.125em;
     margin: 0;
-    margin-bottom: 8px;
+    margin-bottom: 0.5em;
     font-weight: 800; 
 `;
 
@@ -108,7 +111,7 @@ const ExplanationTitle = styled.h3`
     cursor: pointer;
     font-size: 0.875em;
     margin: 0;
-    margin-bottom: 16px;
+    margin-bottom: 1em; 
     word-break: break-word; 
 `;
 
