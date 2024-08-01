@@ -1,27 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import Logo from '../../assets/logos/logo.svg';
 import backImage from '../../assets/images/mypageBackground.png';
 import Footer from '../Footer';
-import FlippingCard from '../StudyCategory/FlippingCard';
+import FlippingCard from '../../components/StudyCategory/FlippingCard';
 
-import DetailCategory from '../StudyCategory/DetailCategory';
-import SortingCategory from '../StudyCategory/SortingCategory';
-import FilterCategory from '../StudyCategory/FilterCategory';
+import DetailCategory from '../../components/StudyCategory/DetailCategory';
+import SortingCategory from '../../components/StudyCategory/SortingCategory';
+import FilterCategory from '../../components/StudyCategory/FilterCategory';
 
-import Plus from '../../assets/icons/Plus.png';
-import Arrow from '../../assets/icons/Arrow.png';
-import Vector from '../../assets/icons/Vector.png';
+import Plus from '../../assets/icons/StudyCategory/Categoryplusicon.png';
+import Arrow from '../../assets/icons/StudyCategory/CategoryArrow.png';
+import Logo from '../../assets/logos/logo.svg';
 
 const StudyCategory = () => {
     const categories = [
         { title: '# 백엔드', buttonText: '모두보기' },
-        { title: '# 프론트엔드', buttonText: '모두보기' },
-        { title: '# 데이터사이언스', buttonText: '모두보기' },
-        { title: '# 웹개발', buttonText: '모두보기' },
+        { title: '# 백엔드', buttonText: '모두보기' },
+        { title: '# 백엔드', buttonText: '모두보기' },
+        { title: '# 백엔드', buttonText: '모두보기' }
     ];
 
-    const cardData = Array.from({ length: 4 }, (_, index) => ({
+    const cardData = Array.from({ length: 5 }, (_, index) => ({
         id: index,
         title: `제목 ${index + 1}`,
         daysLeft: `D-${index + 1}`,
@@ -32,12 +31,11 @@ const StudyCategory = () => {
     const [showDetail, setShowDetail] = useState(false);
     const [showSorting, setShowSorting] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
-    
     const [selectedCategory, setSelectedCategory] = useState("카테고리");
     const [selectedSorting, setSelectedSorting] = useState("정렬");
     const [selectedFilter, setSelectedFilter] = useState("필터");
-
     const [isLongText, setIsLongText] = useState(false);
+    const [selectedButton, setSelectedButton] = useState(null);
     
     const buttonRef = useRef(null);
     //정렬, 카테고리, 필터를 하나라도 선택하면 카테고리 안 보이게, 버튼 색상 바꾸고
@@ -53,48 +51,53 @@ const StudyCategory = () => {
             }
         };
 
-        checkTextLength(); 
-        window.addEventListener('resize', checkTextLength); 
+        checkTextLength();
+        window.addEventListener('resize', checkTextLength);
 
-        return () => window.removeEventListener('resize', checkTextLength); 
-    }, [selectedCategory],[selectedFilter]);
+        return () => window.removeEventListener('resize', checkTextLength);
+    }, [selectedCategory, selectedFilter]);
 
     const handleDetailClick = () => {
-        setShowDetail(!showDetail); 
-        setShowSorting(false); 
+        /*setIsCategorySelected(!isCategorySelected);*/
+        setIsCategorySelected(true);
+        setShowDetail(!showDetail);
+        setShowSorting(false);
         setShowFilter(false);
-        setIsCategorySelected(!isCategorySelected); 
-        setIsSortingSelected(false);   
-        setIsFilterSelected(false);   
+        setSelectedButton(selectedButton === 'detail' ? null : 'detail');
     };
-    
+
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         setShowDetail(false);
+        setSelectedButton('detail');
     };
-    
+
     const handleSortingClick = () => {
+        setIsSortingSelected (true); 
         setShowSorting(!showSorting);
-        setShowDetail(false); 
+        setShowDetail(false);
         setShowFilter(false);
-        setIsSortingSelected(!isSortingSelected); 
+        setSelectedButton(selectedButton === 'sorting' ? null : 'sorting');
     };
-    
+
     const handleSortingSelect = (sorting) => {
         setSelectedSorting(sorting);
         setShowSorting(false);
+        setSelectedButton('sorting');
     };
-    
+
     const handleFilterClick = () => {
+        setIsFilterSelected (true)
         setShowFilter(!showFilter);
-        setShowDetail(false); 
+        setShowDetail(false);
         setShowSorting(false);
-        setIsFilterSelected(!isFilterSelected); 
+        setSelectedButton(selectedButton === 'filter' ? null : 'filter');
     };
-    
+
     const handleFilterSelect = (filter) => {
         setSelectedFilter(filter);
         setShowFilter(false);
+        setSelectedButton('filter');
     };
 
     return (
@@ -109,76 +112,77 @@ const StudyCategory = () => {
 
                 {/* 로고와 로고 텍스트 */}
                 <RowLogoWrapper>
-                    <LogoImage src={Logo} alt="로고" />
                     <LogoText>스터디</LogoText>
-                    <Text>`가지`고 싶은 스터디를 검색해보세요!</Text>
+                    <Text>'가지'고 싶은 스터디를 검색해보세요!</Text>
                     <InputWrapper>
-                        <Icon src={Vector} alt="검색 아이콘" />
-                        <InputStudy placeholder="    검색어를 입력해주세요" />
+                        <Icon src={Logo} alt="검색 아이콘" />
+                        <InputStudy placeholder="  검색어를 입력해주세요" />
                     </InputWrapper>
                 </RowLogoWrapper>
 
                 {/* 카테고리 메뉴 선택 */}
                 <RowSelectWrapper>
-                <Container>
-                    <SelectButton
-                        ref={buttonRef}
-                        isLongText={isLongText}
-                        onClick={handleDetailClick}
-                        isSelected={isCategorySelected} 
-                    >
-                        <SelectButtonContent>
-                            {selectedCategory}
-                        </SelectButtonContent>
-                        <Icons src={Arrow} alt="아래보기" />
-                    </SelectButton>
-                    {showDetail && (
-                        <AbsoluteContainer1>
-                            <DetailCategory onSelect={handleCategorySelect} />
-                        </AbsoluteContainer1>
-                    )}
-                </Container>
-                <Container>
-                    <SelectButton
-                        onClick={handleSortingClick}
-                        isSelected={isSortingSelected}
-                    >
-                        {selectedSorting} 
-                        <Icons src={Arrow} alt="아래보기" style={{width: '0.625em', height: 'auto', marginLeft: '2.5em'}}/>
-                    </SelectButton>
-                    {showSorting && (
-                        <AbsoluteContainer2>
-                            <SortingCategory onSelect={handleSortingSelect} />
-                        </AbsoluteContainer2>
-                    )}
-                </Container>
-                <Container>
-                    <SelectButton
-                        ref={buttonRef}
-                        isLongText={isLongText}
-                        onClick={handleFilterClick}
-                        isSelected={isFilterSelected} 
-                    >
-                        <SelectButtonContent>
-                            {selectedFilter}
-                        </SelectButtonContent>
-                        <Icons src={Arrow} alt="아래보기" />
-                    </SelectButton>
-                    {showFilter && (
-                        <AbsoluteContainer3>
-                            <FilterCategory onSelect={handleFilterSelect} />
-                        </AbsoluteContainer3>
-                    )}
-                </Container>
-            <CreateButton><PlusIcons src={Plus} alt="플러스" style={{width: '0.625em', height: 'auto' }}/>스터디 만들기</CreateButton>
-        </RowSelectWrapper>
+                    <Container>
+                        <SelectButton
+                            ref={buttonRef}
+                            isLongText={isLongText}
+                            onClick={handleDetailClick}
+                            isSelected={selectedButton === 'detail'}
+                        >
+                            <SelectButtonContent>
+                                {selectedCategory}
+                            </SelectButtonContent>
+                            <Icons src={Arrow} alt="아래보기" />
+                        </SelectButton>
+                        {showDetail && (
+                            <AbsoluteContainer1>
+                                <DetailCategory onSelect={handleCategorySelect} />
+                            </AbsoluteContainer1>
+                        )}
+                    </Container>
+                    <Container>
+                        <SelectButton
+                            onClick={handleSortingClick}
+                            isSelected={selectedButton === 'sorting'}
+                        >
+                            {selectedSorting}
+                            <Icons src={Arrow} alt="아래보기" style={{width: '0.625em', height: 'auto', marginLeft: '2.5em'}}/>
+                        </SelectButton>
+                        {showSorting && (
+                            <AbsoluteContainer2>
+                                <SortingCategory onSelect={handleSortingSelect} />
+                            </AbsoluteContainer2>
+                        )}
+                    </Container>
+                    <Container>
+                        <SelectButton
+                            ref={buttonRef}
+                            isLongText={isLongText}
+                            onClick={handleFilterClick}
+                            isSelected={selectedButton === 'filter'}
+                        >
+                            <SelectButtonContent>
+                                {selectedFilter}
+                            </SelectButtonContent>
+                            <Icons src={Arrow} alt="아래보기" />
+                        </SelectButton>
+                        {showFilter && (
+                            <AbsoluteContainer3>
+                                <FilterCategory onSelect={handleFilterSelect} />
+                            </AbsoluteContainer3>
+                        )}
+                    </Container>
+                    <CreateButton>
+                        <PlusIcons src={Plus} alt="플러스" style={{width: '0.8em', height: 'auto' }}/>스터디 만들기
+                    </CreateButton>
+            </RowSelectWrapper>
 
                 <DivisionLine />
 
                 {/* 그리드 컨테이너 시작 */}
                 {categories.map((category, index) => (
                     <GridContainer key={index}>
-                        {!isCategorySelected && (
+                        {!isCategorySelected && !isSortingSelected && !isFilterSelected &&(
                             <ButtonWrapper>
                                 <CategoryButton>{category.title}</CategoryButton>
                                 <OpenButton>{category.buttonText} &nbsp; &gt; </OpenButton>
@@ -293,7 +297,7 @@ const InputStudy = styled.input`
   border: 1px solid #C8C8C8;
   padding: 0.5em;
   padding-left: 2em; 
-  
+  outline : none;
   &::placeholder {
     color: #C8C8C8; 
   }
@@ -378,7 +382,7 @@ const SelectButton = styled.div`
             display: inline-block;
             transform: scale(0.875); 
             transform-origin: left;
-            margin-right: -1.1em; 
+            margin-right: -2.1em; 
         }
     `}
 
@@ -461,7 +465,8 @@ const GridContainer = styled.div`
 
 const GridRow = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1em; 
 `;
 
 const Icons = styled.img`
@@ -471,8 +476,8 @@ const Icons = styled.img`
     margin-left : 2em;
 `;
 const PlusIcons = styled.img`
-    width: 1em; 
     height: auto;
     margin-top: 0.2em;
     margin-right : 0.5em;
+    color : #fff;
 `;

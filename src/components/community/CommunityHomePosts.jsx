@@ -1,13 +1,115 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import HotPostPreview from './HotPostPreview';
 import SearchIcon from '../../assets/icons/community/searchIcon.svg?react';
-import PostPreview from './PostPreview';
+import ProjectPreview from './ProjectPreview';
+import QuestionPreview from './QuestionPreview';
 import BlogPreview from './BlogPreview';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../common/Loading';
+import { dummyProjectPosts } from './DummyProjectPosts';
+import { dummyQuestionPosts } from './DummyQuestionPosts';
+import { dummyBlogPosts } from './DummyBlogPosts';
 
 const CommunityHomePosts = () => {
+  // state 관리
+  const [projectPage, setProjectPage] = useState(1);
+  const [questionPage, setQuestionPage] = useState(1);
+  const [blogPage, setBlogPage] = useState(1);
+  const [projects, setProjects] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 프로젝트 불러오기 기능
+  const getProjects = useCallback(async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setTimeout(() => {
+        const newPosts = dummyProjectPosts.slice((projectPage - 1) * 2, projectPage * 2); // 페이지당 2개씩 로드
+        setProjects((prevPosts) => [...prevPosts, ...newPosts]);
+        setProjectPage((prevPage) => prevPage + 1);
+        setIsLoading(false);
+    }, 1000); // 1초 지연 후 데이터 추가
+  }, [isLoading, projectPage]);
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        getProjects();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [getProjects]);
+
+  // 질문 불러오기 기능
+  const getQuestions = useCallback(async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      const newPosts = dummyQuestionPosts.slice((questionPage - 1) * 2, questionPage * 2); // 페이지당 2개씩 로드
+      setQuestions((prevPosts) => [...prevPosts, ...newPosts]);
+      setQuestionPage((prevPage) => prevPage + 1);
+      setIsLoading(false);
+    }, 1000); // 1초 지연 후 데이터 추가
+  }, [isLoading, questionPage]);
+
+  useEffect(() => {
+    getQuestions();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        getQuestions();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [getQuestions]);
+
+  // 블로그 불러오기 기능
+  const getBlogs = useCallback(async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      const newPosts = dummyBlogPosts.slice((blogPage - 1) * 4, blogPage * 4); // 페이지당 4개씩 로드
+      setBlogs((prevPosts) => [...prevPosts, ...newPosts]);
+      setBlogPage((prevPage) => prevPage + 1);
+      setIsLoading(false);
+    }, 1000); // 1초 지연 후 데이터 추가
+  }, [isLoading, blogPage]);
+
+  useEffect(() => {
+    getBlogs();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        getBlogs();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [getBlogs]);
+
+
   // Redux 상태 가져오기
   const { title } = useSelector((state) => state.community);
 
@@ -91,24 +193,61 @@ const CommunityHomePosts = () => {
       {/* 게시글 미리보기 */}
       {title === '블로그' ? (
         <BlogPreviewWrapper>
-          <BlogPreview />
-          <BlogPreview />
-          <BlogPreview />
-          <BlogPreview />
-          <BlogPreview />
-          <BlogPreview />
-          <BlogPreview />
-          <BlogPreview />
+          {blogs.map((post) => (
+            <BlogPreview
+              key={post.postId}
+              title={post.postTitle}
+              content={post.postContent}
+              background={post.postBackgroundImg}
+              userProfileImg={post.postUserProfileImg}
+              writer={post.postWriter}
+              ago={post.postAgo}
+              views={post.postViews}
+              like={post.postLike} />
+          ))}
+          {isLoading && (
+            <Loading />
+          )}
         </BlogPreviewWrapper>
+      ) : title === '질문' ? (
+        <PostPreviewWrapper>
+          {questions.map((post) => (
+            <QuestionPreview
+              key={post.postId}
+              state={post.postState}
+              title={post.postTitle}
+              content={post.postContent}
+              type={post.postType}
+              userProfileImg={post.postUserProfileImg}
+              writer={post.postWriter}
+              ago={post.postAgo}
+              views={post.postViews}
+              like={post.postLike} />
+          ))}
+          {isLoading && (
+            <Loading />
+          )}
+        </PostPreviewWrapper>
       ) : (
         <PostPreviewWrapper>
-          <PostPreview />
-          <PostPreview />
-          <PostPreview />
-          <PostPreview />
+          {projects.map((post) => (
+            <ProjectPreview
+              key={post.postId}
+              state={post.postState}
+              title={post.postTitle}
+              content={post.postContent}
+              type={post.postType}
+              userProfileImg={post.postUserProfileImg}
+              writer={post.postWriter}
+              ago={post.postAgo}
+              views={post.postViews}
+              like={post.postLike} />
+          ))}
+          {isLoading && (
+            <Loading />
+          )}
         </PostPreviewWrapper>
       )}
-
     </PageWrapper>
   );
 };
