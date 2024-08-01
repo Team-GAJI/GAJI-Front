@@ -4,16 +4,31 @@ import LoginPage from './pages/LoginPage';
 import MainLayOut from './layout/MainLayOut';
 import CommunityPage from './pages/CommunityPage';
 import StudyCategory from './pages/StudyCategory/StudyCategory';
+import CommunityPostPage from './pages/CommunityPostPage';
+import CommunityWritePage from './pages/CommunityWritePage';
+import MyPage from './pages/MyPage';
+import StudyManage from './pages/StudyManage/StudyManage';
+import StudyRoom from './pages/StudyRoom';
+import StudyCategory from './pages/StudyCategory';
+import StudyNotice from './pages/StudyNotice/StudyNotice.jsx';
+
 
 function App() {
   return (
     <>
     <Routes>
-    <Route exact path="/" element={<LoginPage/>}/>
+    <Route path="/login" element={<LoginPage/>}/>
       <Route>
-      <Route exact path="/community" element={<CommunityPage/>}/>
-      <Route exact path="/studycategory" element={<StudyCategory/>}/>
-      </Route>
+      <Route path="/" element={<CommunityPage/>}/>
+      <Route path="/community" element={<CommunityPage/>}/>
+      <Route path="/community/post" element={<CommunityPostPage/>}/>
+      <Route path="/community/write" element={<CommunityWritePage/>}/>
+      <Route path="/mypage" element={<MyPage/>}/>
+      <Route path="/studymanage" element={<StudyManage/>}/>
+      <Route path="/studyroom" element={<StudyRoom/>}/>
+      <Route path="/study" element={<StudyCategory/>}/>
+      <Route exact path="/studynotice" element={<StudyNotice/>}/>
+    </Route>
     </Routes>
     </>
   )
