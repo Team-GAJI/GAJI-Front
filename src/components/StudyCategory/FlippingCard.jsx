@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import StudyRecruitment from '../StudyCategory/StudyRecruitment';
-import BackStudyRecruitment from '../StudyCategory/BackStudyRecruitment';
+import StudyRecruitment from '../studyCategory/StudyRecruitment';
+import BackStudyRecruitment from './BackStudyRecruitment';
 
 
 const FlippingCard = () => {
@@ -23,8 +23,8 @@ export default FlippingCard;
 
 const FlipContainer = styled.div`
     perspective: 1000px;
-    width: 18.75em; /* 300px */
-    height: 25em; /* 400px */
+    width: 18.75em;
+    height: 25em; 
 `;
 
 const Flipper = styled.div`

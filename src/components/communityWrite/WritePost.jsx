@@ -310,7 +310,7 @@ const StyledLinkIcon = styled(LinkIcon)`
 const TextareaWrapper = styled.div`
     border-radius: 15px;
     width: 59.125em;
-    height: 60em;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;

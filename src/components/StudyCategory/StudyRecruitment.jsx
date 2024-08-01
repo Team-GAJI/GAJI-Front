@@ -35,7 +35,8 @@ const CardItemWrapper = styled.div`
     background-color: #fff;
     border: 1px solid #C8C8C8; 
     border-radius: 0.5em; 
-    width: 16.625em; 
+    /*width: 16.625em;*/
+    width: 12.625em; 
     margin-top: 1.25em; 
     overflow: hidden;
     box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1); 

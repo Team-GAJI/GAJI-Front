@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/mypageBackground.png'
-import Footer from './Footer';
-import StudyRecruitment from '../components/StudyRecruitment';
-import Book from '../assets/images/StudyRoom/Rectangle 34624913.png';
-import Plus from '../assets/icons/StudyRoom/Plus.png';
-import AlarmIcon from '../assets/icons/StudyRoom/Alarm.png';
+import backImage from '../assets/images/common/mypageBackground.png'
+import StudyRecruitment from '../components/studyRoom/StudyRecruitment';
+import Book from '../assets/images/studyRoom/Rectangle 34624913.png';
+import Plus from '../assets/icons/studyRoom/Plus.png';
+import AlarmIcon from '../assets/icons/studyRoom/Alarm.png';
 
 
-const StudyCategory = () => {
+const StudyRoomPage = () => {
   
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
 
@@ -216,13 +215,11 @@ const StudyCategory = () => {
    
             </ContentWrapper>
         </HeaderWrapper>
-            {/* Footer-아래 */}
-            <Footer />
         </>
     );
 };
 
-export default StudyCategory;
+export default StudyRoomPage;
 
 const HeaderWrapper = styled.div`
     z-index: 5;

@@ -1,36 +1,35 @@
-// FilterCategory.js
 import React from 'react';
 import styled from 'styled-components';
 
-const FilterCategory = ({ onSelect }) => {
-    const filterOptions = [
-        "모집중", "모집 완료", "인원 제한", "인원 제한 없음"
+const SortingCategory = ({ onSelect }) => {
+    const sortingOptions = [
+        "인기순", "최신순"
     ];
 
     return (
         <ContentWrapper>
-            {filterOptions.map(option => (
-                <SelectButton key={option} onClick={() => onSelect(option)}>
-                    {option}
-                </SelectButton>
+            {sortingOptions.map(sorting => (
+                <SelectSortingButton key={sorting} onClick={() => onSelect(sorting)}>
+                    {sorting}
+                </SelectSortingButton>
             ))}
         </ContentWrapper>
     );
 };
 
-export default FilterCategory;
+export default SortingCategory;
 
 const ContentWrapper = styled.div`
     background-color: rgba(22, 26, 63, 0.7);
     border: 1px solid rgba(22, 26, 63, 0.7);
     border-radius: 0.5em; 
     width: 7.625em;
-    height: 7em; 
+    height: 3.6em; 
     margin-top: 1.25em;
     overflow: hidden;
 `;
 
-const SelectButton = styled.div`
+const SelectSortingButton = styled.div`
     font-size: 0.5em;
     width: 100px;
     min-width: 100px;

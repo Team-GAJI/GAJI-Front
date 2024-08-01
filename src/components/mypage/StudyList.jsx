@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Color } from '../style/Color';
-import studyProfileUrl from '../../assets/images/studyprofile.png';
+import studyProfileUrl from '../../assets/images/common/studyprofile.png';
 
 const dummyStudyList = [
     {
