@@ -6,8 +6,8 @@ import CommunityPage from './pages/CommunityPage';
 import CommunityPostPage from './pages/CommunityPostPage';
 import CommunityWritePage from './pages/CommunityWritePage';
 import MyPage from './pages/MyPage';
+import StudyRoom from './pages/StudyRoom/StudyRoom.jsx';
 import StudyManage from './pages/StudyManage/StudyManage';
-import StudyRoom from './pages/StudyRoom';
 import StudyCategory from './pages/StudyCategory';
 import StudyNotice from './pages/StudyNotice/StudyNotice.jsx';
 
