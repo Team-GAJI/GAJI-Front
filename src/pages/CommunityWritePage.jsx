@@ -28,6 +28,8 @@ const CommunityWritePage = () => {
 
     // state 관리
     const [activeButtonIndex, setActiveButtonIndex] = useState(getTitleIndex(title));
+    const [hashtags, setHashtags] = useState([]);
+    const [inputValue, setInputValue] = useState('');
 
     const headerTitles = ["프로젝트", "질문", "블로그"];
     const handleHeaderButtonClick = (index) => {
@@ -39,6 +41,21 @@ const CommunityWritePage = () => {
         } else {
             dispatch(setActiveButton("블로그"));
         }
+    };
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const handleInputKeyPress = (e) => {
+        if (e.key === 'Enter' && inputValue.trim() && !hashtags.includes(inputValue.trim())) {
+            setHashtags([...hashtags, inputValue.trim()]);
+            setInputValue('');
+        }
+    };
+
+    const handleDeleteHashtag = (tagToDelete) => {
+        setHashtags(hashtags.filter(tag => tag !== tagToDelete));
     };
 
     return (
@@ -70,16 +87,20 @@ const CommunityWritePage = () => {
                         <option value="11">기타</option>
                     </CategorySelect>
                     <HashtagInputWrapper>
-                        # <HashtagInput placeholder='해시태그를 작성해주세요'/>
+                        # <HashtagInput
+                            placeholder='해시태그를 작성해주세요'
+                            value={inputValue} 
+                            onChange={handleInputChange} 
+                            onKeyDown={handleInputKeyPress}/>
                     </HashtagInputWrapper>
                 </PostOptionWrapper>
 
                 <PostTitle>게시글 제목</PostTitle>
                 {/* 해시태그 */}
                 <HashtagWrapper>
-                    <Hashtag/>
-                    <Hashtag/>
-                    <Hashtag/>
+                    {hashtags.map((tag, index) => (
+                        <Hashtag key={index} hashtag={tag} onDelete={handleDeleteHashtag}/>
+                    ))}
                 </HashtagWrapper>
                 {/* 작성 공간 */}
                 <WritePost/>
@@ -92,7 +113,7 @@ export default CommunityWritePage;
 
 /* CSS */
 const PostsWrapper = styled.div`
-    margin: 2.5em 0 6em 0;
+    margin: 2.5em 0 3.5em 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -101,7 +122,7 @@ const PostsWrapper = styled.div`
 `;
 
 const PostOptionWrapper = styled.div`
-    margin-bottom: 2.5em;
+    margin-bottom: 2em;
     width: 57.125em;
     display: flex;
 `;
@@ -112,7 +133,7 @@ const CategorySelect = styled.select`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 28.8125em;
-    height: 3.1875em;
+    height: 3em;
     background-color: transparent;
     color: #8E59FF;
     font-size: 1em;
@@ -128,7 +149,7 @@ const HashtagInputWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 27.5em;
-    height: 3.1875em;
+    height: 3em;
     line-height: 3.185em;
     background-color: transparent;
     color: #8E59FF;
@@ -153,13 +174,12 @@ const HashtagInput = styled.input`
 
 const PostTitle = styled.div`
     width: 57.125em;
-    margin: 1em;
     color: #161A3F;
     font-weight: 800;
 `;
 
 const HashtagWrapper = styled.div`
-    margin-bottom: 0.7em;
+    margin: 0.7em 0;
     width: 57.125em;
     display: flex;
 `;

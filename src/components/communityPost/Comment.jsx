@@ -23,7 +23,7 @@ export default Comment;
 
 /* CSS */
 const CommentWrapper = styled.div`
-    margin: 2em 0;
+    margin: 2.5em 0;
     width: 75em;
     display: flex;
     flex-direction: column;

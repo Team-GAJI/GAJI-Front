@@ -12,7 +12,6 @@ import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Hashtag from "../components/communityWrite/Hashtag";
 
 // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
@@ -93,9 +92,9 @@ const CommunityPostPage = () => {
           <Title>{title}</Title>
           {/* 게시글 해시태그 */}
           <HashtagWrapper>
-            <Hashtag />
-            <Hashtag />
-            <Hashtag />
+            <Hashtag>#Spring</Hashtag>
+            <Hashtag>#Spring</Hashtag>
+            <Hashtag>#Spring</Hashtag>
           </HashtagWrapper>
           {/* 게시글 상호작용 */}
           <InteractionWrapper>
@@ -240,6 +239,19 @@ const HashtagWrapper = styled.div`
   display: flex;
 `;
 
+const Hashtag = styled.div`
+  margin-right: 0.7em;
+  padding: 0 1.2em;
+  border-radius: 15px;
+  height: 1.8182em;
+  line-height: 1.8182em;
+  background-color: #8E59FF;
+  color: white;
+  font-size: 0.6875em;
+  font-weight: bold;
+  text-align: center;
+`;
+
 const InteractionWrapper = styled.div`
   display: flex;
   text-align: center;
@@ -330,7 +342,7 @@ const PostStateOption = styled.div`
 `;
 
 const PostContentWrapper = styled.div`
-  margin-bottom: 7em;
+  margin-bottom: 2.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
