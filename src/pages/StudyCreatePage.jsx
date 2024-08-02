@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/mypageBackground.png';
-import DeleteIcon from '../assets/icons/CreateStudy/CreateStudyDelete.png'
-import Calendar from '../components/CreateStudy/CreateCalendar.jsx';
+import backImage from '../assets/images/common/mypageBackground.png';
+import DeleteIcon from '../assets/icons/createStudy/CreateStudyDelete.png';
+import Calendar from '../components/createStudy/CreateCalendar.jsx';
 
 const StudyCreatePage = () => {
 

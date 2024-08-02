@@ -14,7 +14,7 @@ import StudyManagePage from './pages/StudyManagePage.jsx';
 import StudyNoticePage from './pages/StudyNoticePage.jsx';
 import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
-
+import StudyCreatePage from './pages/StudyCreatePage.jsx';
 function App() {
   return (
     <Routes>
@@ -29,6 +29,7 @@ function App() {
         <Route path="/studymanage" element={<StudyManagePage/>}/>
         <Route path="/studyroom" element={<StudyRoomPage/>}/>
         <Route path="/studycategory" element={<StudyCategoryPage/>}/>
+        <Route path="/studycreatepgage" element={<StudyCreatePage/>}/>
         <Route exact path="/studynotice" element={<StudyNoticePage/>}/>
         {/* <Route path='/studydetail' element={<StudyDetailPage/>}/> */}
         <Route path="/troubleshooting" element={<TroubleShootingPage />} />
