@@ -365,6 +365,7 @@ const StyledHr = styled.hr`
 `;
 
 const PostPreviewWrapper = styled.div`
+  margin-top: 1.2em;
   width: 70em;
 `;
 

@@ -241,7 +241,7 @@ const ToolbarWrapper = styled.div`
     align-items: center;
     background-color: #FBFAFF;
     position: sticky;
-    top: 6.5em;
+    top: 60px;
 `;
 
 const StyledFontSizeSelect = styled.select`

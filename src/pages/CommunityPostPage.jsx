@@ -350,9 +350,10 @@ const PostContent = styled.div`
 // `;
 
 const StyledHr = styled.hr`
-  margin: 2em 0 2em 0;
+  margin: 2em 0;
   border: none;
-  width: 75em;
+  width: 84.5588em;
   height: 1.5px;
+  font-size: 0.85em;
   background-color: rgba(162, 163, 178, 0.4);
 `;

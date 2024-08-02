@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setActiveButton } from '../feautres/community/communitySlice';
@@ -11,10 +11,6 @@ const CommunityPage = () => {
 
     // Redux 상태 관리
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, []);
 
     const headerTitles = ["프로젝트", "질문", "블로그"];
     const handleHeaderButtonClick = (index) => {
@@ -30,13 +26,17 @@ const CommunityPage = () => {
 
     return (
         <>
+            {/* 헤더 */}
             <PageHeader
                 pageTitle="커뮤니티"
                 headerTitles={headerTitles}
                 activeButtonIndex={activeButtonIndex}
                 onButtonClick={handleHeaderButtonClick}
                 changeColorOnClick={true}
-                changeColorOnHover={true}/>
+                changeColorOnHover={true}
+            />
+
+            {/* 핫게시물 및 게시글 영역 */}
             <PostsWrapper>
                 <HotPostsBackground></HotPostsBackground>
                 <HotPostText>HOT 게시물</HotPostText>
