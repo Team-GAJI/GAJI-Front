@@ -7,7 +7,7 @@ import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 import DownArrowIcon from "../assets/icons/communityPost/downArrow.svg?react";
-import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
+// import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
 import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -163,10 +163,10 @@ const CommunityPostPage = () => {
         </PostContent>
 
         {/* 다음 게시물 div */}
-        <ExtraPostsWrapper>
+        {/* <ExtraPostsWrapper>
           <ExtraPostPreview />
           <ExtraPostPreview />
-        </ExtraPostsWrapper>
+        </ExtraPostsWrapper> */}
 
         <StyledHr />
         {/* 댓글 영역 */}
@@ -180,13 +180,14 @@ export default CommunityPostPage;
 
 /* CSS */
 const HeaderWrapper = styled.div`
-  padding: 0 8em 0 8em;
+  padding: 0 13em;
   height: 16.1875em;
   background-image: url(${BackgroundImage});
   background-size: cover;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 0.8125em;
 `;
 
 const TitleWrapper = styled.div`
@@ -283,11 +284,11 @@ const PostStateWrapper = styled.div`
 `;
 
 const PostStateButton = styled.div`
-  border-radius: 10px;
-  width: 9.3077em;
-  height: 2.2308em;
+  border-radius: 8px;
+  width: 10em;
+  height: 2.4em;
   background-color: #8e59ff;
-  line-height: 2.2308em;
+  line-height: 2.4em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -336,21 +337,17 @@ const PostContentWrapper = styled.div`
 `;
 
 const PostContent = styled.div`
-  margin: 3em 0 1.5em 0;
-  padding: 4em 3em;
-  border: 1px solid #a2a3b2;
-  border-radius: 10px;
-  width: 69em;
-  min-height: 20em;
-  line-height: 1.7em;
+  margin: 1.5em 0;
+  width: 68em;
+  min-height: 22em;
   color: #a2a3b2;
 `;
 
-const ExtraPostsWrapper = styled.div`
-  width: 75em;
-  display: flex;
-  justify-content: space-between;
-`;
+// const ExtraPostsWrapper = styled.div`
+//   width: 75em;
+//   display: flex;
+//   justify-content: space-between;
+// `;
 
 const StyledHr = styled.hr`
   margin: 2em 0 2em 0;

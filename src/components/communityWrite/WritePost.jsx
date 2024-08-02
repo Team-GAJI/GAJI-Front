@@ -321,13 +321,13 @@ const TextareaWrapper = styled.div`
 `;
 
 const StyledTextarea = styled.textarea`
-    padding: 1em 1em 0 1em;
+    padding: 1.23em 1.23em 0 1.23em;
     border: none;
-    width: 57.125em;
-    height: 53em;
-    line-height: 1.5em;
+    width: 68em;
+    height: 65.19em;
+    line-height: 1.845em;
     background-color: transparent;
-    font-size: 1em;
+    font-size: 0.8125em;
     font-weight: 700;
     font-family: 'NanumSquareNeo';
     &:focus{
@@ -405,10 +405,11 @@ const ModalOverlay = styled.div`
 `;
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 2em;
+    padding: 2.4615em;
     border-radius: 10px;
-    width: 57em;
-    max-height: 25em;
+    width: 68em;
+    max-height: 30.7692em;
+    font-size: 0.8125em;
     overflow-y: auto;
     position: relative;
 `;
