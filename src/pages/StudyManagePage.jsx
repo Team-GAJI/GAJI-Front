@@ -11,7 +11,7 @@ import ManageDetailed from '../components/studyManage/ManageDetailed';
 
 const StudyManagePage = () => {
     // n주차 버튼 기능
-  const [weeks, setWeeks] = useState([...Array(9).keys()]); // Initial state: [0, 1, 2, ..., 8]
+  const [weeks, setWeeks] = useState([...Array(9).keys()]); 
   const sidebarRef = useRef(null);
 
   const handleDelete = (index) => {
