@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import backImage from '../assets/images/common/mypageBackground.png';
 import ManageDel from '../assets/icons/studyManage/StudyManageDel.png';
-import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.png';
+import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
 
 
 import ManageBasics from '../components/studyManage/ManageBasics';
@@ -10,6 +10,25 @@ import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 
 const StudyManagePage = () => {
+    // n주차 버튼 기능
+  const [weeks, setWeeks] = useState([...Array(9).keys()]); // Initial state: [0, 1, 2, ..., 8]
+  const sidebarRef = useRef(null);
+
+  const handleDelete = (index) => {
+    setWeeks(weeks.filter((_, i) => i !== index));
+  };
+
+  const handleAdd = () => {
+    setWeeks([...weeks, weeks.length + 1]); 
+  };
+
+  useEffect(() => {
+    if (sidebarRef.current) {
+      sidebarRef.current.style.height = 'auto';
+      const newHeight = sidebarRef.current.scrollHeight;
+      sidebarRef.current.style.height = `${newHeight}px`;
+    }
+  }, [weeks]);
 
     return (
     <>
@@ -25,21 +44,30 @@ const StudyManagePage = () => {
         </RowLogoWrapper>
 
         <MainSection>
-            <SidebarWrapper>
-                <Sidebar1>
-                    <BasicInfoButton>기본정보</BasicInfoButton>
-                        {[...Array(9)].map((_, index) => (
-                            <React.Fragment key={index}>
-                            <SidebarButton1 bold={index === 0}>{index + 1}주차
-                                <DelIcons src={ManageDel} alt="삭제" />
-                            </SidebarButton1>
-                            {index < 8 }
-                            </React.Fragment>
-                        ))}
-                    <BasicInfoButton>기본정보</BasicInfoButton>
-                    <PlusButton><PlusIcons src={ManagePlus} alt="추가"/></PlusButton>
-                </Sidebar1>
-            </SidebarWrapper>
+
+        <SidebarWrapper>
+            <Sidebar1 ref={sidebarRef}>
+                <BasicInfoButton>기본정보</BasicInfoButton>
+                {weeks.map((week, index) => (
+                <React.Fragment key={week}>
+                    <SidebarButton1 bold={index === 0}>
+                    <TextWrapper>
+                        {week + 1}주차
+                    </TextWrapper>
+                    <DelIconWrapper>
+                        <DelIcons src={ManageDel} alt="삭제" onClick={() => handleDelete(index)} />
+                    </DelIconWrapper>
+                    </SidebarButton1>
+                </React.Fragment>
+                ))}
+                <PlusButton onClick={handleAdd}>
+                <PlusIcons src={ManagePlus} alt="추가" />
+                </PlusButton>
+            </Sidebar1>
+        </SidebarWrapper>
+
+
+
            <ManageBasics/>
            <ManageDate/>
            <ManageDetailed/>
@@ -93,37 +121,62 @@ const SidebarWrapper = styled.div`
 
 `;
 const Sidebar1 = styled.aside`
+ transition: height 0.5s ease; 
+  overflow: hidden; 
   background-color: #fff;
   display: flex;
   flex-direction: column;
   border: 1px solid #A2A3B2;
   border-radius: 0.5em; 
   width: 11.25em; 
-  height: 37.3em; 
+  height: 32.5em; 
   margin-top: 1.9375em; 
 `;
+const DelIconWrapper = styled.div`
+  visibility: hidden;
+  margin-left: 0em; 
+  margin-bottom: -0.3em;
+`;
 
+const DelIcons = styled.img`
+  width: 3em;
+  height: auto;
+`;
+const TextWrapper = styled.div`
+  flex: 1;
+  text-align: center;
+  margin-left : 3em;
+`;
 const SidebarButton1 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   color: #A2A3B2;
-
-  font-weight: 1.125em; 
+  font-weight: ${(props) => (props.bold ? '800' : '400')};
   margin-top: 0.625em; 
   padding: 0.6em 0.625em; 
-  text-align: center;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color 0.3s;
 
   &:hover {
-    border : 1px solid #8E59FF;
+    border: 1px solid #8E59FF;
     border-radius: 0.5em; 
     color: #8E59FF;
     margin-left: 0.4em; 
-    margin-right : 0.4em;
-    font-weight : 800;
+    margin-right: 0.4em;
+    font-weight: 800;
+
+    ${DelIconWrapper} {
+      visibility: visible;
+    }
+
+    ${TextWrapper} {
+      text-align: left;
+      margin-left: 1em; 
+    }
   }
- `;
+`;
  const BasicInfoButton = styled(SidebarButton1)`
    font-size: 1em;
    font-weight: 1.125em; 
@@ -172,22 +225,21 @@ const MainSection = styled.section`
   position: relative;
   margin-bottom : 40px;
 `;
-const PlusButton = styled(SidebarButton1)`
+const PlusButton = styled.button`
     font-size: 1em;
     font-weight: 1.125em; 
     background-color: #8E59FF;
     border: none;
     background-color: transparent;
     color: #A2A3B2;
+    padding: 0.6em 0.625em; 
 `;
 const PlusIcons = styled.img`
-    width: 1em; 
-    height: auto;
-`;
+  width: 1em;
+  height: auto;
+  transition: filter 0.3s;
 
-const DelIcons = styled.img`
-    width: 1em; 
-    height: auto;
-    margin-left : 2em;
-    margin-bottom: -0.3em;
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
+  }
 `;
