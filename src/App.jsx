@@ -4,6 +4,7 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom'; 
 import LoginPage from './pages/LoginPage';
 import MainLayOut from './layout/MainLayOut';
+import MainPage from './pages/MainPage.jsx';
 import CommunityPage from './pages/CommunityPage';
 import CommunityPostPage from './pages/CommunityPostPage';
 import CommunityWritePage from './pages/CommunityWritePage';
@@ -21,7 +22,7 @@ function App() {
       <Route exact path="/login" element={<LoginPage/>}/>
       <Route element={<MainLayOut/>}>
         <Route exact path="/studyroom" element={<StudyRoomPage/>}/>      
-        <Route path="/" element={<CommunityPage/>}/>
+        <Route path="/" element={<MainPage/>}/>
         <Route path="/community" element={<CommunityPage/>}/>
         <Route path="/community/post" element={<CommunityPostPage/>}/>
         <Route path="/community/write" element={<CommunityWritePage/>}/>

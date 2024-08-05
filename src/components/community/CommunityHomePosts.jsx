@@ -162,10 +162,10 @@ const CommunityHomePosts = () => {
             <option value="2">인공지능</option>
             <option value="3">하드웨어</option>
             <option value="4">보안</option>
-            <option value="5">네트워크-클라우드</option>
+            <option value="5">네트워크 - 클라우드</option>
             <option value="6">어학</option>
             <option value="7">디자인</option>
-            <option value="8">비즈니스-PM</option>
+            <option value="8">비즈니스 &#40;PM&#41;</option>
             <option value="9">독서 모임</option>
             <option value="10">기타</option>
           </StyledSelect>
@@ -301,7 +301,7 @@ const StyledSearchInput = styled.input`
   border: none;
   width: 100%;
   height: 2em;
-  font-weight: 800;
+  font-weight: bold;
   -webkit-appearance: none;
   &:focus{
     outline: none;
@@ -327,7 +327,7 @@ const StyledSelect = styled.select`
   margin-right: 0.7em;
   padding-left: 0.5em;
   border: 1px solid #C8C8C8;
-  border-radius: 8px;
+  border-radius: 10px;
   width: 8.3077em;
   height: 2.4em;
   background-color : transparent;
@@ -342,7 +342,7 @@ const StyledSelect = styled.select`
 
 const CreatePostButton = styled.button`
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   width: 9.9230em;
   height: 2.4em;
   background-color: #8E59FF;
