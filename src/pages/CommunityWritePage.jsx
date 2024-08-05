@@ -30,6 +30,7 @@ const CommunityWritePage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(getTitleIndex(title));
     const [hashtags, setHashtags] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [isComposing, setIsComposing] = useState(false);
 
     const headerTitles = ["프로젝트", "질문", "블로그"];
     const handleHeaderButtonClick = (index) => {
@@ -47,11 +48,19 @@ const CommunityWritePage = () => {
         setInputValue(e.target.value);
     };
 
-    const handleInputKeyPress = (e) => {
-        if (e.key === 'Enter' && inputValue.trim() && !hashtags.includes(inputValue.trim())) {
+    const handleInputKeyDown = (e) => {
+        if (e.key === 'Enter' && !isComposing && inputValue.trim() && !hashtags.includes(inputValue.trim())) {
             setHashtags([...hashtags, inputValue.trim()]);
             setInputValue('');
         }
+    };
+
+    const handleCompositionStart = () => {
+        setIsComposing(true);
+    };
+
+    const handleCompositionEnd = () => {
+        setIsComposing(false);
     };
 
     const handleDeleteHashtag = (tagToDelete) => {
@@ -91,7 +100,9 @@ const CommunityWritePage = () => {
                             placeholder='해시태그를 작성해주세요'
                             value={inputValue} 
                             onChange={handleInputChange} 
-                            onKeyDown={handleInputKeyPress}/>
+                            onKeyDown={handleInputKeyDown}
+                            onCompositionStart={handleCompositionStart}
+                            onCompositionEnd={handleCompositionEnd}/>
                     </HashtagInputWrapper>
                 </PostOptionWrapper>
 
