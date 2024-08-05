@@ -11,6 +11,7 @@ import backImage from "../assets/images/common/mypageBackground.png";
 const StudyNoticePage = () => {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
   const handleNavigate = () => {
     navigate("/troubleshooting");
   };
@@ -154,9 +155,9 @@ const WritingButton = styled.button`
   background-color: #8e59ff;
   border: 0.0625em solid #8e59ff;
   color: #fff;
-  border-radius: 0.5em;
+  border-radius: 0.7em;
   font-weight: 700;
-  width: 9.375em;
+  width: 11.75em;
   height: 2.5em;
   margin-right: 0;
 `;
