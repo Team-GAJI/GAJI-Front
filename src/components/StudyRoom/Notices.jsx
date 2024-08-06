@@ -132,7 +132,7 @@ const InputWrapper = styled.div`
 `;
 
 const Text1 = styled.p`
-  padding-left: ${(props) => (props.isHovered ? "4.375em" : "0.625em")};
+  padding-left: ${(props) => (props.isHovered ? "2.5em" : "0.5em")};
   height: 1.875em;
   font-weight: 800;
   font-size: 1em;
