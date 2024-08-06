@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import HotPostPreview from './HotPostPreview';
 import LogoIcon from '../../assets/logos//logo.svg?react';
 import ProjectPreview from './ProjectPreview';
 import QuestionPreview from './QuestionPreview';
@@ -132,21 +131,7 @@ const CommunityHomePosts = () => {
   };
 
   return (
-    <PageWrapper>
-      {/* Hot 게시물 */}
-      <HotPostsWrapper>
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-        <HotPostPreview />
-      </HotPostsWrapper>
-      
+    <PageWrapper>      
       {/* 검색창 */}
       <SearchInputWrapper>
         <StyledLogoIcon />
@@ -260,25 +245,6 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const HotPostsWrapper = styled.div`
-  margin: 2em 0;
-  width: 63em;
-  height: 18em;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  overflow-x: auto;
-  &::-webkit-scrollbar {
-    height: 8px;
-    background: none;
-  }
-  &:hover::-webkit-scrollbar-thumb {
-    width: 1px;
-    border-radius: 30px;
-    background-color: #D0D1D9;
-  }
 `;
 
 const SearchInputWrapper = styled.div`

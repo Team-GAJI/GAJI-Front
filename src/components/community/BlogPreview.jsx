@@ -41,8 +41,7 @@ export default BlogPreview;
 
 /* CSS */
 const PostWrapper = styled.div`
-    border: 1px solid #D0D1D9;
-    border-radius: 8px;
+    border-radius: 10px;
     margin: 1.2em;
     width: 21.6em;
     height: 21.6em;
@@ -60,6 +59,8 @@ const PostWrapper = styled.div`
 `;
 
 const BackgroundWrapper = styled.div`
+    border: 1px solid #D0D1D9;
+    border-radius: 10px 10px 0 0;
     height: 50%;
     background-image: ${({background}) => `url(${background})`};
     background-size: cover;
@@ -85,8 +86,9 @@ const Like = styled.span`
 `;
 
 const PostContentContainer = styled.div`
-    border-top: 1px solid #D0D1D9;
-    border-radius: 0 0 7px 7px;
+    border: 1px solid #D0D1D9;
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
     height: 50%;
     background-color: white;
     text-align: start;
