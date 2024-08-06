@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import {
   notices,
@@ -8,16 +8,42 @@ import {
 } from "../components/studyRoom/Notices";
 import backImage from "../assets/images/common/mypageBackground.png";
 
+// Global styles 폰트적용
+const GlobalStyles = createGlobalStyle`
+  @font-face {
+    font-family: 'NanumSquareNeo';
+    src: url('../assets/font/NanumSquareNeoTTF-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'NanumSquareNeo';
+    src: url('../assets/font/NanumSquareNeoTTF-Bd.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  body {
+    font-family: 'NanumSquareNeo', sans-serif;
+  }
+`;
+
 const StudyNoticePage = () => {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const handleNavigate = () => {
+  const handleNavigateToRegister = () => {
+    navigate("/studynotice-register");
+  };
+
+  const handleNavigateToTroubleshooting = () => {
     navigate("/troubleshooting");
   };
 
   return (
     <>
+      <GlobalStyles />
       <HeaderWrapper>
         <ContentWrapper>
           <RowLogoWrapper>
@@ -27,7 +53,10 @@ const StudyNoticePage = () => {
           {/* 카테고리 메뉴 선택 */}
           <ButtonsWrapper>
             <StyledButton isActive={true}>스터디 홈</StyledButton>
-            <StyledButton isActive={true} onClick={handleNavigate}>
+            <StyledButton
+              isActive={true}
+              onClick={handleNavigateToTroubleshooting}
+            >
               트러블 슈팅
             </StyledButton>
             <StyledButton isActive={true}>정보나눔</StyledButton>
@@ -37,7 +66,9 @@ const StudyNoticePage = () => {
             <ColumnWrapper>
               <Container>
                 <Text>스터디명 공지사항</Text>
-                <WritingButton>+ 공지사항 작성</WritingButton>
+                <WritingButton onClick={handleNavigateToRegister}>
+                  + 공지사항 작성
+                </WritingButton>
               </Container>
 
               <NoticeSquareWrapper>
@@ -72,9 +103,12 @@ const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 3.1em;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
+
 const ContentWrapper = styled.div`
   flex-grow: 1;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const RowLogoWrapper = styled.div`
@@ -84,7 +118,6 @@ const RowLogoWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 1.25em;
-
   background-image: url(${backImage});
   background-repeat: no-repeat;
   background-size: cover;
@@ -95,6 +128,7 @@ const LogoText = styled.div`
   font-size: 1.2em;
   font-weight: 800;
   color: #8e59ff;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const ButtonsWrapper = styled.div`
@@ -102,6 +136,7 @@ const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const StyledButton = styled.button`
@@ -117,6 +152,7 @@ const StyledButton = styled.button`
   font-size: 0.9em;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  font-family: "NanumSquareNeo", sans-serif;
 
   &:hover {
     opacity: 1;
@@ -128,10 +164,10 @@ const MainSection1 = styled.section`
   flex: 1;
   background-color: #fff;
   padding-top: 30px;
-  /*overflow: auto;*/
   gap: 0.625em;
   justify-content: center;
   align-items: center;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const Text = styled.p`
@@ -139,6 +175,7 @@ const Text = styled.p`
   font-weight: 800;
   color: #8e59ff;
   margin-top: 0.625em;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const Container = styled.div`
@@ -149,6 +186,7 @@ const Container = styled.div`
   margin-bottom: 1.25em;
   border-bottom: 0.0625em solid #a2a3b2;
   padding-top: 0.625em;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const WritingButton = styled.button`
@@ -160,6 +198,7 @@ const WritingButton = styled.button`
   width: 11.75em;
   height: 2.5em;
   margin-right: 0;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const NoticeSquareWrapper = styled.div`
@@ -167,6 +206,7 @@ const NoticeSquareWrapper = styled.div`
   grid-template-rows: repeat(5, auto);
   gap: 0.625em;
   margin-bottom: 1.875em;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const ColumnWrapper = styled.div`
@@ -176,4 +216,5 @@ const ColumnWrapper = styled.div`
   gap: 0.625em;
   margin-top: 0.625em;
   margin-left: 1.25em;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
