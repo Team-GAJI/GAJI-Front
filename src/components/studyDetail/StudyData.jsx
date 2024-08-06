@@ -27,13 +27,19 @@ const StudyData = () => {
                 </Data>
                 ))}
             </GridContainer>
+            <DivisionLine/>
         </div>
         </>
     );
 };
 export default StudyData;
 
-
+const DivisionLine = styled.div`
+    border-top: 1px solid #A2A3B2;
+    width: 98%;
+    margin-top : 2em;
+    margin-left :1em;
+`;
 const MainText = styled.h1`
  font-size: 1.25em; 
  font-weight: 800;
