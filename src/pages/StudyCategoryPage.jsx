@@ -195,9 +195,7 @@ const StudyCategoryPage = () => {
                     </GridContainer>
                 ))}
                 {/* 그리드 컨테이너 끝 */}
-
                 <MoreButton>더보기</MoreButton>
-
             </ContentWrapper> 
         </HeaderWrapper>
         </>
@@ -359,7 +357,6 @@ const SelectButton = styled.div`
 
 const SelectButtonContent = styled.span`
     display: inline-block;
-   
 `;
 const ButtonWrapper = styled.div`
     display: flex;
