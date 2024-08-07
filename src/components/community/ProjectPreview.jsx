@@ -34,9 +34,9 @@ export default ProjectPreview;
 
 /* CSS */
 const PageWrapper = styled.div`
-    margin-top: 1em;
-    width: 70em;
-    height: 15.5em;
+    font-size: 0.9em;
+    width: 100%;
+    height: 15em;
     text-align: start;
 `;
 
@@ -128,8 +128,8 @@ const Like = styled.div`
 `;
 
 const StyledHr = styled.hr`
-    margin-top: 2.3em;
+    margin-top: 1.5em;
     border: none;
-    height: 1.5px;
+    height: 1px;
     background-color: #D0D1D9;
 `;

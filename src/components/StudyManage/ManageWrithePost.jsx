@@ -122,17 +122,6 @@ const WritePost = () => {
 
     return (
         <>
-            {/* 제목 */}
-            <TitleWrapper>
-                <TitleInput
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onFocus={handlePurpleHr}
-                    onBlur={handleGrayHr}
-                    placeholder='게시글의 제목을 입력해주세요'/>
-                <StyledTitleHr styledHr={styledHr}/>
-            </TitleWrapper>
-
             {/* 툴바 */}
             <ToolbarWrapper>
                 <StyledFontSizeSelect name="fontSize" value={fontSize} onChange={applyFontSize}>
@@ -172,18 +161,7 @@ const WritePost = () => {
                     <StyledContentHr/>
                 </TextareaBottom>
             </TextareaWrapper>
-
-            {/* 업로드 버튼 */}
-            <SubmitButton onClick={() =>
-                {navigate("/community/post",{
-                    state: {
-                        title: title,
-                        content: markdown,
-                    },
-                });}}>
-                게시글 업로드
-            </SubmitButton>
-
+            
             {/* 모달 */}
             {isModalOpen && (
                 <ModalOverlay onClick={closeModal}>
@@ -200,49 +178,16 @@ const WritePost = () => {
 export default WritePost;
 
 /* CSS */
-const TitleWrapper = styled.div`
-    width: 59.125em;
-`;
-
-const TitleInput = styled.input`
-    padding-left: 1.2307em;
-    border: none;
-    border-radius: 10px;
-    width: 71.4em;
-    height: 3em;
-    background-color: transparent;
-    font-size: 0.8125em;
-    font-family: 'NanumSquareNeo';
-    font-weight: bold;
-    &:focus{
-        outline: none;
-    }
-    transition: all 0.3s ease;
-    &::placeholder{
-        color: #A2A3B2;
-        font-weight: bold;
-    }
-`;
-
-const StyledTitleHr = styled.hr`
-    margin: 0 1em;
-    border: none;
-    height: 1.5px;
-    background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
-    box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
-    transition: all 0.3s ease
-`;
 
 const ToolbarWrapper = styled.div`
-    margin: 0.6em 0 0.9em 0;
-    width: 63.4722em;
+    margin: 0.6em 0 0.9em 0.6em;
+    width: 57.125em;
     height: 2em;
     display: flex;
     align-items: center;
     background-color: #FBFAFF;
-    font-size: 0.9em;
     position: sticky;
-    top: 60px;
+    top: 6.5em;
 `;
 
 const StyledFontSizeSelect = styled.select`
@@ -311,24 +256,24 @@ const StyledLinkIcon = styled(LinkIcon)`
 const TextareaWrapper = styled.div`
     border-radius: 15px;
     width: 59.125em;
-    height: auto;
+    height: 22em;
     display: flex;
     flex-direction: column;
     align-items: center;
-    &:focus-within{
+    /*&:focus-within{
         box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
-    }
+    }*/
     transition: all 0.3s ease;
 `;
 
 const StyledTextarea = styled.textarea`
-    padding: 1.23em 1.23em 0 1.23em;
+    padding: 1em 1em 0 1em;
     border: none;
-    width: 68em;
-    height: 65.19em;
-    line-height: 1.845em;
+    width: 57.125em;
+    height: 53em;
+    line-height: 1.5em;
     background-color: transparent;
-    font-size: 0.8125em;
+    font-size: 1em;
     font-weight: 700;
     font-family: 'NanumSquareNeo';
     &:focus{
@@ -354,7 +299,7 @@ const TextLength = styled.div`
 `;
 
 const StyledContentHr = styled.hr`
-    margin: 1.5em 0 2em 0;
+    margin: 1.5em 0 3em 0;
     border: none;
     width: 55.125em;
     height: 1.5px;
@@ -375,23 +320,6 @@ const StyledPreviewButton = styled.div`
     cursor: pointer;
 `;
 
-const SubmitButton = styled.button`
-    margin-top: 1em;
-    border: none;
-    border-radius: 10px;
-    width: 9.1em;
-    height: 2.25em;
-    background-color: #8E59FF;
-    color: white;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
-    }
-    transition: all 0.3s ease;
-`;
-
 // 모달
 const ModalOverlay = styled.div`
     position: fixed;
@@ -403,15 +331,13 @@ const ModalOverlay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
 `;
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 2.4615em;
+    padding: 2em;
     border-radius: 10px;
-    width: 68em;
-    max-height: 30.7692em;
-    font-size: 0.8125em;
+    width: 57em;
+    max-height: 25em;
     overflow-y: auto;
     position: relative;
 `;

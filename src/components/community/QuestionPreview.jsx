@@ -34,9 +34,9 @@ export default QuestionPreview;
 
 /* CSS */
 const PageWrapper = styled.div`
-    margin-top: 1em;
-    width: 70em;
-    height: 15.5em;
+    font-size: 0.9em;
+    width: 100%;
+    height: 15em;
     text-align: start;
 `;
 
@@ -44,7 +44,7 @@ const PostState = styled.div`
     border-radius: 15px;
     width: 8em;
     height: 1.7em;
-    background-color: ${({ state }) => (state === '해결완료' ? '#A2A3B2' : '#8E59FF')};
+    background-color: ${({ state }) => (state === '모집완료' ? '#A2A3B2' : '#8E59FF')};
     color: white;
     font-size: 0.7em;
     line-height: 1.7em;
@@ -128,8 +128,8 @@ const Like = styled.div`
 `;
 
 const StyledHr = styled.hr`
-    margin-top: 2.3em;
+    margin-top: 1.5em;
     border: none;
-    height: 1.5px;
+    height: 1px;
     background-color: #D0D1D9;
 `;

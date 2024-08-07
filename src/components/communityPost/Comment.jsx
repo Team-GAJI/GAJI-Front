@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProfileImg from '../../assets/images/community/userProfile.png';
 import ReplyIcon from '../../assets/icons/community/reply.svg?react';
 
-const Comment = () => {
+const Comment = ({key, writer, content, userProfileImg, time}) => {
     return (
-        <CommentWrapper>
+        <CommentWrapper key={key}>
             <WriterWrapper>
-                <StyledProfileImg src={ProfileImg} alt='profile image'/>
-                <UserName>닉네임</UserName>
-                <RelativeTime>2024. 03. 01 작성</RelativeTime>
+                <StyledProfileImg src={userProfileImg} alt='profile image'/>
+                <UserName>{writer}</UserName>
+                <RelativeTime>{time} 작성</RelativeTime>
             </WriterWrapper>
-            <Content>댓글입니다 뭐라고 쓸까요? 정말 좋은 글이네요 귀여운 고양이</Content>
+            <Content>{content}</Content>
             <ReplyWrapper>
                 <StyledReplyIcon/>
                 <ReplyText>답글달기</ReplyText>
@@ -24,14 +23,13 @@ export default Comment;
 
 /* CSS */
 const CommentWrapper = styled.div`
-    margin: 1.2em 0;
+    margin: 2.5em 0;
     width: 75em;
     display: flex;
     flex-direction: column;
 `;
 
 const WriterWrapper = styled.div`
-    margin-bottom: 0.8em;
     display: flex;
     align-items: center;
 `;
@@ -55,7 +53,7 @@ const RelativeTime = styled.div`
 `;
 
 const Content = styled.div`
-    margin-bottom: 0.8em;
+    margin: 1em 0;
     width: 50em;
     color: #161A3F;
     font-weight: bold;
