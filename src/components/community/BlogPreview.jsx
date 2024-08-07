@@ -8,10 +8,15 @@ const BlogPreview = ({key, title, content, background, userProfileImg, writer, a
     const navigate = useNavigate();
 
     return (
-        <PostWrapper key={key} onClick={() => {navigate("/community/post");}} background={background}>
-            <LikeWrapper>
-                <StyledLikeIcon /><Like>{like}</Like>
-            </LikeWrapper>
+        <PostWrapper key={key} onClick={() => {navigate("/community/post");}}>
+            {/* 배경 */}
+            <BackgroundWrapper background={background}>
+                <LikeWrapper>
+                    <StyledLikeIcon /><Like>{like}</Like>
+                </LikeWrapper>
+            </BackgroundWrapper>
+            
+            {/* 설명 */}
             <PostContentContainer>
                 <PostTitle>{title}</PostTitle>
                 <Content>
@@ -36,15 +41,11 @@ export default BlogPreview;
 
 /* CSS */
 const PostWrapper = styled.div`
-    border: 1px solid #D0D1D9;
-    border-radius: 8px;
+    border-radius: 10px;
     margin: 1.2em;
     width: 21.6em;
     height: 21.6em;
     font-size: 0.7489em;
-    background-image: ${({background}) => `url(${background})`};
-    background-size: cover;
-    background-color: rgba(208,209,217,0.2);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -55,6 +56,14 @@ const PostWrapper = styled.div`
         transform: translateY(-1.3em);
         box-shadow: 0 0.625em 1.25em #C8C8C8;
     }
+`;
+
+const BackgroundWrapper = styled.div`
+    border: 1px solid #D0D1D9;
+    border-radius: 10px 10px 0 0;
+    height: 50%;
+    background-image: ${({background}) => `url(${background})`};
+    background-size: cover;
 `;
 
 const LikeWrapper = styled.div`
@@ -77,9 +86,10 @@ const Like = styled.span`
 `;
 
 const PostContentContainer = styled.div`
-    border-top: 1px solid #D0D1D9;
-    border-radius: 0 0 7px 7px;
-    height: 10.8em;
+    border: 1px solid #D0D1D9;
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+    height: 50%;
     background-color: white;
     text-align: start;
 `;

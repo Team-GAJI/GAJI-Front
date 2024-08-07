@@ -70,7 +70,7 @@ const CommunityPostPage = () => {
               user1023
             </Writer>
             <StyledBar>|</StyledBar>
-            프로젝트
+            프로젝트 &gt; 보안
             <StyledBar>|</StyledBar>
             2024.03.01
             <StyledBar>|</StyledBar>
@@ -352,7 +352,7 @@ const PostContent = styled.div`
   margin: 1.5em 0;
   width: 68em;
   min-height: 22em;
-  color: #a2a3b2;
+  color: #161A3F;
 `;
 
 // const ExtraPostsWrapper = styled.div`
