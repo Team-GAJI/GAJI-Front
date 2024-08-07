@@ -9,6 +9,7 @@ import ManageBasics from '../components/studyManage/ManageBasics';
 import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 
+
 const StudyManagePage = () => {
     // n주차 버튼 기능
   const [weeks, setWeeks] = useState([...Array(9).keys()]); 
@@ -44,7 +45,7 @@ const StudyManagePage = () => {
         </RowLogoWrapper>
 
         <MainSection>
-
+      
         <SidebarWrapper>
             <Sidebar1 ref={sidebarRef}>
                 <BasicInfoButton>기본정보</BasicInfoButton>
@@ -91,6 +92,7 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
+
 const MainText = styled.p`
     font-size: 1.3em;
     font-weight: 800;
@@ -121,6 +123,7 @@ const SidebarWrapper = styled.div`
 
 `;
 const Sidebar1 = styled.aside`
+
  transition: height 0.5s ease; 
   overflow: hidden; 
   background-color: #fff;
@@ -131,6 +134,7 @@ const Sidebar1 = styled.aside`
   width: 11.25em; 
   height: 32.5em; 
   margin-top: 1.9375em; 
+
 `;
 const DelIconWrapper = styled.div`
   visibility: hidden;
@@ -185,6 +189,7 @@ const SidebarButton1 = styled.div`
    background-color: transparent;
    color: #A2A3B2;
 `;
+
 const RowWrapper1 = styled.div`
     width: 100%;
     display: flex;
@@ -215,20 +220,21 @@ const Text = styled.p`
 
 /* 화면 분활 (오른쪽 사이드) */
 const MainSection = styled.section`
-  display: flex;
-  flex: 1;
-  padding-top: 30px;
-  /*overflow: auto;*/
-  flex-direction: row; 
-  gap: 20px; 
-  flex-direction: column; 
-  position: relative;
-  margin-bottom : 40px;
+    display: flex;
+    flex: 1;
+    padding-top: 30px;
+    /*overflow: auto;*/
+    flex-direction: row; 
+    gap: 20px; 
+    flex-direction: column; 
+    position: relative;
+    margin-bottom : 40px;
 `;
 const PlusButton = styled.button`
     font-size: 1em;
     font-weight: 1.125em; 
     background-color: #8E59FF;
+
     border: none;
     background-color: transparent;
     color: #A2A3B2;
