@@ -98,7 +98,7 @@ const ContentWrapper = styled.div`
     width: 60%;
     margin-left: auto; 
     margin-right: auto; 
-    
+    margin-top: 16.1875em;
     gap: 4em;
 
     @media (max-width: 1199px) {
@@ -107,6 +107,6 @@ const ContentWrapper = styled.div`
     }
     @media (max-width: 768px) {
         width: 90%;
-        margin-top: 13.1875em;
+        margin-top: 16.1875em;
     }
 `;
