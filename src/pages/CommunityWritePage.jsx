@@ -32,6 +32,7 @@ const CommunityWritePage = () => {
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
 
+    // 헤더 함수
     const headerTitles = ["프로젝트", "질문", "블로그"];
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
