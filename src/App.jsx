@@ -17,18 +17,15 @@ import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import StudyCreatePage from './pages/StudyCreatePage.jsx';
-
+import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
 function App() {
   return (
     <Routes>
       <Route exact path="/login" element={<LoginPage/>}/>
       <Route element={<MainLayOut/>}>
-<<<<<<< HEAD
         <Route exact path="/studyroom" element={<StudyRoomPage/>}/>      
         <Route path="/" element={<MainPage/>}/>
-=======
-        <Route path="/" element={<CommunityPage/>}/>
->>>>>>> 276c8924937c70284decc8957bd8f5992afa5a36
+        <Route path="/communitypage" element={<CommunityPage/>}/>
         <Route path="/community" element={<CommunityPage/>}/>
         <Route path="/community/post" element={<CommunityPostPage/>}/>
         <Route path="/community/write" element={<CommunityWritePage/>}/>
