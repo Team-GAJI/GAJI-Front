@@ -24,7 +24,7 @@ const BlogPreview = ({key, title, content, background, userProfileImg, writer, a
                     </InfoLeftWrapper>
                     <InfoRightWrapper>
                         <Ago>{ago}</Ago>
-                        <Views>{views}</Views>
+                        <Views>조회 {views}</Views>
                     </InfoRightWrapper>
                 </PostInfoWrapper>
             </PostContentContainer>
@@ -50,6 +50,11 @@ const PostWrapper = styled.div`
     justify-content: flex-end;
     position: relative;
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    &:hover{
+        transform: translateY(-1.3em);
+        box-shadow: 0 0.625em 1.25em #C8C8C8;
+    }
 `;
 
 const LikeWrapper = styled.div`
@@ -80,7 +85,7 @@ const PostContentContainer = styled.div`
 `;
 
 const PostTitle = styled.div`
-    margin: 1.2692em 1.47696em 0.84615em 1.4770em;
+    margin: 1.2692em 1.2em 0.84615em 1.2em;
     width: 13.5em;
     font-size: 1.3em;
     font-weight: bold;
@@ -92,7 +97,7 @@ const PostTitle = styled.div`
 `;
 
 const Content = styled.div`
-    margin: 0 2.3631em 1em 2.3631em;
+    margin: 0 1.92em 1em 1.92em;
     height: 4em;
     line-height: 1.4em;
     font-size: 0.8125em;
@@ -106,7 +111,7 @@ const Content = styled.div`
 `;
 
 const PostInfoWrapper = styled.div`
-    margin:  1em 1.9201em;
+    margin:  1em 1.56em;
     display: flex;
     justify-content: space-between;
     color: #D0D1D9;

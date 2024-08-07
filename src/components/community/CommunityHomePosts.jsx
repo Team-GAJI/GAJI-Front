@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import HotPostPreview from './HotPostPreview';
-import SearchIcon from '../../assets/icons/community/searchIcon.svg?react';
+import LogoIcon from '../../assets/logos//logo.svg?react';
 import ProjectPreview from './ProjectPreview';
 import QuestionPreview from './QuestionPreview';
 import BlogPreview from './BlogPreview';
@@ -27,7 +27,7 @@ const CommunityHomePosts = () => {
     if (isLoading) return;
     setIsLoading(true);
     setTimeout(() => {
-        const newPosts = dummyProjectPosts.slice((projectPage - 1) * 2, projectPage * 2); // 페이지당 2개씩 로드
+        const newPosts = dummyProjectPosts.slice((projectPage - 1) * 4, projectPage * 4); // 페이지당 4개씩 로드
         setProjects((prevPosts) => [...prevPosts, ...newPosts]);
         setProjectPage((prevPage) => prevPage + 1);
         setIsLoading(false);
@@ -56,7 +56,7 @@ const CommunityHomePosts = () => {
     if (isLoading) return;
     setIsLoading(true);
     setTimeout(() => {
-      const newPosts = dummyQuestionPosts.slice((questionPage - 1) * 2, questionPage * 2); // 페이지당 2개씩 로드
+      const newPosts = dummyQuestionPosts.slice((questionPage - 1) * 4, questionPage * 4); // 페이지당 4개씩 로드
       setQuestions((prevPosts) => [...prevPosts, ...newPosts]);
       setQuestionPage((prevPage) => prevPage + 1);
       setIsLoading(false);
@@ -85,7 +85,7 @@ const CommunityHomePosts = () => {
     if (isLoading) return;
     setIsLoading(true);
     setTimeout(() => {
-      const newPosts = dummyBlogPosts.slice((blogPage - 1) * 4, blogPage * 4); // 페이지당 4개씩 로드
+      const newPosts = dummyBlogPosts.slice((blogPage - 1) * 8, blogPage * 8); // 페이지당 8개씩 로드
       setBlogs((prevPosts) => [...prevPosts, ...newPosts]);
       setBlogPage((prevPage) => prevPage + 1);
       setIsLoading(false);
@@ -149,7 +149,7 @@ const CommunityHomePosts = () => {
       
       {/* 검색창 */}
       <SearchInputWrapper>
-        <StyledSearchIcon />
+        <StyledLogoIcon />
         <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
       </SearchInputWrapper>
 
@@ -283,17 +283,18 @@ const HotPostsWrapper = styled.div`
 
 const SearchInputWrapper = styled.div`
   border: 1px solid #D0D1D9;
-  border-radius: 8px;
-  width: 63em;
-  height: 2.8em;
+  border-radius: 10px;
+  width: 38.75em;
+  height: 2.5em;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const StyledSearchIcon = styled(SearchIcon)`
-  margin: 1.3em;
+const StyledLogoIcon = styled(LogoIcon)`
+  margin: 1em;
+  width: 1.5em;
 `;
 
 const StyledSearchInput = styled.input`
@@ -312,7 +313,7 @@ const StyledSearchInput = styled.input`
 `;
 
 const SelectAndButtonWrapper = styled.div`
-  margin-top: 3em;
+  margin-top: 2em;
   width: 70em;
   display: flex;
   flex-direction: row;
@@ -327,11 +328,11 @@ const StyledSelect = styled.select`
   padding-left: 0.5em;
   border: 1px solid #C8C8C8;
   border-radius: 8px;
-  width: 6.5em;
-  height: 2.3em;
+  width: 8.3077em;
+  height: 2.4em;
   background-color : transparent;
   color: #D0D1D9;
-  font-size: 1em;
+  font-size: 0.8125em;
   font-weight: bold;
   cursor: pointer;
   &:focus{
@@ -342,24 +343,29 @@ const StyledSelect = styled.select`
 const CreatePostButton = styled.button`
   border: none;
   border-radius: 8px;
-  width: 10em;
-  height: 2.3em;
+  width: 9.9230em;
+  height: 2.4em;
   background-color: #8E59FF;
   color: white;
-  font-size: 1em;
+  font-size: 0.8125em;
   font-weight: bold;
   cursor: pointer;
+  &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+  }
+  transition: all 0.3s ease;
 `;
 
 const StyledHr = styled.hr`
   margin-top: 1em;
   border: none;
   width: 70em;
-  height: 3px;
-  background-color: #8E59FF;
+  height: 1.5px;
+  background-color: #D0D1D9;
 `;
 
 const PostPreviewWrapper = styled.div`
+  margin-top: 1.2em;
   width: 70em;
 `;
 

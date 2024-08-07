@@ -1,48 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setActiveButton } from '../feautres/community/communitySlice';
-import BackgroundImage from '../assets/images/community/communityBackground.png';
-import LogoIcon from '../assets/logos/logo.svg?react';
 import CommunityHomePosts from '../components/community/CommunityHomePosts';
+import PageHeader from '../components/common/PageHeader';
 
 const CommunityPage = () => {
-    // Redux 상태 가져오기
-    const { activeButton, title } = useSelector((state) => state.community);
+    // state 관리
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+    // Redux 상태 관리
     const dispatch = useDispatch();
 
-    // 버튼 클릭 시 상태 변경
-    const handleButtonClick = (buttonText) => {
-        dispatch(setActiveButton(buttonText));
+    const headerTitles = ["프로젝트", "질문", "블로그"];
+    const handleHeaderButtonClick = (index) => {
+        setActiveButtonIndex(index);
+        if (index == 0) {
+            dispatch(setActiveButton("프로젝트"));
+        } else if (index == 1) {
+            dispatch(setActiveButton("질문"));
+        } else {
+            dispatch(setActiveButton("블로그"));
+        }
     };
 
     return (
         <>
-            <HeaderWrapper>
-                <StyledLogoIcon />
-                <Title>{title}</Title>
-                <LogoText>`가지`고 싶은 지식을 나누고 성장해요 !</LogoText>
-                <ButtonsWrapper>
-                    <StyledButton
-                        isActive={activeButton === '프로젝트'}
-                        onClick={() => handleButtonClick('프로젝트')}
-                    >
-                        프로젝트
-                    </StyledButton>
-                    <StyledButton
-                        isActive={activeButton === '질문'}
-                        onClick={() => handleButtonClick('질문')}
-                    >
-                        질문
-                    </StyledButton>
-                    <StyledButton
-                        isActive={activeButton === '블로그'}
-                        onClick={() => handleButtonClick('블로그')}
-                    >
-                        블로그
-                    </StyledButton>
-                </ButtonsWrapper>
-            </HeaderWrapper>
+            {/* 헤더 */}
+            <PageHeader
+                pageTitle="커뮤니티"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleHeaderButtonClick}
+                changeColorOnClick={true}
+                changeColorOnHover={true}
+            />
+
+            {/* 핫게시물 및 게시글 영역 */}
             <PostsWrapper>
                 <HotPostsBackground></HotPostsBackground>
                 <HotPostText>HOT 게시물</HotPostText>
@@ -55,50 +49,6 @@ const CommunityPage = () => {
 export default CommunityPage;
 
 /* CSS */
-const HeaderWrapper = styled.div`
-    height: 16.1875em;
-    background-image: url(${BackgroundImage});
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-`;
-
-const StyledLogoIcon = styled(LogoIcon)`
-    width: 4em;
-    height: 4em;
-`;
-
-const Title = styled.div`
-    margin-top: 0.5em;
-    font-size: 1.5em;
-    font-weight: 800;
-    color: #8E59FF;
-`;
-
-const LogoText = styled.div`
-    margin-top: 1em;
-    color: #D0D1D9;
-`;
-
-const ButtonsWrapper = styled.div`
-    margin-top: 1em;
-`;
-
-const StyledButton = styled.button`
-    margin: 0.1786em;
-    border: none;
-    border-radius: 8px;
-    width: 10em;
-    height: 54px;
-    background-color: ${({ isActive }) => (isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)')}; 
-    color: white;
-    font-size: 1.4em;
-    cursor: pointer;
-`;
-
 const PostsWrapper = styled.div`
     text-align: center;
     position: relative;
@@ -116,7 +66,7 @@ const HotPostsBackground = styled.div`
 
 const HotPostText = styled.div`
     padding-top: 2em;
-    font-size: 1.5em;
+    font-size: 1.25em;
     font-weight: 800;
     color: #8E59FF;
 `;

@@ -8,7 +8,7 @@ const PageHeader = ({ pageTitle, headerTitles, activeButtonIndex, onButtonClick,
     return (
         <>
             {/* Header 스타일을 가진 div로 헤더 영역을 감쌉니다. */}
-            <Header>
+            <Header pageTitle={pageTitle}>
                 {/* 페이지 제목을 표시합니다. */}
                 <PageHeaderTitle>{pageTitle}</PageHeaderTitle>
                 <RowWrapper>
@@ -34,6 +34,7 @@ export default PageHeader;
 
 // Header 스타일을 정의합니다. 배경 이미지와 색상을 포함합니다.
 const Header = styled.div`
+    top: ${({ pageTitle }) => (pageTitle === '마이페이지' ? '60px' : '0')};
     top: 60px;
     display: flex;;
     z-index: 2;
@@ -101,3 +102,4 @@ const StyledPuppleButton = styled(PuppleButton)`
         font-size: 1em;
     }
 `;
+
