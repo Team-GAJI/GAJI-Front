@@ -1,51 +1,90 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setActiveButton } from '../feautres/community/communitySlice';
-import BackgroundImage from '../assets/images/community/communityBackground.png';
-import LogoIcon from '../assets/logos/logo.svg?react';
 import CommunityHomePosts from '../components/community/CommunityHomePosts';
+import PageHeader from '../components/common/PageHeader';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+import HotPostPreview from '../components/community/HotPostPreview';
+import { dummyHotPosts } from '../components/community/DummyHotPosts';
 
 const CommunityPage = () => {
-    // Redux 상태 가져오기
-    const { activeButton, title } = useSelector((state) => state.community);
+    // state 관리
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+    const [posts, setPosts] = useState([]);
+
+    // Redux 상태 관리
     const dispatch = useDispatch();
 
-    // 버튼 클릭 시 상태 변경
-    const handleButtonClick = (buttonText) => {
-        dispatch(setActiveButton(buttonText));
+    // 헤더 함수
+    const headerTitles = ["프로젝트", "질문", "블로그"];
+    const handleHeaderButtonClick = (index) => {
+        setActiveButtonIndex(index);
+        if (index == 0) {
+            dispatch(setActiveButton("프로젝트"));
+        } else if (index == 1) {
+            dispatch(setActiveButton("질문"));
+        } else {
+            dispatch(setActiveButton("블로그"));
+        }
     };
+
+    // HOT 게시물 불러오기
+    useEffect(() => {
+        setPosts(dummyHotPosts);
+    }, []);
 
     return (
         <>
-            <HeaderWrapper>
-                <StyledLogoIcon />
-                <Title>{title}</Title>
-                <LogoText>`가지`고 싶은 지식을 나누고 성장해요 !</LogoText>
-                <ButtonsWrapper>
-                    <StyledButton
-                        isActive={activeButton === '프로젝트'}
-                        onClick={() => handleButtonClick('프로젝트')}
-                    >
-                        프로젝트
-                    </StyledButton>
-                    <StyledButton
-                        isActive={activeButton === '질문'}
-                        onClick={() => handleButtonClick('질문')}
-                    >
-                        질문
-                    </StyledButton>
-                    <StyledButton
-                        isActive={activeButton === '블로그'}
-                        onClick={() => handleButtonClick('블로그')}
-                    >
-                        블로그
-                    </StyledButton>
-                </ButtonsWrapper>
-            </HeaderWrapper>
+            {/* 헤더 */}
+            <PageHeader
+                pageTitle="커뮤니티"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleHeaderButtonClick}
+                changeColorOnClick={true}
+                changeColorOnHover={true}
+            />
+
+            {/* 핫게시물 영역 */}
             <PostsWrapper>
-                <HotPostsBackground></HotPostsBackground>
-                <HotPostText>HOT 게시물</HotPostText>
+                <HotPostsBackground>
+                    <HotPostText>HOT 게시물</HotPostText>
+                    <StyledSwiper
+                        grabCursor={true}
+                        centeredSlides={true}
+                        slidesPerView={3}
+                        loop={true}
+                        spaceBetween={-133}
+                        effect={'coverflow'}
+                        coverflowEffect={{
+                            rotate: 0,
+                            stretch: -33,
+                            depth: 450,
+                            modifier: 1,
+                            slideShadows: false,
+                        }}
+                        pagination={false}
+                        modules={[EffectCoverflow, Pagination]}
+                    >
+                        {posts.map((post) => (
+                            <StyledSwiperSlide key={post.postId}>
+                                <HotPostPreview
+                                    key={post.postId}
+                                    title={post.postTitle}
+                                    background={post.postBackgroundImg}
+                                    tags={post.postTag} />
+                            </StyledSwiperSlide>
+                        ))}
+                    </StyledSwiper>
+                </HotPostsBackground>
+
+                {/* 게시글 영역 */}
                 <CommunityHomePosts/>
             </PostsWrapper>
         </>
@@ -55,68 +94,43 @@ const CommunityPage = () => {
 export default CommunityPage;
 
 /* CSS */
-const HeaderWrapper = styled.div`
-    height: 16.1875em;
-    background-image: url(${BackgroundImage});
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-`;
-
-const StyledLogoIcon = styled(LogoIcon)`
-    width: 4em;
-    height: 4em;
-`;
-
-const Title = styled.div`
-    margin-top: 0.5em;
-    font-size: 1.5em;
-    font-weight: 800;
-    color: #8E59FF;
-`;
-
-const LogoText = styled.div`
-    margin-top: 1em;
-    color: #D0D1D9;
-`;
-
-const ButtonsWrapper = styled.div`
-    margin-top: 1em;
-`;
-
-const StyledButton = styled.button`
-    margin: 0.1786em;
-    border: none;
-    border-radius: 8px;
-    width: 10em;
-    height: 54px;
-    background-color: ${({ isActive }) => (isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)')}; 
-    color: white;
-    font-size: 1.4em;
-    cursor: pointer;
-`;
-
 const PostsWrapper = styled.div`
     text-align: center;
     position: relative;
 `;
 
 const HotPostsBackground = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 18.75em;
+    margin-bottom: 1.5em;
+    height: 19.75em;
     background-color: #F0EAFF;
-    z-index: -1;
 `;
 
 const HotPostText = styled.div`
-    padding-top: 2em;
-    font-size: 1.5em;
-    font-weight: 800;
+    padding-top: 1.2em;
     color: #8E59FF;
+    font-weight: 800;
+`;
+
+const StyledSwiper = styled(Swiper)`
+    width: 52em;
+    height: 16em;
+`;
+
+const StyledSwiperSlide = styled(SwiperSlide)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    &.swiper-slide-prev,
+    &.swiper-slide-next {
+        transform: scale(0.8);
+    }
+    &.swiper-slide-prev-prev,
+    &.swiper-slide-next-next {
+        transform: scale(0.6);
+    }
+    &.swiper-slide-active {
+        transform: scale(1);
+        opacity: 1;
+    }
 `;

@@ -7,12 +7,11 @@ import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 import DownArrowIcon from "../assets/icons/communityPost/downArrow.svg?react";
-import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
+// import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
 import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Hashtag from "../components/communityWrite/Hashtag";
 
 // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
@@ -71,7 +70,7 @@ const CommunityPostPage = () => {
               user1023
             </Writer>
             <StyledBar>|</StyledBar>
-            프로젝트
+            프로젝트 &gt; 보안
             <StyledBar>|</StyledBar>
             2024.03.01
             <StyledBar>|</StyledBar>
@@ -93,9 +92,9 @@ const CommunityPostPage = () => {
           <Title>{title}</Title>
           {/* 게시글 해시태그 */}
           <HashtagWrapper>
-            <Hashtag />
-            <Hashtag />
-            <Hashtag />
+            <Hashtag>#Spring</Hashtag>
+            <Hashtag>#Spring</Hashtag>
+            <Hashtag>#Spring</Hashtag>
           </HashtagWrapper>
           {/* 게시글 상호작용 */}
           <InteractionWrapper>
@@ -163,10 +162,10 @@ const CommunityPostPage = () => {
         </PostContent>
 
         {/* 다음 게시물 div */}
-        <ExtraPostsWrapper>
+        {/* <ExtraPostsWrapper>
           <ExtraPostPreview />
           <ExtraPostPreview />
-        </ExtraPostsWrapper>
+        </ExtraPostsWrapper> */}
 
         <StyledHr />
         {/* 댓글 영역 */}
@@ -180,13 +179,14 @@ export default CommunityPostPage;
 
 /* CSS */
 const HeaderWrapper = styled.div`
-  padding: 0 8em 0 8em;
+  padding: 0 13em;
   height: 16.1875em;
   background-image: url(${BackgroundImage});
   background-size: cover;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 0.8125em;
 `;
 
 const TitleWrapper = styled.div`
@@ -239,6 +239,19 @@ const HashtagWrapper = styled.div`
   display: flex;
 `;
 
+const Hashtag = styled.div`
+  margin-right: 0.7em;
+  padding: 0 1.2em;
+  border-radius: 15px;
+  height: 1.8182em;
+  line-height: 1.8182em;
+  background-color: #8E59FF;
+  color: white;
+  font-size: 0.6875em;
+  font-weight: bold;
+  text-align: center;
+`;
+
 const InteractionWrapper = styled.div`
   display: flex;
   text-align: center;
@@ -283,11 +296,11 @@ const PostStateWrapper = styled.div`
 `;
 
 const PostStateButton = styled.div`
-  border-radius: 10px;
-  width: 9.3077em;
-  height: 2.2308em;
+  border-radius: 8px;
+  width: 10em;
+  height: 2.4em;
   background-color: #8e59ff;
-  line-height: 2.2308em;
+  line-height: 2.4em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -329,33 +342,30 @@ const PostStateOption = styled.div`
 `;
 
 const PostContentWrapper = styled.div`
-  margin-bottom: 7em;
+  margin-bottom: 2.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const PostContent = styled.div`
-  margin: 3em 0 1.5em 0;
-  padding: 4em 3em;
-  border: 1px solid #a2a3b2;
-  border-radius: 10px;
-  width: 69em;
-  min-height: 20em;
-  line-height: 1.7em;
-  color: #a2a3b2;
+  margin: 1.5em 0;
+  width: 68em;
+  min-height: 22em;
+  color: #161A3F;
 `;
 
-const ExtraPostsWrapper = styled.div`
-  width: 75em;
-  display: flex;
-  justify-content: space-between;
-`;
+// const ExtraPostsWrapper = styled.div`
+//   width: 75em;
+//   display: flex;
+//   justify-content: space-between;
+// `;
 
 const StyledHr = styled.hr`
-  margin: 2em 0 2em 0;
+  margin: 2em 0;
   border: none;
-  width: 75em;
+  width: 84.5588em;
   height: 1.5px;
+  font-size: 0.85em;
   background-color: rgba(162, 163, 178, 0.4);
 `;

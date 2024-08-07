@@ -4,6 +4,7 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom'; 
 import LoginPage from './pages/LoginPage';
 import MainLayOut from './layout/MainLayOut';
+import MainPage from './pages/MainPage.jsx';
 import CommunityPage from './pages/CommunityPage';
 import CommunityPostPage from './pages/CommunityPostPage';
 import CommunityWritePage from './pages/CommunityWritePage';
@@ -13,15 +14,21 @@ import TroubleShootingPage from './pages/TroubleShootingPage.jsx';
 import StudyManagePage from './pages/StudyManagePage.jsx';
 import StudyNoticePage from './pages/StudyNoticePage.jsx';
 import StudyRoomPage from './pages/StudyRoomPage.jsx';
-import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
+import StudyDetailPage from './pages/StudyDetailPage.jsx';
+import StudyCreatePage from './pages/StudyCreatePage.jsx';
+
 function App() {
   return (
     <Routes>
       <Route exact path="/login" element={<LoginPage/>}/>
       <Route element={<MainLayOut/>}>
+<<<<<<< HEAD
         <Route exact path="/studyroom" element={<StudyRoomPage/>}/>      
+        <Route path="/" element={<MainPage/>}/>
+=======
         <Route path="/" element={<CommunityPage/>}/>
+>>>>>>> 276c8924937c70284decc8957bd8f5992afa5a36
         <Route path="/community" element={<CommunityPage/>}/>
         <Route path="/community/post" element={<CommunityPostPage/>}/>
         <Route path="/community/write" element={<CommunityWritePage/>}/>
@@ -30,6 +37,8 @@ function App() {
         <Route path="/studyweekmanage" element={<StudyManageWeekPage/>}/>
         <Route path="/studyroom" element={<StudyRoomPage/>}/>
         <Route path="/studycategory" element={<StudyCategoryPage/>}/>
+        <Route path="/studydetail" element={<StudyDetailPage/>}/>
+        <Route path="/studycreatepgage" element={<StudyCreatePage/>}/>
         <Route exact path="/studynotice" element={<StudyNoticePage/>}/>
         {/* <Route path='/studydetail' element={<StudyDetailPage/>}/> */}
         <Route path="/troubleshooting" element={<TroubleShootingPage />} />

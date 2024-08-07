@@ -23,7 +23,7 @@ const Header = () => {
     return (
         <HeaderWrapper>
             <RowWrapper>
-                <StyledMenuIcon onClick={toggleMenu} $menuVisible={menuVisible} />
+                <StyledMenuIcon onClick={()=>toggleMenu()} $menuVisible={menuVisible} />
                 <MenuWrapper $menuVisible={menuVisible}>
                     <Text onClick={() => navigate('/')}>홈</Text>
                     <Text onClick={() => navigate('/study')}>스터디</Text>
@@ -56,7 +56,7 @@ const HeaderWrapper = styled.div`
     right: 0;
     display: flex;
     width: 100%;
-    height: 104px;
+    height: 60px;
     justify-content: space-between;
     align-items: center;
     padding-left: 3.1em;
@@ -99,13 +99,15 @@ const MenuWrapper = styled.div`
 `;
 
 const StyledMenuIcon = styled(MenuIcon)`
-    width: 1.44em;
+    width: 1em;
+    height : 1em;
     cursor: pointer;
     fill: ${(props) => (props.$menuVisible ? '#8E59FF' : '#000000')};
     transition: fill 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 
     @media (max-width: 768px) {
-        width: 1.44em;
+        width: 1em;
+        height : 1em;
     }
 `;
 
@@ -144,6 +146,7 @@ const MyPageButton = styled.div`
     margin-right: 2em;
     background-image: url(${userProfileUrl});
     background-size: cover;
+    border: 5px solid #fbfaff 
 
     @media (max-width: 768px) {
         width: 1.5em;
