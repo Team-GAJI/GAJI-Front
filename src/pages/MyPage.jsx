@@ -41,7 +41,7 @@ const MyPage = () => {
     return (
         <MyPageWrapper>
             <PageHeader
-                pageTitle="마이페이지"
+                pageTitle='마이페이지'
                 headerTitles={headerTitles}
                 activeButtonIndex={activeButtonIndex}
                 onButtonClick={handleHeaderButtonClick}
@@ -98,7 +98,7 @@ const ContentWrapper = styled.div`
     width: 60%;
     margin-left: auto; 
     margin-right: auto; 
-    margin-top: 16.1875em;
+    
     gap: 4em;
 
     @media (max-width: 1199px) {

@@ -36,7 +36,8 @@ export default PageHeader;
 const Header = styled.div`
     display: flex;;
     z-index: 2;
-    position: ${({ pageTitle }) => (pageTitle === '마이페이지' ? 'fixed' : 'relative')};
+    position: ${({ pageTitle }) => ( pageTitle === '마이페이지' ? 'fixed' : 'relative')};
+    top : ${({ pageTitle }) => ( pageTitle === '마이페이지' ? '60px' : '')};
     display: flex;
     flex-direction: column;
     align-items: center;

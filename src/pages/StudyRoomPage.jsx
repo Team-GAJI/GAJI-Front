@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/common/mypageBackground.png'
 import StudyRecruitment from '../components/studyRoom/StudyRecruitment';
 import Book from '../assets/images/studyRoom/Rectangle 34624913.png';
 import Plus from '../assets/icons/studyRoom/Plus.png';
 import AlarmIcon from '../assets/icons/studyRoom/Alarm.png';
-import { useNavigate } from 'react-router-dom';
+import PageHeader from '../components/common/PageHeader';
+// import { useNavigate } from 'react-router-dom';
 
 
 const StudyRoomPage = () => {
-  
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const cardData = Array.from({ length: 3 }, (_, index) => ({
         id: index,
         title: `제목 ${index + 1}`,
@@ -36,24 +37,24 @@ const StudyRoomPage = () => {
   
     const id = 1;  
     const alarmCount = alarmData[id]; 
+    const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
+    const handleHeaderButtonClick = (index) => {
+        setActiveButtonIndex(index);
+        
+    };
     
     return (
         <>
         <HeaderWrapper>
             <ContentWrapper>
-                {/* 로고와 로고 텍스트 */}
-                <RowLogoWrapper>
-                    <LogoText>스터디룸</LogoText>
-                </RowLogoWrapper>
-
-                {/* 카테고리 메뉴 선택 */}
-                <RowSelectWrapper>
-                    <SelectButton>스터디 홈 </SelectButton>
-                    <SelectButton onClick={()=>navigate()}>트러블 슈팅 게시판 </SelectButton>
-                    <SelectButton>정보나눔 게시판 </SelectButton>
-                    <SelectButton>채팅방</SelectButton> 
-                </RowSelectWrapper>
-
+              <PageHeader
+                  pageTitle="스터디룸"
+                  headerTitles={headerTitles}
+                  activeButtonIndex={activeButtonIndex}
+                  onButtonClick={handleHeaderButtonClick}
+                  changeColorOnClick={false}
+                  changeColorOnHover={true}
+              />
                 <MainSection>
                     <SidebarWrapper>
                         <Sidebar1>
@@ -231,34 +232,6 @@ const HeaderWrapper = styled.div`
     padding: 0 3.1em;
 `;
 
-const RowLogoWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.9em;
-    flex-direction: column;
-    justify-content: center;
-    padding: 1.25em;
-
-    background-image: url(${backImage});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-`;
-
-const LogoText = styled.div`
-    font-size: 1.25em;
-    font-weight: 800;
-    color: #8E59FF;
-`;
-
-const RowSelectWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    margin-top: 0.625em;
-    margin-left: 18.75em; 
-    gap: 0.825em; 
-`;
-
 const SelectButton = styled.div`
     background-color: #8E59FF;
     border-radius: 0.5em;
@@ -414,7 +387,6 @@ const SidebarWrapper = styled.div`
 const MainSection = styled.section`
   display: flex;
   flex: 1;
-  background-color: #fff;
   padding-top: 1.875em; 
   overflow: auto;
   flex-direction: row;
