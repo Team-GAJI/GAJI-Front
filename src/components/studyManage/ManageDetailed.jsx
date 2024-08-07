@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import WritePost from '../studyManage/ManageWrithePost.jsx';
+import WritePost from './ManageWrithePost.jsx';
 
 const ManageDetailed = () => {
 

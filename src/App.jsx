@@ -29,7 +29,6 @@ function App() {
         <Route path="/studymanage" element={<StudyManagePage/>}/>
         <Route path="/studyweekmanage" element={<StudyManageWeekPage/>}/>
         <Route path="/studyroom" element={<StudyRoomPage/>}/>
-        <Route path="/studycategory" element={<StudyCategoryPage/>}/>
         <Route path="/studycreatepgage" element={<StudyCreatePage/>}/>
         <Route exact path="/studynotice" element={<StudyNoticePage/>}/>
         {/* <Route path='/studydetail' element={<StudyDetailPage/>}/> */}

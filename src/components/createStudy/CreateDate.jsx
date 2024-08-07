@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Calendar from '../studyManage/StudyManageCalendar.jsx';
+import Calendar from './CreateCalendar.jsx';
 
-const ManageDate = () => {
+const CreateDate = () => {
     return(
         <Container>
             <Text2>스터디 기한</Text2>
@@ -40,7 +40,7 @@ const ManageDate = () => {
     );
 };
 
-export default ManageDate;
+export default CreateDate;
 
 
 const Container = styled.div`
@@ -78,20 +78,20 @@ const Text2 = styled.p`
 `;
 
 const MainWrapper2 = styled.div`
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #8E59FF;
-  border-radius: 0.5em; 
-  width: 59.375em;
-  height: 28.125em; 
-  margin-bottom : 0em;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    width: 59.375em;
+    height: 28.125em; 
+    margin-bottom : 0em;
 `;
 
 const DivisionLine3 = styled.div`
-  border-left: 0.0625em solid #A2A3B2;
-  height: 26.25em; 
-  margin: 0.625em;
+    border-left: 0.0625em solid #A2A3B2;
+    height: 26.25em; 
+    margin: 0.625em;
 `;
 
 const StartButton = styled.button`
@@ -146,36 +146,5 @@ const CalendarWrapper = styled.div`
     margin: 2.5em 0 1.25em 2.5em; 
 `;
 
-
-const CategoryButton = styled.button`
-    border: 0.0625em solid #8E59FF; 
-    border-radius: 0.5em;
-    font-size: 0.8125em; 
-    font-weight: 700;
-    color: #8E59FF;
-    padding: 0.5em; 
-    margin: 0.5em 0.5em 0em  0.5em; 
-    width: 30em;
-    background-color: transparent; 
-    align-self: flex-start;
-    text-align: left; 
-`;
-
-const MaxCount = styled.p`
-    color: #8E59FF;
-    font-size: 0.8125em; 
-    font-weight: 700;
-    margin-top: 2em;
-`;
-
-const MinusButton = styled.button`
-  border: 0.0625em solid #A2A3B2; 
-  border-radius: 100%;
-  text-align: center;
-  width: 1.5625em;
-  height: 1.8625em; 
-  background-color: #A2A3B2;
-  color: #fff; 
-`;
 
 

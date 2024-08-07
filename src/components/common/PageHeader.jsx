@@ -34,8 +34,6 @@ export default PageHeader;
 
 // Header 스타일을 정의합니다. 배경 이미지와 색상을 포함합니다.
 const Header = styled.div`
-    top: ${({ pageTitle }) => (pageTitle === '마이페이지' ? '60px' : '0')};
-    top: 60px;
     display: flex;;
     z-index: 2;
     position: ${({ pageTitle }) => (pageTitle === '마이페이지' ? 'fixed' : 'relative')};
