@@ -5,12 +5,13 @@ import StudyRecruitment from '../components/studyRoom/StudyRecruitment';
 import Book from '../assets/images/studyRoom/Rectangle 34624913.png';
 import Plus from '../assets/icons/studyRoom/Plus.png';
 import AlarmIcon from '../assets/icons/studyRoom/Alarm.png';
+import { useNavigate } from 'react-router-dom';
 
 
 const StudyRoomPage = () => {
   
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
-
+    const navigate = useNavigate();
     const cardData = Array.from({ length: 3 }, (_, index) => ({
         id: index,
         title: `제목 ${index + 1}`,
@@ -48,7 +49,7 @@ const StudyRoomPage = () => {
                 {/* 카테고리 메뉴 선택 */}
                 <RowSelectWrapper>
                     <SelectButton>스터디 홈 </SelectButton>
-                    <SelectButton>트러블 슈팅 게시판 </SelectButton>
+                    <SelectButton onClick={()=>navigate()}>트러블 슈팅 게시판 </SelectButton>
                     <SelectButton>정보나눔 게시판 </SelectButton>
                     <SelectButton>채팅방</SelectButton> 
                 </RowSelectWrapper>

@@ -8,13 +8,13 @@ const StudyManagePage = () => {
 
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');
-  
+
     const handleStudyNameChange = (event) => {
-      setStudyName(event.target.value);
+        setStudyName(event.target.value);
     };
-  
+
     const handleStudyDescriptionChange = (event) => {
-      setStudyDescription(event.target.value);
+        setStudyDescription(event.target.value);
     };
 
     const data = [
@@ -27,7 +27,7 @@ const StudyManagePage = () => {
     const [isOn, setisOn] = useState(false);
 
     const toggleHandler = () => {
-      setisOn(!isOn)
+            setisOn(!isOn)
     };
 
     return (
@@ -80,14 +80,14 @@ const StudyManagePage = () => {
                 </InputWrapper>
                 <DivisionLine2/>
                     <RowContainer>
-                       <ImageWrapper>
-                       <FileInputWrapper>
-                            <HiddenFileInput id="file-upload" />
-                            <FileInputLabel htmlFor="file-upload">이미지 업로드</FileInputLabel>
-                            </FileInputWrapper>
-                        <ImageText>용량 제한: 232123mb</ImageText>
-                        <ImageText>파일 형식: png만 가능 (이런 식으로)</ImageText>
-                       </ImageWrapper>
+                        <ImageWrapper>
+                        <FileInputWrapper>
+                                <HiddenFileInput id="file-upload" />
+                                <FileInputLabel htmlFor="file-upload">이미지 업로드</FileInputLabel>
+                                </FileInputWrapper>
+                            <ImageText>용량 제한: 232123mb</ImageText>
+                            <ImageText>파일 형식: png만 가능 (이런 식으로)</ImageText>
+                        </ImageWrapper>
                         <Container>
                         <Text4>스터디 설명</Text4>
                         <ExWrapper>
@@ -185,9 +185,9 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column; 
-  gap: 0.625em; 
+    display: flex;
+    flex-direction: column; 
+    gap: 0.625em; 
 `;
 
 const RowContainer = styled.div`
@@ -228,44 +228,46 @@ const SidebarWrapper = styled.div`
 
 `;
 const Sidebar1 = styled.aside`
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 0.5em; 
-  width: 11.25em; 
-  height: 30.625em; 
-  margin-top: 1.9375em; 
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #A2A3B2;
+    border-radius: 0.5em; 
+    width: 11.25em; 
+    height: 30.625em; 
+    margin-top: 1.9375em; 
 `;
 
 const SidebarButton1 = styled.div`
-  background-color: transparent;
-  color: #A2A3B2;
+    background-color: transparent;
+    color: #A2A3B2;
 
-  font-weight: 1.125em; 
-  margin-top: 0.625em; 
-  padding: 0.6em 0.625em; 
-  text-align: center;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    font-weight: 1.125em; 
+    margin-top: 0.625em; 
+    padding: 0.6em 0.625em; 
+    text-align: center;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-  &:hover {
-    border : 1px solid #8E59FF;
-    border-radius: 0.5em; 
-    color: #8E59FF;
-    margin-left: 0.4em; 
-    margin-right : 0.4em;
-  }
- `;
- const BasicInfoButton = styled(SidebarButton1)`
-   font-size: 1em;
-   font-weight: 1.125em; 
-   background-color: #8E59FF;
-   border: none;
-   background-color: transparent;
-   color: #A2A3B2;
+    &:hover {
+        border : 1px solid #8E59FF;
+        border-radius: 0.5em; 
+        color: #8E59FF;
+        margin-left: 0.4em; 
+        margin-right : 0.4em;
+    }
 `;
+
+const BasicInfoButton = styled(SidebarButton1)`
+    font-size: 1em;
+    font-weight: 1.125em; 
+    background-color: #8E59FF;
+    border: none;
+    background-color: transparent;
+    color: #A2A3B2;
+`;
+
 /* Header css */
 const HeaderWrapper = styled.div`
     z-index: 5;
@@ -341,15 +343,15 @@ const Text = styled.p`
 
 /* 화면 분활 (오른쪽 사이드) */
 const MainSection = styled.section`
-  display: flex;
-  flex: 1;
-  padding-top: 30px;
-  /*overflow: auto;*/
-  flex-direction: row; 
-  gap: 20px; 
-  flex-direction: column; 
-  position: relative;
-  margin-bottom : 40px;
+    display: flex;
+    flex: 1;
+    padding-top: 30px;
+    /*overflow: auto;*/
+    flex-direction: row; 
+    gap: 20px; 
+    flex-direction: column; 
+    position: relative;
+    margin-bottom : 40px;
 `;
 
 const SidebarButton = styled.div`
@@ -375,24 +377,24 @@ const Text2 = styled.p`
 `;
 
 const MainWrapper1 = styled.div`
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #8E59FF;
-  border-radius: 0.5em; 
-  width: 59.375em; 
-  height: 47.1875em;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    width: 59.375em; 
+    height: 47.1875em;
 `;
 
 const MainWrapper2 = styled.div`
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #8E59FF;
-  border-radius: 0.5em; 
-  width: 59.375em;
-  height: 28.125em; 
-  margin-bottom : 10em;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    width: 59.375em;
+    height: 28.125em; 
+    margin-bottom : 10em;
 `;
 
 const InputWrapper = styled.div`
