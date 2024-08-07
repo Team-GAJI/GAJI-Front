@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import backgroundimage from '../assets/images/login/background.png';
 import Logo from '../components/common/Logo';
 import { Color } from '../components/style/Color';
-import { GoogleLoginButton, PuppleButton } from '../components/style/Button';
+import { LoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useDispatch } from 'react-redux';
 import { loadTokens, setTokens } from '../feautres/auth/authSlice'; 
@@ -108,17 +108,25 @@ const LoginPage = () => {
                     <Text3>약관보기</Text3>
                 </RowWrapper>
                 <Padding/>
-                <GoogleLoginButton onClick={()=>hadnleRegister()} disabled={!isAgreed}>
+                <LoginButton onClick={()=>hadnleRegister()} disabled={!isAgreed}>
                     <GoogleLogo/>
-                    Sign in with Google
-                </GoogleLoginButton> 
+                    구글로 회원가입하기
+                </LoginButton> 
+                <LoginButton onClick={()=>handleLogin()}>
+                    <NaverLogo>N</NaverLogo>
+                    네이버로 회원가입하기
+                </LoginButton>
                 </ColumnWrapper>
                 :
                 <ColumnWrapper>
-                    <GoogleLoginButton onClick={()=>handleLogin()}>
+                    <LoginButton onClick={()=>handleLogin()}>
                         <GoogleLogo/>
-                        Login in with Google
-                    </GoogleLoginButton>
+                        구글로 로그인하기
+                    </LoginButton>
+                    <LoginButton onClick={()=>handleLogin()}>
+                        <NaverLogo>N</NaverLogo>
+                        네이버로 로그인하기
+                    </LoginButton>
                     <Text onClick={()=>setRegister(true)}>회원가입하기</Text>
                 </ColumnWrapper>
                 }
@@ -129,6 +137,11 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+const NaverLogo = styled.div`
+    font-weight : 1000;
+    color : #03C75A;
+`
 
 const LoginWrapper = styled.div`
     background-image: url(${props => props.image});
@@ -169,6 +182,9 @@ const RowWrapper = styled.div`
 const Title = styled.div`
     font-size : 2em;
     font-weight : 700;
+    @media(max-width: 768px){
+        font-size : 1.5em;
+    }
 `;
 
 
@@ -238,6 +254,9 @@ const LoginFooter = styled.div`
 
 const StyledLogo = styled(Logo)`
     width : 180px;
+    @media(max-width: 768px){
+        width : 90px;
+    }
 `
 
 const ModalWrapper = styled.div`
@@ -261,6 +280,9 @@ const Modal = styled.div`
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(2.5px);
     border-radius: 10px;
+    @media(max-width: 768px){
+        width : 80%;
+    }
 
 `;
 

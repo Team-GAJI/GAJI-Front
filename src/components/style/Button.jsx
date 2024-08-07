@@ -27,7 +27,7 @@ export const PuppleButton3 = styled.div`
     color : #FFFFFF;
 `
 
-export const GoogleLoginButton = styled.div`
+export const LoginButton = styled.div`
     display : flex;
     justify-content : center;
     align-items : center;
@@ -36,6 +36,6 @@ export const GoogleLoginButton = styled.div`
     height : 43px;
     background-color : #FFFFFF;
     border-radius : 10px;
-    border : 1px solid #000000;
+    border : 0.5px solid #000000;
     font-weight : 600;
 `
