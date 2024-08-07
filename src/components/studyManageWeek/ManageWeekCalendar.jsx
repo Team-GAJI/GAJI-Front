@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/createStudy/CreateStudyprevmonth.svg';
-import NextMonth from '../../assets/icons/createStudy/CreateStudynextmonth.svg';
+import PrevMonth from '../../assets/icons/studyManageWeek/StudyManageWeekprevmonth.svg';
+import NextMonth from '../../assets/icons/studyManageWeek/StudyManageWeeknextmonth.svg';
 
 const Calendar = () => {
     const [date, setDate] = useState(new Date());
@@ -75,7 +75,6 @@ const Calendar = () => {
                 ))}
                 {cells}
             </Grid>
-            
         </CalendarContainer>
 
 
