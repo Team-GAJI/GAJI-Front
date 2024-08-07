@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import StudyRecruitment from '../studyCategory/StudyRecruitment';
+import StudyRecruitment from './StudyRecruitment';
 import BackStudyRecruitment from './BackStudyRecruitment';
 
 
