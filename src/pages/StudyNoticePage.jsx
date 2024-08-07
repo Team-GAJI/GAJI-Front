@@ -48,10 +48,7 @@ const StudyNoticePage = () => {
         <>
         <HeaderWrapper>
             <ContentWrapper>
-            <RowWrapper>
-                    <SidebarToggle>☰</SidebarToggle>
-                    <AuthButton>LOG IN</AuthButton>
-                </RowWrapper>
+
             <RowLogoWrapper>
                     <LogoText>스터디룸 공지사항</LogoText>
             </RowLogoWrapper>
@@ -134,28 +131,6 @@ const HeaderWrapper = styled.div`
 `;
 const ContentWrapper = styled.div`
     flex-grow: 1;
-`;
-const RowWrapper = styled.div`
-    padding-top: 1.25em; 
-    display: flex;
-    align-items: center;
-    gap: 60.75em; 
-    margin-top: 0.625em; 
-`;
-const SidebarToggle = styled.div`
-    cursor: pointer;
-    font-size: 1.25em; 
-    padding: 0.8125em;
-`;
-
-const AuthButton = styled.div`
-    font-size: 0.8125em;
-    width: 7.6875em;
-    border: 1px solid #161A3F;
-    border-radius:0.625em;
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
 `;
 const RowLogoWrapper = styled.div`
     display: flex;

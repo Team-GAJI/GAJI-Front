@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import backImage from '../assets/images/common/mypageBackground.png';
-import ManageDel from '../assets/icons/studyManage/StudyManageDel.png';
-import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
+import StudyManageWeekManageDel from '../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
+import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
 
 
-import ManageBasics from '../components/studyManage/ManageBasics';
-import ManageDate from '../components/studyManage/ManageDate';
-import ManageDetailed from '../components/studyManage/ManageDetailed';
-
+import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
+import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
+import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 
 const StudyManagePage = () => {
     // n주차 버튼 기능
@@ -36,7 +35,7 @@ const StudyManagePage = () => {
     <Wrapper>
         <RowLogoWrapper>
                 <MainText>스터디 관리 페이지</MainText>
-                <Text>`가지`고 싶은 스터디를 만들어보세요!</Text>
+                <Text>스터디장에게만 보이는 메뉴에요</Text>
                 <RowWrapper1>
                     <MainButton>저장하기</MainButton>
                     <MainButton>미리보기</MainButton>
@@ -45,7 +44,7 @@ const StudyManagePage = () => {
         </RowLogoWrapper>
 
         <MainSection>
-      
+
         <SidebarWrapper>
             <Sidebar1 ref={sidebarRef}>
                 <BasicInfoButton>기본정보</BasicInfoButton>
@@ -56,22 +55,22 @@ const StudyManagePage = () => {
                         {week + 1}주차
                     </TextWrapper>
                     <DelIconWrapper>
-                        <DelIcons src={ManageDel} alt="삭제" onClick={() => handleDelete(index)} />
+                        <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={() => handleDelete(index)} />
                     </DelIconWrapper>
                     </SidebarButton1>
                 </React.Fragment>
                 ))}
                 <PlusButton onClick={handleAdd}>
-                <PlusIcons src={ManagePlus} alt="추가" />
+                <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
                 </PlusButton>
             </Sidebar1>
         </SidebarWrapper>
 
 
 
-           <ManageBasics/>
-           <ManageDate/>
-           <ManageDetailed/>
+           <ManageWeekBasics/>
+           <ManageWeekeDate/>
+           <ManageWeekeDetailed/>
         </MainSection>
 
     </Wrapper>
@@ -91,7 +90,6 @@ const Wrapper = styled.div`
     padding: 0 3.1em;
     width: 100%;
 `;
-
 
 const MainText = styled.p`
     font-size: 1.3em;
@@ -123,7 +121,6 @@ const SidebarWrapper = styled.div`
 
 `;
 const Sidebar1 = styled.aside`
-
  transition: height 0.5s ease; 
   overflow: hidden; 
   background-color: #fff;
@@ -134,7 +131,6 @@ const Sidebar1 = styled.aside`
   width: 11.25em; 
   height: 32.5em; 
   margin-top: 1.9375em; 
-
 `;
 const DelIconWrapper = styled.div`
   visibility: hidden;
@@ -189,7 +185,6 @@ const SidebarButton1 = styled.div`
    background-color: transparent;
    color: #A2A3B2;
 `;
-
 const RowWrapper1 = styled.div`
     width: 100%;
     display: flex;
@@ -220,21 +215,20 @@ const Text = styled.p`
 
 /* 화면 분활 (오른쪽 사이드) */
 const MainSection = styled.section`
-    display: flex;
-    flex: 1;
-    padding-top: 30px;
-    /*overflow: auto;*/
-    flex-direction: row; 
-    gap: 20px; 
-    flex-direction: column; 
-    position: relative;
-    margin-bottom : 40px;
+  display: flex;
+  flex: 1;
+  padding-top: 30px;
+  /*overflow: auto;*/
+  flex-direction: row; 
+  gap: 20px; 
+  flex-direction: column; 
+  position: relative;
+  margin-bottom : 40px;
 `;
 const PlusButton = styled.button`
     font-size: 1em;
     font-weight: 1.125em; 
     background-color: #8E59FF;
-
     border: none;
     background-color: transparent;
     color: #A2A3B2;
