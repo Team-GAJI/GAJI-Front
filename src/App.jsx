@@ -15,6 +15,7 @@ import StudyManagePage from './pages/StudyManagePage.jsx';
 import StudyNoticePage from './pages/StudyNoticePage.jsx';
 import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
+import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import StudyCreatePage from './pages/StudyCreatePage.jsx';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/studyweekmanage" element={<StudyManageWeekPage/>}/>
         <Route path="/studyroom" element={<StudyRoomPage/>}/>
         <Route path="/studycategory" element={<StudyCategoryPage/>}/>
+        <Route path="/studydetail" element={<StudyDetailPage/>}/>
         <Route path="/studycreatepgage" element={<StudyCreatePage/>}/>
         <Route exact path="/studynotice" element={<StudyNoticePage/>}/>
         {/* <Route path='/studydetail' element={<StudyDetailPage/>}/> */}
