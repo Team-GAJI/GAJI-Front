@@ -1,43 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {  useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Calendar from '../components/mypage/Calendar';
 import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
-import PageHeader from '../components/common/PageHeader'; 
 import MyPageHeader from '../components/mypage/MyPageHeader';
 
 const MyPage = () => {
-    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
     const homeRef = useRef(null);
     const studyRoomRef = useRef(null);
     const calendarRef = useRef(null);
     const myPostRef = useRef(null);
 
-    const handleScroll = (section) => {
-        let ref;
-        if (section === 'home') ref = homeRef;
-        if (section === 'studyroom') ref = studyRoomRef;
-        if (section === 'calendar') ref = calendarRef;
-        if (section === 'mypost') ref = myPostRef;
+    // const handleScroll = (section) => {
+    //     let ref;
+    //     if (section === 'home') ref = homeRef;
+    //     if (section === 'studyroom') ref = studyRoomRef;
+    //     if (section === 'calendar') ref = calendarRef;
+    //     if (section === 'mypost') ref = myPostRef;
 
-        const yOffset = -370; // 370px 아래로 이동
-        const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    //     const yOffset = -370; // 370px 아래로 이동
+    //     const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-        window.scrollTo({ top: yPosition, behavior: 'smooth' });
-    };
+    //     window.scrollTo({ top: yPosition, behavior: 'smooth' });
+    // };
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
-    const headerTitles = ["내 정보", "스터디룸", "일정", "내가 쓴 글"];
-    const handleHeaderButtonClick = (index) => {
-        const sections = ['home', 'studyroom', 'calendar', 'mypost'];
-        setActiveButtonIndex(index);
-        handleScroll(sections[index]);
-    };
 
     return (
         <MyPageWrapper> 
