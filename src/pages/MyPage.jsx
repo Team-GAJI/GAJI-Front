@@ -5,6 +5,7 @@ import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
 import PageHeader from '../components/common/PageHeader'; 
+import MyPageHeader from '../components/mypage/MyPageHeader';
 
 const MyPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
@@ -39,15 +40,8 @@ const MyPage = () => {
     };
 
     return (
-        <MyPageWrapper>
-            <PageHeader
-                pageTitle='마이페이지'
-                headerTitles={headerTitles}
-                activeButtonIndex={activeButtonIndex}
-                onButtonClick={handleHeaderButtonClick}
-                changeColorOnClick={true}
-                changeColorOnHover={true}
-            />
+        <MyPageWrapper> 
+            <MyPageHeader/>
             <ContentWrapper>
                 <UserInfo ref={homeRef} />
                 <RowWrapper4 ref={studyRoomRef}>
