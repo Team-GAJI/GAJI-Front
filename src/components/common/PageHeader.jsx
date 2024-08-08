@@ -37,7 +37,7 @@ const Header = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 16.1875em;
+    height: 10em;
     background-color: #FBFAFF;
     background-image: url(${backGroundUrl});
     @media (max-width: 768px) {
@@ -79,14 +79,16 @@ const StyledPuppleButton = styled(PuppleButton)`
     box-sizing: border-box;
     width: 10em;
     height: 2.25em;
-    font-size: 1.25em;
     font-weight: 700;
     background-color: ${({ $isActive }) => ($isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)')};
     background-color: ${({ $changeColorOnClick, $isActive }) => $changeColorOnClick && $isActive ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)'};
 
     &:hover {
-        background-color: ${({ $changeColorOnHover }) => $changeColorOnHover ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)'};
+        // background-color: ${({ $changeColorOnHover }) => $changeColorOnHover ? '#8E59FF' : 'rgba(137, 87, 255, 0.6)'};
+        transform: translateY(-0.3em);
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
+    transition: all 0.3s ease;
 
     @media (max-width: 768px) {
         width : ${({ large }) => (large ? '3em' : '10em')};

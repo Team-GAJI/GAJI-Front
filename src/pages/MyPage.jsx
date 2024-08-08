@@ -42,6 +42,7 @@ const MyPage = () => {
         <MyPageWrapper>
             <PageHeader
                 pageTitle='마이페이지'
+                large={true}
                 headerTitles={headerTitles}
                 activeButtonIndex={activeButtonIndex}
                 onButtonClick={handleHeaderButtonClick}
