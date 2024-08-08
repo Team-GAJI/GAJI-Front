@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import {
-  notices,
-  NoticeSquare,
-  FirstNoticeSquare,
-} from "../components/studyRoom/Notices";
+import Notices from "../components/studyRoom/Notices";
 import backImage from "../assets/images/common/mypageBackground.png";
 
 // Global styles 폰트적용
@@ -32,6 +28,48 @@ const GlobalStyles = createGlobalStyle`
 const StudyNoticePage = () => {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [notices, setNotices] = useState([
+    {
+      text1: "여러분 이건 꼭 아셔야합니다? ! 모르면 이 스터디 못함 ~",
+      text2:
+        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
+      user: "user1023",
+      time: "1시간",
+      checks: 7,
+    },
+    {
+      text1: "예전 공지인데 이제 아무도 안보겠쮜....",
+      text2:
+        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
+      user: "user2045",
+      time: "2시간",
+      checks: 5,
+    },
+    {
+      text1: "이누공 이제 누가 공지해주냐",
+      text2:
+        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
+      user: "user3098",
+      time: "3시간",
+      checks: 10,
+    },
+    {
+      text1: "예전 공지인데 이제 아무도 안보겠쮜....",
+      text2:
+        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
+      user: "user4567",
+      time: "4시간",
+      checks: 8,
+    },
+    {
+      text1: "이누공 이제 누가 공지해주냐",
+      text2:
+        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
+      user: "user5678",
+      time: "5시간",
+      checks: 6,
+    },
+  ]);
 
   const handleNavigateToRegister = () => {
     navigate("/studynotice-register");
@@ -39,6 +77,13 @@ const StudyNoticePage = () => {
 
   const handleNavigateToTroubleshooting = () => {
     navigate("/troubleshooting");
+  };
+
+  const moveToTop = (index) => {
+    const updatedNotices = [...notices];
+    const [selectedNotice] = updatedNotices.splice(index, 1);
+    updatedNotices.unshift(selectedNotice);
+    setNotices(updatedNotices);
   };
 
   return (
@@ -72,19 +117,12 @@ const StudyNoticePage = () => {
               </Container>
 
               <NoticeSquareWrapper>
-                {notices.map((notice, index) => {
-                  const NoticeComponent =
-                    index === 0 ? FirstNoticeSquare : NoticeSquare;
-                  return (
-                    <NoticeComponent
-                      key={index}
-                      notice={notice}
-                      isHovered={hoveredIndex === index}
-                      onMouseEnter={() => setHoveredIndex(index)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    />
-                  );
-                })}
+                <Notices
+                  notices={notices}
+                  onMoveToTop={moveToTop}
+                  hoveredIndex={hoveredIndex}
+                  setHoveredIndex={setHoveredIndex}
+                />
               </NoticeSquareWrapper>
             </ColumnWrapper>
           </MainSection1>
@@ -93,7 +131,6 @@ const StudyNoticePage = () => {
     </>
   );
 };
-
 export default StudyNoticePage;
 
 const HeaderWrapper = styled.div`

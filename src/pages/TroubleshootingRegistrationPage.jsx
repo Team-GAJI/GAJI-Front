@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../assets/images/troubleshooting/titleBackground.png";
-import ExtraPostPreview from "../components/troubleshooting/AddedPostPrieview";
 import WritePost from "../components/communityWrite/WritePost";
 
 const TroubleshootingRegistrationPage = () => {
@@ -59,19 +58,7 @@ const TroubleshootingRegistrationPage = () => {
         </PostOptionWrapper>
 
         <PostTitle>게시글 제목</PostTitle>
-
-        {/* Write Post */}
         <WritePost />
-
-        {/* Section Title */}
-        <SectionTitle>추가된 링크</SectionTitle>
-
-        {/* Additional Links */}
-        <ExtraPostsWrapper>
-          <ExtraPostPreview />
-          <ExtraPostPreview />
-          <ExtraPostPreview />
-        </ExtraPostsWrapper>
       </PostsWrapper>
     </>
   );
@@ -203,10 +190,4 @@ const SectionTitle = styled.div`
   margin-top: 2em;
   text-align: left;
   width: 60%;
-`;
-
-const ExtraPostsWrapper = styled.div`
-  width: 60%;
-  display: flex;
-  justify-content: space-between;
 `;

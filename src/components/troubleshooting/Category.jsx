@@ -109,10 +109,11 @@ const CreatePostButton = styled.button`
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 0.8em;
   cursor: pointer;
-  width: 171px;
-  font-weight: semi-bold;
+  width: 13em;
+  font-family: "NanumSquareNeo", sans-serif;
+  font-weight: bold;
 
   &:hover {
     background-color: #5548c8;

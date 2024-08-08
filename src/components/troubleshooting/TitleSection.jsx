@@ -26,7 +26,7 @@ const BackgroundWrapper = styled.div`
   background-position: center;
   border-radius: 10px;
   padding: 40px 0;
-  font-family: "NanumSquareNeo", sans-serif; /* Ensure the font is applied */
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const TitleContainer = styled.div`
@@ -44,25 +44,25 @@ const Title = styled.h1`
 const NavButtons = styled.div`
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 `;
 
 const NavButton = styled.button`
-  background-color: rgba(142, 89, 255, 0.6);
-  color: white;
+  margin: 0.3em;
   border: none;
-  padding: 10px 20px;
-  border-radius: 14px;
-  cursor: pointer;
+  border-radius: 10px;
+  margin-right: 10px;
   width: 140px;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  transition: background-color 0.3s ease;
+  height: 2.2em;
+  background-color: #8e59ff;
+  opacity: 0.6;
+  color: white;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
   font-family: "NanumSquareNeo", sans-serif;
 
   &:hover {
-    background-color: rgba(142, 89, 255, 1);
+    opacity: 1;
   }
 `;
