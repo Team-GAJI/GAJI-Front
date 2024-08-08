@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Calendar from '../studyManageWeek/ManageWeekCalendar';
 
-const ManageDate = () => {
+const ManageWeekDate = ({ selectedWeek }) => {
     return(
         <Container>
             <Text2>스터디 기한</Text2>
@@ -14,7 +14,7 @@ const ManageDate = () => {
                     <DivisionLine3/>
                     <Container>
                         <DeadlineWrapper>
-                            <Text8>주차 스터디 진행 기한</Text8>
+                            <Text8>{selectedWeek + 1}주차 스터디 진행 기한</Text8>
                             <RowWrapper2>
                                 <StartButton>시작</StartButton>
                                 <DateText>3월 1일</DateText>
@@ -30,7 +30,7 @@ const ManageDate = () => {
     );
 };
 
-export default ManageDate;
+export default ManageWeekDate;
 
 
 const Container = styled.div`

@@ -19,7 +19,7 @@ const StudyManagePage = () => {
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length + 1]); 
+    setWeeks([...weeks, weeks.length + 0]); 
   };
 
   useEffect(() => {
@@ -29,6 +29,15 @@ const StudyManagePage = () => {
       sidebarRef.current.style.height = `${newHeight}px`;
     }
   }, [weeks]);
+
+  //선택한 주차가 나오게 하기위해...
+  const [selectedWeek, setSelectedWeek] = useState(0);
+
+  const handleWeekSelect = (index) => {
+    setSelectedWeek(index);
+  };
+
+
 
     return (
     <>
@@ -43,35 +52,31 @@ const StudyManagePage = () => {
 
         </RowLogoWrapper>
 
-        <MainSection>
-
+         <MainSection>
         <SidebarWrapper>
-            <Sidebar1 ref={sidebarRef}>
-                <BasicInfoButton>기본정보</BasicInfoButton>
-                {weeks.map((week, index) => (
-                <React.Fragment key={week}>
-                    <SidebarButton1 bold={index === 0}>
-                    <TextWrapper>
-                        {week + 1}주차
-                    </TextWrapper>
-                    <DelIconWrapper>
-                        <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={() => handleDelete(index)} />
-                    </DelIconWrapper>
-                    </SidebarButton1>
-                </React.Fragment>
-                ))}
-                <PlusButton onClick={handleAdd}>
-                <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
-                </PlusButton>
-            </Sidebar1>
+          <Sidebar1 ref={sidebarRef}>
+            <BasicInfoButton>기본정보</BasicInfoButton>
+            {weeks.map((week, index) => (
+              <React.Fragment key={week}>
+                <SidebarButton1 bold={index === 0} onClick={() => handleWeekSelect(index)}>
+                  <TextWrapper>
+                    {week + 1}주차
+                  </TextWrapper>
+                  <DelIconWrapper>
+                    <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={() => handleDelete(index)} />
+                  </DelIconWrapper>
+                </SidebarButton1>
+              </React.Fragment>
+            ))}
+            <PlusButton onClick={handleAdd}>
+              <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
+            </PlusButton>
+          </Sidebar1>
         </SidebarWrapper>
-
-
-
-           <ManageWeekBasics/>
-           <ManageWeekeDate/>
-           <ManageWeekeDetailed/>
-        </MainSection>
+        <ManageWeekBasics selectedWeek={selectedWeek}/>
+        <ManageWeekeDate selectedWeek={selectedWeek}/>
+        <ManageWeekeDetailed selectedWeek={selectedWeek} />
+      </MainSection>
 
     </Wrapper>
 
@@ -240,6 +245,6 @@ const PlusIcons = styled.img`
   transition: filter 0.3s;
 
   &:hover {
-    filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
-  }
-`;
+  filter: brightness(0) saturate(100%) invert(29%) sepia(90%) saturate(1996%) hue-rotate(246deg) brightness(94%) contrast(101%);  }
+}
+  `;

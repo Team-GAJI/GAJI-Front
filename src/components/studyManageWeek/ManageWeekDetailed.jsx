@@ -2,26 +2,23 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Delete from '../../assets/icons/studyManageWeek/StudyManageWeekDelete.png';
 
-const ManageDetailed = () => {
+const ManageWeekDetailed = ({ selectedWeek }) => {
   const [inputs, setInputs] = useState(['']); 
   const maxInputs = 5;
 
-  // 기본 입력 필드에 입력한 내용을 새로 생성되는 입력 필드에 보이게 하도록....
-  const handleAddInput = () => {
-    if (inputs.length < maxInputs) {
+  const handleKeyPress = (index, event) => {
+    if (event.key === 'Enter' && inputs.length < maxInputs) {
+      event.preventDefault();
       const newInputs = [...inputs];
       const firstInputValue = newInputs[0];
       
-      // 새 입력 필드를 추가하면서 첫 번째 입력 값을 복사
-      newInputs.push(firstInputValue);
-      
-      // 첫 번째 입력 필드 내용 지우기
-      newInputs[0] = '';
+      newInputs.push(firstInputValue);  
+      newInputs[0] = ''; 
 
       setInputs(newInputs);
     }
   };
- // 선택된 입력 필드를 삭제
+
   const handleDeleteInput = (index) => {
     setInputs(inputs.filter((_, i) => i !== index));
   };
@@ -34,14 +31,16 @@ const ManageDetailed = () => {
 
   return (
     <Container>
-      <Text2>주차 과제 등록</Text2>
+        <Text2>{selectedWeek + 1}주차 과제 등록</Text2>
       <MainWrapper>
         {inputs.map((input, index) => (
-          <InputWrapper key={index}>
+          <InputWrapper key={index} isFirst={index === 0}>
             <InputStudyName
               value={input}
+              onKeyPress={(e) => handleKeyPress(index, e)}
               onChange={(e) => handleChange(index, e.target.value)}
               placeholder="과제명을 입력해주세요"
+              isFirst={index === 0}
             />
             {index > 0 && (
               <Icons
@@ -52,16 +51,12 @@ const ManageDetailed = () => {
             )}
           </InputWrapper>
         ))}
-        {/* 음...아직 연락이 안와서 일단 임시로 추가 버튼 만들었습니다 */}
-        <AddButton onClick={handleAddInput} disabled={inputs.length >= maxInputs}>
-          + 추가
-        </AddButton>
       </MainWrapper>
     </Container>
   );
 };
 
-export default ManageDetailed;
+export default ManageWeekDetailed;
 
 const MainWrapper = styled.div`
   background-color: #fff;
@@ -88,12 +83,14 @@ const InputWrapper = styled.div`
   display: flex; 
   align-items: center;
   width: 100%;
-  margin-bottom: 0.625em; 
+  margin-bottom: 0.625em;
+  
 `;
 
 const InputStudyName = styled.input`
   background: none;
-  border: 1px solid #8E59FF; 
+  border: none;
+  border: ${(props) => (props.isFirst ? '1px solid #A2A3B2' : '1px solid #8E59FF')}; 
   border-radius: 0.5em;
   outline: none;
   height: 2.5em;
@@ -115,21 +112,4 @@ const Icons = styled.img`
   width: 0.9em;
   height: auto; 
   cursor: pointer; 
-`;
-
-const AddButton = styled.button`
-  background-color: #8E59FF;
-  color: white;
-  border: none;
-  border-radius: 0.5em;
-  padding: 0.5em 1em;
-  font-size: 1em;
-  cursor: pointer;
-  align-self: flex-start;
-  margin-top: 1em;
-  
-  &:disabled {
-    background-color: #d3d3d3;
-    cursor: not-allowed;
-  }
 `;
