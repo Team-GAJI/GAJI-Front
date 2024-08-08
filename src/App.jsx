@@ -23,12 +23,8 @@ function App() {
     <Routes>
       <Route exact path="/login" element={<LoginPage/>}/>
       <Route element={<MainLayOut/>}>
-<<<<<<< HEAD
         <Route exact path="/studyroom" element={<StudyRoomPage/>}/>      
         <Route path="/" element={<MainPage/>}/>
-=======
-        <Route path="/" element={<CommunityPage/>}/>
->>>>>>> 276c8924937c70284decc8957bd8f5992afa5a36
         <Route path="/community" element={<CommunityPage/>}/>
         <Route path="/community/post" element={<CommunityPostPage/>}/>
         <Route path="/community/write" element={<CommunityWritePage/>}/>

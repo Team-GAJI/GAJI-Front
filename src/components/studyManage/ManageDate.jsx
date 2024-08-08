@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Calendar from '../../components/createStudy/CreateCalendar.jsx';
+import Calendar from './StudyManageCalendar.jsx';
 
-const CreateDate = () => {
+const ManageDate = () => {
     return(
         <Container>
             <Text2>스터디 기한</Text2>
@@ -40,7 +40,7 @@ const CreateDate = () => {
     );
 };
 
-export default CreateDate;
+export default ManageDate;
 
 
 const Container = styled.div`
