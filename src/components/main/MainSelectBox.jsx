@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import DownArrowIcon from "../../assets/icons/communityPost/downArrow2.svg?react";
+import DownArrowIcon from "../../assets/icons/communityPost/grayDownArrow.svg?react";
 
 const MainSelectBox = () => {
     // 필터 상태 관리

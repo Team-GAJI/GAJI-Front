@@ -6,7 +6,7 @@ import UserProfileImg from "../assets/images/community/userProfile.png";
 import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
-import DownArrowIcon from "../assets/icons/communityPost/downArrow.svg?react";
+import DownArrowIcon from "../assets/icons/communityPost/whiteDownArrow.svg?react";
 // import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
 import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";

@@ -15,7 +15,7 @@ import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import StudyCreatePage from './pages/StudyCreatePage.jsx';
-import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
+import StudyMainPage from './pages/StudyMainPage.jsx';
 
 function App() {
   return (
@@ -48,7 +48,7 @@ function App() {
         {/* 사용자의 개인 정보를 확인하고 수정할 수 있는 마이페이지 */}
 
         {/* 스터디 관련 라우트 */}
-        <Route path="/study" element={<StudyCategoryPage/>}/>
+        <Route path="/study" element={<StudyMainPage/>}/>
         {/* 스터디 카테고리 둘러보기 페이지 */}
         
         <Route path="/studydetail" element={<StudyDetailPage/>}/>

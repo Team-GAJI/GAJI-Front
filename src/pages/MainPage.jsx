@@ -6,8 +6,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
-import StudyPreview from '../components/main/StudyPreview';
-import { dummyStudyPosts } from '../components/main/DummyStudyPosts';
+import StudyPreview from '../components/studyMain/StudyPreview';
+import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
 import BlogPreview from '../components/community/BlogPreview';
 import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
@@ -243,7 +243,7 @@ const BlogText = styled.div`
 `;
 
 const BlogPreviewWrapper = styled.div`
-    margin-top: 1em;
+    margin: 1em 0 0 1.2em;
     width: 72.4em;
     display: flex;
     flex-wrap: wrap;
@@ -259,7 +259,7 @@ const ViewAllWrapper = styled.div`
 `;
 
 const ViewAll = styled.span`
-    font-size: 0.8125;
+    font-size: 0.8125em;
     font-weight: 800;
     cursor: pointer;
 `;
