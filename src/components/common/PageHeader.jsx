@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
 import { PuppleButton } from '../style/Button';
 
-const PageHeader = ({ pageTitle, headerTitles, activeButtonIndex, onButtonClick, changeColorOnClick, changeColorOnHover, large }) => {
+const PageHeader = ({ pageTitle, subTitle, headerTitles, activeButtonIndex, onButtonClick, changeColorOnClick, changeColorOnHover, large }) => {
     return (
         <>
             <Header pageTitle={pageTitle}>
                 <PageHeaderTitle>{pageTitle}</PageHeaderTitle>
+                <SubTitle>{subTitle}</SubTitle>
                 <RowWrapper large={large}>
                     {headerTitles.map((title, index) => (
                         <StyledPuppleButton
@@ -28,6 +29,11 @@ const PageHeader = ({ pageTitle, headerTitles, activeButtonIndex, onButtonClick,
 
 export default PageHeader;
 
+const SubTitle = styled.div`
+    color : #D0D1D9;
+    font-weight : 700;
+`
+
 const Header = styled.div`
     display: flex;
     z-index: 2;
@@ -38,6 +44,7 @@ const Header = styled.div`
     justify-content: center;
     width: 100%;
     height: 10em;
+    gap : 1em;
     background-color: #FBFAFF;
     background-image: url(${backGroundUrl});
     @media (max-width: 768px) {
@@ -46,8 +53,6 @@ const Header = styled.div`
 `;
 
 const PageHeaderTitle = styled.div`
-    margin-top: 1.0625em;
-    margin-bottom: 1.5625em;
     font-size: 1.5em;
     font-weight: 800;
     color: #8E59FF;

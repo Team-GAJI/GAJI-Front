@@ -8,6 +8,7 @@ import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useDispatch } from 'react-redux';
 import { loadTokens, setTokens } from '../feautres/auth/authSlice'; 
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../utils/API';
 // import axios from 'axios';
 
 
@@ -25,25 +26,17 @@ const LoginPage = () => {
     }, [dispatch]);
 
     const handleGoogleLogin = async () => {
-        // 구글 로그인 화면으로 이동시키기
-        // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?
-        //     client_id=${import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}
-        //     &redirect_uri=${import.meta.env.VITE_REDIRECT_URI}
-        //     &response_type=code
-        //     &scope=email profile`;
-
-        //토근 발급용
-        // try {
-        //     await axios.get('https://www.googleapis.com/oauth2/v3/userinfo/',
-        //         {
-        //         headers: {
-        //         'Authorization': `Bearer ${123123}`
-        //         }
-        //     });
-        // setUserInfo(response.data);
-        // } catch (error) {
-        // console.error('Error fetching user info:', error);
-        // }
+            try {
+                const res = await axiosInstance.get('oauth2/authorization/google', {
+                });
+                console.log(res)
+                // dispatch(setSummary(verifiedSummary));
+                // sessionStorage.setItem('id', conversationId);
+                // console.log(conversationId);
+                
+            } catch (e) {
+                console.error(e);
+            } 
     };
     
     const handleLogin = async () => {

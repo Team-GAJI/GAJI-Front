@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 });
 
 const axiosInstanceForm = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_LOCAL_URL,
+    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
     timeout: 30000,
     headers: {
         "Content-Type": "multipart/form-data",
@@ -17,7 +17,7 @@ const axiosInstanceForm = axios.create({
 });
 
 const axiosInstanceLong = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_LOCAL_URL,
+    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
     timeout: 200000,
     headers: {
         "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const ManageBasics = () => {
+const ManageWeekBasics = ({ selectedWeek }) => {
     
     const data = [
         { id: 1, week: 'Week 1', title: '커리큘럼 제목 1'  },
@@ -32,7 +32,7 @@ const ManageBasics = () => {
     return(
         <Container>
         {/* 선택한 N주차가 나오게 */}
-        <Text2>차 스터디 관리</Text2>
+        <Text2>{selectedWeek + 1}주차 스터디 관리</Text2>
         <MainWrapper1>
             <InputWrapper>
                 <InputStudyName
@@ -71,7 +71,7 @@ const ManageBasics = () => {
     );
 };
 
-export default ManageBasics;
+export default ManageWeekBasics;
 
 
 
