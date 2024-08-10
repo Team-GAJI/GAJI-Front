@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import ProfileImg from '../../assets/images/community/userProfile.png';
-import Comment from './Comment';
-import { dummyComments } from './DummyComments';
+import StudyComment from './StudyComment';
+import { dummyStudyComments } from './DummyStudyComments';
 import Loading from '../common/Loading';
 
-const CommentContainer = () => {
+const StudyCommentContainer = () => {
     // state 관리
     const [commentPage, setCommentPage] = useState(1);
     const [comments, setComments] = useState([]);
@@ -16,7 +16,7 @@ const CommentContainer = () => {
         if (isLoading) return;
         setIsLoading(true);
         setTimeout(() => {
-            const newPosts = dummyComments.slice((commentPage - 1) * 4, commentPage * 4); // 페이지당 4개씩 로드
+            const newPosts = dummyStudyComments.slice((commentPage - 1) * 4, commentPage * 4); // 페이지당 4개씩 로드
             setComments((prevPosts) => [...prevPosts, ...newPosts]);
             setCommentPage((prevPage) => prevPage + 1);
             setIsLoading(false);
@@ -41,7 +41,7 @@ const CommentContainer = () => {
     }, [getComments]);
 
     // 댓글 총 개수
-    const count = dummyComments.length;
+    const count = dummyStudyComments.length;
 
     return (
         <CommentContainerWrapper>
@@ -56,7 +56,7 @@ const CommentContainer = () => {
 
             {/* 댓글 */}        
             {comments.map((comment) => (
-                <Comment
+                <StudyComment
                     key={comment.commentId}
                     writer={comment.commentWriter}
                     content={comment.commentContent}
@@ -70,7 +70,7 @@ const CommentContainer = () => {
     )
 }
 
-export default CommentContainer;
+export default StudyCommentContainer;
 
 /* CSS */
 const CommentContainerWrapper = styled.div`

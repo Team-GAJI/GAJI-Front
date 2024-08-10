@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import PostWriterInfo from "./PostWriterInfo";
+import StudyPostWriterInfo from "./StudyPostWriterInfo";
 import BackgroundImage from "../../assets/images/community/communityBackground.png";
 import UserProfileImg from "../../assets/images/community/userProfile.png";
 import BookMarkIcon from "../../assets/icons/communityPost/postBookMark.svg?react";
@@ -81,7 +81,7 @@ const formatNumberWithCommas = (number) => {
                     onMouseEnter={showWriterInfo}
                     onMouseLeave={hideWriterInfo}
                 >
-                    <PostWriterInfo />
+                    <StudyPostWriterInfo />
                 </PostWriterInfoWrapper>
 
                 {/* 게시글 제목 */}

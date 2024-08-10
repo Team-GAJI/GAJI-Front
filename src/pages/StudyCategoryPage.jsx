@@ -190,7 +190,8 @@ const CategoryTitleWrapper = styled.div`
 
 const CategoryTitle = styled.div`
     border-radius: 10px;
-    width: 9em;
+    min-width: 6em;
+    padding: 0 1.5em;
     height: 2.5em;
     line-height: 2.5em;
     background-color: #BB9CFF;

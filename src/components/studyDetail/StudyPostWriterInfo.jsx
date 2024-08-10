@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ProfileImg from '../../assets/images/community/writerProfile.png';
 import SendMessageIcon from '../../assets/icons/community/sendMessage.svg?react';
 
-const PostWriterInfo = () => {
+const StudyPostWriterInfo = () => {
     return (
         <ProfileWrapper>
             {/* 프로필 */}
@@ -34,9 +34,9 @@ const PostWriterInfo = () => {
     );
 };
 
-PostWriterInfo.displayName = 'PostWriterInfo';
+StudyPostWriterInfo.displayName = 'StudyPostWriterInfo';
 
-export default PostWriterInfo;
+export default StudyPostWriterInfo;
 
 /* CSS */
 const ProfileWrapper = styled.div`

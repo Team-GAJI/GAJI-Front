@@ -50,12 +50,58 @@ const MainPage = () => {
             <StyledHr />
 
             {/* 카테고리별 스터디 영역 */}
-            {/* 백엔드 스터디 */}
+            {/* 개발 스터디 */}
             <CategoryTitleWrapper>
-                <CategoryTitle># 백엔드</CategoryTitle>
+                <CategoryTitle># 개발</CategoryTitle>
                 <ViewAllWrapper>
-                    <ViewAll onClick={() => handleCategoryClick('백엔드')}>모두 보기</ViewAll>
-                    <Arrow onClick={() => handleCategoryClick('백엔드')}>&gt;</Arrow>
+                    <ViewAll onClick={() => handleCategoryClick('개발')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('개발')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
+
+            {/* 인공지능 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 인공지능</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('인공지능')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('인공지능')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
+
+            {/* 하드웨어 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 하드웨어</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('하드웨어')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('하드웨어')}>&gt;</Arrow>
                 </ViewAllWrapper>
             </CategoryTitleWrapper>
             <StudyPreviewWrapper>
@@ -96,12 +142,34 @@ const MainPage = () => {
                 ))}
             </StudyPreviewWrapper>
 
-            {/* AWS 스터디 */}
+            {/* 네트워크-클라우드 스터디 */}
             <CategoryTitleWrapper>
-                <CategoryTitle># AWS</CategoryTitle>
+                <CategoryTitle># 네트워크-클라우드</CategoryTitle>
                 <ViewAllWrapper>
-                    <ViewAll onClick={() => handleCategoryClick('AWS')}>모두 보기</ViewAll>
-                    <Arrow onClick={() => handleCategoryClick('AWS')}>&gt;</Arrow>
+                    <ViewAll onClick={() => handleCategoryClick('네트워크-클라우드')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('네트워크-클라우드')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
+            {/* 어학 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 어학</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('어학')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('어학')}>&gt;</Arrow>
                 </ViewAllWrapper>
             </CategoryTitleWrapper>
             <StudyPreviewWrapper>
@@ -121,7 +189,7 @@ const MainPage = () => {
 
             {/* 디자인 스터디 */}
             <CategoryTitleWrapper>
-                <CategoryTitle># 디자인</CategoryTitle>
+                <CategoryTitle># 보안</CategoryTitle>
                 <ViewAllWrapper>
                     <ViewAll onClick={() => handleCategoryClick('디자인')}>모두 보기</ViewAll>
                     <Arrow onClick={() => handleCategoryClick('디자인')}>&gt;</Arrow>
@@ -142,12 +210,58 @@ const MainPage = () => {
                 ))}
             </StudyPreviewWrapper>
 
-            {/* 프론트엔드 스터디 */}
+            {/* 비즈니스(pm) 스터디 */}
             <CategoryTitleWrapper>
-                <CategoryTitle># 프론트엔드</CategoryTitle>
+                <CategoryTitle># 비즈니스&#40;pm&#41;</CategoryTitle>
                 <ViewAllWrapper>
-                    <ViewAll onClick={() => handleCategoryClick('프론트엔드')}>모두 보기</ViewAll>
-                    <Arrow onClick={() => handleCategoryClick('프론트엔드')}>&gt;</Arrow>
+                    <ViewAll onClick={() => handleCategoryClick('비즈니스(pm)')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('비즈니스(pm)')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
+
+            {/* 독서모임 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 디자인</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('독서모임')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('독서모임')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
+
+            {/* 기타 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 기타</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('기타')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('기타')}>&gt;</Arrow>
                 </ViewAllWrapper>
             </CategoryTitleWrapper>
             <StudyPreviewWrapper>
@@ -289,7 +403,8 @@ const CategoryTitleWrapper = styled.div`
 
 const CategoryTitle = styled.div`
     border-radius: 10px;
-    width: 9em;
+    min-width: 6em;
+    padding: 0 1.5em;
     height: 2.5em;
     line-height: 2.5em;
     background-color: #BB9CFF;

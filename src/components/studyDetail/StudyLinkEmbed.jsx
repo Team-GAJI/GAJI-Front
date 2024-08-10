@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import CloseButton from '../../assets/icons/community/closeButton.svg?react';
 
-const LinkEmbed = () => {
-    // state 관리
-    const [isPostVisible, setIsPostVisible] = useState(true);
-
-    // 창 닫기 기능
-    const postVisibility = () => {
-        setIsPostVisible(!isPostVisible);
-    };
-
+const StudyLinkEmbed = () => {
     return (
-        <PostWrapper isVisible={isPostVisible}>
+        <PostWrapper>
             <LeftWrapper></LeftWrapper>
             <RightWrapper>
                 <TextWrapper>
@@ -29,7 +20,7 @@ const LinkEmbed = () => {
     )
 }
 
-export default LinkEmbed;
+export default StudyLinkEmbed;
 
 /* CSS */
 const PostWrapper = styled.div`
@@ -38,7 +29,7 @@ const PostWrapper = styled.div`
     border-radius: 10px;
     width: 17em;
     height: 5.4375em;
-    display: ${(props) => (props.isVisible ? 'flex' : 'none')};
+    display: flex;
     cursor: pointer;
 `;
 
@@ -55,7 +46,6 @@ const RightWrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
-// border: 1px solid red;
     margin-left: 1em;
     width: 10em;
     display: flex;
@@ -83,10 +73,4 @@ const Content = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     word-break: break-all;
-`;
-
-const StyledCloseButton = styled(CloseButton)`
-    margin: 0.3em 0.3em 0 0em;
-    width: 1.4375em;
-    height: 1.4375em;
 `;

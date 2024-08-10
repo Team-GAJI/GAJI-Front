@@ -1,6 +1,6 @@
 import UserProfileImg from '../../assets/images/community/userProfile.png';
 
-export const dummyComments = [
+export const dummyStudyComments = [
     {
         commentId: 1,
         commentWriter: '닉네임',

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ReplyIcon from '../../assets/icons/community/reply.svg?react';
 
-const Comment = ({key, writer, content, userProfileImg, time}) => {
+const StudyComment = ({key, writer, content, userProfileImg, time}) => {
     return (
         <CommentWrapper key={key}>
             <WriterWrapper>
@@ -19,7 +19,7 @@ const Comment = ({key, writer, content, userProfileImg, time}) => {
     )
 }
 
-export default Comment;
+export default StudyComment;
 
 /* CSS */
 const CommentWrapper = styled.div`

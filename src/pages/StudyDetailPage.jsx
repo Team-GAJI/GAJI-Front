@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import StudyDetailHeader from "../components/studyDetail/StudyDetailHeader";
-import LinkEmbed from "../components/studyDetail/LinkEmbed";
-import CommentContainer from "../components/studyDetail/CommentContainer";
+import StudyLinkEmbed from "../components/studyDetail/StudyLinkEmbed";
+import StudyCommentContainer from "../components/studyDetail/StudyCommentContainer";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import HeightLine from "../assets/icons/studyDetail/heightLine.svg?react";
@@ -38,10 +38,10 @@ const StudyDetailPage = () => {
             <StudyDataWrapper>
                 <SubTitle>스터디 자료</SubTitle>
                 <LinkEmbedWrapper>
-                    <LinkEmbed />
-                    <LinkEmbed />
-                    <LinkEmbed />
-                    <LinkEmbed />
+                    <StudyLinkEmbed />
+                    <StudyLinkEmbed />
+                    <StudyLinkEmbed />
+                    <StudyLinkEmbed />
                 </LinkEmbedWrapper>
             </StudyDataWrapper>
             <StyledHr />
@@ -58,7 +58,7 @@ const StudyDetailPage = () => {
 
             <StyledHr />
             {/* 댓글 영역 */}
-            <CommentContainer />
+            <StudyCommentContainer />
         </PostInfoWrapper>
         </>
     );
