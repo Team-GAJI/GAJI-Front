@@ -17,11 +17,13 @@ import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import StudyCreatePage from './pages/StudyCreatePage.jsx';
+import LoginRedirectPage from './pages/LoginRedirectPage.jsx';
 
 function App() {
   return (
     <Routes>
       <Route exact path="/login" element={<LoginPage/>}/>
+      <Route exact path="/redirect" element={<LoginRedirectPage/>}/>
       <Route element={<MainLayOut/>}>
         <Route exact path="/studyroom" element={<StudyRoomPage/>}/>      
         <Route path="/" element={<MainPage/>}/>

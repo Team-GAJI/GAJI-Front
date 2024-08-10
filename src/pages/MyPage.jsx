@@ -21,7 +21,7 @@ const MyPage = () => {
         if (section === 'calendar') ref = calendarRef;
         if (section === 'mypost') ref = myPostRef;
 
-        const yOffset = -370; // 370px 아래로 이동
+        const yOffset = -218; // 370px 아래로 이동
         const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
         window.scrollTo({ top: yPosition, behavior: 'smooth' });
