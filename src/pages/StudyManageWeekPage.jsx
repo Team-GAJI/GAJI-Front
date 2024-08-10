@@ -10,33 +10,34 @@ import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 
 const StudyManagePage = () => {
-    // n주차 버튼 기능
-  const [weeks, setWeeks] = useState([...Array(9).keys()]); 
-  const sidebarRef = useRef(null);
-
-  const handleDelete = (index) => {
-    setWeeks(weeks.filter((_, i) => i !== index));
-  };
-
-  const handleAdd = () => {
-    setWeeks([...weeks, weeks.length + 0]); 
-  };
-
-  useEffect(() => {
-    if (sidebarRef.current) {
-      sidebarRef.current.style.height = 'auto';
-      const newHeight = sidebarRef.current.scrollHeight;
-      sidebarRef.current.style.height = `${newHeight}px`;
-    }
-  }, [weeks]);
-
-  //선택한 주차가 나오게 하기위해...
-  const [selectedWeek, setSelectedWeek] = useState(0);
-
-  const handleWeekSelect = (index) => {
-    setSelectedWeek(index);
-  };
-
+    // n주차 버튼 기능 마지막 주차만 삭제, 추가 가능하도록 수정
+    const [weeks, setWeeks] = useState([...Array(9).keys()]);
+    const sidebarRef = useRef(null);
+  
+    const handleDelete = () => {
+      if (weeks.length > 0) {
+        setWeeks(weeks.slice(0, -1)); // 마지막 주차만 삭제
+      }
+    };
+  
+    const handleAdd = () => {
+      setWeeks([...weeks, weeks.length]); 
+    };
+  
+    useEffect(() => {
+      if (sidebarRef.current) {
+        sidebarRef.current.style.height = 'auto';
+        const newHeight = sidebarRef.current.scrollHeight;
+        sidebarRef.current.style.height = `${newHeight}px`;
+      }
+    }, [weeks]);
+  
+    // 주차 선택
+    const [selectedWeek, setSelectedWeek] = useState(0);
+  
+    const handleWeekSelect = (index) => {
+      setSelectedWeek(index);
+    };
 
 
     return (
@@ -47,32 +48,43 @@ const StudyManagePage = () => {
                 <Text>스터디장에게만 보이는 메뉴에요</Text>
                 <RowWrapper1>
                     <MainButton>저장하기</MainButton>
-                    <MainButton>미리보기</MainButton>
+                  
                 </RowWrapper1>
 
         </RowLogoWrapper>
 
          <MainSection>
-        <SidebarWrapper>
-          <Sidebar1 ref={sidebarRef}>
-            <BasicInfoButton>기본정보</BasicInfoButton>
-            {weeks.map((week, index) => (
-              <React.Fragment key={week}>
-                <SidebarButton1 bold={index === 0} onClick={() => handleWeekSelect(index)}>
-                  <TextWrapper>
-                    {week + 1}주차
-                  </TextWrapper>
-                  <DelIconWrapper>
-                    <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={() => handleDelete(index)} />
-                  </DelIconWrapper>
-                </SidebarButton1>
-              </React.Fragment>
-            ))}
-            <PlusButton onClick={handleAdd}>
-              <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
-            </PlusButton>
-          </Sidebar1>
-        </SidebarWrapper>
+         <SidebarWrapper>
+            <Sidebar1 ref={sidebarRef}>
+              <BasicInfoButton>기본정보</BasicInfoButton>
+              {weeks.map((week, index) => (
+                <React.Fragment key={week}>
+                  <SidebarButton1
+                    className={index === weeks.length - 1 ? 'last-week' : ''}
+                    bold={index === selectedWeek}
+                    onClick={() => handleWeekSelect(index)}
+                  >
+                    <TextWrapper>
+                      {week + 1}주차
+                    </TextWrapper>
+                    {index === weeks.length - 1 && (
+                      <DelIconWrapper>
+                        <DelIcons
+                          src={StudyManageWeekManageDel}
+                          alt="삭제"
+                          onClick={handleDelete}
+                        />
+                      </DelIconWrapper>
+                    )}
+                  </SidebarButton1>
+                </React.Fragment>
+              ))}
+              <PlusButton onClick={handleAdd}>
+                <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
+              </PlusButton>
+            </Sidebar1>
+          </SidebarWrapper>
+
         <ManageWeekBasics selectedWeek={selectedWeek}/>
         <ManageWeekeDate selectedWeek={selectedWeek}/>
         <ManageWeekeDetailed selectedWeek={selectedWeek} />
@@ -150,8 +162,10 @@ const DelIcons = styled.img`
 const TextWrapper = styled.div`
   flex: 1;
   text-align: center;
-  margin-left : 3em;
+  // color : ${(props) => (props ? '#8E59FF' : '#A2A3B2')};
+
 `;
+
 const SidebarButton1 = styled.div`
   display: flex;
   align-items: center;
@@ -164,7 +178,22 @@ const SidebarButton1 = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
 
+  
   &:hover {
+    border: 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    color: #8E59FF;
+    margin-left: 0.4em; 
+    margin-right: 0.4em;
+    font-weight: 800;
+  }
+  // 마지막 주차 글자 위치조정
+  &.last-week {
+    margin-left: 3em; 
+    position: relative; 
+  }
+    
+  &.last-week:hover {
     border: 1px solid #8E59FF;
     border-radius: 0.5em; 
     color: #8E59FF;
@@ -177,11 +206,12 @@ const SidebarButton1 = styled.div`
     }
 
     ${TextWrapper} {
-      text-align: left;
-      margin-left: 1em; 
+      text-align: center;
+      // 마지막 주차 글 위치 수정해라~
     }
   }
 `;
+
  const BasicInfoButton = styled(SidebarButton1)`
    font-size: 1em;
    font-weight: 1.125em; 

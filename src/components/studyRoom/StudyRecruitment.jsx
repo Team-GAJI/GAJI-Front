@@ -33,6 +33,7 @@ const CardItemWrapper = styled.div`
     background-color: #fff;
     border: 1px solid #C8C8C8; 
     border-radius: 8px;
+    min-width : 250px;
     width: 250px;
     margin-top: 20px;
     overflow: hidden;

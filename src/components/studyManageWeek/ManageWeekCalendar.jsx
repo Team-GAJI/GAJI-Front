@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PrevMonth from '../../assets/icons/studyManageWeek/StudyManageWeekprevmonth.svg';
 import NextMonth from '../../assets/icons/studyManageWeek/StudyManageWeeknextmonth.svg';
-const Calendar = () => {
+
+const ManageWeekCalendar = () => {
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -77,13 +78,15 @@ const Calendar = () => {
             today.getDate() === day && 
             today.getMonth() === currentMonth && 
             today.getFullYear() === currentYear;
-        
+    
         cells.push(
             <Cell
                 key={day}
                 isToday={isToday}
                 isInRange={isInSelectionRange(day)}
                 isSelected={isDateSelected(day)}
+                isStart={startDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()}
+                isEnd={endDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === endDate.toDateString()}
                 onClick={() => handleDateClick(day)}
             >
                 {day}
@@ -127,8 +130,7 @@ const Calendar = () => {
     );
 };
 
-
-export default Calendar;
+export default ManageWeekCalendar;
 
 const CalendarContainer = styled.div`
     margin: 0 auto;
@@ -153,7 +155,6 @@ const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-
 `;
 
 const Day = styled.div`
@@ -166,55 +167,41 @@ const Icons = styled.img`
     cursor: pointer;
 `;
 
+
 const Cell = styled.div`
     padding: 15px;
     font-weight: ${props => props.isToday ? '600' : '400'};
     color: ${props => (props.isToday || props.isSelected) ? '#FFFFFF' : '#000000'};
     background-color: ${props => 
         props.isToday ? '#8E59FF' : 
-        props.isSelected ? '#8E59FF'  :
+        props.isSelected ? '#8E59FF' : 
         'transparent'
     };
-    border-radius: ${props => props.isToday || props.isSelected ? '50%' : 'none'};
+    border-radius: ${props => props.isToday || props.isSelected ? '50%' : '0'};
     box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
     cursor: pointer;
-    position: relative;
-    z-index: ${props => props.isInRange ? '1' : 'auto'};
-
+    position: relative; 
+    z-index: 10; 
 
     &:before {
-        overflow: hidden;
         content: '';
         position: absolute;
-        top: 50%;
-        left: ${props => props.isInRange && !props.isSelected ? '0%' : 'auto'};
-        right: ${props => props.isInRange && !props.isSelected ? '0%' : 'auto'};
-        width: ${props => props.isInRange && !props.isSelected ? 'calc(100% + 0em)' : '0%'};
-        height: 40px; 
-        background-color: ${props => props.isInRange && !props.isSelected ? '#CBB8EE' : 'transparent'};
-        transform: translateY(-50%);
-        z-index: -1;
-        
-        display: ${props => (props.isInRange && !props.isSelected) ? 'block' : 'none'};
-
-        border-top-left-radius: ${props => (props.isInRange && !props.isSelected) ? '20px' : 'none'};
-        border-bottom-left-radius: ${props => (props.isInRange && !props.isSelected) ? '20px' : 'none'};
-        border-top-right-radius: ${props => (props.isInRange && !props.isSelected) ? '20px' : 'none'};
-        border-bottom-right-radius: ${props => (props.isInRange && !props.isSelected) ? '20px' : 'none'};
-    }
-
-    /* 선택된 날짜의 왼쪽과 오른쪽 모서리 둥글게 처리 */
-    &:first-child {
-        border-top-left-radius: ${props => props.isStart ? '10px' : 'none'};
-        border-bottom-left-radius: ${props => props.isStart ? '10px' : 'none'};
-    }
-
-    &:last-child {
-        border-top-right-radius: ${props => props.isEnd ? '10px' : 'none'};
-        border-bottom-right-radius: ${props => props.isEnd ? '10px' : 'none'};
+        top: 0; 
+        left: 0;
+        right: 0;
+        bottom: 0; 
+        background-color: ${props => props.isInRange ? '#CBB8EE' : 'transparent'};
+        z-index: -1; 
+        border-radius: ${props => 
+            props.isStart ? '20px 0 0 20px' :
+            props.isEnd ? '0 20px 20px 0' : 
+            '0'
+        };
+        visibility: ${props => props.isInRange ? 'visible' : 'hidden'};
+       
     }
 
     &.empty {
-        color: #ccc;
+        color: #FBFAFF ;
     }
 `;

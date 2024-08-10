@@ -39,9 +39,8 @@ const StudyManagePage = () => {
                 <Text>`가지`고 싶은 스터디를 만들어보세요!</Text>
                 <RowWrapper1>
                     <MainButton>저장하기</MainButton>
-                    <MainButton>미리보기</MainButton>
+                  
                 </RowWrapper1>
-
         </RowLogoWrapper>
 
         <MainSection>
