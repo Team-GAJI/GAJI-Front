@@ -62,19 +62,11 @@ const StudyManageWeeKPage = () => {
     return (
     <>
     <Wrapper>
-        {/* <RowLogoWrapper>
-                <MainText>스터디 관리 페이지</MainText>
-                <Text>스터디장에게만 보이는 메뉴에요</Text>
-                <RowWrapper1>
-                    <MainButton>저장하기</MainButton>
-                  
-                </RowWrapper1>
-
-        </RowLogoWrapper> */}
-
+      
             {/* 헤더 */}
             <PageHeader
                 pageTitle="스터디 관리 페이지"
+                subTitle = "스터디장에게만 보이는 메뉴에요"
                 headerTitles={headerTitles}
                 activeButtonIndex={activeButtonIndex}
                 onButtonClick={handleHeaderButtonClick}
