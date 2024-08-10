@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/common/mypageBackground.png';
 import ManageDel from '../assets/icons/studyManage/StudyManageDel.png';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
-
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import ManageBasics from '../components/studyManage/ManageBasics';
 import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 
+import PageHeader from '../components/common/PageHeader';
 
 const StudyManagePage = () => {
     // n주차 버튼 기능
@@ -30,44 +31,78 @@ const StudyManagePage = () => {
       sidebarRef.current.style.height = `${newHeight}px`;
     }
   }, [weeks]);
+  const [selectedWeek, setSelectedWeek] = useState(0);
+    
+  const handleWeekSelect = (index) => {
+      setSelectedWeek(index);
+  };
+    //studymanage 페이지로 이동
+  const navigate = useNavigate();
+  const handleButtonClick = (navigate) => {
+      navigate('/studyweekmanage');
+  };
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+  // Redux 상태 관리
+  const dispatch = useDispatch();
+
+  // 헤더 함수
+  const headerTitles = ["저장하기"];
+  const handleHeaderButtonClick = (index) => {
+      setActiveButtonIndex(index);
+      if (index == 0) {
+          dispatch(setActiveButton("저장하기"));
+      }
+  };
 
     return (
     <>
     <Wrapper>
-        <RowLogoWrapper>
-                <MainText>스터디 관리 페이지</MainText>
-                <Text>`가지`고 싶은 스터디를 만들어보세요!</Text>
-                <RowWrapper1>
-                    <MainButton>저장하기</MainButton>
-                    <MainButton>미리보기</MainButton>
-                </RowWrapper1>
-
-        </RowLogoWrapper>
+    <PageHeader
+        pageTitle="스터디 관리 페이지"
+        subTitle = "스터디장에게만 보이는 메뉴에요"
+        headerTitles={headerTitles}
+        activeButtonIndex={activeButtonIndex}
+        onButtonClick={handleHeaderButtonClick}
+        changeColorOnClick={true}
+        changeColorOnHover={true}
+    />
 
         <MainSection>
       
         <SidebarWrapper>
             <Sidebar1 ref={sidebarRef}>
-                <BasicInfoButton>기본정보</BasicInfoButton>
-                {weeks.map((week, index) => (
+              {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
+              <BasicInfoButton>
+                  기본정보
+              </BasicInfoButton>
+              {weeks.map((week, index) => (
                 <React.Fragment key={week}>
-                    <SidebarButton1 bold={index === 0}>
-                    <TextWrapper>
-                        {week + 1}주차
+                  <SidebarButton1
+                    className={index === weeks.length - 1 ? 'last-week' : ''}
+                    bold={index === selectedWeek}
+                    onClick={() => handleWeekSelect(index)}
+                  >
+                    <TextWrapper onClick={() => handleButtonClick(navigate)}>
+                      {week + 1}주차
                     </TextWrapper>
-                    <DelIconWrapper>
-                        <DelIcons src={ManageDel} alt="삭제" onClick={() => handleDelete(index)} />
-                    </DelIconWrapper>
-                    </SidebarButton1>
+                    {index === weeks.length - 1 && (
+                      <DelIconWrapper>
+                        <DelIcons
+                          src={ManageDel}
+                          alt="삭제"
+                          onClick={handleDelete}
+                        />
+                      </DelIconWrapper>
+                    )}
+                  </SidebarButton1>
                 </React.Fragment>
-                ))}
-                <PlusButton onClick={handleAdd}>
+              ))}
+              <PlusButton onClick={handleAdd}>
                 <PlusIcons src={ManagePlus} alt="추가" />
-                </PlusButton>
+              </PlusButton>
             </Sidebar1>
-        </SidebarWrapper>
-
-
+          </SidebarWrapper>
 
            <ManageBasics/>
            <ManageDate/>
@@ -92,26 +127,6 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
-
-const MainText = styled.p`
-    font-size: 1.3em;
-    font-weight: 800;
-    color: #8E59FF;
-    margin-bottom: 0.2em;
-`;
-
-const MainButton = styled.button`
-    font-size: 0.8125em;
-    width: 10.25em;
-    background-color: #8E59FF;
-    border: 1px solid #8E59FF;
-    border-radius: 1em;
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
-    color: #fff;
-    opacity : 60%;
-`;
 const SidebarWrapper = styled.div`
     position: absolute; 
     margin-top: 1.25em; 
@@ -149,7 +164,7 @@ const DelIcons = styled.img`
 const TextWrapper = styled.div`
   flex: 1;
   text-align: center;
-  margin-left : 3em;
+
 `;
 const SidebarButton1 = styled.div`
   display: flex;
@@ -163,7 +178,22 @@ const SidebarButton1 = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
 
+
   &:hover {
+    border: 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    color: #8E59FF;
+    margin-left: 0.4em; 
+    margin-right: 0.4em;
+    font-weight: 800;
+  }
+  // 마지막 주차 글자 위치조정
+  &.last-week {
+    margin-left: 3em; 
+    position: relative; 
+  }
+    
+  &.last-week:hover {
     border: 1px solid #8E59FF;
     border-radius: 0.5em; 
     color: #8E59FF;
@@ -176,11 +206,12 @@ const SidebarButton1 = styled.div`
     }
 
     ${TextWrapper} {
-      text-align: left;
-      margin-left: 1em; 
+      text-align: center;
+      // 마지막 주차 글 위치 수정해라~
     }
   }
 `;
+
  const BasicInfoButton = styled(SidebarButton1)`
    font-size: 1em;
    font-weight: 1.125em; 
@@ -188,33 +219,6 @@ const SidebarButton1 = styled.div`
    border: none;
    background-color: transparent;
    color: #A2A3B2;
-`;
-
-const RowWrapper1 = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 2.125em;
-    justify-content: center;
-    align-items: center;
-`;
-const RowLogoWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.9em;
-    flex-direction: column;
-    justify-content: center;
-    padding: 1.125em; 
-    margin-top: 0.625em; 
-    background-image: url(${backImage});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-`;
-
-const Text = styled.p`
-    color: #D0D1D9;
-    font-size: 0.9375em; 
-    font-weight: 700;
 `;
 
 
