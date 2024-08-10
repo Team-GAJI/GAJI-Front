@@ -9,8 +9,8 @@ import MainSelectBox from '../components/main/MainSelectBox';
 
 const MainPage = () => {
     // state 관리
-    const [allViews, setAllViews] = useState(false);
     const [studies, setStudies] = useState([]);
+    const [category, setCategory] = useState("");
 
     // 스터디 불러오기
     useEffect(() => {
@@ -20,9 +20,9 @@ const MainPage = () => {
     // useNavigate
     const navigate = useNavigate();
 
-    // 모두보기 기능
-    const allViewsVisibility = () => {
-        setAllViews(true);
+    const handleCategoryClick = (selectedCategory) => {
+        setCategory(selectedCategory);
+        navigate("/studycategory", { state: { category: selectedCategory } });
     };
 
     return (
@@ -43,148 +43,127 @@ const MainPage = () => {
             {/* 게시글 필터 */}
             <SelectAndButtonWrapper>
                 <MainSelectBox/>
-                <CreatePostButton onClick={() => {navigate("/community/write");}}>
+                <CreatePostButton onClick={() => {navigate("/studycreate");}}>
                 + 스터디 만들기
                 </CreatePostButton>
             </SelectAndButtonWrapper>
             <StyledHr />
 
-            {/* 카테고리별 스터디 미리보기 */}
-            {allViews === true ? (
-                <>
-                    <StudyPreviewWrapper>
-                        {studies.map((post) => (
-                            <StudyPreview
-                                key={post.postId}
-                                title={post.postTitle}
-                                content={post.postContent}
-                                background={post.postBackgroundImg}
-                                ago={post.postAgo}
-                                dday={post.postDday}
-                                recruiter={post.postRecruiter}
-                                state={post.postState}
-                                applicant={post.postApplicant}/>
-                        ))}
-                    </StudyPreviewWrapper>
-                </>
-            ) : (
-                <>
-                    {/* 백엔드 스터디 */}
-                    <CategoryTitleWrapper>
-                        <CategoryTitle># 백엔드</CategoryTitle>
-                        <ViewAllWrapper>
-                            <ViewAll onClick={() => allViewsVisibility()}>모두 보기</ViewAll>
-                            <Arrow onClick={() => allViewsVisibility()}>&gt;</Arrow>
-                        </ViewAllWrapper>
-                    </CategoryTitleWrapper>
-                    <StudyPreviewWrapper>
-                        {studies.slice(0, 5).map((post) => (
-                            <StudyPreview
-                                key={post.postId}
-                                title={post.postTitle}
-                                content={post.postContent}
-                                background={post.postBackgroundImg}
-                                ago={post.postAgo}
-                                dday={post.postDday}
-                                recruiter={post.postRecruiter}
-                                state={post.postState}
-                                applicant={post.postApplicant}/>
-                        ))}
-                    </StudyPreviewWrapper>
+            {/* 카테고리별 스터디 영역 */}
+            {/* 백엔드 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 백엔드</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('백엔드')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('백엔드')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
 
-                    {/* 보안 스터디 */}
-                    <CategoryTitleWrapper>
-                        <CategoryTitle># 보안</CategoryTitle>
-                        <ViewAllWrapper>
-                            <ViewAll onClick={() => allViewsVisibility()}>모두 보기</ViewAll>
-                            <Arrow onClick={() => allViewsVisibility()}>&gt;</Arrow>
-                        </ViewAllWrapper>
-                    </CategoryTitleWrapper>
-                    <StudyPreviewWrapper>
-                        {studies.slice(0, 5).map((post) => (
-                            <StudyPreview
-                                key={post.postId}
-                                title={post.postTitle}
-                                content={post.postContent}
-                                background={post.postBackgroundImg}
-                                ago={post.postAgo}
-                                dday={post.postDday}
-                                recruiter={post.postRecruiter}
-                                state={post.postState}
-                                applicant={post.postApplicant}/>
-                        ))}
-                    </StudyPreviewWrapper>
+            {/* 보안 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 보안</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('보안')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('보안')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
 
-                    {/* AWS 스터디 */}
-                    <CategoryTitleWrapper>
-                        <CategoryTitle># AWS</CategoryTitle>
-                        <ViewAllWrapper>
-                            <ViewAll onClick={() => allViewsVisibility()}>모두 보기</ViewAll>
-                            <Arrow onClick={() => allViewsVisibility()}>&gt;</Arrow>
-                        </ViewAllWrapper>
-                    </CategoryTitleWrapper>
-                    <StudyPreviewWrapper>
-                        {studies.slice(0, 5).map((post) => (
-                            <StudyPreview
-                                key={post.postId}
-                                title={post.postTitle}
-                                content={post.postContent}
-                                background={post.postBackgroundImg}
-                                ago={post.postAgo}
-                                dday={post.postDday}
-                                recruiter={post.postRecruiter}
-                                state={post.postState}
-                                applicant={post.postApplicant}/>
-                        ))}
-                    </StudyPreviewWrapper>
+            {/* AWS 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># AWS</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('AWS')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('AWS')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
 
-                    {/* 디자인 스터디 */}
-                    <CategoryTitleWrapper>
-                        <CategoryTitle># 디자인</CategoryTitle>
-                        <ViewAllWrapper>
-                            <ViewAll onClick={() => allViewsVisibility()}>모두 보기</ViewAll>
-                            <Arrow onClick={() => allViewsVisibility()}>&gt;</Arrow>
-                        </ViewAllWrapper>
-                    </CategoryTitleWrapper>
-                    <StudyPreviewWrapper>
-                        {studies.slice(0, 5).map((post) => (
-                            <StudyPreview
-                                key={post.postId}
-                                title={post.postTitle}
-                                content={post.postContent}
-                                background={post.postBackgroundImg}
-                                ago={post.postAgo}
-                                dday={post.postDday}
-                                recruiter={post.postRecruiter}
-                                state={post.postState}
-                                applicant={post.postApplicant}/>
-                        ))}
-                    </StudyPreviewWrapper>
+            {/* 디자인 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 디자인</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('디자인')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('디자인')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
 
-                    {/* 프론트엔드 스터디 */}
-                    <CategoryTitleWrapper>
-                        <CategoryTitle># 프론트엔드</CategoryTitle>
-                        <ViewAllWrapper>
-                            <ViewAll onClick={() => allViewsVisibility()}>모두 보기</ViewAll>
-                            <Arrow onClick={() => allViewsVisibility()}>&gt;</Arrow>
-                        </ViewAllWrapper>
-                    </CategoryTitleWrapper>
-                    <StudyPreviewWrapper>
-                        {studies.slice(0, 5).map((post) => (
-                            <StudyPreview
-                                key={post.postId}
-                                title={post.postTitle}
-                                content={post.postContent}
-                                background={post.postBackgroundImg}
-                                ago={post.postAgo}
-                                dday={post.postDday}
-                                recruiter={post.postRecruiter}
-                                state={post.postState}
-                                applicant={post.postApplicant}/>
-                        ))}
-                    </StudyPreviewWrapper>
-                </>
-            )}
+            {/* 프론트엔드 스터디 */}
+            <CategoryTitleWrapper>
+                <CategoryTitle># 프론트엔드</CategoryTitle>
+                <ViewAllWrapper>
+                    <ViewAll onClick={() => handleCategoryClick('프론트엔드')}>모두 보기</ViewAll>
+                    <Arrow onClick={() => handleCategoryClick('프론트엔드')}>&gt;</Arrow>
+                </ViewAllWrapper>
+            </CategoryTitleWrapper>
+            <StudyPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </StudyPreviewWrapper>
         </PageWrapper>
     );
 };
