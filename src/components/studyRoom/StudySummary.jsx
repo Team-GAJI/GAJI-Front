@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import Book from '../../assets/images/studyRoom/Rectangle 34624913.png';
 import AlarmIcon from '../../assets/icons/studyRoom/Alarm.png';
+import { useNavigate } from 'react-router-dom';
 
 const StudySummary = () => {
     const alarmData = {
         1: 3, 
         2: 5,   
     };
-    
+    const navigate = useNavigate()
     const id = 1;  
     const alarmCount = alarmData[id]; 
 
@@ -34,7 +35,8 @@ const StudySummary = () => {
             <MinorText>공지사항</MinorText>
             <InputWrapper>
                 <Icon src={AlarmIcon} alt="공지" />
-                <StyledInput placeholder=" 공지사항 | 여러분 이건 꼭 아셔야 합니다?! 모르면 이 스터디 못함~~ 알아줘이잉이히이잉" />
+                <div onClick={()=>navigate('/studynotice')}>
+                <StyledInput placeholder=" 공지사항 | 여러분 이건 꼭 아셔야 합니다?! 모르면 이 스터디 못함~~ 알아줘이잉이히이잉" /></div>
                 <NoticeButton1>{alarmCount}</NoticeButton1>
             </InputWrapper>
             <MinorText>스터디 자료</MinorText>

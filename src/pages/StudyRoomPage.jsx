@@ -5,17 +5,24 @@ import PageHeader from '../components/common/PageHeader';
 import StudySummary from '../components/studyRoom/StudySummary';
 import WeekCurriculum from '../components/studyRoom/WeekCurriculum';
 import StudyPostList from '../components/studyRoom/StudyPostList';
+import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 
 const StudyRoomPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-
+    const navigate = useNavigate();
   
     const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
-        
+        if (index == 0) {
+          navigate('/studyroom')
+      } else if (index == 1) {
+        navigate('/troubleshooting')
+      } else {
+        navigate('/')
+      }
     };
     
     return (
@@ -39,7 +46,7 @@ const StudyRoomPage = () => {
                       </React.Fragment>
                   ))}
                   </Sidebar>
-                  <SidebarManageButton>스터디 관리</SidebarManageButton>
+                  <SidebarManageButton onClick={()=>navigate('/studymanage')}>스터디 관리</SidebarManageButton>
               </SidebarWrapper>
 
               <MainContent>

@@ -1,12 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {  useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Calendar from '../components/mypage/Calendar';
 import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
-import PageHeader from '../components/common/PageHeader'; 
+import PageHeader from '../components/common/PageHeader';
+
 
 const MyPage = () => {
+
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
     const homeRef = useRef(null);
@@ -37,6 +39,7 @@ const MyPage = () => {
         setActiveButtonIndex(index);
         handleScroll(sections[index]);
     };
+
 
     return (
         <MyPageWrapper>

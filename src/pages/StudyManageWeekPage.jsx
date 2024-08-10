@@ -8,6 +8,7 @@ import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/Stu
 import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
 import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
+import PageHeader from '../components/common/PageHeader.jsx';
 
 const StudyManagePage = () => {
     // n주차 버튼 기능
@@ -19,7 +20,7 @@ const StudyManagePage = () => {
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length + 1]); 
+    setWeeks([...weeks, weeks.length + 0]); 
   };
 
   useEffect(() => {
@@ -30,48 +31,65 @@ const StudyManagePage = () => {
     }
   }, [weeks]);
 
+  //선택한 주차가 나오게 하기위해...
+  const [selectedWeek, setSelectedWeek] = useState(0);
+
+  const handleWeekSelect = (index) => {
+    setSelectedWeek(index);
+  };
+
+
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+  const headerTitles = ["저장하기", "미리보기"];
+  const handleHeaderButtonClick = (index) => {
+
+      setActiveButtonIndex(index);
+
+  };
     return (
     <>
     <Wrapper>
         <RowLogoWrapper>
-                <MainText>스터디 관리 페이지</MainText>
-                <Text>스터디장에게만 보이는 메뉴에요</Text>
-                <RowWrapper1>
-                    <MainButton>저장하기</MainButton>
-                    <MainButton>미리보기</MainButton>
-                </RowWrapper1>
+        <PageHeader
+                    large={true}
+                    pageTitle="스터디 관리 페이지"
+                    subTitle="스터디장에게만 보이는 메뉴에요"
+                    headerTitles={headerTitles}
+                    activeButtonIndex={activeButtonIndex}
+                    onButtonClick={handleHeaderButtonClick}
+                    changeColorOnClick={false}
+                    changeColorOnHover={true}
+          />
+
 
         </RowLogoWrapper>
 
-        <MainSection>
-
+         <MainSection>
         <SidebarWrapper>
-            <Sidebar1 ref={sidebarRef}>
-                <BasicInfoButton>기본정보</BasicInfoButton>
-                {weeks.map((week, index) => (
-                <React.Fragment key={week}>
-                    <SidebarButton1 bold={index === 0}>
-                    <TextWrapper>
-                        {week + 1}주차
-                    </TextWrapper>
-                    <DelIconWrapper>
-                        <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={() => handleDelete(index)} />
-                    </DelIconWrapper>
-                    </SidebarButton1>
-                </React.Fragment>
-                ))}
-                <PlusButton onClick={handleAdd}>
-                <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
-                </PlusButton>
-            </Sidebar1>
+          <Sidebar1 ref={sidebarRef}>
+            <BasicInfoButton>기본정보</BasicInfoButton>
+            {weeks.map((week, index) => (
+              <React.Fragment key={week}>
+                <SidebarButton1 bold={index === 0} onClick={() => handleWeekSelect(index)}>
+                  <TextWrapper>
+                    {week + 1}주차
+                  </TextWrapper>
+                  <DelIconWrapper>
+                    <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={() => handleDelete(index)} />
+                  </DelIconWrapper>
+                </SidebarButton1>
+              </React.Fragment>
+            ))}
+            <PlusButton onClick={handleAdd}>
+              <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
+            </PlusButton>
+          </Sidebar1>
         </SidebarWrapper>
-
-
-
-           <ManageWeekBasics/>
-           <ManageWeekeDate/>
-           <ManageWeekeDetailed/>
-        </MainSection>
+        <ManageWeekBasics selectedWeek={selectedWeek}/>
+        <ManageWeekeDate selectedWeek={selectedWeek}/>
+        <ManageWeekeDetailed selectedWeek={selectedWeek} />
+      </MainSection>
 
     </Wrapper>
 
@@ -91,25 +109,6 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
-const MainText = styled.p`
-    font-size: 1.3em;
-    font-weight: 800;
-    color: #8E59FF;
-    margin-bottom: 0.2em;
-`;
-
-const MainButton = styled.button`
-    font-size: 0.8125em;
-    width: 10.25em;
-    background-color: #8E59FF;
-    border: 1px solid #8E59FF;
-    border-radius: 1em;
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
-    color: #fff;
-    opacity : 60%;
-`;
 const SidebarWrapper = styled.div`
     position: absolute; 
     margin-top: 1.25em; 
@@ -185,13 +184,7 @@ const SidebarButton1 = styled.div`
    background-color: transparent;
    color: #A2A3B2;
 `;
-const RowWrapper1 = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 2.125em;
-    justify-content: center;
-    align-items: center;
-`;
+
 const RowLogoWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -206,11 +199,6 @@ const RowLogoWrapper = styled.div`
     background-position: center;
 `;
 
-const Text = styled.p`
-    color: #D0D1D9;
-    font-size: 0.9375em; 
-    font-weight: 700;
-`;
 
 
 /* 화면 분활 (오른쪽 사이드) */
@@ -240,6 +228,6 @@ const PlusIcons = styled.img`
   transition: filter 0.3s;
 
   &:hover {
-    filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
-  }
-`;
+  filter: brightness(0) saturate(100%) invert(29%) sepia(90%) saturate(1996%) hue-rotate(246deg) brightness(94%) contrast(101%);  }
+}
+  `;
