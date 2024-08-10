@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import backImage from '../assets/images/common/mypageBackground.png';
 import StudyManageWeekManageDel from '../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
 import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
@@ -9,7 +10,9 @@ import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx
 import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 
-const StudyManagePage = () => {
+import PageHeader from '../components/common/PageHeader';
+
+const StudyManageWeeKPage = () => {
     // n주차 버튼 기능 마지막 주차만 삭제, 추가 가능하도록 수정
     const [weeks, setWeeks] = useState([...Array(9).keys()]);
     const sidebarRef = useRef(null);
@@ -38,12 +41,28 @@ const StudyManagePage = () => {
     const handleWeekSelect = (index) => {
       setSelectedWeek(index);
     };
+    //studymanage 페이지로 이동
+    const navigate = useNavigate();
+    const handleButtonClick = (navigate) => {
+      navigate('/studymanage');
+    };
+
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+    //헤더 함수
+    const headerTitles = ["저장하기"];
+    const handleHeaderButtonClick = (index) => {
+        setActiveButtonIndex(index);
+        if (index == 0) {
+            dispatch(setActiveButton("저장하기"));
+        } 
+    };
 
 
     return (
     <>
     <Wrapper>
-        <RowLogoWrapper>
+        {/* <RowLogoWrapper>
                 <MainText>스터디 관리 페이지</MainText>
                 <Text>스터디장에게만 보이는 메뉴에요</Text>
                 <RowWrapper1>
@@ -51,12 +70,24 @@ const StudyManagePage = () => {
                   
                 </RowWrapper1>
 
-        </RowLogoWrapper>
+        </RowLogoWrapper> */}
 
+            {/* 헤더 */}
+            <PageHeader
+                pageTitle="스터디 관리 페이지"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleHeaderButtonClick}
+                changeColorOnClick={true}
+                changeColorOnHover={true}
+            />
          <MainSection>
          <SidebarWrapper>
             <Sidebar1 ref={sidebarRef}>
-              <BasicInfoButton>기본정보</BasicInfoButton>
+              {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
+              <BasicInfoButton onClick={() => handleButtonClick(navigate)}>
+                  기본정보
+              </BasicInfoButton>
               {weeks.map((week, index) => (
                 <React.Fragment key={week}>
                   <SidebarButton1
@@ -96,7 +127,7 @@ const StudyManagePage = () => {
     );
 };
 
-export default StudyManagePage;
+export default StudyManageWeeKPage;
 
 const Wrapper = styled.div`
     z-index: 5;
