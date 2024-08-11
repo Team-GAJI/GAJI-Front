@@ -31,23 +31,31 @@ const LoginPage = () => {
                 const res = await axiosInstance.get('oauth2/authorization/google', {
                 });
                 console.log(res)
-                // dispatch(setSummary(verifiedSummary));
-                // sessionStorage.setItem('id', conversationId);
-                // console.log(conversationId);
                 
             } catch (e) {
                 console.error(e);
-            } 
-    };
-    
-    const handleLogin = async () => {
-        console.log('로그인시작');
-        handleGoogleLogin();
-        const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-        dispatch(setTokens(userToken));
+            } finally{
+                const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
+                dispatch(setTokens(userToken));
+            }
     };
 
-    const hadnleRegister = () => {
+    const handleNaverLogin = async () => {
+        try {
+            const res = await axiosInstance.get('oauth2/authorization/naver', {
+            });
+            console.log(res)
+            
+        } catch (e) {
+            console.error(e);
+        }finally{
+            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
+            dispatch(setTokens(userToken));
+        }
+};
+    
+
+    const handleGoogleRegister = () => {
         if (isAgreed) {
             console.log('로그인시작');
             handleGoogleLogin();
@@ -57,6 +65,18 @@ const LoginPage = () => {
             alert("필수 약관에 동의해야 합니다.");
         }
     }
+
+    const handleNaverRegister = () => {
+        if (isAgreed) {
+            console.log('로그인시작');
+            handleNaverLogin();
+            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
+            dispatch(setTokens(userToken));
+        } else {
+            alert("필수 약관에 동의해야 합니다.");
+        }
+    }
+
 
     const submitNickname = () => {
         //서버에 닉네임 저장 로직 추가
@@ -99,36 +119,25 @@ const LoginPage = () => {
                     <Text3>약관보기</Text3>
                 </RowWrapper>
                 <Padding/>
-                <LoginButton onClick={()=>hadnleRegister()} disabled={!isAgreed}>
+                <LoginButton onClick={()=>handleGoogleRegister()} disabled={!isAgreed}>
                     <GoogleLogo/>
                     구글로 회원가입하기
                 </LoginButton> 
-                <LoginButton onClick={()=>handleLogin()}>
+                <LoginButton onClick={()=>handleNaverRegister()} disabled={!isAgreed} >
                     <NaverLogo>N</NaverLogo>
                     네이버로 회원가입하기
                 </LoginButton>
                 </ColumnWrapper>
                 :
                 <ColumnWrapper>
-                    {/* <GoogleOAuthProvider clientId={clientId}>
-                        <GoogleLogin
-                            onSuccess={(res) => {
-                                console.log(res);
-                            }}
-                            onFailure={(err) => {
-                                console.log(err);
-                            }}
-                        />
-                    </GoogleOAuthProvider> */}
-
-                        <LoginButton onClick={()=>handleLogin()}>
+                        <LoginButton onClick={()=>handleGoogleLogin()}>
                             <GoogleLogo/>
                             구글로 로그인하기
                         </LoginButton>
-                    <LoginButton onClick={()=>handleLogin()}>
-                        <NaverLogo>N</NaverLogo>
-                        네이버로 로그인하기
-                    </LoginButton>
+                        <LoginButton onClick={()=>handleNaverLogin()}>
+                            <NaverLogo>N</NaverLogo>
+                            네이버로 로그인하기
+                        </LoginButton>
                     <Text onClick={()=>setRegister(true)}>회원가입하기</Text>
                 </ColumnWrapper>
                 }

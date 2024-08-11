@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Color } from '../style/Color';
 import studyProfileUrl from '../../assets/images/common/studyprofile.png';
+import { useNavigate } from 'react-router-dom';
 
 const dummyStudyList = [
     {
@@ -27,6 +28,8 @@ const dummyStudyList = [
 ];
 
 const StudyList = ({ isCurrent }) => {
+    
+    const navigate = useNavigate();
     return (
         <StudyListWrapper>
             <Wrapper>
@@ -37,7 +40,7 @@ const StudyList = ({ isCurrent }) => {
                     {dummyStudyList.map((study, index) => (
                         <ListItem key={index}>
                             <StudyProfile />
-                            <ColumnWrapper>
+                            <ColumnWrapper onClick={()=>navigate('/studyroom')}>
                                 <StudyName>{study.name}</StudyName>
                                 <StudyText>{study.description}</StudyText>
                             </ColumnWrapper>

@@ -10,7 +10,7 @@ import Loading from '../common/Loading';
 import { dummyProjectPosts } from './DummyProjectPosts';
 import { dummyQuestionPosts } from './DummyQuestionPosts';
 import { dummyBlogPosts } from './DummyBlogPosts';
-import SelectBox from './SelectBox';
+import CommunitySelectBox from './CommunitySelectBox';
 
 const CommunityHomePosts = () => {
   // state 관리
@@ -128,7 +128,7 @@ const CommunityHomePosts = () => {
       {/* 게시글 필터 */}
       <SelectAndButtonWrapper>
         {/* 셀렉트 박스 */}
-        <SelectBox/>
+        <CommunitySelectBox/>
         {/* 게시글 버튼 */}
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
           + {title} 작성하기

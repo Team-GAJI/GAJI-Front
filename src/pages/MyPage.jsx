@@ -1,4 +1,4 @@
-import React, {  useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Calendar from '../components/mypage/Calendar';
 import MyPost from '../components/mypage/MyPost';
@@ -13,31 +13,31 @@ const MyPage = () => {
     const calendarRef = useRef(null);
     const myPostRef = useRef(null);
 
-    // const handleScroll = (section) => {
-    //     let ref;
-    //     if (section === 'home') ref = homeRef;
-    //     if (section === 'studyroom') ref = studyRoomRef;
-    //     if (section === 'calendar') ref = calendarRef;
-    //     if (section === 'mypost') ref = myPostRef;
+    const handleScroll = (section) => {
+        let ref;
+        if (section === 'home') ref = homeRef;
+        if (section === 'studyroom') ref = studyRoomRef;
+        if (section === 'calendar') ref = calendarRef;
+        if (section === 'mypost') ref = myPostRef;
 
-    //     const yOffset = -370; // 370px 아래로 이동
-    //     const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        const yOffset = -218;
+        const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-    //     window.scrollTo({ top: yPosition, behavior: 'smooth' });
-    // };
+        window.scrollTo({ top: yPosition, behavior: 'smooth' });
+    };
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
-
     return (
         <MyPageWrapper> 
-            <MyPageHeader/>
+            <MyPageHeader handleScroll={handleScroll} /> {/* handleScroll 전달 */}
             <ContentWrapper>
                 <UserInfo ref={homeRef} />
                 <RowWrapper4 ref={studyRoomRef}>
-                    <StudyList isCurrent={true} /><StudyList isCurrent={false} />
+                    <StudyList isCurrent={true} />
+                    <StudyList isCurrent={false} />
                 </RowWrapper4>
                 <Div ref={calendarRef}>
                     <Calendar />
@@ -89,10 +89,10 @@ const ContentWrapper = styled.div`
 
     @media (max-width: 1199px) {
         width: 90%;
-        margin-top: 16.1875em;
+        margin-top: 12em; /* 화면 크기에 따라 마진 조정 */
     }
     @media (max-width: 768px) {
         width: 90%;
-        margin-top: 16.1875em;
+        margin-top: 8em; /* 모바일 화면에서는 더 작은 마진 */
     }
 `;

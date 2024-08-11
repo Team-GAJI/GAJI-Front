@@ -8,6 +8,7 @@ import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/Stu
 import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
 import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
+import PageHeader from '../components/common/PageHeader.jsx';
 
 const StudyManagePage = () => {
     // n주차 버튼 기능
@@ -38,17 +39,29 @@ const StudyManagePage = () => {
   };
 
 
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
+  const headerTitles = ["저장하기", "미리보기"];
+  const handleHeaderButtonClick = (index) => {
+
+      setActiveButtonIndex(index);
+
+  };
     return (
     <>
     <Wrapper>
         <RowLogoWrapper>
-                <MainText>스터디 관리 페이지</MainText>
-                <Text>스터디장에게만 보이는 메뉴에요</Text>
-                <RowWrapper1>
-                    <MainButton>저장하기</MainButton>
-                    <MainButton>미리보기</MainButton>
-                </RowWrapper1>
+        <PageHeader
+                    large={true}
+                    pageTitle="스터디 관리 페이지"
+                    subTitle="스터디장에게만 보이는 메뉴에요"
+                    headerTitles={headerTitles}
+                    activeButtonIndex={activeButtonIndex}
+                    onButtonClick={handleHeaderButtonClick}
+                    changeColorOnClick={false}
+                    changeColorOnHover={true}
+          />
+
 
         </RowLogoWrapper>
 
@@ -96,25 +109,6 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
-const MainText = styled.p`
-    font-size: 1.3em;
-    font-weight: 800;
-    color: #8E59FF;
-    margin-bottom: 0.2em;
-`;
-
-const MainButton = styled.button`
-    font-size: 0.8125em;
-    width: 10.25em;
-    background-color: #8E59FF;
-    border: 1px solid #8E59FF;
-    border-radius: 1em;
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
-    color: #fff;
-    opacity : 60%;
-`;
 const SidebarWrapper = styled.div`
     position: absolute; 
     margin-top: 1.25em; 
@@ -190,13 +184,7 @@ const SidebarButton1 = styled.div`
    background-color: transparent;
    color: #A2A3B2;
 `;
-const RowWrapper1 = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 2.125em;
-    justify-content: center;
-    align-items: center;
-`;
+
 const RowLogoWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -211,11 +199,6 @@ const RowLogoWrapper = styled.div`
     background-position: center;
 `;
 
-const Text = styled.p`
-    color: #D0D1D9;
-    font-size: 0.9375em; 
-    font-weight: 700;
-`;
 
 
 /* 화면 분활 (오른쪽 사이드) */
