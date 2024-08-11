@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Book from '../../assets/images/studyRoom/Rectangle 34624913.png';
-import AlarmIcon from '../../assets/icons/studyRoom/Alarm.png';
+import BellIcon from '../../assets/icons/studyRoom/bellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 
 const StudySummary = () => {
@@ -28,19 +28,20 @@ const StudySummary = () => {
                 <CountText>1000명 지원</CountText>
             </Container>
             
-            <MinorText>스터디 설명</MinorText>
-            <CloudyText>스터디 설며어엉어어어어어어어어어어ㅓ어엉 우짜니니니닌</CloudyText>
-            
+            <StudyDescreption>4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다다다다ㅏ다다다아아아아아아아아아ㅏㅏ아아ㅏ아아아아아아아ㅏ아아아아아아ㅏ아앙아ㅏ아아아ㅏ아아아아아아아ㅏ아ㅏㅇ아아아아아ㅏ아아아아ㅏ앙아아아아아아아ㅏ아아아아앙아아ㅏ아아ㅏ아4주차 스터디4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다다다다ㅏ다다다아아아아아아아아아ㅏㅏ아아ㅏ아아아아아아아ㅏ아아아아아아ㅏ아앙아ㅏ아아아ㅏ아아아아아아아ㅏ아ㅏㅇ아아아아아ㅏ아아아아ㅏ앙아아아아아아아ㅏ아아아아앙아아ㅏ아아ㅏ아4주차 스터디4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다다다다ㅏ다다다아아아아아아아아아ㅏㅏ아아ㅏ아아아아아아아ㅏ아아아아아아ㅏ아앙아ㅏ아아아ㅏ아아아아아아아ㅏ아ㅏㅇ아아아아아ㅏ아아아아ㅏ앙아아아아아아아ㅏ아아아아앙아아ㅏ아아ㅏ아4주차 스터디4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다다다다ㅏ다다다아아아아아아아아아ㅏㅏ아아ㅏ아아아아아아아ㅏ아아아아아아ㅏ아앙아ㅏ아아아ㅏ아아아아아아아ㅏ아ㅏㅇ아아아아아ㅏ아아아아ㅏ앙아아아아아아아ㅏ아아아아앙아아ㅏ아아ㅏ아4주차 스터디4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다다다다ㅏ다다다아아아아아아아아아ㅏㅏ아아ㅏ아아아아아아아ㅏ아아아아아아ㅏ아앙아ㅏ아아아ㅏ아아아아아아아ㅏ아ㅏㅇ아아아아아ㅏ아아아아ㅏ앙아아아아아아아ㅏ아아아아앙아아ㅏ아아ㅏ아4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다다다다ㅏ다다다아아아아아아아아아ㅏㅏ아아ㅏ아아아아아아아ㅏ아아아아아아ㅏ아앙아ㅏ아아아ㅏ아아아아아아아ㅏ아ㅏㅇ아아아아아ㅏ아아아아ㅏ앙아아아아아아아ㅏ아아아아앙아아ㅏ아아ㅏ아4주차 스터디 상세설명 입니다다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ다ㅏ다다다다다ㅏ다다다다다다다다다다다다다다다다다닫다다아 설며어엉어어어어어어어어어어ㅓ어엉 우짜니니니닌</StudyDescreption>
+            <DescreptionDetail>자세히보기 &gt;</DescreptionDetail>
+
             <DivisionLine />
-            <MinorText>공지사항</MinorText>
-            <InputWrapper>
-                <Icon src={AlarmIcon} alt="공지" />
-                <div onClick={()=>navigate('/studynotice')}>
-                <StyledInput placeholder=" 공지사항 | 여러분 이건 꼭 아셔야 합니다?! 모르면 이 스터디 못함~~ 알아줘이잉이히이잉" /></div>
+
+            <NoticeWrapper onClick={()=>navigate('/studynotice')}>
+                    <BellIcon/>
+                    <>공지사항</>
+                    <DivisionLine3/>
+                    <RecentNotice>여러분 이건셔야 합니다?! 모르면 이 스터디 못함~~ 알아줘이잉이히이잉</RecentNotice>
                 <NoticeButton1>{alarmCount}</NoticeButton1>
-            </InputWrapper>
-            <MinorText>스터디 자료</MinorText>
-            <div style={{ flex: 1 }}>
+            </NoticeWrapper>
+            
+            <StudyDocumnnt>
                 <DataGridContainer>
                     {Array.from({ length: 5 }).map((_, index) => (
                         <StudyData key={index}>
@@ -52,17 +53,22 @@ const StudySummary = () => {
                         </StudyData>
                     ))}
                 </DataGridContainer>
-            </div>
+            </StudyDocumnnt>
         </>
     );
 };
 
 export default StudySummary;
 
-/* 글자 스타일 */
+
+const StudyDocumnnt = styled.div`
+    margin-top : 2.625em;
+`
+
 const Container = styled.div`
     display: flex;
     align-items: center;
+    width : 100%;
 `;
 
 const TagList = styled.div`
@@ -72,8 +78,8 @@ const TagList = styled.div`
 `;
 
 const MainText = styled.h1`
-    font-size: 1em;
-    font-weight: 700;
+    font-size: 1.25em;
+    font-weight: 800;
     color: #8E59FF;
     @media (max-width: 768px) {
         font-size: 0.8125em;
@@ -109,6 +115,7 @@ const OpenButton = styled.div`
     color: #fff;
     cursor: pointer;
     margin-left: auto;
+    
 `;
 
 export const CloudyText = styled.div`
@@ -117,13 +124,31 @@ font-size: 0.9375em;
 font-weight: 700;
 `;
 
+
+const StudyDescreption = styled.div`
+color: #444765;
+    font-size: 0.625em;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* 6줄까지만 표시하고 이후에 ... 표시 */
+    line-clamp: 6;
+    max-width: 400ch;
+    max-height: calc(1.2em * 4); /* 6줄의 높이 계산 */
+    line-height: 1.2em;   
+`;
+
+
+
 export const CountText = styled.p`
-color: #A2A3B2;
-font-size: 0.9375em;
-font-weight: 700;
-margin-left: auto;
-width: 6.25em;
-margin-right: 1.25em; 
+    color: #A2A3B2;
+    font-size: 0.9375em;
+    font-weight: 700;
+    margin-left: auto;
+    width: 6.25em;
+    margin-right: 1.25em; 
 `;
 
 export const MinorText = styled.h3`
@@ -133,36 +158,52 @@ export const MinorText = styled.h3`
 
 export const DivisionLine = styled.div`
 border-top: 0.0625em solid #A2A3B2; 
+opacity : 60%;
 margin: 1.25em 0px; 
-width: 98%;
+width: 100%;
 `;
 
-export const InputWrapper = styled.div`
-    position: relative;
-    display: inline-block;
-    width: 100%; 
-`;
+const NoticeWrapper = styled.div`
+    display : flex;
+    justify-content : flex-start;
+    align-items : center;
+    gap  : 0.75em;
+    position : relative;
 
-const StyledInput = styled.input`
+    color : #A2A3B2;
+    font-weight : 800;
     padding-left: 1.875em; 
-    width: 95%;
+    width: 100%;
     height: 2.5em; 
+    
     border-radius: 0.5em; 
     border: 0.0625em solid #8E59FF; 
-    outline: none;
-    &::placeholder {
-        color: #C8C8C8;
-    }
-`;
+    background-color : transeprent;
+    box-sizing : border-box;
 
-const Icon = styled.img`
-    position: absolute;
-    left: 0.9375em; 
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0.75em; 
-    height: auto;
-`;
+`
+
+
+const RecentNotice = styled.div`
+    font-weight : 700;
+
+    @media(max-width : 768px){
+        font-size : 0.8125em;
+    }
+`
+
+const DescreptionDetail = styled.div`
+    font-weight : 500;
+    margin-top : 1em;
+    font-size : 0.625em;
+`
+const DivisionLine3 = styled.div`
+    height : 50%;
+    width  : 2px;
+    background-color : #A2A3B2;
+    box-sizing : border-box;
+`
+
 
 const NoticeButton1 = styled.button`
     border-radius: 50%;  

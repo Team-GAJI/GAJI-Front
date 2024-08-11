@@ -6,7 +6,7 @@ import Logo from './Logo';
 
 const SidePageHeader = ({pageTitle, headerTitles, activeButtonIndex, onButtonClick, changeColorOnClick, changeColorOnHover}) => {
     return (
-            <>
+            <SidePageHeaderWrapper>
             <LogoHeader pageTitle={pageTitle}>
                 <StyledLogo/>
                 <PageHeaderTitle>{pageTitle}</PageHeaderTitle>
@@ -29,12 +29,17 @@ const SidePageHeader = ({pageTitle, headerTitles, activeButtonIndex, onButtonCli
                     ))}
                     </ButtonWrapper>
             </Header>
-            </>
+            </SidePageHeaderWrapper>
     );
 };
 
 export default SidePageHeader;
 
+const SidePageHeaderWrapper = styled.div`
+    @media (max-width: 768px) {
+        display : none;
+    }
+`
 const StyledLogo = styled(Logo)`
     width :5.5em;
 `

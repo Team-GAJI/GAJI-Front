@@ -89,8 +89,8 @@ const ContentWrapper = styled.div`
 
 const DivisionLine2 = styled.div`
     border-top: 0.1125em solid #8E59FF; 
-    margin: 1.25em 0px; 
-    width: 98%;
+    margin: 2.125em 0px; 
+    width: 100%;
 `;
 
 
