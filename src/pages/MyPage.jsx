@@ -1,17 +1,19 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Calendar from '../components/mypage/Calendar';
 import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
-import MyPageHeader from '../components/mypage/MyPageHeader';
+import SidePageHeader from '../components/common/SidePageHeader';
 
 const MyPage = () => {
-
     const homeRef = useRef(null);
     const studyRoomRef = useRef(null);
     const calendarRef = useRef(null);
     const myPostRef = useRef(null);
+
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300);
 
     const handleScroll = (section) => {
         let ref;
@@ -20,32 +22,51 @@ const MyPage = () => {
         if (section === 'calendar') ref = calendarRef;
         if (section === 'mypost') ref = myPostRef;
 
-        const yOffset = -218;
+        const yOffset = isMobile ? -250 : -57;
         const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
         window.scrollTo({ top: yPosition, behavior: 'smooth' });
     };
 
+    const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+    };
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const headerTitles = ["내 정보", "스터디룸", "일정", "내가 쓴 글"];
+    const handleHeaderButtonClick = (index) => {
+        const sections = ['home', 'studyroom', 'calendar', 'mypost'];
+        setActiveButtonIndex(index);
+        handleScroll(sections[index]);
+    };
+
     return (
-        <MyPageWrapper> 
-            <MyPageHeader handleScroll={handleScroll} /> {/* handleScroll 전달 */}
-            <ContentWrapper>
-                <UserInfo ref={homeRef} />
-                <RowWrapper4 ref={studyRoomRef}>
-                    <StudyList isCurrent={true} />
-                    <StudyList isCurrent={false} />
-                </RowWrapper4>
-                <Div ref={calendarRef}>
-                    <Calendar />
-                </Div>
-                <Div ref={myPostRef}>
-                    <MyPost />
-                </Div>
-            </ContentWrapper>
+        <MyPageWrapper ref={homeRef}> 
+            <SidePageHeader
+                large={true}
+                pageTitle="마이페이지"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleHeaderButtonClick}
+                changeColorOnClick={true}
+                changeColorOnHover={true}
+            />
+            <UserInfo/>
+            <RowWrapper4 ref={studyRoomRef}>
+                <StudyList isCurrent={true} />
+                <StudyList isCurrent={false} />
+            </RowWrapper4>
+            <Div ref={calendarRef}>
+                <Calendar />
+            </Div>
+            <Div ref={myPostRef}>
+                <MyPost />
+            </Div>
         </MyPageWrapper>
     );
 };
@@ -57,13 +78,22 @@ const Div = styled.div`
 `;
 
 const MyPageWrapper = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    flex-direction: column;
+    width: 60%;
+    margin-left: auto; 
+    margin-right: auto; 
+    gap: 4em;
+
+    @media (max-width: 1199px) {
+        width: 90%;
+        margin-top: 12em; /* 화면 크기에 따라 마진 조정 */
+    }
+    @media (max-width: 768px) {
+        width: 90%;
+        margin-top : 12em;
+    }
 `;
 
 const RowWrapper4 = styled.div`
@@ -74,25 +104,5 @@ const RowWrapper4 = styled.div`
         flex-direction: column;
         align-items: center;
         gap: 0.5em;
-    }
-`;
-
-const ContentWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 60%;
-    margin-left: auto; 
-    margin-right: auto; 
-    margin-top: 16.1875em;
-    gap: 4em;
-
-    @media (max-width: 1199px) {
-        width: 90%;
-        margin-top: 12em; /* 화면 크기에 따라 마진 조정 */
-    }
-    @media (max-width: 768px) {
-        width: 90%;
-        margin-top: 8em; /* 모바일 화면에서는 더 작은 마진 */
     }
 `;
