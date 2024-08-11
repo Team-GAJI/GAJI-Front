@@ -7,6 +7,7 @@ export const PuppleButton = styled.div`
     justify-content : center;
     align-items : center;
     color : #FFFFFF;
+    cursor: pointer;
 `
 
 export const PuppleButton2 = styled.div`
@@ -16,6 +17,7 @@ export const PuppleButton2 = styled.div`
     justify-content : center;
     align-items : center;
     color : #FFFFFF;
+    cursor: pointer;
 `
 
 export const PuppleButton3 = styled.div`
@@ -25,6 +27,7 @@ export const PuppleButton3 = styled.div`
     justify-content : center;
     align-items : center;
     color : #FFFFFF;
+    cursor: pointer;
 `
 
 export const LoginButton = styled.div`
@@ -38,4 +41,5 @@ export const LoginButton = styled.div`
     border-radius : 10px;
     border : 0.5px solid #000000;
     font-weight : 600;
+    cursor: pointer;
 `

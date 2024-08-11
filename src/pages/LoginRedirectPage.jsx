@@ -1,68 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import backgroundimage from '../assets/images/login/background.png';
 import Logo from '../components/common/Logo';
 import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
-import { useDispatch } from 'react-redux';
-import { loadTokens, setTokens } from '../feautres/auth/authSlice'; 
 import { useNavigate } from 'react-router-dom';
-import { axiosInstance } from '../utils/API';
-// import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setTokens } from '../feautres/auth/authSlice';
 
 
-const LoginPage = () => {
-    const [register, setRegister] = useState(false);
-    const [isAgreed, setIsAgreed] = useState(false); // 첫 번째 체크박스 상태 관리
-    const [modal, setModal] = useState(false);
 
+
+const LoginRedirectPage = () => {
+    const [modal, setModal] = useState(true);
+    const [isAgreed, setIsAgreed] = useState(false); 
+    const navigate = useNavigate()
+    const [register , setRegister] = useState(true);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    // const token = useSelector((state) => state.auth.token);
-
-    useEffect(() => {
-        dispatch(loadTokens());
-    }, [dispatch]);
-
-
-    const handleGoogleLogin = async () => {
-            try {
-                const res = await axiosInstance.get('oauth2/authorization/google', {
-                });
-                console.log(res)
-                // dispatch(setSummary(verifiedSummary));
-                // sessionStorage.setItem('id', conversationId);
-                // console.log(conversationId);
-                
-            } catch (e) {
-                console.error(e);
-            } 
-    };
-    
-    const handleLogin = async () => {
-        console.log('로그인시작');
-        handleGoogleLogin();
-        const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-        dispatch(setTokens(userToken));
-    };
-
-    const hadnleRegister = () => {
-        if (isAgreed) {
-            console.log('로그인시작');
-            handleGoogleLogin();
-            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-            dispatch(setTokens(userToken));
-        } else {
-            alert("필수 약관에 동의해야 합니다.");
-        }
-    }
 
     const submitNickname = () => {
         //서버에 닉네임 저장 로직 추가
         setModal(false)  
+        const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
+        dispatch(setTokens(userToken));
         navigate('/')
         
+    }
+
+    const hadnleRegister = () =>{
+
+    }
+
+    const handleLogin = () => {
+
     }
 
     return (
@@ -110,16 +81,6 @@ const LoginPage = () => {
                 </ColumnWrapper>
                 :
                 <ColumnWrapper>
-                    {/* <GoogleOAuthProvider clientId={clientId}>
-                        <GoogleLogin
-                            onSuccess={(res) => {
-                                console.log(res);
-                            }}
-                            onFailure={(err) => {
-                                console.log(err);
-                            }}
-                        />
-                    </GoogleOAuthProvider> */}
 
                         <LoginButton onClick={()=>handleLogin()}>
                             <GoogleLogo/>
@@ -138,7 +99,7 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default LoginRedirectPage;
 
 const NaverLogo = styled.div`
     font-weight : 1000;

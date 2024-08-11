@@ -15,6 +15,7 @@ import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import StudyCreatePage from './pages/StudyCreatePage.jsx';
+import LoginRedirectPage from './pages/LoginRedirectPage.jsx';
 import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     <Routes>
       {/* 로그인 페이지 라우트 */}
       <Route exact path="/login" element={<LoginPage/>}/>
+      <Route exact path="/redirect" element={<LoginRedirectPage/>}/>
       {/* 사용자가 로그인할 수 있는 페이지 */}
       
       {/* 메인 레이아웃이 적용되는 라우트 그룹 */}
