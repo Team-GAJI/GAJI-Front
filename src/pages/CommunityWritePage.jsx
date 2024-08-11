@@ -5,6 +5,7 @@ import { setActiveButton } from '../feautres/community/communitySlice';
 import Hashtag from '../components/communityWrite/Hashtag';
 import WritePost from '../components/communityWrite/WritePost';
 import PageHeader from '../components/common/PageHeader';
+import WriteSelectBox from '../components/communityWrite/WriteSelectBox';
 
 const CommunityWritePage = () => {
     // Redux 상태 관리
@@ -83,19 +84,7 @@ const CommunityWritePage = () => {
             {/* 게시글 작성 */}
             <PostsWrapper>
                 <PostOptionWrapper>
-                    <CategorySelect name="category">
-                        <option value="1">카테고리</option>
-                        <option value="2">개발</option>
-                        <option value="3">인공지능</option>
-                        <option value="4">하드웨어</option>
-                        <option value="5">보안</option>
-                        <option value="6">네트워크-클라우드</option>
-                        <option value="7">어학</option>
-                        <option value="8">디자인</option>
-                        <option value="9">비즈니스-PM</option>
-                        <option value="10">독서 모임</option>
-                        <option value="11">기타</option>
-                    </CategorySelect>
+                    <WriteSelectBox/>
                     <HashtagInputWrapper>
                         # <HashtagInput
                             placeholder='해시태그를 작성해주세요'
@@ -139,30 +128,13 @@ const PostOptionWrapper = styled.div`
     display: flex;
 `;
 
-const CategorySelect = styled.select`
-    margin-right: 1.2em;
-    padding-left: 1em;
-    border: 1px solid #8E59FF;
-    border-radius: 10px;
-    width: 28.8125em;
-    height: 3em;
-    background-color: transparent;
-    color: #8E59FF;
-    font-size: 1em;
-    font-weight: 800;
-    cursor: pointer;
-    &:focus{
-        outline: none;
-    }
-`;
-
 const HashtagInputWrapper = styled.div`
     padding-left: 1.5em;
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 27.5em;
-    height: 3em;
-    line-height: 3.185em;
+    height: 2.5em;
+    line-height: 2.5em;
     background-color: transparent;
     color: #8E59FF;
     font-weight: 800;
