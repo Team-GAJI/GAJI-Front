@@ -103,16 +103,17 @@ const Option = styled.div`
     background-color: #f1f1f1;
   }
 `;
-
+// 버튼
 const CreatePostButton = styled.button`
   background-color: #8e59ff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 171px;
-  font-weight: semi-bold;
+  border: 0.0625em solid #8e59ff;
+  color: #fff;
+  border-radius: 0.7em;
+  font-weight: 700;
+  width: 11.75em;
+  height: 2.5em;
+  margin-right: 0;
+  font-family: "NanumSquareNeo", sans-serif;
 
   &:hover {
     background-color: #5548c8;

@@ -4,15 +4,12 @@ import CloseButton from "../../assets/icons/community/closeButton.svg?react";
 import { useNavigate } from "react-router-dom";
 
 const AddedPostPreview = () => {
-  // state 관리
   const [isPostVisible, setIsPostVisible] = useState(true);
 
-  // 창 닫기 기능
   const postVisibility = () => {
     setIsPostVisible(!isPostVisible);
   };
 
-  // useNavigate
   const navigate = useNavigate();
 
   return (
@@ -36,7 +33,7 @@ const AddedPostPreview = () => {
 
 export default AddedPostPreview;
 
-/* CSS */ const PostWrapper = styled.div`
+const PostWrapper = styled.div`
   border: 1px solid #a2a3b2;
   border-radius: 10px;
   width: 18em;
@@ -72,7 +69,6 @@ const Title = styled.div`
   color: #161a3f;
   font-size: 1em;
   font-weight: 800;
-  // 말줄임 처리
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -84,7 +80,6 @@ const Content = styled.div`
   color: #a2a3b2;
   font-weight: bold;
   font-size: 0.8em;
-  // 말줄임 처리
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
