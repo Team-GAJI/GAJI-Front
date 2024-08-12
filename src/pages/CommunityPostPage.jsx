@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import ReportCheck from "../assets/icons/studyDetail/reportCheck.svg?react";
 import PostWriterInfo from "../components/communityPost/PostWriterInfo";
 import BackgroundImage from "../assets/images/community/communityBackground.png";
 import UserProfileImg from "../assets/images/community/userProfile.png";
@@ -12,6 +13,7 @@ import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import ReportModal from "../components/studyDetail/ReportModal";
 
 // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
@@ -27,6 +29,8 @@ const CommunityPostPage = () => {
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isOptionVisible, setIsOptionVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("모집 완료");
+  const [isReportModalVisible, setIsReportModalVisible] = useState(false);
+  const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
   // 북마크, 좋아요 기능
   const handleBookMark = () => {
@@ -60,11 +64,19 @@ const CommunityPostPage = () => {
   };
 
   // 작성자 정보 모달 기능
-  const showWriterInfo = () => {
-    setIsWriterInfoVisible(true);
-  };
-  const hideWriterInfo = () => {
-    setIsWriterInfoVisible(false);
+  const showWriterInfo = () => setIsWriterInfoVisible(true);
+  const hideWriterInfo = () => setIsWriterInfoVisible(false);
+
+  // 신고 모달 기능
+  const showReportModal = () => setIsReportModalVisible(true);
+  const hideReportModal = () => setIsReportModalVisible(false);
+
+  // 신고 확인 메시지
+  const showReportNotice = () => {
+      setIsReportNoticeVisible(true);
+      setTimeout(() => {
+          setIsReportNoticeVisible(false);
+      }, 2000);
   };
 
   // 게시글 작성에서 정보 가져오기
@@ -76,6 +88,14 @@ const CommunityPostPage = () => {
     <>
       {/* 헤더 */}
       <HeaderWrapper>
+        {/* 신고 알림 */}
+        <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
+          <ReportNotice>
+            <StyledReportCheck/>
+            신고가 완료되었습니다
+          </ReportNotice>
+        </ReportNoticeWrapper>
+
         {/* 제목 div */}
         <TitleWrapper>
           {/* 게시글 상세정보 */}
@@ -131,9 +151,17 @@ const CommunityPostPage = () => {
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledReportIcon />
+              <StyledReportIcon onClick={showReportModal}/>
               <InteractionText>신고</InteractionText>
             </BookMarkWrapper>
+
+            {/* 신고 모달창 */}
+            <ReportModal
+              isVisible={isReportModalVisible}
+              onClose={hideReportModal}
+              onReport={showReportNotice}
+              title={title}
+            />
           </InteractionWrapper>
         </TitleWrapper>
 
@@ -207,6 +235,37 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8125em;
+  position: relative;
+`;
+
+const ReportNoticeWrapper = styled.div`
+  width: 86.17em;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 1em;
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  transition: all 0.3s ease;
+`;
+
+const ReportNotice = styled.div`
+  border-radius: 10px;
+  width: 14em;
+  height: 2.3077em;
+  background-color: white;
+  color: #8E59FF;
+  font-weight: 800;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+`;
+
+const StyledReportCheck = styled(ReportCheck)`
+  margin-right: 0.5em;
+  width: 1em;
+  height: 1em;
 `;
 
 const TitleWrapper = styled.div`
