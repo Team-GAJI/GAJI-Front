@@ -141,7 +141,7 @@ const Sidebar1 = styled.aside`
 
  transition: height 0.5s ease; 
   overflow: hidden; 
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   border: 1px solid #A2A3B2;

@@ -78,7 +78,7 @@ const Text2 = styled.p`
 `;
 
 const MainWrapper2 = styled.div`
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   border: 1px solid #8E59FF;
