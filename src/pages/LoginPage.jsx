@@ -8,8 +8,8 @@ import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useDispatch } from 'react-redux';
 import { loadTokens, setTokens } from '../feautres/auth/authSlice'; 
 import { useNavigate } from 'react-router-dom';
-import { axiosInstance } from '../utils/API';
-// import axios from 'axios';
+import { api } from '../utils/API';
+
 
 
 const LoginPage = () => {
@@ -28,7 +28,7 @@ const LoginPage = () => {
 
     const handleGoogleLogin = async () => {
             try {
-                const res = await axiosInstance.get('oauth2/authorization/google', {
+                const res = await api.get(`$oauth2/authorization/google`, {
                 });
                 console.log(res)
                 
@@ -42,7 +42,7 @@ const LoginPage = () => {
 
     const handleNaverLogin = async () => {
         try {
-            const res = await axiosInstance.get('oauth2/authorization/naver', {
+            const res = await api.get('oauth2/authorization/naver', {
             });
             console.log(res)
             

@@ -1,8 +1,8 @@
 import React from 'react';
-import StudyRecruitment from './StudyRecruitment';
 import Plus from '../../assets/icons/studyRoom/Plus.png';
 import { MinorText } from './StudySummary';
 import styled from 'styled-components';
+import BlogPreview from '../community/BlogPreview';
 
 const StudyPostList = () => {
     const cardData = Array.from({ length: 3 }, (_, index) => ({
@@ -25,7 +25,7 @@ const StudyPostList = () => {
                 </ButtonWrapper>
                 <GridRow>
                     {cardData.map(item => (
-                        <StudyRecruitment
+                        <BlogPreview
                             key={item.id}
                             title={item.title}
                             daysLeft={item.daysLeft}
@@ -54,6 +54,7 @@ const PostButton = styled.div`
     color: #fff;
     cursor: pointer;
     margin-left: auto;
+    height : 2.25em;
 `
 
 const Icons = styled.img`
@@ -62,6 +63,7 @@ const Icons = styled.img`
 const ButtonWrapper = styled.div`
     display: flex;
     margin-top: 1.25em;
+    align-items : center;
 `;
 
 const GridContainer = styled.div`
@@ -70,8 +72,7 @@ const GridContainer = styled.div`
 `;
 
 const GridRow = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: 1.25em;
 
     @media (max-width: 768px) {

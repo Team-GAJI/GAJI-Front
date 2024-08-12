@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
 import PageHeader from '../components/common/PageHeader';
 import StudySummary from '../components/studyRoom/StudySummary';
 import WeekCurriculum from '../components/studyRoom/WeekCurriculum';
 import StudyPostList from '../components/studyRoom/StudyPostList';
-import { useNavigate } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const StudyRoomPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+    const location = useLocation();    
+    const data = location.state?.data || {}; 
+    const studyInfo = data;
+
     const navigate = useNavigate();
   
     const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
-        if (index == 0) {
-          navigate('/studyroom')
-      } else if (index == 1) {
-        navigate('/troubleshooting')
+        if (index === 0) {
+          navigate('/studyroom');
+      } else if (index === 1) {
+        navigate('/troubleshooting');
       } else {
-        navigate('/')
+        navigate('/');
       }
     };
-    
+
     return (
         <>
           <PageHeader
@@ -50,22 +51,19 @@ const StudyRoomPage = () => {
               </SidebarWrapper>
 
               <MainContent>
-                <StudySummary/>                        
-
-                <DivisionLine2 />   
-                
-                <WeekCurriculum/>
-
-                <DivisionLine2 />
-
-                <StudyPostList/>
-                </MainContent>       
+                    <StudySummary studyInfo={studyInfo} />  {/* StudySummary에 데이터 전달 */}
+                    <DivisionLine2 />
+                    <WeekCurriculum />
+                    <DivisionLine2 />
+                    <StudyPostList comments={studyInfo?.comments} />  {/* StudyPostList에 댓글 데이터 전달 */}
+                </MainContent>     
             </ContentWrapper>
           </>
     );
 };
 
 export default StudyRoomPage;
+
 
 
 

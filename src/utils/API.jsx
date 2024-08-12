@@ -1,27 +1,25 @@
 import axios from "axios";
 
-const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
-    timeout: 30000,
+export const api = axios.create({
+    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL_API,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
-const axiosInstanceForm = axios.create({
+export const apiBase = axios.create({
     baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
-    timeout: 30000,
-    headers: {
-        "Content-Type": "multipart/form-data",
-    },
-});
-
-const axiosInstanceLong = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
-    timeout: 200000,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
-export { axiosInstance, axiosInstanceForm, axiosInstanceLong };
+export const apiToken  = (token) => {
+    return axios.create({
+        baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL_API,
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,  // Bearer 토큰 사용
+        },
+    });
+};

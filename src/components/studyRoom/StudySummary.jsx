@@ -126,7 +126,7 @@ font-weight: 700;
 
 
 const StudyDescreption = styled.div`
-color: #444765;
+    color: #444765;
     font-size: 0.625em;
     font-weight: 700;
     text-overflow: ellipsis;
@@ -224,15 +224,15 @@ const NoticeButton1 = styled.button`
 const DataGridContainer = styled.div`
     display: flex;
     overflow-x: auto; 
-    gap: 0.625em; 
+    gap: 0.875em;
     width: 100%;
 `;
 
 const StudyData = styled.div`
     min-width: 13.75em; 
-    height: 7.5em; 
+    height: 5.0625em; 
     border: 0.0625em solid #8E59FF; 
-    border-radius: 1.25em; 
+    border-radius: 0.625em; 
     display: flex;
     position: relative;
 `;
@@ -243,8 +243,8 @@ const LeftSide = styled.div`
     background-image: url(${Book});
     background-size: cover;
     background-position: center;
-    border-bottom-left-radius : 1.25em;
-    border-top-left-radius : 1.25em;
+    border-bottom-left-radius : 0.625em;
+    border-top-left-radius : 0.625em;
 `;
 
 const RightSide = styled.div`
