@@ -2,17 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ManageDel from '../assets/icons/studyManage/StudyManageDel.png';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import ManageBasics from '../components/studyManage/ManageBasics';
 import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
-
 import PageHeader from '../components/common/PageHeader';
+
 
 const StudyManagePage = () => {
     // n주차 버튼 기능
+
   const [weeks, setWeeks] = useState([...Array(9).keys()]); 
   const sidebarRef = useRef(null);
 
@@ -44,14 +45,14 @@ const StudyManagePage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
   // Redux 상태 관리
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // 헤더 함수
   const headerTitles = ["저장하기"];
   const handleHeaderButtonClick = (index) => {
       setActiveButtonIndex(index);
       if (index == 0) {
-          dispatch(setActiveButton("저장하기"));
+          // dispatch(setActiveButton("저장하기"));
       }
   };
 
@@ -125,6 +126,8 @@ const Wrapper = styled.div`
     padding: 0 3.1em;
     width: 100%;
 `;
+
+
 
 const SidebarWrapper = styled.div`
     position: absolute; 
@@ -219,6 +222,7 @@ const SidebarButton1 = styled.div`
    background-color: transparent;
    color: #A2A3B2;
 `;
+
 
 
 /* 화면 분활 (오른쪽 사이드) */
