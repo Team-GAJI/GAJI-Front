@@ -24,9 +24,9 @@ const BackgroundWrapper = styled.div`
   background-image: url(${BackgroundImage});
   background-size: cover;
   background-position: center;
-  border-radius: 10px;
-  padding: 40px 0;
-  font-family: "NanumSquareNeo", sans-serif; /* Ensure the font is applied */
+  border-radius: 0.625em;
+  padding: 2.5em 0;
+  font-family: "NanumSquareNeo", sans-serif;
 `;
 
 const TitleContainer = styled.div`
@@ -34,9 +34,9 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 20px;
+  font-size: 1.25em;
   color: #8e59ff;
-  margin-bottom: 30px;
+  margin-bottom: 1.875em;
   font-weight: 800;
   font-family: "NanumSquareNeo", sans-serif;
 `;
@@ -44,17 +44,17 @@ const Title = styled.h1`
 const NavButtons = styled.div`
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 1.25em;
 `;
 
 const NavButton = styled.button`
   background-color: rgba(142, 89, 255, 0.6);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 14px;
+  padding: 0.625em 1.25em;
+  border-radius: 0.875em;
   cursor: pointer;
-  width: 140px;
+  width: 8.75em;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -70,7 +70,7 @@ export default NoticeSquare;
 const NoticeSquareWrapper = styled.div`
   width: 51.25em;
   height: 9.3125em;
-  border: 0.09375em solid ${(props) => (props.isHovered ? "#8E59FF" : "#ccc")};
+  border: 0.1em solid ${(props) => (props.isHovered ? "#8E59FF" : "#ccc")};
   border-radius: 1.25em;
   display: flex;
   align-items: center;

@@ -35,7 +35,7 @@ export default AddedPostPreview;
 
 const PostWrapper = styled.div`
   border: 1px solid #a2a3b2;
-  border-radius: 10px;
+  border-radius: 0.625em;
   width: 18em;
   height: 5em;
   display: ${(props) => (props.isVisible ? "flex" : "none")};
@@ -45,13 +45,13 @@ const PostWrapper = styled.div`
 
 const LeftWrapper = styled.div`
   border-right: 1px solid #a2a3b2;
-  border-radius: 8px 0 0 8px;
+  border-radius: 0.5em 0 0 0.5em;
   width: 12.375em;
   background-color: rgba(162, 163, 178, 0.3);
 `;
 
 const RightWrapper = styled.div`
-  margin: 0.7em 0.7em 0.7em 1em;
+  margin: 0.4375em 0.4375em 0.4375em 0.625em;
   width: 25em;
   display: flex;
   justify-content: space-between;

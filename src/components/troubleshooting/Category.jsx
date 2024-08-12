@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaChevronDown } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const Category = ({ onSelect }) => {
   const [selectedOption, setSelectedOption] = useState("정렬");
   const [isOpen, setIsOpen] = useState(false);
-  const sortingOptions = ["인기순", "최신순"];
-  const navigate = useNavigate(); // Use useNavigate
+  const sortingOptions = ["최신순", "좋아요순", "북마크순", "조회순"];
+  const navigate = useNavigate();
 
   const handleSelect = (option) => {
     setSelectedOption(option);
@@ -16,7 +16,7 @@ const Category = ({ onSelect }) => {
   };
 
   const handleCreatePost = () => {
-    navigate("/troubleshooting-register"); // Navigate to the registration page
+    navigate("/troubleshooting-register");
   };
 
   return (
@@ -103,7 +103,7 @@ const Option = styled.div`
     background-color: #f1f1f1;
   }
 `;
-// 버튼
+
 const CreatePostButton = styled.button`
   background-color: #8e59ff;
   border: 0.0625em solid #8e59ff;

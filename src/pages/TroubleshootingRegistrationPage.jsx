@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../assets/images/troubleshooting/titleBackground.png";
-import ExtraPostPreview from "../components/troubleshooting/AddedPostPrieview";
 import WritePost from "../components/communityWrite/WritePost";
 
 const TroubleshootingRegistrationPage = () => {
@@ -48,7 +47,7 @@ const TroubleshootingRegistrationPage = () => {
             <HashtagInputWrapper key={index}>
               #{" "}
               <HashtagInput
-                placeholder="해시태그를 작성해주세요"
+                placeholder=" 해시태그를 작성해주세요"
                 value={hashtag}
                 onChange={(e) => handleChange(e, index)}
                 onKeyPress={(e) => handleKeyPress(e, index)}
@@ -62,16 +61,6 @@ const TroubleshootingRegistrationPage = () => {
 
         {/* Write Post */}
         <WritePost />
-
-        {/* Section Title */}
-        <SectionTitle>추가된 링크</SectionTitle>
-
-        {/* Additional Links */}
-        <ExtraPostsWrapper>
-          <ExtraPostPreview />
-          <ExtraPostPreview />
-          <ExtraPostPreview />
-        </ExtraPostsWrapper>
       </PostsWrapper>
     </>
   );
@@ -94,6 +83,7 @@ const Title = styled.div`
   margin-bottom: 0.5em;
   font-size: 1.5em;
   font-weight: 800;
+  font-family: "NanumSquareNeo", sans-serif;
   color: #8e59ff;
 `;
 
@@ -114,6 +104,7 @@ const StyledButton = styled.button`
   font-size: 0.9em;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  font-family: "NanumSquareNeo", sans-serif;
 
   &:hover {
     opacity: 1;
@@ -193,20 +184,5 @@ const PostTitle = styled.div`
   width: 57.125em;
   color: #161a3f;
   font-weight: 800;
-`;
-
-const SectionTitle = styled.div`
-  font-size: 1.3em;
-  font-weight: bold;
-  margin-bottom: 1em;
-  color: #161a3f;
-  margin-top: 2em;
-  text-align: left;
-  width: 60%;
-`;
-
-const ExtraPostsWrapper = styled.div`
-  width: 60%;
-  display: flex;
-  justify-content: space-between;
+  font-family: "NanumSquareNeo";
 `;
