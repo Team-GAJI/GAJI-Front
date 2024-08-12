@@ -67,7 +67,6 @@ const StudyManagePage = () => {
         changeColorOnClick={true}
         changeColorOnHover={true}
     />
-
         <MainSection>
       
         <SidebarWrapper>
