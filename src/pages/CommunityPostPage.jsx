@@ -299,7 +299,7 @@ const PostWriterInfoWrapper = styled.div`
   width: 41em;
   height: 11em;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
   transition: all 0.3s ease;
