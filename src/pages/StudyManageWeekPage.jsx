@@ -131,25 +131,6 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
-const MainText = styled.p`
-    font-size: 1.3em;
-    font-weight: 800;
-    color: #8E59FF;
-    margin-bottom: 0.2em;
-`;
-
-const MainButton = styled.button`
-    font-size: 0.8125em;
-    width: 10.25em;
-    background-color: #8E59FF;
-    border: 1px solid #8E59FF;
-    border-radius: 1em;
-    font-weight: 800;
-    padding: 0.8125em;
-    text-align: center;
-    color: #fff;
-    opacity : 60%;
-`;
 const SidebarWrapper = styled.div`
     position: absolute; 
     margin-top: 1.25em; 
@@ -163,7 +144,7 @@ const SidebarWrapper = styled.div`
 const Sidebar1 = styled.aside`
  transition: height 0.5s ease; 
   overflow: hidden; 
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   border: 1px solid #A2A3B2;
@@ -243,33 +224,6 @@ const SidebarButton1 = styled.div`
    background-color: transparent;
    color: #A2A3B2;
 `;
-const RowWrapper1 = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 2.125em;
-    justify-content: center;
-    align-items: center;
-`;
-const RowLogoWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.9em;
-    flex-direction: column;
-    justify-content: center;
-    padding: 1.125em; 
-    margin-top: 0.625em; 
-    background-image: url(${backImage});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-`;
-
-const Text = styled.p`
-    color: #D0D1D9;
-    font-size: 0.9375em; 
-    font-weight: 700;
-`;
-
 
 /* 화면 분활 (오른쪽 사이드) */
 const MainSection = styled.section`

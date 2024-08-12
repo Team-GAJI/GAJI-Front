@@ -1,26 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
+import MockAdapter from 'axios-mock-adapter';
 import Calendar from '../studyManageWeek/ManageWeekCalendar';
 
-const ManageWeekDate = ({ selectedWeek }) => {
-    return(
+
+const mock = new MockAdapter(axios);
+
+// 임시 데이터
+const mockData = {
+    startDate: '2024-08-12',
+    endDate: '2024-08-15'
+};
+
+// Mock 응답 설정
+mock.onPost('http://3.35.119.128:8000/api/studyRooms/event/123/0/456/period').reply(200, mockData);
+
+const ManageWeekDate = ({ selectedWeek = 0, roomId = 123, userId = 456 }) => {
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const apiUrl = 'http://3.35.119.128:8000';
+            const endpoint = `/api/studyRooms/event/${roomId}/${selectedWeek}/${userId}/period`;
+
+            const data = {
+                startDate: '2024-08-12',
+                endDate: '2024-08-15'
+            };
+
+            try {
+                const res = await axios.post(apiUrl + endpoint, data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                console.log('Response:', res.data)
+                setStartDate(res.data.startDate || 'No start date');
+                setEndDate(res.data.endDate || 'No end date');
+            } catch (err) {
+                setError(err.response ? err.response.data.message : 'Error occurred');
+                console.error('API Error:', err);
+            }
+        };
+
+        fetchData();
+    }, [roomId, selectedWeek, userId]); 
+
+    return (
         <Container>
             <Text2>스터디 기한</Text2>
             <MainWrapper2>
                 <RowWrapper>
                     <CalendarWrapper>
-                        <Calendar/>
+                        <Calendar />
                     </CalendarWrapper>
-                    <DivisionLine3/>
+                    <DivisionLine3 />
                     <Container>
                         <DeadlineWrapper>
                             <Text8>{selectedWeek + 1}주차 스터디 진행 기한</Text8>
                             <RowWrapper2>
                                 <StartButton>시작</StartButton>
-                                <DateText>3월 1일</DateText>
+                                <StartDateText>{startDate || '데이터를 불러오는 중...'}</StartDateText>
                                 <EndButton>끝</EndButton>
-                                <DateText>3월 1일</DateText>
+                                <EndDateText>{endDate || '데이터를 불러오는 중...'}</EndDateText>
                             </RowWrapper2>
+                            {error && <StartDateText>오류: {error}</StartDateText>}
                             <SidebarButton>일정등록하기</SidebarButton>
                         </DeadlineWrapper>
                     </Container>
@@ -31,6 +78,7 @@ const ManageWeekDate = ({ selectedWeek }) => {
 };
 
 export default ManageWeekDate;
+
 
 
 const Container = styled.div`
@@ -68,7 +116,7 @@ const Text2 = styled.p`
 `;
 
 const MainWrapper2 = styled.div`
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   border: 1px solid #8E59FF;
@@ -116,7 +164,12 @@ const Text8 = styled.p`
     font-weight: 800;
 `;
 
-const DateText = styled.p`
+const StartDateText = styled.p`
+    color: #000;
+    font-size: 0.75em; 
+    font-weight: 800;
+`;
+const EndDateText = styled.p`
     color: #000;
     font-size: 0.75em; 
     font-weight: 800;

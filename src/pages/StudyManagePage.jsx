@@ -11,6 +11,8 @@ import ManageDetailed from '../components/studyManage/ManageDetailed';
 
 import PageHeader from '../components/common/PageHeader';
 
+import axios from "axios";
+
 const StudyManagePage = () => {
     // n주차 버튼 기능
   const [weeks, setWeeks] = useState([...Array(9).keys()]); 
