@@ -38,6 +38,15 @@ const ManageBasics = () => {
       setisOn(!isOn)
     };
 
+    const [fileName, setFileName] = useState('');
+
+    // 파일 선택 핸들러
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setFileName(file.name);
+      }
+    };
 
     return(
         <Container>
@@ -67,12 +76,18 @@ const ManageBasics = () => {
         <DivisionLine2/>
             <RowContainer>
             <ImageWrapper>
-            <FileInputWrapper>
-                    <HiddenFileInput id="file-upload" />
+                <FileInputWrapper>
+                    <HiddenFileInput
+                    id="file-upload"
+                    type="file"
+                    accept="image/png"
+                    onChange={handleFileChange}
+                    />
                     <FileInputLabel htmlFor="file-upload">이미지 업로드</FileInputLabel>
-                    </FileInputWrapper>
-                <ImageText>용량 제한: 232123mb</ImageText>
-                <ImageText>파일 형식: png만 가능 (이런 식으로)</ImageText>
+                </FileInputWrapper>
+                <ImageText>용량 제한: 400KB</ImageText>
+                <ImageText>파일 형식: PNG만 가능</ImageText>
+                {fileName && <FileNameText>선택한 파일: {fileName}</FileNameText>}
             </ImageWrapper>
                 <Container>
                 <Text4>스터디 설명</Text4>
@@ -519,4 +534,8 @@ const RightWrapper = styled.div`
   margin-top: -0.9em;
 `;
 
-
+const FileNameText = styled.p`
+  margin-top: 10px;
+  font-size: 16px;
+  color: #007bff;
+`;
