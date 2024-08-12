@@ -6,7 +6,7 @@ import UserProfileImg from "../assets/images/community/userProfile.png";
 import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
-import DownArrowIcon from "../assets/icons/communityPost/downArrow.svg?react";
+import DownArrowIcon from "../assets/icons/communityPost/whiteDownArrow.svg?react";
 // import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
 import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
@@ -19,14 +19,34 @@ const formatNumberWithCommas = (number) => {
 };
 
 const CommunityPostPage = () => {
-  // 북마크, 좋아요 개수
-  const bookMarkCount = 300;
-  const likeCount = 6000;
-
   // state 관리
+  const [bookMarkState, setBookMarkState] = useState(false);
+  const [likeState, setLikeState] = useState(false);
+  const [bookMarkCount, setBookMarkCount] = useState(300);
+  const [likeCount, setLikeCount] = useState(6000);
+  const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isOptionVisible, setIsOptionVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("모집 완료");
-  const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
+
+  // 북마크, 좋아요 기능
+  const handleBookMark = () => {
+    if (bookMarkState) {
+      setBookMarkState(false);
+      setBookMarkCount(prevCount => prevCount - 1);
+    } else {
+      setBookMarkState(true);
+      setBookMarkCount(prevCount => prevCount + 1);
+    }
+  };
+  const handleLike = () => {
+    if (likeState) {
+      setLikeState(false);
+      setLikeCount(prevCount => prevCount - 1);
+    } else {
+      setLikeState(true);
+      setLikeCount(prevCount => prevCount + 1);
+    }
+  };
 
   // 게시글 상태 버튼 텍스트
   const toggleOptionVisibility = () => {
@@ -99,13 +119,13 @@ const CommunityPostPage = () => {
           {/* 게시글 상호작용 */}
           <InteractionWrapper>
             <BookMarkWrapper>
-              <StyledBookMarkIcon />
+              <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState}/>
               <InteractionText>
                 {formatNumberWithCommas(bookMarkCount)}
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledLikeIcon />
+              <StyledLikeIcon onClick={handleLike} likeState={likeState}/>
               <InteractionText>
                 {formatNumberWithCommas(likeCount)}
               </InteractionText>
@@ -258,7 +278,9 @@ const InteractionWrapper = styled.div`
 `;
 
 const BookMarkWrapper = styled.div`
-  margin: 1em 2em 0 0;
+  margin: 1em 1em 0 0;
+  width: 2.2em;
+  font-size: 1.2em;
 `;
 
 const StyledBookMarkIcon = styled(BookMarkIcon)`
@@ -266,12 +288,14 @@ const StyledBookMarkIcon = styled(BookMarkIcon)`
   width: 1em;
   height: 1.3125em;
   cursor: pointer;
+  fill: ${(props) => (props.bookMarkState ? "#8E59FF" : "none")};
 `;
 const StyledLikeIcon = styled(LikeIcon)`
   margin-bottom: 0.1em;
   width: 1.375em;
   height: 1.25em;
   cursor: pointer;
+  fill: ${(props) => (props.likeState ? "#8E59FF" : "none")};
 `;
 const StyledReportIcon = styled(ReportIcon)`
   margin-bottom: 0.1em;
@@ -288,7 +312,6 @@ const InteractionText = styled.div`
 const PostStateWrapper = styled.div`
   color: white;
   font-size: 0.8125em;
-  font-weight: 800;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -300,6 +323,7 @@ const PostStateButton = styled.div`
   width: 10em;
   height: 2.4em;
   background-color: #8e59ff;
+  font-weight: 800;
   line-height: 2.4em;
   display: flex;
   justify-content: center;
@@ -308,7 +332,7 @@ const PostStateButton = styled.div`
 `;
 
 const StyledDownArrowIcon = styled(DownArrowIcon)`
-  margin-left: 0.4em;
+  margin-left: 0.8em;
   width: 0.9em;
   height: 0.9em;
   transition: all 0.5s ease;
@@ -338,7 +362,12 @@ const PostStateOption = styled.div`
   line-height: 2.0769em;
   cursor: pointer;
   text-align: center;
-  color: white;
+  color: ${(props) => (props.isSelected ? "white" : "#D0D1D9")};
+    font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
+    &:hover{
+        color: white;
+        font-weight: bold;
+    }
 `;
 
 const PostContentWrapper = styled.div`

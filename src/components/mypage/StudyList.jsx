@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Color } from '../style/Color';
 import studyProfileUrl from '../../assets/images/common/studyprofile.png';
+import { useNavigate } from 'react-router-dom';
+import { studyInfoAPI } from '../../utils/mypage/studyInfoAPI';
 
 const dummyStudyList = [
     {
@@ -26,7 +28,20 @@ const dummyStudyList = [
     },
 ];
 
+
 const StudyList = ({ isCurrent }) => {
+    
+    const navigate = useNavigate();
+
+    const handleStudyRoom = async (roomId) => {
+        try {
+            const response = await studyInfoAPI(roomId);
+            navigate('/studyroom', { state: { data: response } });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
     return (
         <StudyListWrapper>
             <Wrapper>
@@ -37,7 +52,7 @@ const StudyList = ({ isCurrent }) => {
                     {dummyStudyList.map((study, index) => (
                         <ListItem key={index}>
                             <StudyProfile />
-                            <ColumnWrapper>
+                            <ColumnWrapper onClick={()=>handleStudyRoom(1)}>
                                 <StudyName>{study.name}</StudyName>
                                 <StudyText>{study.description}</StudyText>
                             </ColumnWrapper>

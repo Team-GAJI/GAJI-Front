@@ -38,14 +38,20 @@ const ManageBasics = () => {
       setisOn(!isOn)
     };
 
-    const [fileName, setFileName] = useState('');
+    // 이미지 업로드 
+    const [files, setFiles] = useState([]);
 
-    // 파일 선택 핸들러
     const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setFileName(file.name);
+      const newFiles = Array.from(e.target.files);
+      if (newFiles.length + files.length > 5) {
+        alert("최대 5개의 파일만 업로드할 수 있습니다.");
+        return;
       }
+      setFiles([...files, ...newFiles.map((file) => file.name)]);
+    };
+  
+    const handleFileDelete = (fileNameToDelete) => {
+      setFiles(files.filter(fileName => fileName !== fileNameToDelete));
     };
 
     return(
@@ -81,14 +87,31 @@ const ManageBasics = () => {
                     id="file-upload"
                     type="file"
                     accept="image/png"
+                    multiple
                     onChange={handleFileChange}
                     />
+                    {files.length < 5 && (
                     <FileInputLabel htmlFor="file-upload">이미지 업로드</FileInputLabel>
+                    )}
                 </FileInputWrapper>
-                <ImageText>용량 제한: 400KB</ImageText>
-                <ImageText>파일 형식: PNG만 가능</ImageText>
-                {fileName && <FileNameText>선택한 파일: {fileName}</FileNameText>}
+
+                {files.length === 0 && (
+                    <>
+                    <ImageText>용량 제한: 400KB</ImageText>
+                    <ImageText>파일 형식: PNG만 가능</ImageText>
+                    </>
+                )}
+
+                <FileList>
+                    {files.map((fileName, index) => (
+                    <FileNameText key={index}>
+                        {fileName}
+                        <DeleteIcons src={DeleteIcon} alt="삭제" onClick={() => handleFileDelete(fileName)} />
+                    </FileNameText>
+                    ))}
+                </FileList>
             </ImageWrapper>
+
                 <Container>
                 <Text4>스터디 설명</Text4>
                 <ExWrapper>
@@ -387,6 +410,13 @@ const Icons = styled.img`
     margin-left: 5.625em; 
     margin-top: 0.3125em; 
 `;
+const DeleteIcons = styled.img`
+  color: #ff4d4d;
+  cursor: pointer;
+  flex-shrink: 0; 
+  width: 0.75em; 
+  height: auto;
+`;
 
 const FlexContainer = styled.div`
     display: flex;
@@ -534,8 +564,21 @@ const RightWrapper = styled.div`
   margin-top: -0.9em;
 `;
 
-const FileNameText = styled.p`
-  margin-top: 10px;
-  font-size: 16px;
-  color: #007bff;
+const FileNameText = styled.div`
+  color: #333;
+  margin: 0.2em 0;
+  display: flex;
+  margin-left : 2em;
+  align-items: center;
+  justify-content: space-between;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  width: 250px;
+  padding-right: 20px; 
+`;
+const FileList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 `;
