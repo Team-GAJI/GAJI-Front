@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import BlogPreview from '../community/BlogPreview';
 
 const StudyPostList = () => {
-    const cardData = Array.from({ length: 3 }, (_, index) => ({
+    const cardData = Array.from({ length: 5 }, (_, index) => ({
         id: index,
         title: `제목 ${index + 1}`,
         daysLeft: `D-${index + 1}`,
@@ -15,7 +15,7 @@ const StudyPostList = () => {
 
     return (
         <>
-            <GridContainer>
+            <StudyPostWrapper>
                 <ButtonWrapper>
                     <MinorText>게시글</MinorText>
                     <PostButton>
@@ -34,7 +34,7 @@ const StudyPostList = () => {
                         />
                     ))}
                 </GridRow>
-            </GridContainer>
+            </StudyPostWrapper>
         </>
     );
 };
@@ -66,14 +66,16 @@ const ButtonWrapper = styled.div`
     align-items : center;
 `;
 
-const GridContainer = styled.div`
-    display: grid;
+const StudyPostWrapper = styled.div`
+    display: flex;
+    flex-direction : column;
     gap: 1.25em;
 `;
 
 const GridRow = styled.div`
-    display: flex;
+    display: grid;
     gap: 1.25em;
+    grid-template-columns: 1fr 1fr 1fr;
 
     @media (max-width: 768px) {
         display : flex;
