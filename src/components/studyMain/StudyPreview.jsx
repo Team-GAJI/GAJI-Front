@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StudyPreview = ({key, title, content, background, ago, dday, recruiter, state, applicant}) => {
-    // useNavigate
-    // const navigate = useNavigate();
+    // state 관리
+    const [isDetailVisible, setIsDetailVisible] = useState(false);
+    
+    // 상세정보 보기 기능
+    const showDetail = () => {
+        setIsDetailVisible(true);
+    };
+    const hiddenDetail = () => {
+        setIsDetailVisible(false);
+    };
 
+    // useNavigate
+    const navigate = useNavigate();
+    
     return (
-        <PostWrapper key={key}>
-            <BackgroundWrapper background={background}>
-                <TagWrapper>
+        <PostWrapper key={key} onClick={() => {navigate("/studydetail");}}
+            onMouseOver={() => showDetail()}
+            onMouseOut={() => hiddenDetail()}>
+            <BackgroundWrapper background={background} isVisible={isDetailVisible}>
+                <TagWrapper isVisible={isDetailVisible}>
                     <Tag>{state}</Tag>
                     <Tag>{applicant}명 지원</Tag>
                 </TagWrapper>
             </BackgroundWrapper>
-            <DetailsWrapper>
+            <DetailsWrapper isVisible={isDetailVisible}>
                 <TitleWrapper>
                     <Title>{title}</Title>
                     <Dday>D-{dday}</Dday>
                 </TitleWrapper>
-                <Content>{content}</Content>
+                <Content isVisible={isDetailVisible}>{content}</Content>
                 <BottomWrapper>
                     <Ago>{ago}</Ago>
                     <Recruiter>{recruiter}명 모집중</Recruiter>
@@ -40,7 +53,7 @@ const PostWrapper = styled.div`
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     &:hover{
         transform: translateY(-0.8em);
         box-shadow: 0 0.625em 1.25em #C8C8C8;
@@ -48,19 +61,23 @@ const PostWrapper = styled.div`
 `;
 
 const BackgroundWrapper = styled.div`
-    border: 1px solid #D0D1D9;
+    border: ${(props) => (props.isVisible ? "none" : "1px solid #D0D1D9")};
+    border-bottom: none;
     border-radius: 10px 10px 0 0;
-    height: 50%;
+    height: ${(props) => (props.isVisible ? "0%" : "50%")};
     display: flex;
     position: relative;
     background-image: ${({background}) => `url(${background})`};
     background-size: cover;
+    transition: all 0.3s ease;
 `;
 
 const TagWrapper = styled.div`
     margin-left: 0.8em;
     position: absolute;
     bottom: 0;
+    visibility: ${(props) => (props.isVisible ? "hidden" : "visibility")};
+    transition-delay: 0.1s;
 `;
 
 const Tag = styled.div`
@@ -81,11 +98,11 @@ const Tag = styled.div`
 
 const DetailsWrapper = styled.div`
     border: 1px solid #D0D1D9;
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    height: 50%;
+    border-radius: ${(props) => (props.isVisible ? "10px" : "0 0 10px 10px")};
+    height: ${(props) => (props.isVisible ? "100%" : "50%")};
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease;
 `;
 
 const TitleWrapper = styled.div`
@@ -113,7 +130,7 @@ const Content = styled.div`
     overflow: hidden;
     word-break: break-word;    
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: ${(props) => (props.isVisible ? "10" : "3")};
     -webkit-box-orient: vertical;
 `;
 

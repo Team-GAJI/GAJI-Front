@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import PrevMonth from '../../assets/icons/studyManage/StudyManageprevmonth.svg';
 import NextMonth from '../../assets/icons/studyManage/StudyManagenextmonth.svg';
 
-const Calendar = () => {
+const ManageCalendar = () => {
     const [date, setDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     const monthName = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear();
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-    // 달력 날짜 출력
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -20,6 +22,46 @@ const Calendar = () => {
 
     const cells = [];
     const today = new Date();
+
+    const isDateInRange = (day) => {
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        if (startDate && endDate) {
+            return currentDate > startDate && currentDate < endDate;
+        }
+        return false;
+    };
+
+    const isDateSelected = (day) => {
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        return (startDate && endDate && 
+                (currentDate.toDateString() === startDate.toDateString() || 
+                 currentDate.toDateString() === endDate.toDateString()));
+    };
+
+    const isInSelectionRange = (day) => {
+        if (!startDate || !endDate) return false;
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        return currentDate >= startDate && currentDate <= endDate;
+    };
+
+    const handleDateClick = (day) => {
+        const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
+        
+        if (!startDate) {
+            setStartDate(selectedDate);
+            setEndDate(null);
+        } else if (!endDate) {
+            if (selectedDate < startDate) {
+                setStartDate(selectedDate);
+                setEndDate(null);
+            } else {
+                setEndDate(selectedDate);
+            }
+        } else {
+            setStartDate(selectedDate);
+            setEndDate(null);
+        }
+    };
 
     // 이전 달의 날짜 추가
     for (let i = firstDayOfMonth; i > 0; i--) {
@@ -36,8 +78,17 @@ const Calendar = () => {
             today.getDate() === day && 
             today.getMonth() === currentMonth && 
             today.getFullYear() === currentYear;
+    
         cells.push(
-            <Cell key={day} isToday={isToday}>
+            <Cell
+                key={day}
+                isToday={isToday}
+                isInRange={isInSelectionRange(day)}
+                isSelected={isDateSelected(day)}
+                isStart={startDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()}
+                isEnd={endDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === endDate.toDateString()}
+                onClick={() => handleDateClick(day)}
+            >
                 {day}
             </Cell>
         );
@@ -76,12 +127,10 @@ const Calendar = () => {
                 {cells}
             </Grid>
         </CalendarContainer>
-
-
     );
 };
 
-export default Calendar;
+export default ManageCalendar;
 
 const CalendarContainer = styled.div`
     margin: 0 auto;
@@ -89,7 +138,7 @@ const CalendarContainer = styled.div`
 `;
 
 const Header = styled.div`
-    width : 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,35 +148,60 @@ const Header = styled.div`
 
 const MonthYear = styled.div`
     font-weight: 800;
+    font-size: 1.2em;
 `;
 
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    gap: 1em;
 `;
 
 const Day = styled.div`
     padding: 10px;
-
-`;
-
-const Cell = styled.div`
-    padding: 10px;
-    font-weight: ${props => props.isToday ? '600' : '400'};
-    color: #979699;
-    text-align: center;
-    color: ${props => props.isToday ? '#FFFFFF' : '#000000'};
-    background-color: ${props => props.isToday ? '#8E59FF' : 'transparent'};
-    border-radius: ${props => props.isToday ? '100%' : 'none'};
-    box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19);  100%' : 'none'};
-    &.empty {
-        color: #ccc;
-    }
+    font-weight: bold;
 `;
 
 const Icons = styled.img`
-    width: 0.61em;
+    width: 1.5em;
     cursor: pointer;
+`;
+
+
+const Cell = styled.div`
+    padding: 15px;
+    font-weight: ${props => props.isToday ? '600' : '400'};
+    color: ${props => (props.isToday || props.isSelected) ? '#FFFFFF' : '#000000'};
+    background-color: ${props => 
+        props.isToday ? '#8E59FF' : 
+        props.isSelected ? '#8E59FF' : 
+        'transparent'
+    };
+    border-radius: ${props => props.isToday || props.isSelected ? '50%' : '0'};
+    box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
+    cursor: pointer;
+    position: relative; 
+    z-index: 10; 
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0; 
+        left: 0;
+        right: 0;
+        bottom: 0; 
+        background-color: ${props => props.isInRange ? '#CBB8EE' : 'transparent'};
+        z-index: -1; 
+        border-radius: ${props => 
+            props.isStart ? '20px 0 0 20px' :
+            props.isEnd ? '0 20px 20px 0' : 
+            '0'
+        };
+        visibility: ${props => props.isInRange ? 'visible' : 'hidden'};
+       
+    }
+
+    &.empty {
+        color: #FBFAFF ;
+    }
 `;

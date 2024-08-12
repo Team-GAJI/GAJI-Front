@@ -9,13 +9,14 @@ import CommunityWritePage from './pages/CommunityWritePage';
 import MyPage from './pages/MyPage';
 import TroubleshootingRegistrationPage from "./pages/TroubleshootingRegistrationPage";
 import TroubleShootingPage from './pages/TroubleShootingPage.jsx';
+import StudyMainPage from './pages/StudyMainPage.jsx';
+import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
 import StudyManagePage from './pages/StudyManagePage.jsx';
 import StudyNoticePage from './pages/StudyNoticePage.jsx';
 import StudyRoomPage from './pages/StudyRoomPage.jsx';
 import StudyManageWeekPage from './pages/StudyManageWeekPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import StudyCreatePage from './pages/StudyCreatePage.jsx';
-import StudyCategoryPage from './pages/StudyCategoryPage.jsx';
 
 function App() {
   return (
@@ -48,8 +49,11 @@ function App() {
         {/* 사용자의 개인 정보를 확인하고 수정할 수 있는 마이페이지 */}
 
         {/* 스터디 관련 라우트 */}
-        <Route path="/study" element={<StudyCategoryPage/>}/>
-        {/* 스터디 카테고리 둘러보기 페이지 */}
+        <Route path="/study" element={<StudyMainPage/>}/>
+        {/* 스터디 메인 페이지 */}
+
+        <Route path="/studycategory" element={<StudyCategoryPage/>}/>
+        {/* 스터디 카테고리별 둘러보기 페이지 */}
         
         <Route path="/studydetail" element={<StudyDetailPage/>}/>
         {/* 특정 스터디의 상세 정보 페이지 */}

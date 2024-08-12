@@ -6,11 +6,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
-import StudyPreview from '../components/main/StudyPreview';
-import { dummyStudyPosts } from '../components/main/DummyStudyPosts';
+import StudyPreview from '../components/studyMain/StudyPreview';
+import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
 import BlogPreview from '../components/community/BlogPreview';
 import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
+import MainSelectBox from '../components/main/MainSelectBox';
 
 const MainPage = () => {
     // state 관리
@@ -70,33 +71,7 @@ const MainPage = () => {
 
             {/* 게시글 필터 */}
             <SelectAndButtonWrapper>
-                <SelectWrapper>
-                    <StyledSelect name="category">
-                        <option value="0">카테고리</option>
-                        <option value="1">개발</option>
-                        <option value="2">인공지능</option>
-                        <option value="3">하드웨어</option>
-                        <option value="4">보안</option>
-                        <option value="5">네트워크 - 클라우드</option>
-                        <option value="6">어학</option>
-                        <option value="7">디자인</option>
-                        <option value="8">비즈니스 &#40;PM&#41;</option>
-                        <option value="9">독서 모임</option>
-                        <option value="10">기타</option>
-                    </StyledSelect>
-                    <StyledSelect name="sort">
-                        <option value="0">정렬</option>
-                        <option value="1">인기순</option>
-                        <option value="2">최신순</option>
-                    </StyledSelect>
-                    <StyledSelect>
-                        <option value="0">필터</option>
-                        <option value="1">모집 중</option>
-                        <option value="2">모집 완료</option>
-                        <option value="3">인원 제한</option>
-                        <option value="4">인원 제한 없음</option>
-                    </StyledSelect>
-                </SelectWrapper>
+                <MainSelectBox/>
             </SelectAndButtonWrapper>
             <StyledHr />
 
@@ -116,8 +91,8 @@ const MainPage = () => {
                 ))}
             </BlogPreviewWrapper>
             <ViewAllWrapper>
-                <ViewAll onClick={() => {navigate("/studycategory");}}>모두 보기</ViewAll>
-                <Arrow onClick={() => {navigate("/studycategory");}}>&gt;</Arrow>
+                <ViewAll onClick={() => {navigate("/study");}}>모두 보기</ViewAll>
+                <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
             </ViewAllWrapper>
             <StyledHr />
 
@@ -252,26 +227,6 @@ const SelectAndButtonWrapper = styled.div`
     justify-content: space-between;
 `;
 
-const SelectWrapper = styled.div`
-`;
-
-const StyledSelect = styled.select`
-    margin-right: 0.7em;
-    padding-left: 0.5em;
-    border: 1px solid #C8C8C8;
-    border-radius: 10px;
-    width: 8.3077em;
-    height: 2.4em;
-    background-color : transparent;
-    color: #D0D1D9;
-    font-size: 0.8125em;
-    font-weight: bold;
-    cursor: pointer;
-    &:focus{
-        outline: none;
-    }
-`;
-
 const StyledHr = styled.hr`
     margin-top: 1.2em;
     border: none;
@@ -288,7 +243,7 @@ const BlogText = styled.div`
 `;
 
 const BlogPreviewWrapper = styled.div`
-    margin-top: 1em;
+    margin: 1em 0 0 1.2em;
     width: 72.4em;
     display: flex;
     flex-wrap: wrap;
@@ -304,7 +259,7 @@ const ViewAllWrapper = styled.div`
 `;
 
 const ViewAll = styled.span`
-    font-size: 0.8125;
+    font-size: 0.8125em;
     font-weight: 800;
     cursor: pointer;
 `;
