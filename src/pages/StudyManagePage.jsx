@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ManageDel from '../assets/icons/studyManage/StudyManageDel.png';
+import ManageDel from '../assets/icons/studyManage/StudyManageDel.svg';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
 // import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import ManageBasics from '../components/studyManage/ManageBasics';
 import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 import PageHeader from '../components/common/PageHeader';
-
+import ManageInfo from '../components/studyManage/ManageInfo';
 const StudyManagePage = () => {
     // n주차 버튼 기능
 
@@ -21,7 +20,7 @@ const StudyManagePage = () => {
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length + 1]); 
+    setWeeks([...weeks, weeks.length]); 
   };
 
   useEffect(() => {
@@ -30,21 +29,19 @@ const StudyManagePage = () => {
       const newHeight = sidebarRef.current.scrollHeight;
       sidebarRef.current.style.height = `${newHeight}px`;
     }
-  }, [weeks]);
-  const [selectedWeek, setSelectedWeek] = useState(0);
-    
-  const handleWeekSelect = (index) => {
-      setSelectedWeek(index);
-  };
-    //studymanage 페이지로 이동
-  const navigate = useNavigate();
-  const handleButtonClick = (navigate) => {
-      navigate('/studyweekmanage');
-  };
-  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+    }, [weeks]);
+    const [selectedWeek, setSelectedWeek] = useState(0);
+      
+    const handleWeekSelect = (index) => {
+        setSelectedWeek(index);
+    };
+      //studymanage 페이지로 이동
+    const navigate = useNavigate();
+    const handleButtonClick = (navigate) => {
+        navigate('/studyweekmanage');
+    };
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
-  // Redux 상태 관리
-  // const dispatch = useDispatch();
 
   // 헤더 함수
   const headerTitles = ["저장하기"];
@@ -58,16 +55,16 @@ const StudyManagePage = () => {
     return (
     <>
     <Wrapper>
-    <PageHeader
-        pageTitle="스터디 관리 페이지"
-        subTitle = "스터디장에게만 보이는 메뉴에요"
-        headerTitles={headerTitles}
-        activeButtonIndex={activeButtonIndex}
-        onButtonClick={handleHeaderButtonClick}
-        changeColorOnClick={true}
-        changeColorOnHover={true}
-    />
-        <MainSection>
+      <PageHeader
+          pageTitle="스터디 관리 페이지"
+          subTitle = "스터디장에게만 보이는 메뉴에요"
+          headerTitles={headerTitles}
+          activeButtonIndex={activeButtonIndex}
+          onButtonClick={handleHeaderButtonClick}
+          changeColorOnClick={true}
+          changeColorOnHover={true}
+      />
+      <MainSection>
       
         <SidebarWrapper>
             <Sidebar1 ref={sidebarRef}>
@@ -101,12 +98,13 @@ const StudyManagePage = () => {
                 <PlusIcons src={ManagePlus} alt="추가" />
               </PlusButton>
             </Sidebar1>
-          </SidebarWrapper>
+        </SidebarWrapper>
 
-           <ManageBasics/>
+
+            <ManageInfo/>
            <ManageDate/>
            <ManageDetailed/>
-        </MainSection>
+      </MainSection>
 
     </Wrapper>
 
@@ -127,31 +125,6 @@ const Wrapper = styled.div`
 `;
 
 
-
-const SidebarWrapper = styled.div`
-    position: absolute; 
-    margin-top: 1.25em; 
-    right: -2.375em; 
-    height: 100vh; 
-    width: 15.625em;
-    padding: 1.25em; 
-    box-sizing: border-box;
-
-`;
-const Sidebar1 = styled.aside`
-
- transition: height 0.5s ease; 
-  overflow: hidden; 
-  background-color: #FBFAFF;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 0.5em; 
-  width: 11.25em; 
-  height: 32.5em; 
-  margin-top: 1.9375em; 
-
-`;
 const DelIconWrapper = styled.div`
   visibility: hidden;
   margin-left: 0em; 
@@ -167,6 +140,55 @@ const TextWrapper = styled.div`
   text-align: center;
 
 `;
+
+
+const SidebarWrapper = styled.div`
+    position: absolute; 
+    margin-top: -3.2em; 
+    right: -2.375em; 
+    height: 100vh; 
+    width: 15.625em;
+    padding: 1.25em; 
+    box-sizing: border-box;
+
+  @media(max-width: 768px) {
+    position: static;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    margin-top: 0;
+    padding: 0.5em;
+  }
+
+`;
+const Sidebar1 = styled.aside`
+
+ transition: height 0.5s ease; 
+  overflow: hidden; 
+  background-color: #FBFAFF;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #A2A3B2;
+  border-radius: 0.5em; 
+  width: 11.25em; 
+  height: 32.5em; 
+  margin-top: 1.9375em; 
+
+  @media(max-width: 768px) {
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    border: none;
+    margin-top: 0;
+    background-color: transparent;
+  }
+
+`;
+
 const SidebarButton1 = styled.div`
   display: flex;
   align-items: center;
@@ -179,6 +201,14 @@ const SidebarButton1 = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
 
+  @media(max-width: 768px) {
+    flex-direction: row;
+    width: auto;
+    padding: 0.5em 0.5em;
+    margin-top: 0;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
 
   &:hover {
     border: 1px solid #8E59FF;
@@ -187,11 +217,17 @@ const SidebarButton1 = styled.div`
     margin-left: 0.4em; 
     margin-right: 0.4em;
     font-weight: 800;
+
   }
-  // 마지막 주차 글자 위치조정
+
   &.last-week {
     margin-left: 3em; 
-    position: relative; 
+    position: relative;
+    
+    @media(max-width: 768px) {
+      margin-left: 0.5em;
+
+    }
   }
     
   &.last-week:hover {
@@ -220,6 +256,10 @@ const SidebarButton1 = styled.div`
    border: none;
    background-color: transparent;
    color: #A2A3B2;
+
+    @media(max-width: 768px) {
+    margin-left: 0.5em;
+  }
 `;
 
 
@@ -244,7 +284,8 @@ const PlusButton = styled.button`
     border: none;
     background-color: transparent;
     color: #A2A3B2;
-    padding: 0.6em 0.625em; 
+    padding: 0.6em 0.625em;
+    
 `;
 const PlusIcons = styled.img`
   width: 1em;

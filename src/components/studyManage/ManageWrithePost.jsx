@@ -188,6 +188,11 @@ const ToolbarWrapper = styled.div`
     background-color: #FBFAFF;
     position: sticky;
     top: 6.5em;
+
+    @media(max-width : 768px){
+        width : 90%;
+        margin-left : 1.5em;
+    }
 `;
 
 const StyledFontSizeSelect = styled.select`
@@ -290,12 +295,18 @@ const TextareaBottom = styled.div`
     margin-top: 1em;
     display: flex;
     flex-direction: column;
+
+
 `;
 
 const TextLength = styled.div`
     margin-left: auto;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
+    @media(max-width : 768px){
+        width : 100%;
+        margin-right : 2em;
+    }
 `;
 
 const StyledContentHr = styled.hr`
@@ -304,6 +315,10 @@ const StyledContentHr = styled.hr`
     width: 55.125em;
     height: 1.5px;
     background-color: rgba(162, 163, 178, 0.4);
+    @media(max-width : 768px){
+        width : 32em;
+        margin-left : -25em;
+    }
 `;
 
 const StyledPreviewButton = styled.div`
