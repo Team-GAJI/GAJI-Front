@@ -10,7 +10,6 @@ import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 import PageHeader from '../components/common/PageHeader';
 
-
 const StudyManagePage = () => {
     // n주차 버튼 기능
 

@@ -4,7 +4,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
+import Banner1 from '../assets/images/mainPage/banner1.png';
+import Banner2 from '../assets/images/mainPage/banner2.png';
+import Banner3 from '../assets/images/mainPage/banner3.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
 import StudyPreview from '../components/studyMain/StudyPreview';
 import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
@@ -15,15 +17,10 @@ import MainSelectBox from '../components/main/MainSelectBox';
 
 const MainPage = () => {
     // state 관리
-    const [selectedButton, setSelectedButton] = useState('백엔드');
     const [blogs, setBlogs] = useState([]);
     const [studies, setStudies] = useState([]);
 
-    const handleButtonClick = (button) => {
-        setSelectedButton(button);
-    };
-
-    // 스터디, 블로그 불러오기
+    // 스터디, 커뮤니티 불러오기
     useEffect(() => {
         setStudies(dummyStudyPosts);
     }, []);
@@ -55,29 +52,19 @@ const MainPage = () => {
                 <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
             </SearchInputWrapper>
 
-            {/* 버튼 */}
-            <ButtonWrapper>
-                <Button isSelected={selectedButton === '백엔드'}
-                    onClick={() => handleButtonClick('백엔드')}>백엔드</Button>
-                <Button isSelected={selectedButton === '보안'}
-                    onClick={() => handleButtonClick('보안')}>보안</Button>
-                <Button isSelected={selectedButton === 'AWS'}
-                    onClick={() => handleButtonClick('AWS')}>AWS</Button>
-                <Button isSelected={selectedButton === '디자인'}
-                    onClick={() => handleButtonClick('디자인')}>디자인</Button>
-                <Button isSelected={selectedButton === '프론트엔드'}
-                    onClick={() => handleButtonClick('프론트엔드')}>프론트엔드</Button>
-            </ButtonWrapper>
-
             {/* 게시글 필터 */}
             <SelectAndButtonWrapper>
                 <MainSelectBox/>
             </SelectAndButtonWrapper>
             <StyledHr />
 
-            {/* 스터디 미리보기 */}
+            {/* 인기 스터디 미리보기 */}
+            <ViewAllWrapper>
+                <TitleText onClick={() => {navigate("/study");}}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
+                <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
+            </ViewAllWrapper>
             <BlogPreviewWrapper>
-                {studies.slice(0, 10).map((post) => (
+                {studies.slice(0, 5).map((post) => (
                     <StudyPreview
                         key={post.postId}
                         title={post.postTitle}
@@ -90,14 +77,33 @@ const MainPage = () => {
                         applicant={post.postApplicant}/>
                 ))}
             </BlogPreviewWrapper>
+
+            {/* 최신 스터디 미리보기 */}
             <ViewAllWrapper>
-                <ViewAll onClick={() => {navigate("/study");}}>모두 보기</ViewAll>
+                <TitleText onClick={() => {navigate("/study");}}>가장 최신의 스터디를 둘러보세요!</TitleText>
                 <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
             </ViewAllWrapper>
+            <BlogPreviewWrapper>
+                {studies.slice(0, 5).map((post) => (
+                    <StudyPreview
+                        key={post.postId}
+                        title={post.postTitle}
+                        content={post.postContent}
+                        background={post.postBackgroundImg}
+                        ago={post.postAgo}
+                        dday={post.postDday}
+                        recruiter={post.postRecruiter}
+                        state={post.postState}
+                        applicant={post.postApplicant}/>
+                ))}
+            </BlogPreviewWrapper>
             <StyledHr />
 
-            {/* 블로그 미리보기 */}
-            <BlogText>블로그</BlogText>
+            {/* 커뮤니티 미리보기 */}
+            <ViewAllWrapper>
+                <TitleText onClick={() => {navigate("/community");}}>&#039;가지&#039;의 커뮤니티! 다 같이 성장해봐요!</TitleText>
+                <Arrow onClick={() => {navigate("/community");}}>&gt;</Arrow>
+            </ViewAllWrapper>
             <BlogPreviewWrapper>
                 {blogs.slice(0, 8).map((post) => (
                     <BlogPreview
@@ -112,10 +118,6 @@ const MainPage = () => {
                         like={post.postLike} />
                 ))}
             </BlogPreviewWrapper>
-            <ViewAllWrapper>
-                <ViewAll onClick={() => {navigate("/community");}}>모두 보기</ViewAll>
-                <Arrow onClick={() => {navigate("/community");}}>&gt;</Arrow>
-            </ViewAllWrapper>
         </PageWrapper>
     );
 };
@@ -145,13 +147,16 @@ const StyledSwiper = styled(Swiper)`
     }
 `;
 const StyledSwiperSlide1 = styled(SwiperSlide)`
-    background-image: url(${backGroundUrl});
+    background-image: url(${Banner1});
+    background-size: cover;
 `;
 const StyledSwiperSlide2 = styled(SwiperSlide)`
-    background-image: url(${backGroundUrl});
+    background-image: url(${Banner2});
+    background-size: cover;
 `;
 const StyledSwiperSlide3 = styled(SwiperSlide)`
-    background-image: url(${backGroundUrl});
+    background-image: url(${Banner3});
+    background-size: cover;
 `;
 
 const Text = styled.div`
@@ -166,6 +171,7 @@ const PuppleText = styled.span`
 `;
 
 const SearchInputWrapper = styled.div`
+    margin-bottom: 3em;
     border: 1px solid #D0D1D9;
     border-radius: 10px;
     width: 38.75em;
@@ -196,30 +202,6 @@ const StyledSearchInput = styled.input`
     font-family: 'NanumSquareNeo';
 `;
 
-const ButtonWrapper = styled.div`
-    margin: 2.5em 0 3em 0;
-    display: flex;
-    text-align: center;
-`;
-
-const Button = styled.div`
-    margin: 0 0.5em;
-    border: none;
-    border-radius: 10px;
-    width: 11.9125em;
-    height: 2.5em;
-    line-height: 2.5em;
-    background-color: ${(props) => (props.isSelected ? '#8E59ff' : '#A2A3B2')};
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    &:hover{
-        transform: translateY(-0.3em);
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
-    }
-    transition: all 0.3s ease;
-`;
-
 const SelectAndButtonWrapper = styled.div`
     width: 70em;
     display: flex;
@@ -235,33 +217,18 @@ const StyledHr = styled.hr`
     background-color: #D0D1D9;
 `;
 
-const BlogText = styled.div`
-    margin-top: 1em;
-    width: 69.5em;
-    color: #8E59FF;
-    font-weight: 800;
-`;
-
-const BlogPreviewWrapper = styled.div`
-    margin: 1em 0 0 1.2em;
-    width: 72.4em;
-    display: flex;
-    flex-wrap: wrap;
-`;
-
 const ViewAllWrapper = styled.div`
-    margin: 1em 0;
+    margin-top: 1em;
     width: 70em;
     color: #D0D1D9;
     display: flex;
-    justify-content: end;
     align-items: center;
+    color: #8E59FF;
 `;
 
-const ViewAll = styled.span`
-    font-size: 0.8125em;
-    font-weight: 800;
+const TitleText = styled.div`
     cursor: pointer;
+    font-weight: 800;
 `;
 
 const Arrow = styled.span`
@@ -269,4 +236,11 @@ const Arrow = styled.span`
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
+`;
+
+const BlogPreviewWrapper = styled.div`
+    margin: 0.5em 0 0 1.2em;
+    width: 72.4em;
+    display: flex;
+    flex-wrap: wrap;
 `;

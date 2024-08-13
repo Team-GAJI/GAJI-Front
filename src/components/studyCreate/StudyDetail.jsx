@@ -70,27 +70,27 @@ const StudyDetail = () => {
 
         // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
         const linkText = selected.length > 0 ? selected : 'text';
-        const linkSyntax = `[${linkText}](https://)`;
+        const linkSyntax = `[${linkText}]()`;
         setMarkdown(`${before}${linkSyntax}${after}`);
         textarea.setSelectionRange(selectionStart + linkSyntax.length - 4, selectionEnd + linkSyntax.length - 4);
         textarea.focus();
     };
 
     // 이미지 추가 함수
-    const addImage = () => {
-        const textarea = textareaRef.current;
-        const { selectionStart, selectionEnd } = textarea;
-        const before = markdown.substring(0, selectionStart);
-        const selected = markdown.substring(selectionStart, selectionEnd);
-        const after = markdown.substring(selectionEnd);
+    // const addImage = () => {
+    //     const textarea = textareaRef.current;
+    //     const { selectionStart, selectionEnd } = textarea;
+    //     const before = markdown.substring(0, selectionStart);
+    //     const selected = markdown.substring(selectionStart, selectionEnd);
+    //     const after = markdown.substring(selectionEnd);
 
-        // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
-        const altText = selected.length > 0 ? selected : 'alt text';
-        const imageSyntax = `![${altText}](url)`;
-        setMarkdown(`${before}${imageSyntax}${after}`);
-        textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
-        textarea.focus();
-    };
+    //     // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
+    //     const altText = selected.length > 0 ? selected : 'alt text';
+    //     const imageSyntax = `![${altText}](url)`;
+    //     setMarkdown(`${before}${imageSyntax}${after}`);
+    //     textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
+    //     textarea.focus();
+    // };
 
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
@@ -124,7 +124,11 @@ const StudyDetail = () => {
                 <StyledItalicIcon onClick={() => applyFormatting('*')}/>
                 <StyledThroughIcon onClick={() => applyFormatting('~~')}/>
                 <StyledBar>|</StyledBar>
-                <StyledImageIcon onClick={addImage}/>
+                {/* <StyledImageIcon onClick={addImage}/> */}
+                <FileInputLabel htmlFor="contentImg">
+                    <StyledImageIcon/>
+                </FileInputLabel>
+                <ImageUploadInput type="file" id="contentImg" accept="image/*"/>
                 <StyledLinkIcon onClick={addLink}/>
                 <StyledBar>|</StyledBar>
                 <StyledPreviewButton onClick={openModal}>
@@ -227,6 +231,15 @@ const StyledThroughIcon = styled(ThroughIcon)`
     }
 `;
 
+const FileInputLabel = styled.label`
+    display: flex;
+    align-items: center;
+`;
+
+const ImageUploadInput = styled.input`
+    display: none;
+`;
+
 const StyledImageIcon = styled(ImageIcon)`
     width: 1.2716em;
     height: 1.2em;
@@ -281,8 +294,10 @@ const TextareaBottom = styled.div`
 
 const TextLength = styled.div`
     margin-left: auto;
+    font-size: 0.9em;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
+    transition: all 0.3s ease;
 `;
 
 const StyledPreviewButton = styled.div`

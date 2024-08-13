@@ -144,7 +144,7 @@ const SidebarWrapper = styled.div`
 const Sidebar1 = styled.aside`
  transition: height 0.5s ease; 
   overflow: hidden; 
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   border: 1px solid #A2A3B2;
@@ -216,15 +216,15 @@ const SidebarButton1 = styled.div`
   }
 `;
 
-const BasicInfoButton = styled(SidebarButton1)`
-    font-size: 1em;
-    font-weight: 1.125em; 
-    background-color: #8E59FF;
-    border: none;
-    background-color: transparent;
-    color: #A2A3B2;
-`;
 
+ const BasicInfoButton = styled(SidebarButton1)`
+   font-size: 1em;
+   font-weight: 1.125em; 
+   background-color: #8E59FF;
+   border: none;
+   background-color: transparent;
+   color: #A2A3B2;
+`;
 
 
 /* 화면 분활 (오른쪽 사이드) */
