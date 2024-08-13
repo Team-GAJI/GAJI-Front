@@ -131,6 +131,13 @@ const ComponentWrapper = styled.div`
     width: 53.6em; 
     display: flex;
     flex-direction: column;
+
+    @media(max-width : 786px){
+        border : none;
+        flex-direction : column;
+        align-items: center;
+        justify-content: flex-start;
+    }
 `;
 
 const TopWrapper = styled.div`
@@ -138,12 +145,23 @@ const TopWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+    @media(max-width : 786px){
+        flex-direction : column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
 `;
 
 const TotalMembersWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: end;
+
+    @media(max-width: 768px) {
+        margin-top : 2em;
+    }
 `;
 
 const CounterWrapper = styled.div`
@@ -194,19 +212,23 @@ const TotalCount = styled.div`
 const TitleWrapper = styled.div`
     margin: 1em 0;
     width: 100%;
+    @media(max-width : 768px){
+       width: 50%; 
+      
+    }
 `;
 
 const InputWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 `;
 
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
     width: 60em;
-    widht: 100%;
     height: 3em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -220,6 +242,8 @@ const TitleInput = styled.input`
         color: #A2A3B2;
         font-weight: bold;
     }
+
+
 `;
 
 const TextLength = styled.div`
@@ -228,6 +252,10 @@ const TextLength = styled.div`
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
+    @media(max-width : 768px){
+       width: 50%; 
+       margin-left: 18em;
+    }
 `;
 
 const StyledTitleHr = styled.hr`
@@ -236,13 +264,15 @@ const StyledTitleHr = styled.hr`
     height: 1.5px;
     background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
     box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
-    transition: all 0.3s ease
+    transition: all 0.3s ease;
+
 `;
 
 const ThumbNailWrapper = styled.div`
     margin-bottom: 1em;
     display: flex;
     flex-direction: column;
+
 `;
 
 const Title = styled.div`
@@ -255,6 +285,13 @@ const UploadWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    
+    @media(max-width : 786px){
+        flex-direction : column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
 `;
 
 const ImageWrapper = styled.div`
@@ -266,6 +303,11 @@ const ImageWrapper = styled.div`
     height: 11.625em; 
     align-items: center;
     justify-content: center;
+
+    
+    @media(max-width : 768px){
+        margin-bottom : 2em;
+    }
 `;
 
 const FileInputLabel = styled.label`
@@ -280,6 +322,7 @@ const FileInputLabel = styled.label`
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
+            
 `;
 
 const ImageUploadInput = styled.input`
@@ -300,6 +343,15 @@ const PreivewWrapper = styled.div`
     height: 11.625em; 
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
+
+    
+    @media(max-width : 768px){
+        width : 100%;
+        height : 11em;
+        background-position: center 50%; 
+
+    }
+    
 `;
 
 const ToggleWrapper = styled.div`

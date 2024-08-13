@@ -3,12 +3,6 @@ import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek }) => {
     
-    const data = [
-        { id: 1, week: 'Week 1', title: '커리큘럼 제목 1'  },
-        { id: 2, week: 'Week 2', title: '커리큘럼 제목 2'  },
-        { id: 3, week: 'Week 3', title: '커리큘럼 제목 3'  },
-        // 나중에 추가
-    ];
     
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');
