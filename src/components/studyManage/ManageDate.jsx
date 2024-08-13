@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Calendar from './StudyManageCalendar.jsx';
+import { studyManageDateAPI } from '../../utils/studyManage/studyManageDateAPI.jsx';
 
 const ManageDate = () => {
+    // 스터디 기한 API
+    const StudyList = ({ isCurrent }) => {
+    
+        // const navigate = useNavigate();
+    
+        const handleStudyRoom = async (roomId) => {
+            try {
+                const response = await studyManageDateAPI(roomId);
+                // navigate('/studyroom', { state: { data: response } });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+    }
     return(
         <Container>
             <Text2>스터디 기한</Text2>
