@@ -15,6 +15,7 @@ const MainPage = () => {
     // 스터디 불러오기
     useEffect(() => {
         setStudies(dummyStudyPosts);
+        console.log(category)
     }, []);
 
     // useNavigate

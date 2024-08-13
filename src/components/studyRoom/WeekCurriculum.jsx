@@ -22,14 +22,10 @@ const WeekCurriculum = () => {
     const id = 1;  
     const alarmCount = alarmData[id]; 
     return (
-        <>
             <>
-            <MainText>4주차</MainText>
-                <Container>
-                    <WeekSquare placeholder='Week 4 커리큘럼 제목'></WeekSquare>
-                    <InputWeek placeholder="상세 설명해주세요ㅠㅠ 비온다아앙아"></InputWeek>
-                </Container>
-            </>
+            <WeekStudySummary><MainText>4주차</MainText><Date>2024. 03.19 - 03. 26</Date></WeekStudySummary>
+            <StudyCurriculumName>4주차 스터디 제목</StudyCurriculumName>
+            <StudyCurriculumDescreption>4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 </StudyCurriculumDescreption>
             
             <DivisionLine/> 
 
@@ -99,7 +95,6 @@ const WeekCurriculum = () => {
                     <TaskWrapper>
                         <Row><Task100/><CloudyText>100%</CloudyText></Row>
                         <Row><Task50/><CloudyText>50%</CloudyText></Row>
-                        <Row><Task0/><CloudyText>0%</CloudyText></Row>
                     </TaskWrapper>
                 </CircleContainer>
         <MoreWrapper>
@@ -114,10 +109,37 @@ const WeekCurriculum = () => {
 
 export default WeekCurriculum;
 
+const Date = styled.div`
+    color : #A2A3B2;
+    font-size : 0.8125em;
+    font-weight : 700;
+`;
+const StudyCurriculumName = styled.div`
+    font-weight : 600;
+    font-size: 1.25em;
+`;
+
+const StudyCurriculumDescreption = styled.div`
+    margin-top : 0.75em;
+    font-size : 0.6875em;
+    color : #161A3F;
+    opacity : 80%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+    line-clamp: 4;
+    max-width: 200ch;
+    max-height: calc(1.2em * 2); //2줄 높이
+    line-height: 1.2em;   
+`;
+
+
 const ButtonWrapper = styled.div`
     width : auto;
     position : relative;
-`
+`;
 
 
 const NinckNameList = styled.div`
@@ -125,7 +147,7 @@ const NinckNameList = styled.div`
     overflow-x: auto;
     white-space: nowrap;
     display: flex;
-    gap: 1em;
+    gap: 1.25em;
     @media(max-width : 768px){
         padding-bottom : 0.625em;
     }
@@ -150,65 +172,30 @@ const DivisionLine = styled.div`
     opacity : 20%;
 `
 
-const MainText = styled.h1`
-    font-size: 1em;
+const MainText = styled.div`
+    font-size: 1.25em;
     font-weight: 700;
     color: #8E59FF;
 `;
 
-/* 글자 스타일 */
-const Container = styled.div`
-    width : 100%;
-    height : 4em;
-    display: flex;
-    align-items: center;
-`;
+
 
 const Row = styled.div`
     display : flex;
+    align-items : center;
     gap : 1em;
+`
+
+const WeekStudySummary = styled(Row)`
+    margin-bottom :  1.5em;
 `
 
 const Column = styled.div`
     display : flex;
     gap : 0.25em;
     flex-direction : column;
-`
-const WeekSquare = styled.input`
-    width: 30%; 
-    height: 100%; 
-    border: 0.0625em solid; 
-    border-radius: 0.625em 0 0 0.625em; 
-    background-color: #8E59FF;
-    font-size: 0.9375em; 
-    font-weight: bold; 
-    color: #fff;
-    font-family: 'NanumSquareNeo';
-    text-align : center;
-    &::placeholder {
-        color: #FFFFFF;
-    }
-    &:focus {
-        outline : none;
-    }
 `;
 
-const InputWeek = styled.textarea`
-    height : 100%;
-    width : 100%;
-    border-top-right-radius: 0.5em; 
-    border-bottom-right-radius: 0.5em; 
-    border: 0.0625em solid #fff; 
-    outline: none;
-    resize: none; 
-    padding: 0.5em; 
-    box-sizing : border-box;
-    font-family: 'NanumSquareNeo';
-
-    &::placeholder {
-        color: #C8C8C8;
-    }
-`;
 
 
 const TaskContainer = styled.div`
@@ -227,6 +214,7 @@ const TaskSquare = styled.div`
     height : 100%;
     border: 0.0625em solid #A2A3B2; 
     border-radius: 1.25em; 
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -240,12 +228,15 @@ const TaskList = styled.div`
     flex-direction : column;
     width: 100%;
     gap : 1em;
+    font-weight : 700;
+    color : #161A3F;
 `;
 
 
 const TaskItem = styled.div`
     position: relative;
     padding-left: 1.5625em;
+    
 
     &::before {
         content: '';
@@ -289,6 +280,7 @@ const MyLeftSide = styled.div`
     flex-direction : column;
     gap : 1em;
     padding : 1em;
+    padding-left: 2em;
 `;
 
 const TaskText = styled.div`
@@ -319,7 +311,8 @@ const MyRightSide = styled.div`
     justify-content: center; 
     color: #8E59FF;
     font-weight: 800;
-    font-size: 2em;
+    font-size: 1.5em;
+    padding : 0 auto;
     @media(max-width : 768px){
         font-size : 1.5em;
     }
@@ -341,7 +334,7 @@ const Circle = styled.div`
     align-items : center;
     width : 3.5em;
     height : 3.5em;
-    border-radius: 1em;
+    border-radius: 50px;
     padding : 1em;
     box-sizing : border-box;
     background-color: #8E59FF;
@@ -368,17 +361,14 @@ const Task100 = styled.div`
     width: 1em;
     height: 1em;
     background: #8E59FF;
-    border-radius: 2px;
-    
-`
+    border-radius: 2px;    
+`;
 
 const Task50 = styled(Task100)`
     opacity : 50%;
-`
-const Task0 =styled(Task100)`
-    background: #FFFFFF;
-    border : 1px solid #8E59FF;
-`
+`;
+
+
 
 const MoreWrapper = styled.div`
     display : flex;

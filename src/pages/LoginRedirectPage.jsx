@@ -1,88 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import backgroundimage from '../assets/images/login/background.png';
 import Logo from '../components/common/Logo';
 import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
-import { useDispatch } from 'react-redux';
-import { loadTokens, setTokens } from '../feautres/auth/authSlice'; 
 import { useNavigate } from 'react-router-dom';
-import { api } from '../utils/API';
+import { useDispatch } from 'react-redux';
+import { setTokens } from '../feautres/auth/authSlice';
 
 
 
-const LoginPage = () => {
-    const [register, setRegister] = useState(false);
-    const [isAgreed, setIsAgreed] = useState(false); // 첫 번째 체크박스 상태 관리
-    const [modal, setModal] = useState(false);
 
+const LoginRedirectPage = () => {
+    const [modal, setModal] = useState(true);
+    const [isAgreed, setIsAgreed] = useState(false); 
+    const navigate = useNavigate()
+    const [register , setRegister] = useState(true);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    // const token = useSelector((state) => state.auth.token);
-
-    useEffect(() => {
-        dispatch(loadTokens());
-    }, [dispatch]);
-
-
-    const handleGoogleLogin = async () => {
-            try {
-                const res = await api.get(`$oauth2/authorization/google`, {
-                });
-                console.log(res)
-                
-            } catch (e) {
-                console.error(e);
-            } finally{
-                const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-                dispatch(setTokens(userToken));
-            }
-    };
-
-    const handleNaverLogin = async () => {
-        try {
-            const res = await api.get('oauth2/authorization/naver', {
-            });
-            console.log(res)
-            
-        } catch (e) {
-            console.error(e);
-        }finally{
-            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-            dispatch(setTokens(userToken));
-        }
-};
-    
-
-    const handleGoogleRegister = () => {
-        if (isAgreed) {
-            console.log('로그인시작');
-            handleGoogleLogin();
-            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-            dispatch(setTokens(userToken));
-        } else {
-            alert("필수 약관에 동의해야 합니다.");
-        }
-    }
-
-    const handleNaverRegister = () => {
-        if (isAgreed) {
-            console.log('로그인시작');
-            handleNaverLogin();
-            const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-            dispatch(setTokens(userToken));
-        } else {
-            alert("필수 약관에 동의해야 합니다.");
-        }
-    }
-
 
     const submitNickname = () => {
         //서버에 닉네임 저장 로직 추가
         setModal(false)  
+        const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
+        dispatch(setTokens(userToken));
         navigate('/')
         
+    }
+
+    const hadnleRegister = () =>{
+
+    }
+
+    const handleLogin = () => {
+
     }
 
     return (
@@ -119,25 +70,26 @@ const LoginPage = () => {
                     <Text3>약관보기</Text3>
                 </RowWrapper>
                 <Padding/>
-                <LoginButton onClick={()=>handleGoogleRegister()} disabled={!isAgreed}>
+                <LoginButton onClick={()=>hadnleRegister()} disabled={!isAgreed}>
                     <GoogleLogo/>
                     구글로 회원가입하기
                 </LoginButton> 
-                <LoginButton onClick={()=>handleNaverRegister()} disabled={!isAgreed} >
+                <LoginButton onClick={()=>handleLogin()}>
                     <NaverLogo>N</NaverLogo>
                     네이버로 회원가입하기
                 </LoginButton>
                 </ColumnWrapper>
                 :
                 <ColumnWrapper>
-                        <LoginButton onClick={()=>handleGoogleLogin()}>
+
+                        <LoginButton onClick={()=>handleLogin()}>
                             <GoogleLogo/>
                             구글로 로그인하기
                         </LoginButton>
-                        <LoginButton onClick={()=>handleNaverLogin()}>
-                            <NaverLogo>N</NaverLogo>
-                            네이버로 로그인하기
-                        </LoginButton>
+                    <LoginButton onClick={()=>handleLogin()}>
+                        <NaverLogo>N</NaverLogo>
+                        네이버로 로그인하기
+                    </LoginButton>
                     <Text onClick={()=>setRegister(true)}>회원가입하기</Text>
                 </ColumnWrapper>
                 }
@@ -147,7 +99,7 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default LoginRedirectPage;
 
 const NaverLogo = styled.div`
     font-weight : 1000;
