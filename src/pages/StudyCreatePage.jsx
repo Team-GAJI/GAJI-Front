@@ -5,30 +5,19 @@ import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import StudyInfo from '../components/studyCreate/StudyInfo';
 import StudyPeriod from '../components/studyCreate/StudyPeriod';
 import StudyDetail from '../components/studyCreate/StudyDetail';
+import { studyCreateAPI } from '../utils/studyCreate/studyCreateAPI';
 
 
 const StudyCreatePage = () => {
     // useNavigate
     const navigate = useNavigate();
 
-    const data = {
-            "name": "string",
-            "description": "string",
-            "thumbnailUrl": "string",
-            "materialList": [
-            "string"
-            ],
-            "recruitStartDay": "2024-08-13",
-            "recruitEndDay": "2024-08-13",
-            "studyStartDay": "2024-08-13",
-            "studyEndDay": "2024-08-13",
-            "peopleLimited": true,
-            "peopleMaximum": -1,
-            "categoryList": [
-            "개발"
-        ],
-        "private": true
-    }
+
+    const handleSubmit = () => {
+        navigate("/studydetail");
+        // studyCreateAPI(data);
+    };
+
 
     return (
         <PageWrapper>
@@ -62,7 +51,8 @@ const StudyCreatePage = () => {
                 </ContentWrapper>
 
                 {/* 제출 버튼 */}
-                <SubmitButton onClick={() => navigate("/studydetail", { state: data })}>
+
+                <SubmitButton onClick={handleSubmit()}>
                 스터디 만들기
             </SubmitButton>
             </ContentContainer>
