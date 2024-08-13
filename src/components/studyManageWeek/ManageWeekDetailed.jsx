@@ -59,7 +59,7 @@ const ManageWeekDetailed = ({ selectedWeek }) => {
 export default ManageWeekDetailed;
 
 const MainWrapper = styled.div`
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   width: 59.375em; 
