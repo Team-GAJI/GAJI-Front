@@ -5,7 +5,6 @@ import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import StudyInfo from '../components/studyCreate/StudyInfo';
 import StudyPeriod from '../components/studyCreate/StudyPeriod';
 import StudyDetail from '../components/studyCreate/StudyDetail';
-import { studyCreateAPI } from '../utils/studyCreate/studyCreateAPI';
 
 
 const StudyCreatePage = () => {
