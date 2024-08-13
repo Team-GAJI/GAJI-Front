@@ -10,10 +10,17 @@ const ManageDate = ({ roomId, Weeks, userId }) => {
     const managedate = async (roomId, Weeks, userId) => {
         try {
             const response = await studyManageDateAPI(roomId, Weeks, userId);
-            setStartDate(response.data.startDate || '날짜 없음');
-            setEndDate(response.data.endDate || '날짜 없음');
+            if (response && response.startDate && response.endDate) {
+                setStartDate(response.startDate);
+                setEndDate(response.endDate);
+            } else {
+                setStartDate('날짜 없음');
+                setEndDate('날짜 없음');
+            }
         } catch (error) {
-            console.log(error);
+            console.error('API 호출 실패:', error);
+            setStartDate('날짜 없음');
+            setEndDate('날짜 없음');
         }
     };
 
