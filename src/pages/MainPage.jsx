@@ -257,9 +257,10 @@ const Arrow = styled.span`
 const BlogPreviewWrapper = styled(Scroll)`
     width : 100%;
     display: flex;
+    justify-content: center;
     overflow-x : scroll;
     overflow-y : hidden;
-    padding-left : 0;
+    
 `;
 
 
@@ -267,7 +268,9 @@ const BlogPreviewWrapper2 = styled(Scroll)`
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
-    gap: 1em; 
+    place-items : center;
+    column-gap : 3em;
+    row-gap : 3em;
     padding-top : 1.2em;
     margin-bottom : 1.2em;
     

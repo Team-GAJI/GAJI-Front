@@ -13,6 +13,7 @@ import { EffectCoverflow, Pagination } from 'swiper/modules';
 import HotPostPreview from '../components/community/HotPostPreview';
 import { dummyHotPosts } from '../components/community/DummyHotPosts';
 
+
 const CommunityPage = () => {
     // state 관리
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
