@@ -49,7 +49,7 @@ const StudyRoomPage = () => {
                   </Sidebar>
                   <SidebarManageButton onClick={()=>navigate('/studymanage')}>스터디 관리</SidebarManageButton>
               </SidebarWrapper>
-
+                  
               <MainContent>
                     <StudySummary studyInfo={studyInfo} />  {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />

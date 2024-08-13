@@ -172,7 +172,12 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledButton = styled.div`
-    padding-left: 1.5em;
+    display : flex;
+    align-items : center;
+    justify-content : space-between;
+    box-sizing : border-box;
+    padding-right: 0.8125em;
+    padding-left : 0.8125em;
     border: 1px solid #C8C8C8;
     border-radius: 10px;
     width: 7.3077em;
@@ -188,19 +193,22 @@ const StyledButton = styled.div`
     &:focus{
         outline: none;
     }
+
+    @media(max-width : 768px){
+        width : 6em;
+        font-size: 0.75em;
+        gap : 0.0125em;
+        padding-right: 0.5em;
+        padding-left : 0.5em;
+    }
 `;
 
 const Text = styled.div`
-    width: 5em;
     height: 100%;
     overflow: hidden;
 `;
 
 const StyledDownArrowIcon = styled(DownArrowIcon)`
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0.7em 0.9em;
     width: 1em;
     height: 1em;
     transition: all 0.5s ease;

@@ -70,6 +70,7 @@ const BackgroundWrapper = styled.div`
     background-image: ${({background}) => `url(${background})`};
     background-size: cover;
     transition: all 0.3s ease;
+    width: 13.2425em;
 `;
 
 const TagWrapper = styled.div`
@@ -103,6 +104,7 @@ const DetailsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
+    width: 13.2425em;
 `;
 
 const TitleWrapper = styled.div`

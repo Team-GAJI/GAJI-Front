@@ -2,7 +2,7 @@ import { api } from "../API";
 
 export const studyInfoAPI = async (roomId) => {
     try {
-        const response = await api.get(`/api/studyRecruitPosts/${roomId}`);
+        const response = await api.get(`/api/studyRooms/home/${roomId}`);
         console.log(response)
 
     } catch (error) {
