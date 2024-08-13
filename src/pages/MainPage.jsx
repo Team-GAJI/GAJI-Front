@@ -60,7 +60,7 @@ const MainPage = () => {
 
             {/* 인기 스터디 미리보기 */}
             <ViewAllWrapper>
-                <TitleText>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
+                <TitleText onClick={() => {navigate("/study");}}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
                 <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
             </ViewAllWrapper>
             <BlogPreviewWrapper>
@@ -80,7 +80,7 @@ const MainPage = () => {
 
             {/* 최신 스터디 미리보기 */}
             <ViewAllWrapper>
-                <TitleText>가장 최신의 스터디를 둘러보세요!</TitleText>
+                <TitleText onClick={() => {navigate("/study");}}>가장 최신의 스터디를 둘러보세요!</TitleText>
                 <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
             </ViewAllWrapper>
             <BlogPreviewWrapper>
@@ -101,7 +101,7 @@ const MainPage = () => {
 
             {/* 커뮤니티 미리보기 */}
             <ViewAllWrapper>
-                <TitleText>&#039;가지&#039;의 커뮤니티! 다 같이 성장해봐요!</TitleText>
+                <TitleText onClick={() => {navigate("/community");}}>&#039;가지&#039;의 커뮤니티! 다 같이 성장해봐요!</TitleText>
                 <Arrow onClick={() => {navigate("/community");}}>&gt;</Arrow>
             </ViewAllWrapper>
             <BlogPreviewWrapper>
@@ -227,6 +227,7 @@ const ViewAllWrapper = styled.div`
 `;
 
 const TitleText = styled.div`
+    cursor: pointer;
     font-weight: 800;
 `;
 
