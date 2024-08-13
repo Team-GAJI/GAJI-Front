@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import BackgroundImage from "../assets/images/troubleshooting/titleBackground.png";
+import { useNavigate } from "react-router-dom";
 import WritePost from "../components/communityWrite/WritePost";
+import PageHeader from "../components/common/PageHeader";
 
 const TroubleshootingRegistrationPage = () => {
   const [hashtags, setHashtags] = useState([""]);
+  const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+  const navigate = useNavigate();
 
   const handleKeyPress = (e, index) => {
     if (e.key === "Enter") {
@@ -26,20 +29,33 @@ const TroubleshootingRegistrationPage = () => {
     setHashtags(newHashtags);
   };
 
+  const handleNavigate = (index) => {
+    if (index === 0) {
+      navigate("/studyroom"); // Navigate to /studyroom when "스터디 홈" is clicked
+    } else {
+      setActiveButtonIndex(index); // Set the active button index
+    }
+  };
+
+  const headerTitles = [
+    "스터디 홈",
+    "트러블 슈팅 게시판",
+    "정보나눔 게시판",
+    "채팅방",
+  ];
+
   return (
     <>
-      {/* Header */}
-      <HeaderWrapper>
-        <Title>트러블슈팅 게시판 글쓰기</Title>
-        <ButtonsWrapper>
-          <StyledButton isActive={true}>스터디 홈</StyledButton>
-          <StyledButton isActive={true}>트러블 슈팅</StyledButton>
-          <StyledButton isActive={true}>정보나눔</StyledButton>
-          <StyledButton isActive={true}>채팅방</StyledButton>
-        </ButtonsWrapper>
-      </HeaderWrapper>
+      <PageHeader
+        large={true}
+        pageTitle="트러블슈팅 게시판 글쓰기"
+        headerTitles={headerTitles}
+        activeButtonIndex={activeButtonIndex}
+        onButtonClick={handleNavigate}
+        changeColorOnClick={false}
+        changeColorOnHover={true}
+      />
 
-      {/* Form */}
       <PostsWrapper>
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
@@ -59,7 +75,6 @@ const TroubleshootingRegistrationPage = () => {
 
         <PostTitle>게시글 제목</PostTitle>
 
-        {/* Write Post */}
         <WritePost />
       </PostsWrapper>
     </>
@@ -67,49 +82,6 @@ const TroubleshootingRegistrationPage = () => {
 };
 
 export default TroubleshootingRegistrationPage;
-
-const HeaderWrapper = styled.div`
-  height: 16.1875em;
-  background-image: url(${BackgroundImage});
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
-
-const Title = styled.div`
-  margin-bottom: 0.5em;
-  font-size: 1.5em;
-  font-weight: 800;
-  font-family: "NanumSquareNeo", sans-serif;
-  color: #8e59ff;
-`;
-
-const ButtonsWrapper = styled.div`
-  margin-top: 1em;
-`;
-
-const StyledButton = styled.button`
-  margin: 0.3em;
-  border: none;
-  border-radius: 10px;
-  margin-right: 10px;
-  width: 140px;
-  height: 2.2em;
-  background-color: #8e59ff;
-  opacity: 0.6;
-  color: white;
-  font-size: 0.9em;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  font-family: "NanumSquareNeo", sans-serif;
-
-  &:hover {
-    opacity: 1;
-  }
-`;
 
 const PostsWrapper = styled.div`
   margin: 2.5em 0 6em 0;

@@ -308,6 +308,9 @@ const ItemContent = styled.div`
 const ItemTitle = styled.h2`
   font-size: 1em;
   margin-bottom: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ItemDetails = styled.div`
@@ -332,11 +335,11 @@ const UserIconImg = styled.img`
 `;
 
 const ItemTime = styled.p`
-  font-size: 0.75em;
+  font-size: 0.5em;
   color: #d0d1d9;
 `;
 
 const ItemViews = styled.p`
-  font-size: 0.75em;
+  font-size: 0.5em;
   color: #d0d1d9;
 `;

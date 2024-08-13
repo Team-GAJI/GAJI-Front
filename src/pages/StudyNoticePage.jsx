@@ -1,29 +1,8 @@
 import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Notices from "../components/studyRoom/Notices";
-import backImage from "../assets/images/common/mypageBackground.png";
-
-// Global styles 폰트적용
-const GlobalStyles = createGlobalStyle`
-  @font-face {
-    font-family: 'NanumSquareNeo';
-    src: url('../assets/font/NanumSquareNeoTTF-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'NanumSquareNeo';
-    src: url('../assets/font/NanumSquareNeoTTF-Bd.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-  }
-
-  body {
-    font-family: 'NanumSquareNeo', sans-serif;
-  }
-`;
+import PageHeader from "../components/common/PageHeader";
 
 const StudyNoticePage = () => {
   const navigate = useNavigate();
@@ -79,6 +58,10 @@ const StudyNoticePage = () => {
     navigate("/troubleshooting");
   };
 
+  const handleNavigateToStudyRoom = () => {
+    navigate("/studyroom");
+  };
+
   const moveToTop = (index) => {
     const updatedNotices = [...notices];
     const [selectedNotice] = updatedNotices.splice(index, 1);
@@ -86,114 +69,57 @@ const StudyNoticePage = () => {
     setNotices(updatedNotices);
   };
 
+  const headerTitles = [
+    "스터디 홈",
+    "트러블 슈팅 게시판",
+    "정보나눔 게시판",
+    "채팅방",
+  ];
+
   return (
     <>
-      <GlobalStyles />
-      <HeaderWrapper>
-        <ContentWrapper>
-          <RowLogoWrapper>
-            <LogoText>스터디룸 공지사항</LogoText>
-          </RowLogoWrapper>
+      <PageHeader
+        large={true}
+        pageTitle="스터디룸 공지사항"
+        headerTitles={headerTitles}
+        activeButtonIndex={1}
+        onButtonClick={(index) => {
+          if (index === 0) handleNavigateToStudyRoom();
+          if (index === 1) handleNavigateToTroubleshooting();
+        }}
+        changeColorOnClick={false}
+        changeColorOnHover={true}
+      />
+      <ContentWrapper>
+        <MainSection1>
+          <ColumnWrapper>
+            <Container>
+              <Text>스터디명 공지사항</Text>
+              <WritingButton onClick={handleNavigateToRegister}>
+                + 공지사항 작성
+              </WritingButton>
+            </Container>
 
-          {/* 카테고리 메뉴 선택 */}
-          <ButtonsWrapper>
-            <StyledButton isActive={true}>스터디 홈</StyledButton>
-            <StyledButton
-              isActive={true}
-              onClick={handleNavigateToTroubleshooting}
-            >
-              트러블 슈팅
-            </StyledButton>
-            <StyledButton isActive={true}>정보나눔</StyledButton>
-            <StyledButton isActive={true}>채팅방</StyledButton>
-          </ButtonsWrapper>
-          <MainSection1>
-            <ColumnWrapper>
-              <Container>
-                <Text>스터디명 공지사항</Text>
-                <WritingButton onClick={handleNavigateToRegister}>
-                  + 공지사항 작성
-                </WritingButton>
-              </Container>
-
-              <NoticeSquareWrapper>
-                <Notices
-                  notices={notices}
-                  onMoveToTop={moveToTop}
-                  hoveredIndex={hoveredIndex}
-                  setHoveredIndex={setHoveredIndex}
-                />
-              </NoticeSquareWrapper>
-            </ColumnWrapper>
-          </MainSection1>
-        </ContentWrapper>
-      </HeaderWrapper>
+            <NoticeSquareWrapper>
+              <Notices
+                notices={notices}
+                onMoveToTop={moveToTop}
+                hoveredIndex={hoveredIndex}
+                setHoveredIndex={setHoveredIndex}
+              />
+            </NoticeSquareWrapper>
+          </ColumnWrapper>
+        </MainSection1>
+      </ContentWrapper>
     </>
   );
 };
-export default StudyNoticePage;
 
-const HeaderWrapper = styled.div`
-  z-index: 5;
-  background-color: #fbfaff;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding: 0 3.1em;
-  font-family: "NanumSquareNeo", sans-serif;
-`;
+export default StudyNoticePage;
 
 const ContentWrapper = styled.div`
   flex-grow: 1;
   font-family: "NanumSquareNeo", sans-serif;
-`;
-
-const RowLogoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.9em;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1.25em;
-  background-image: url(${backImage});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-`;
-
-const LogoText = styled.div`
-  font-size: 1.2em;
-  font-weight: 800;
-  color: #8e59ff;
-  font-family: "NanumSquareNeo", sans-serif;
-`;
-
-const ButtonsWrapper = styled.div`
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "NanumSquareNeo", sans-serif;
-`;
-
-const StyledButton = styled.button`
-  margin: 0.3em;
-  border: none;
-  border-radius: 10px;
-  margin-right: 10px;
-  width: 140px;
-  height: 2.2em;
-  background-color: #8e59ff;
-  opacity: 0.6;
-  color: white;
-  font-size: 0.9em;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  font-family: "NanumSquareNeo", sans-serif;
-
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 const MainSection1 = styled.section`

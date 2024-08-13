@@ -32,19 +32,19 @@ const CommunityPostPage = () => {
   const handleBookMark = () => {
     if (bookMarkState) {
       setBookMarkState(false);
-      setBookMarkCount(prevCount => prevCount - 1);
+      setBookMarkCount((prevCount) => prevCount - 1);
     } else {
       setBookMarkState(true);
-      setBookMarkCount(prevCount => prevCount + 1);
+      setBookMarkCount((prevCount) => prevCount + 1);
     }
   };
   const handleLike = () => {
     if (likeState) {
       setLikeState(false);
-      setLikeCount(prevCount => prevCount - 1);
+      setLikeCount((prevCount) => prevCount - 1);
     } else {
       setLikeState(true);
-      setLikeCount(prevCount => prevCount + 1);
+      setLikeCount((prevCount) => prevCount + 1);
     }
   };
 
@@ -119,13 +119,16 @@ const CommunityPostPage = () => {
           {/* 게시글 상호작용 */}
           <InteractionWrapper>
             <BookMarkWrapper>
-              <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState}/>
+              <StyledBookMarkIcon
+                onClick={handleBookMark}
+                bookMarkState={bookMarkState}
+              />
               <InteractionText>
                 {formatNumberWithCommas(bookMarkCount)}
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledLikeIcon onClick={handleLike} likeState={likeState}/>
+              <StyledLikeIcon onClick={handleLike} likeState={likeState} />
               <InteractionText>
                 {formatNumberWithCommas(likeCount)}
               </InteractionText>
@@ -265,7 +268,7 @@ const Hashtag = styled.div`
   border-radius: 15px;
   height: 1.8182em;
   line-height: 1.8182em;
-  background-color: #8E59FF;
+  background-color: #8e59ff;
   color: white;
   font-size: 0.6875em;
   font-weight: bold;
@@ -363,11 +366,11 @@ const PostStateOption = styled.div`
   cursor: pointer;
   text-align: center;
   color: ${(props) => (props.isSelected ? "white" : "#D0D1D9")};
-    font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
-    &:hover{
-        color: white;
-        font-weight: bold;
-    }
+  font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
+  &:hover {
+    color: white;
+    font-weight: bold;
+  }
 `;
 
 const PostContentWrapper = styled.div`
@@ -381,7 +384,7 @@ const PostContent = styled.div`
   margin: 1.5em 0;
   width: 68em;
   min-height: 22em;
-  color: #161A3F;
+  color: #161a3f;
 `;
 
 // const ExtraPostsWrapper = styled.div`
