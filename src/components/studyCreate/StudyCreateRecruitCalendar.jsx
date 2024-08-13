@@ -4,7 +4,7 @@ import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
 import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../style/Color';
 
-const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
+const StudyCreateRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -129,7 +129,7 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
     );
 };
 
-export default StudyCreateCalendar;
+export default StudyCreateRecruitCalendar;
 
 const StyledPrevMonth = styled(PrevMonth)`
     width: 0.61em;

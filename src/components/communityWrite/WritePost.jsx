@@ -8,6 +8,7 @@ import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
+import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
 
 const WritePost = () => {
     // 상태 관리
@@ -18,6 +19,31 @@ const WritePost = () => {
     const [fontSize, setFontSize] = useState('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
+
+    const data = {
+        "title": title,
+        "body": markdown,
+        "thumbnailUrl": "string",
+        "type": "스터디",
+        "hashtagList": [
+          "string"
+        ],
+        "categoryIdList": [
+          0
+        ]
+      }
+
+    const handleSubmit = async () => {
+        try {
+            navigate("/community/post", { state: {data: data} }); 
+            const result = await communityWriteAPI(data);
+            console.log(result)
+
+        } catch (error) {
+            console.error('스터디 생성 중 오류 발생:', error);
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+        }
+    };
 
     // 제목 하단바 색상 관리
     const handlePurpleHr = () => {
@@ -178,13 +204,16 @@ const WritePost = () => {
             </TextareaWrapper>
 
             {/* 업로드 버튼 */}
-            <SubmitButton onClick={() =>
+            {/* <SubmitButton onClick={() =>
                 {navigate("/community/post",{
                     state: {
                         title: title,
                         content: markdown,
                     },
                 });}}>
+                게시글 업로드
+            </SubmitButton> */}
+            <SubmitButton onClick={()=>handleSubmit()}>
                 게시글 업로드
             </SubmitButton>
 
