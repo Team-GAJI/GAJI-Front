@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import backImage from '../assets/images/common/mypageBackground.png';
 import NoticeAlarm from '../assets/icons/noticeRoom/NoticeAlarm.png';
+import PageHeader from '../components/common/PageHeader';
+import { useNavigate } from 'react-router-dom';
 
 const StudyNoticePage = () => {
 
@@ -44,22 +45,33 @@ const StudyNoticePage = () => {
       ];
 
       const [hoveredIndex, setHoveredIndex] = useState(null);
+      const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
+      const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+      const navigate = useNavigate();
+      const handleHeaderButtonClick = (index) => {
+          setActiveButtonIndex(index);
+          if (index == 0) {
+            navigate('/studyroom')
+        } else if (index == 1) {
+          navigate('/troubleshooting')
+        } else {
+          navigate('/')
+        }
+      };
     return (
         <>
         <HeaderWrapper>
             <ContentWrapper>
 
-            <RowLogoWrapper>
-                    <LogoText>스터디룸 공지사항</LogoText>
-            </RowLogoWrapper>
-
-                {/* 카테고리 메뉴 선택 */}
-            <RowSelectWrapper>
-                    <SelectButton>스터디 홈 </SelectButton>
-                    <SelectButton>트러블 슈팅 게시판 </SelectButton>
-                    <SelectButton>정보나눔 게시판 </SelectButton>
-                    <SelectButton>채팅방</SelectButton> 
-            </RowSelectWrapper>
+            <PageHeader
+              large={true}
+              pageTitle="스터디룸"
+              headerTitles={headerTitles}
+              activeButtonIndex={activeButtonIndex}
+              onButtonClick={handleHeaderButtonClick}
+              changeColorOnClick={false}
+              changeColorOnHover={true}
+          />
             <MainSection1>
             <SidebarWrapper>
                   <Sidebar1>
@@ -132,42 +144,7 @@ const HeaderWrapper = styled.div`
 const ContentWrapper = styled.div`
     flex-grow: 1;
 `;
-const RowLogoWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.9em;
-    flex-direction: column; 
-    justify-content: center; 
-    padding: 1.25em;
 
-    background-image: url(${backImage}); 
-    background-repeat: no-repeat; 
-    background-size: cover; 
-    background-position: center;
-`;
-const LogoText = styled.div`
-    font-size: 1.2em;
-    font-weight: 800;
-    color: #8E59FF;
-`;
-const RowSelectWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    margin-top: 0.625em; 
-    margin-left: 18.625em; 
-    gap: 0.3125em; 
-`;
-const SelectButton = styled.div`
-     background-color: #8E59FF;
-    border-radius: 0.5em; 
-    font-size: 0.8125em; 
-    font-weight: 700;
-    text-align: center;
-    padding: 0.8125em; 
-    color: #FFFFFF;
-    cursor: pointer;
-    width: 9.375em; 
-`;
 const MainSection1 = styled.section`
   display: flex;
   flex: 1;

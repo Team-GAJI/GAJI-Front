@@ -15,6 +15,7 @@ const MainPage = () => {
     // 스터디 불러오기
     useEffect(() => {
         setStudies(dummyStudyPosts);
+        console.log(category)
     }, []);
 
     // useNavigate
@@ -418,6 +419,7 @@ const ViewAllWrapper = styled.div`
     color: #D0D1D9;
     font-size: 0.8125em;
     display: flex;
+    align-items: center;
 `;
 
 const StudyPreviewWrapper = styled.div`

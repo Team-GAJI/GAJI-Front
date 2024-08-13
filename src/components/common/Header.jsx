@@ -18,7 +18,9 @@ const Header = () => {
 
     const toggleMenu = () => {
         setMenuVisible(!menuVisible);
-    };
+        const timer = setTimeout(() => setMenuVisible(false), 3000);
+            return () => clearTimeout(timer);  // 3초후 자동으로 취소
+        }
 
     return (
         <HeaderWrapper>

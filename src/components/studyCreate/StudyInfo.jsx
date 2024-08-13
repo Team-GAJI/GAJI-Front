@@ -1,36 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import WriteSelectBox from '../communityWrite/WriteSelectBox';
-import StudyCreateLinkEmbed from './StudyCreateLinkEmbed';
+import ThumbNailImg from '../../assets/images/studyDetail/thumbNailImg.png';
+import StudyData from './StudyData';
 
 const StudyInfo = () => {
     // state 관리
     const [memberCount, setMemberCount] = useState(0);
+    const [isWarningVisible, setIsWarningVisible] = useState(false);
+    const [lengthCount, setLengthCount] = useState(0);
     const [styledHr, setStyledHr] = useState(false);
-    const [isOn, setisOn] = useState(false);
+    const [isOn, setIsOn] = useState(true);
+    const [imgFile, setImgFile] = useState("");
 
     // 인원수 카운터
     const increaseCount = () => {
         setMemberCount(memberCount + 1);
+        setIsWarningVisible(false);
     }
     const decreaseCount = () => {
-        if (memberCount !== 0) {
-        setMemberCount(memberCount - 1);
+        if (memberCount === 0) {
+            setIsWarningVisible(true);
+        } else if (memberCount === 1) {
+            setMemberCount(memberCount - 1);
+            setIsWarningVisible(true);
+        } else {
+            setMemberCount(memberCount - 1);
+            setIsWarningVisible(false);
         }
     }
 
+    // 제목 글자 수 관리
+    const handleTitleLength = (e) => {
+        setLengthCount(e.target.value.length);
+    };
+
     // 제목 하단바 색상 관리
-    const handlePurpleHr = () => {
-        setStyledHr(true);
-    };
-    const handleGrayHr = () => {
-        setStyledHr(false);
-    };
+    const handlePurpleHr = () => setStyledHr(true);
+    const handleGrayHr = () => setStyledHr(false);
     
-    // 토글 기능
-    const toggleHandler = () => {
-        setisOn(!isOn)
+    // 이미지 업로드 input의 onChange
+    const imgRef = useRef();
+    const saveImgFile = () => {
+        const file = imgRef.current.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImgFile(reader.result);
+        };
     };
+
+    // 토글 기능
+    const handleToggle = () => setIsOn(!isOn);
+    const onToggle = () => setIsOn(true);
+    const offToggle = () => setIsOn(false);
 
     return (
         <ComponentWrapper>
@@ -38,19 +61,28 @@ const StudyInfo = () => {
             <TopWrapper>
                 <WriteSelectBox/>
                 <TotalMembersWrapper>
-                    <Text>최대 인원수 설정</Text>
-                    <CountButton onClick={decreaseCount}>-</CountButton>
-                    <TotalCount>{memberCount}</TotalCount>
-                    <CountButton onClick={increaseCount}>+</CountButton>
+                    <CounterWrapper>
+                        <Text>최대 인원수 설정</Text>
+                        <CountButton onClick={decreaseCount}>-</CountButton>
+                        <TotalCount>{memberCount}</TotalCount>
+                        <CountButton onClick={increaseCount}>+</CountButton>
+                    </CounterWrapper>
+                    <WanringText isVisible={isWarningVisible}>인원수는 1명 이상이어야 합니다!</WanringText>
                 </TotalMembersWrapper>
             </TopWrapper>
 
             {/* 제목 입력 영역 */}
             <TitleWrapper>
-                <TitleInput
-                    onFocus={handlePurpleHr}
-                    onBlur={handleGrayHr}
-                    placeholder='스터디 명을 입력해주세요'/>
+                <InputWrapper>
+                    <TitleInput
+                        onFocus={handlePurpleHr}
+                        onBlur={handleGrayHr}
+                        onChange={handleTitleLength}
+                        placeholder='스터디 명을 입력해주세요'
+                        maxLength='20'
+                    />
+                <TextLength lengthCount={lengthCount}>{lengthCount}/20 자</TextLength>
+                </InputWrapper>
                 <StyledTitleHr styledHr={styledHr}/>
             </TitleWrapper>
 
@@ -60,40 +92,34 @@ const StudyInfo = () => {
                     대표 이미지 
                 </Title>
                 <UploadWrapper>
+                    {/* 업로드 버튼 */}
                     <ImageWrapper>
-                        <FileInputWrapper>
-                            <HiddenFileInput id="file-upload" />
-                            <FileInputLabel htmlFor="file-upload">이미지 업로드</FileInputLabel>
-                        </FileInputWrapper>
+                        <FileInputLabel htmlFor="file">
+                            이미지 업로드
+                        </FileInputLabel>
+                        <ImageUploadInput type="file" id="file" accept=".png"
+                                            onChange={saveImgFile}
+                                            ref={imgRef}/>
                         <ImageText>용량 제한: 232123mb</ImageText>
                         <ImageText>파일 형식: png만 가능</ImageText>
                     </ImageWrapper>
-                    <PreivewWrapper></PreivewWrapper>
+                    {/* 미리보기 */}
+                    <PreivewWrapper isImgFile={imgFile}>
+                    </PreivewWrapper>
                 </UploadWrapper>
             </ThumbNailWrapper>
 
             {/* 스터디자료 링크 영역 */}
-            <StudyDataWrapper>
-                <Title>
-                    스터디 자료 링크 
-                </Title>
-                <LinkInput placeholder='링크를 입력해주세요'/>
-                <LinkEmbedWrapper>
-                    <StudyCreateLinkEmbed/>
-                    <StudyCreateLinkEmbed/>
-                    <StudyCreateLinkEmbed/>
-                </LinkEmbedWrapper>
+            <StudyData/>
 
-                <FlexContainer>
-                    <ToggleContainer onClick={toggleHandler}>
-                        <div className={`toggle-container ${isOn ? "toggle--checked" : ""}`}/>
-                        <div className={`toggle-circle ${isOn ? "toggle--checked" : ""}`}/>
-                    </ToggleContainer>
-                    <Text7 className={`text ${isOn ? "OFF" : "ON"}`}>공개</Text7>
-                    <Text6 className={`text ${isOn ? "ON" : "OFF"}`}>비공개</Text6>
-                </FlexContainer>
-
-            </StudyDataWrapper>
+            {/* 공개/비공개 토글 영역 */}
+            <ToggleWrapper>
+                <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
+                <ToggleBox onClick={handleToggle}>
+                    <Toggle isOn={isOn}></Toggle>
+                </ToggleBox>
+                <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
+            </ToggleWrapper>
         </ComponentWrapper>
     );
 };
@@ -102,7 +128,7 @@ export default StudyInfo;
 
 /* CSS */
 const ComponentWrapper = styled.div`
-    padding: 3em 3em 1em 3em;
+    padding: 3em 3em 2em 3em;
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 59em;
@@ -119,7 +145,23 @@ const TopWrapper = styled.div`
 
 const TotalMembersWrapper = styled.div`
     display: flex;
+    flex-direction: column;
+    align-items: end;
+`;
+
+const CounterWrapper = styled.div`
+    display: flex;
     align-items: center;
+`;
+
+const WanringText = styled.div`
+    margin-top: 0.5em;
+    color: red;
+    font-size: 0.8125em;
+    font-weight: bold;
+    visibility: ${(props) => (props.isVisible ? 'visibility' : 'hidden')};
+    opacity: ${(props) => (props.isVisible ? '1' : '0')};
+    transition: all 0.3s ease;
 `;
 
 const Text = styled.div`
@@ -157,10 +199,16 @@ const TitleWrapper = styled.div`
     width: 100%;
 `;
 
+const InputWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
-    width: 71.4em;
+    width: 65em;
     widht: 100%;
     height: 3em;
     background-color: transparent;
@@ -177,6 +225,14 @@ const TitleInput = styled.input`
     }
 `;
 
+const TextLength = styled.div`
+    margin-right: 1em;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
+    transition: all 0.3s ease;
+`;
+
 const StyledTitleHr = styled.hr`
     margin: 0;
     border: none;
@@ -185,7 +241,6 @@ const StyledTitleHr = styled.hr`
     box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
     transition: all 0.3s ease
 `;
-
 
 const ThumbNailWrapper = styled.div`
     margin-bottom: 1em;
@@ -210,157 +265,86 @@ const ImageWrapper = styled.div`
     flex-direction: column;
     border: 1px solid #A2A3B2;
     border-radius: 10px; 
-    width: 25em; 
+    width: 35em; 
     height: 11.625em; 
     align-items: center;
-    gap: 0.3125em; 
-`;
-
-const ImageText = styled.p`
-    color: #D0D1D9;
-    font-size: 0.9375em; 
-    font-weight: 700;
-    margin-bottom: -0.625em; 
-`;
-
-const FileInputWrapper = styled.div`
-    position: relative;
-    display: inline-block;
-`;
-
-const HiddenFileInput = styled.input.attrs({ type: 'file' })`
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
+    justify-content: center;
 `;
 
 const FileInputLabel = styled.label`
-    display: inline-block;
-    cursor: pointer;
-    z-index: 0;
-    font-size: 0.8125em; 
-    width: 7.5em; 
-    border: 1px solid #8E59FF;
+    margin: 1em;
+    border: 1.2px solid #8E59FF;
     border-radius: 10px;
-    font-weight: 800;
-    padding: 0.7em; 
+    width: 8.4615em;
+    height: 2.2308em;
+    line-height: 2.2308em;
     text-align: center;
     color: #8E59FF;
-    margin-top: 6.25em; 
-    background-color: transparent;
+    font-size: 0.8125em;
+    font-weight: bold;
+    cursor: pointer;
+`;
+
+const ImageUploadInput = styled.input`
+    display: none;
+`;
+
+const ImageText = styled.div`
+    margin-bottom: 0.3em;
+    color: #A2A3B2;
+    font-size: 0.6875em;
+    font-weight: bold;
 `;
 
 const PreivewWrapper = styled.div`
     border: 1px solid #A2A3B2;
     border-radius: 10px; 
-    width: 31.3125em; 
+    width: 19.8732em; 
     height: 11.625em; 
+    background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
+    background-size: cover;
 `;
 
-const StudyDataWrapper = styled.div`
-    width: 58em;
-    display: flex;
-    flex-direction: column;
-`;
-
-const LinkInput = styled.input`
-    padding-left: 1em;
-    border: 1px solid #A2A3B2;
-    border-radius: 10px;
-    width: 100%;
-    height: 2.8125em;
-    background-color: transparent;
-    font-family: 'NanumSquareNeo';
-    font-weight: bold;
-    &:focus{
-        outline: none;
-    }
-    transition: all 0.3s ease;
-    &::placeholder{
-        color: #A2A3B2;
-        font-size: 0.9em;
-        font-weight: bold;
-    }
-`;
-
-const LinkEmbedWrapper = styled.div`
-    margin-top: 1em;
-    width: 100%;
-    display: flex;
-`;
-
-const FlexContainer = styled.div`
+const ToggleWrapper = styled.div`
+    margin-top: 2em;
     display: flex;
     align-items: center;
-    margin-top: 1.5em;
 `;
 
-const ToggleContainer = styled.div`
-    position: relative;
-    left: 6.3em;
+const OnToggleText = styled.div`
+    color: ${(props) => (props.isOn ? '#8E59FF' : '#A2A3B2')};
+    font-size: 0.9em;
+    font-weight: bold;
     cursor: pointer;
-
-    .toggle-container {
-        width: 3.4375em; 
-        height: 1.5em; 
-        border-radius: 1.875em; 
-        border: 1px solid #8E59FF;
-    }
-    .toggle--checked.toggle-container {
-        left: 2em; 
-        background-color: #FFFFFF;
-    }
-    .toggle--checked {
-        transition: 0.5s;
-    }
-
-    .toggle-circle {
-        position: absolute;
-        top: 0.1em; 
-        left: 0.14375em;
-        width: 1.375em; 
-        height: 1.375em; 
-        border-radius: 50%;
-        background-color: #8E59FF;
-        transition: 0.5s;
-    }
-
-    .toggle--checked.toggle-circle {
-        left: 2em;
-        background-color: #8E59FF;
-    }
+    transition: all 0.3s ease;
 `;
 
-const Text6 = styled.p`
-    color: #8E59FF;
-    font-size: 0.9375em; 
-    font-weight: 700;
-    margin-left: 5em;
-    
-    &.OFF {
-        color: #A2A3B2;
-    }
-
-    &.ON {
-        color: #8E59FF;
-    }
+const OffToggleText = styled.div`
+    color: ${(props) => (props.isOn ? '#A2A3B2' : '#8E59FF')};
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
 `;
 
-const Text7 = styled.p`
-    color: #8E59FF;
-    font-size: 0.9375em; 
-    font-weight: 700;
-    margin-left: 0;
-    padding: 0.3125em; 
-  &.OFF {
-    color: #A2A3B2;
-  }
+const ToggleBox = styled.div`
+    margin: 0 0.8em;
+    border: 1.5px solid #8E59FF;
+    border-radius: 10px;
+    width: 3.5em;
+    height: 1.4375em;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+`;
 
-  &.ON {
-    color: #8E59FF;
-  }
+const Toggle = styled.div`
+    border-radius: 30px;
+    width: 1em;
+    height: 1em;
+    background-color: #8E59FF;
+    position: absolute;
+    left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
+    transition: all 0.3s ease-out;
 `;
