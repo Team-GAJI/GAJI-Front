@@ -18,9 +18,17 @@ const ManageWeekBasics = ({ selectedWeek }) => {
     const handleStudyDescriptionChange = (event) => {
       setStudyDescription(event.target.value);
     };
-    
 
-
+    // const handleSubmit = async () => {
+    //     try {
+    //         // const roomId = '...?'; 
+    //         const weeks = selectedWeek;
+    //         await descriptionAPI(roomId, weeks);
+    //         alert('성공');
+    //     } catch (error) {
+    //         alert('실패');
+    //     }
+    // };
 
     return(
         <Container>
@@ -47,6 +55,15 @@ const ManageWeekBasics = ({ selectedWeek }) => {
                 />
                 {!studyDescription && <ExStudyCharCount>0자/800자</ExStudyCharCount>}
                 </ExWrapper>
+{/* 
+                <ExWrapper>
+                    <InputExStudy
+                        placeholder="설명을 입력해주세요"
+                        value={studyDescription}
+                        onChange={handleStudyDescriptionChange}
+                    />
+                </ExWrapper> */}
+
                 </Container>
             </RowContainer>  
             <Container>
