@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Calendar from './StudyManageCalendar.jsx';
 import { studyManageDateAPI } from '../../utils/studyManage/studyManageDateAPI.jsx';
 
-const ManageDate = () => {
-    // 스터디 기한 API
-    const StudyList = ({ isCurrent }) => {
-    
-        // const navigate = useNavigate();
-    
-        const handleStudyRoom = async (roomId) => {
-            try {
-                const response = await studyManageDateAPI(roomId);
-                // navigate('/studyroom', { state: { data: response } });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-    }
+const ManageDate = ({ roomId, Weeks, userId }) => {
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
+    const managedate = async (roomId, Weeks, userId) => {
+        try {
+            const response = await studyManageDateAPI(roomId, Weeks, userId);
+            setStartDate(response.data.startDate || '날짜 없음');
+            setEndDate(response.data.endDate || '날짜 없음');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        managedate(roomId, Weeks, userId);
+    }, [roomId, Weeks, userId]);
+
     return(
         <Container>
             <Text2>스터디 기한</Text2>
@@ -31,11 +34,11 @@ const ManageDate = () => {
                         <DeadlineWrapper>
                             <Text8>스터디 모집 기한</Text8>
                             <SidebarButton>입력하기</SidebarButton>
-                            <RowWrapper2>
+                              <RowWrapper2>
                                 <StartButton>시작</StartButton>
-                                <DateText>3월 1일</DateText>
+                                <DateText>{startDate}</DateText>
                                 <EndButton>끝</EndButton>
-                                <DateText>3월 1일</DateText>
+                                <DateText>{endDate}</DateText> 
                             </RowWrapper2>
                         </DeadlineWrapper>
                         <DeadlineWrapper>

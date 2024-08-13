@@ -9,7 +9,7 @@ import ManageBasics from '../components/studyManage/ManageBasics';
 import ManageDate from '../components/studyManage/ManageDate';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 import PageHeader from '../components/common/PageHeader';
-
+import ManageInfo from '../components/studyManage/ManageInfo';
 const StudyManagePage = () => {
     // n주차 버튼 기능
 
@@ -102,8 +102,7 @@ const StudyManagePage = () => {
               </PlusButton>
             </Sidebar1>
           </SidebarWrapper>
-
-           <ManageBasics/>
+            <ManageInfo/>
            <ManageDate/>
            <ManageDetailed/>
         </MainSection>
@@ -130,7 +129,7 @@ const Wrapper = styled.div`
 
 const SidebarWrapper = styled.div`
     position: absolute; 
-    margin-top: 1.25em; 
+    margin-top: -3.2em; 
     right: -2.375em; 
     height: 100vh; 
     width: 15.625em;
