@@ -6,9 +6,29 @@ import StudyInfo from '../components/studyCreate/StudyInfo';
 import StudyPeriod from '../components/studyCreate/StudyPeriod';
 import StudyDetail from '../components/studyCreate/StudyDetail';
 
+
 const StudyCreatePage = () => {
     // useNavigate
     const navigate = useNavigate();
+
+    const data = {
+            "name": "string",
+            "description": "string",
+            "thumbnailUrl": "string",
+            "materialList": [
+            "string"
+            ],
+            "recruitStartDay": "2024-08-13",
+            "recruitEndDay": "2024-08-13",
+            "studyStartDay": "2024-08-13",
+            "studyEndDay": "2024-08-13",
+            "peopleLimited": true,
+            "peopleMaximum": -1,
+            "categoryList": [
+            "개발"
+        ],
+        "private": true
+    }
 
     return (
         <PageWrapper>
@@ -42,7 +62,7 @@ const StudyCreatePage = () => {
                 </ContentWrapper>
 
                 {/* 제출 버튼 */}
-                <SubmitButton onClick={() => {navigate("/studydetail");}}>
+                <SubmitButton onClick={() => navigate("/studydetail", { state: data })}>
                 스터디 만들기
             </SubmitButton>
             </ContentContainer>

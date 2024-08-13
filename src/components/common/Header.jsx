@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuIcon from '../../assets/icons/common/menuBar.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeTokens } from '../../feautres/auth/authSlice';
 import userProfileUrl from '../../assets/images/common/userProfile.png';
 
 const Header = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const accessToken = useSelector((state) => state.auth.accessToken);
+    const accessToken = localStorage.getItem('accessToken');
     const [menuVisible, setMenuVisible] = useState(false);
 
     const handleLogout = () => {
-        dispatch(removeTokens());
+        
     };
 
     const toggleMenu = () => {
