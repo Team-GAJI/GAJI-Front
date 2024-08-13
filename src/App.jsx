@@ -81,7 +81,7 @@ function App() {
         <Route  exact path="/troubleshooting" element={<TroubleShootingPage />} />
         {/* 트러블슈팅 페이지, 문제 해결을 위한 도움말 페이지 */}
         
-        <Route exact  path="/troubleshooting-register" element={<TroubleshootingRegistrationPage/>}/>
+        <Route path="/troubleshooting-register" element={<TroubleshootingRegistrationPage/>}/>
         {/* 사용자가 문제를 보고하는 트러블슈팅 등록 페이지 */}
       </Route>
     </Routes>

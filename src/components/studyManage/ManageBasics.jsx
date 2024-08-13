@@ -38,6 +38,21 @@ const ManageBasics = () => {
       setisOn(!isOn)
     };
 
+    // 이미지 업로드 
+    const [files, setFiles] = useState([]);
+
+    const handleFileChange = (e) => {
+      const newFiles = Array.from(e.target.files);
+      if (newFiles.length + files.length > 5) {
+        alert("최대 5개의 파일만 업로드할 수 있습니다.");
+        return;
+      }
+      setFiles([...files, ...newFiles.map((file) => file.name)]);
+    };
+  
+    const handleFileDelete = (fileNameToDelete) => {
+      setFiles(files.filter(fileName => fileName !== fileNameToDelete));
+    };
 
     return(
         <Container>
@@ -67,13 +82,36 @@ const ManageBasics = () => {
         <DivisionLine2/>
             <RowContainer>
             <ImageWrapper>
-            <FileInputWrapper>
-                    <HiddenFileInput id="file-upload" />
+                <FileInputWrapper>
+                    <HiddenFileInput
+                    id="file-upload"
+                    type="file"
+                    accept="image/png"
+                    multiple
+                    onChange={handleFileChange}
+                    />
+                    {files.length < 5 && (
                     <FileInputLabel htmlFor="file-upload">이미지 업로드</FileInputLabel>
-                    </FileInputWrapper>
-                <ImageText>용량 제한: 232123mb</ImageText>
-                <ImageText>파일 형식: png만 가능 (이런 식으로)</ImageText>
+                    )}
+                </FileInputWrapper>
+
+                {files.length === 0 && (
+                    <>
+                    <ImageText>용량 제한: 400KB</ImageText>
+                    <ImageText>파일 형식: PNG만 가능</ImageText>
+                    </>
+                )}
+
+                <FileList>
+                    {files.map((fileName, index) => (
+                    <FileNameText key={index}>
+                        {fileName}
+                        <DeleteIcons src={DeleteIcon} alt="삭제" onClick={() => handleFileDelete(fileName)} />
+                    </FileNameText>
+                    ))}
+                </FileList>
             </ImageWrapper>
+
                 <Container>
                 <Text4>스터디 설명</Text4>
                 <ExWrapper>
@@ -146,7 +184,7 @@ const Text2 = styled.p`
 `;
 
 const MainWrapper1 = styled.div`
-  background-color: #fff;
+  background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
   border: 1px solid #8E59FF;
@@ -372,6 +410,13 @@ const Icons = styled.img`
     margin-left: 5.625em; 
     margin-top: 0.3125em; 
 `;
+const DeleteIcons = styled.img`
+  color: #ff4d4d;
+  cursor: pointer;
+  flex-shrink: 0; 
+  width: 0.75em; 
+  height: auto;
+`;
 
 const FlexContainer = styled.div`
     display: flex;
@@ -519,4 +564,21 @@ const RightWrapper = styled.div`
   margin-top: -0.9em;
 `;
 
-
+const FileNameText = styled.div`
+  color: #333;
+  margin: 0.2em 0;
+  display: flex;
+  margin-left : 2em;
+  align-items: center;
+  justify-content: space-between;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  width: 250px;
+  padding-right: 20px; 
+`;
+const FileList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
