@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import DeleteIcon from '../../assets/icons/studyManage/StudyManageDelete.png';
+import LinkEmbed from '../studyManage/LinkData.jsx';
 
 const ManageBasics = () => {
     
@@ -124,7 +125,10 @@ const ManageBasics = () => {
                 </ExWrapper>
                 </Container>  
             </RowContainer>
-            <Text5>스터디 자료 링크</Text5>
+
+            <LinkEmbed/>
+
+            {/* <Text5>스터디 자료 링크</Text5>
             <InputStudyData placeholder="링크를 입력해주세요" />
             <Container>
                 <div style={{ flex: 1 }}>
@@ -141,7 +145,7 @@ const ManageBasics = () => {
                     ))}
                 </GridContainer>
                 </div>
-            </Container>
+            </Container> */}
             <Container>
                 <FlexContainer>
                     <ToggleContainer onClick={toggleHandler}>
@@ -421,7 +425,8 @@ const DeleteIcons = styled.img`
 const FlexContainer = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 2.5em; 
+    margin-top: 8em; 
+    position: absolute; 
 `;
 
 const ToggleContainer = styled.div`

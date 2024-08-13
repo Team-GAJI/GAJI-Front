@@ -14,6 +14,8 @@ import BlogPreview from '../components/community/BlogPreview';
 import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
+import { ContentWrapper } from '../components/common/MediaWrapper';
+import { Scroll } from '../components/common/Scroll';
 
 const MainPage = () => {
     // state 관리
@@ -33,7 +35,7 @@ const MainPage = () => {
 
     return (
         <PageWrapper>
-            {/* 배너 */}
+             {/* 배너 */}
             <StyledSwiper 
                 pagination={{ clickable: true }} 
                 modules={[Pagination, Autoplay]}
@@ -45,8 +47,10 @@ const MainPage = () => {
                 <StyledSwiperSlide3></StyledSwiperSlide3>
             </StyledSwiper>
 
+        <ContentWrapper>
             {/* 검색창 */}
             <Text><PuppleText>&#039;가지&#039;</PuppleText>고 싶은 스터디를 검색해보세요!</Text>
+            
             <SearchInputWrapper>
                 <StyledLogoIcon />
                 <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
@@ -63,6 +67,7 @@ const MainPage = () => {
                 <TitleText onClick={() => {navigate("/study");}}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
                 <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
             </ViewAllWrapper>
+
             <BlogPreviewWrapper>
                 {studies.slice(0, 5).map((post) => (
                     <StudyPreview
@@ -104,6 +109,7 @@ const MainPage = () => {
                 <TitleText onClick={() => {navigate("/community");}}>&#039;가지&#039;의 커뮤니티! 다 같이 성장해봐요!</TitleText>
                 <Arrow onClick={() => {navigate("/community");}}>&gt;</Arrow>
             </ViewAllWrapper>
+
             <BlogPreviewWrapper>
                 {blogs.slice(0, 8).map((post) => (
                     <BlogPreview
@@ -118,21 +124,19 @@ const MainPage = () => {
                         like={post.postLike} />
                 ))}
             </BlogPreviewWrapper>
+        </ContentWrapper>
         </PageWrapper>
     );
 };
 
 export default MainPage;
 
-/* CSS */
 const PageWrapper = styled.div`
-  margin-bottom: 2em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+    width : 100%;
+`
 
 const StyledSwiper = styled(Swiper)`
+
     background-color: #F4EFFF;
     width: 100%;
     height: 25em;
@@ -144,6 +148,10 @@ const StyledSwiper = styled(Swiper)`
         &.swiper-pagination-bullet-active {
             background-color: #8E59FF;
         }
+    }
+
+    @media(max-width:768px){
+        height : 12.5em;
     }
 `;
 const StyledSwiperSlide1 = styled(SwiperSlide)`
@@ -164,6 +172,7 @@ const Text = styled.div`
     color: #A2A3B2;
     font-size: 1.25em;
     font-weight: 800;
+    
 `;
 
 const PuppleText = styled.span`
@@ -174,7 +183,12 @@ const SearchInputWrapper = styled.div`
     margin-bottom: 3em;
     border: 1px solid #D0D1D9;
     border-radius: 10px;
-    width: 38.75em;
+    width: 50%;
+    min-width :273px;
+
+    @media(max-width : 768px){
+        width : 80%;
+    }
     height: 2.5em;
     background-color: white;
     display: flex;
@@ -203,32 +217,31 @@ const StyledSearchInput = styled.input`
 `;
 
 const SelectAndButtonWrapper = styled.div`
-    width: 70em;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    width : 100%;
+    justify-content: start;
 `;
 
-const StyledHr = styled.hr`
+const StyledHr = styled.div`
     margin-top: 1.2em;
-    border: none;
-    width: 70em;
+    width: 100%;
     height: 1.5px;
     background-color: #D0D1D9;
 `;
 
 const ViewAllWrapper = styled.div`
     margin-top: 1em;
-    width: 70em;
-    color: #D0D1D9;
+    width : 100%;
     display: flex;
-    align-items: center;
     color: #8E59FF;
 `;
 
 const TitleText = styled.div`
     cursor: pointer;
     font-weight: 800;
+    @media(max-width : 768px){
+        font-size : 0.8125em;
+    }
 `;
 
 const Arrow = styled.span`
@@ -236,11 +249,15 @@ const Arrow = styled.span`
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
+    @media(max-width : 768px){
+        font-size : 0.8125em;
+    }
 `;
 
-const BlogPreviewWrapper = styled.div`
-    margin: 0.5em 0 0 1.2em;
-    width: 72.4em;
+const BlogPreviewWrapper = styled(Scroll)`
+    width : 100%;
     display: flex;
-    flex-wrap: wrap;
+    overflow-x : scroll;
+    overflow-y : hidden;
+    padding-left : 0;
 `;
