@@ -44,7 +44,7 @@ function App() {
         <Route exact path="/community/post/" element={<CommunityPostPage/>}/>
         {/* 커뮤니티 게시글 상세 조회 페이지 */}
         
-        <Route  exactpath="/community/write" element={<CommunityWritePage/>}/>
+        <Route  exact path="/community/write" element={<CommunityWritePage/>}/>
         {/* 커뮤니티 게시글 작성 페이지 */}
 
         {/* 마이페이지 라우트 */}
