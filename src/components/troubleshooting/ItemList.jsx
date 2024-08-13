@@ -216,10 +216,10 @@ const ItemList = () => {
             <ItemImage src={ItemImageSrc} alt={item.title} />
             <CommentInfo>
               <CommentIcon src={CommentIconSrc} alt="comment icon" />
-              <CommentCount>{item.comments}</CommentCount>{" "}
-              {/* Display comment count */}
+              <CommentCount>{item.comments}</CommentCount>
             </CommentInfo>
           </ItemImageWrapper>
+
           <ItemContent>
             <ItemTitle>{item.title}</ItemTitle>
             <ItemDetails>
@@ -241,12 +241,24 @@ export default ItemList;
 
 const ItemGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 1fr); /* Default for larger screens */
   gap: 1.25em;
   max-width: 75em;
   width: 100%;
   margin-top: 2.5em;
   margin-bottom: 3.125em;
+
+  @media (max-width: 768px) {
+    /* For screens 768px wide or less */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+    gap: 1em;
+  }
+
+  @media (max-width: 480px) {
+    /* For smaller mobile screens */
+    grid-template-columns: repeat(2, 1fr); /* Keep 2 columns */
+    gap: 0.75em;
+  }
 `;
 
 const Item = styled.div`
@@ -319,23 +331,26 @@ const ItemDetails = styled.div`
   align-items: center;
   gap: 0.625em;
   margin-bottom: 0.1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ItemUser = styled.p`
-  font-size: 0.75em;
+  font-size: 0.55em;
   color: #d0d1d9;
   display: flex;
   align-items: center;
 `;
 
 const UserIconImg = styled.img`
-  width: 0.875em;
-  height: 0.875em;
-  margin-right: 0.3125em;
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 0.5em;
 `;
 
 const ItemTime = styled.p`
-  font-size: 0.5em;
+  font-size: 0.65em;
   color: #d0d1d9;
 `;
 

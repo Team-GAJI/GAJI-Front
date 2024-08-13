@@ -31,9 +31,9 @@ const TroubleshootingRegistrationPage = () => {
 
   const handleNavigate = (index) => {
     if (index === 0) {
-      navigate("/studyroom"); // Navigate to /studyroom when "스터디 홈" is clicked
+      navigate("/studyroom");
     } else {
-      setActiveButtonIndex(index); // Set the active button index
+      setActiveButtonIndex(index);
     }
   };
 
@@ -71,6 +71,7 @@ const TroubleshootingRegistrationPage = () => {
               <RemoveButton onClick={() => handleRemove(index)}>x</RemoveButton>
             </HashtagInputWrapper>
           ))}
+          {/* 여기서 부터 공용컴포넌트라 반응형 수정필요! */}
         </PostOptionWrapper>
 
         <PostTitle>게시글 제목</PostTitle>
@@ -90,13 +91,35 @@ const PostsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
+  padding: 0 1.5em;
+
+  @media (max-width: 768px) {
+    margin: 1.5em 0 4em 0;
+    padding: 0 1em;
+  }
+
+  @media (max-width: 480px) {
+    margin: 1em 0 3em 0;
+    padding: 0 0.5em;
+  }
 `;
 
 const PostOptionWrapper = styled.div`
   margin-bottom: 2.5em;
-  width: 57.125em;
+  width: 100%;
+  max-width: 57.125em; /* Limit the maximum width */
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.5em;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 1em;
+  }
 `;
 
 const Label = styled.div`
@@ -104,6 +127,15 @@ const Label = styled.div`
   font-weight: bold;
   margin-right: 1em;
   color: #8e59ff;
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1em;
+    margin-right: 0.5em;
+  }
 `;
 
 const HashtagInputWrapper = styled.div`
@@ -120,6 +152,16 @@ const HashtagInputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+
+  @media (max-width: 768px) {
+    margin-right: 0.5em;
+    padding: 0 0.75em;
+  }
+
+  @media (max-width: 480px) {
+    margin-right: 0.3em;
+    padding: 0 0.5em;
+  }
 `;
 
 const HashtagInput = styled.input`
@@ -138,6 +180,14 @@ const HashtagInput = styled.input`
     font-weight: 800;
   }
   font-family: "NanumSquareNeo";
+
+  @media (max-width: 768px) {
+    font-size: 0.875em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75em;
+  }
 `;
 
 const RemoveButton = styled.button`
@@ -150,11 +200,29 @@ const RemoveButton = styled.button`
   color: #8e59ff;
   cursor: pointer;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 0.875em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75em;
+  }
 `;
 
 const PostTitle = styled.div`
-  width: 57.125em;
+  width: 100%;
+  max-width: 57.125em; /* Limit the maximum width */
   color: #161a3f;
   font-weight: 800;
   font-family: "NanumSquareNeo";
+  margin-bottom: 1em;
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1em;
+  }
 `;
