@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek }) => {
-    
+
+    const [isOn, setIsOn] = useState(true)
+    const handleToggle = () => setIsOn(!isOn);
+    const onToggle = () => setIsOn(true);
+    const offToggle = () => setIsOn(false);
     
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');
@@ -15,12 +19,7 @@ const ManageWeekBasics = ({ selectedWeek }) => {
       setStudyDescription(event.target.value);
     };
     
-    //토글 슈슛
-    const [isOn, setisOn] = useState(false);
 
-    const toggleHandler = () => {
-      setisOn(!isOn)
-    };
 
 
     return(
@@ -51,14 +50,14 @@ const ManageWeekBasics = ({ selectedWeek }) => {
                 </Container>
             </RowContainer>  
             <Container>
-                <FlexContainer>
-                    <ToggleContainer onClick={toggleHandler}>
-                        <div className={`toggle-container ${isOn ? "toggle--checked" : ""}`}/>
-                        <div className={`toggle-circle ${isOn ? "toggle--checked" : ""}`}/>
-                    </ToggleContainer>
-                    <Text7 className={`text ${isOn ? "OFF" : "ON"}`}>공개</Text7>
-                    <Text6 className={`text ${isOn ? "ON" : "OFF"}`}>비공개</Text6>
-                </FlexContainer>
+            <ToggleWrapper>
+                <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
+                <ToggleBox onClick={handleToggle}>
+                    <Toggle isOn={isOn}></Toggle>
+                </ToggleBox>
+                <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
+            </ToggleWrapper>
+
             </Container>  
         </MainWrapper1>  
         </Container>
@@ -66,8 +65,6 @@ const ManageWeekBasics = ({ selectedWeek }) => {
 };
 
 export default ManageWeekBasics;
-
-
 
 
 const Container = styled.div`
@@ -184,74 +181,47 @@ const ExStudyCharCount = styled.span`
     margin-top: 10.75em; 
 `;
 
-const FlexContainer = styled.div`
+const ToggleWrapper = styled.div`
+    margin-top: 2em;
     display: flex;
     align-items: center;
-    margin-top: -0em; 
+    margin-left :3em;
 `;
 
-const ToggleContainer = styled.div`
-    position: relative;
-    left: 6.3em; 
+const OnToggleText = styled.div`
+    color: ${(props) => (props.isOn ? '#8E59FF' : '#A2A3B2')};
+    font-size: 0.9em;
+    font-weight: bold;
     cursor: pointer;
-
-    .toggle-container {
-        width: 3.4375em; 
-        height: 1.5em; 
-        border-radius: 1.875em; 
-        border: 1px solid #8E59FF;
-    }
-    .toggle--checked.toggle-container {
-        left: 2em; 
-        background-color: #FFFFFF;
-    }
-    .toggle--checked {
-        transition: 0.5s;
-    }
-
-    .toggle-circle {
-        position: absolute;
-        top: 0.1em; 
-        left: 0.14375em; 
-        width: 1.375em; 
-        height: 1.375em; 
-        border-radius: 50%;
-        background-color: #8E59FF;
-        transition: 0.5s;
-    }
-
-    .toggle--checked.toggle-circle {
-        left: 2em;
-        background-color: #8E59FF;
-    }
+    transition: all 0.3s ease;
 `;
 
-const Text6 = styled.p`
-    color: #8E59FF;
-    font-size: 0.9375em; 
-    font-weight: 700;
-    margin-left: 5em;
-    
-    &.OFF {
-        color: #A2A3B2;
-    }
-
-    &.ON {
-        color: #8E59FF;
-    }
+const OffToggleText = styled.div`
+    color: ${(props) => (props.isOn ? '#A2A3B2' : '#8E59FF')};
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
 `;
 
-const Text7 = styled.p`
-    color: #8E59FF;
-    font-size: 0.9375em; 
-    font-weight: 700;
-    margin-left: 0;
-    padding: 0.3125em; 
-  &.OFF {
-    color: #A2A3B2;
-  }
+const ToggleBox = styled.div`
+    margin: 0 0.8em;
+    border: 1.5px solid #8E59FF;
+    border-radius: 10px;
+    width: 3.5em;
+    height: 1.4375em;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+`;
 
-  &.ON {
-    color: #8E59FF;
-  }
+const Toggle = styled.div`
+    border-radius: 30px;
+    width: 1em;
+    height: 1em;
+    background-color: #8E59FF;
+    position: absolute;
+    left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
+    transition: all 0.3s ease-out;
 `;
