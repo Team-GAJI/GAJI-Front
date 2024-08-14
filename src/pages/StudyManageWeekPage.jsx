@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import backImage from "../assets/images/common/mypageBackground.png";
 import StudyManageWeekManageDel from "../assets/icons/studyManageWeek/StudyManageWeekDel.svg";
 import StudyManageWeekManageManagePlus from "../assets/icons/studyManageWeek/StudyManageWeekPlus.svg";
 
 import ManageWeekBasics from "../components/studyManageWeek/ManageWeekBasics.jsx";
 import ManageWeekeDate from "../components/studyManageWeek/ManageWeekDate.jsx";
 import ManageWeekeDetailed from "../components/studyManageWeek/ManageWeekDetailed.jsx";
-import PageHeader from "../components/common/PageHeader";
+import PageHeader from "../components/common/PageHeader.jsx";
 
 const StudyManageWeeKPage = () => {
   // n주차 버튼 기능 마지막 주차만 삭제, 추가 가능하도록 수정
@@ -19,10 +18,6 @@ const StudyManageWeeKPage = () => {
     if (weeks.length > 0) {
       setWeeks(weeks.slice(0, -1)); // 마지막 주차만 삭제
     }
-  };
-
-  const handleAdd = () => {
-    setWeeks([...weeks, weeks.length]);
   };
 
   useEffect(() => {
@@ -52,7 +47,7 @@ const StudyManageWeeKPage = () => {
   const handleHeaderButtonClick = (index) => {
     setActiveButtonIndex(index);
     if (index == 0) {
-      dispatch(setActiveButton("저장하기"));
+      // dispatch(setActiveButton("저장하기"));
     }
   };
 
@@ -123,25 +118,6 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const MainText = styled.p`
-  font-size: 1.3em;
-  font-weight: 800;
-  color: #8e59ff;
-  margin-bottom: 0.2em;
-`;
-
-const MainButton = styled.button`
-  font-size: 0.8125em;
-  width: 10.25em;
-  background-color: #8e59ff;
-  border: 1px solid #8e59ff;
-  border-radius: 1em;
-  font-weight: 800;
-  padding: 0.8125em;
-  text-align: center;
-  color: #fff;
-  opacity: 60%;
-`;
 const SidebarWrapper = styled.div`
   position: absolute;
   margin-top: 1.25em;
@@ -154,7 +130,7 @@ const SidebarWrapper = styled.div`
 const Sidebar1 = styled.aside`
   transition: height 0.5s ease;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #fbfaff;
   display: flex;
   flex-direction: column;
   border: 1px solid #a2a3b2;
@@ -229,33 +205,6 @@ const BasicInfoButton = styled(SidebarButton1)`
   border: none;
   background-color: transparent;
   color: #a2a3b2;
-`;
-
-const RowWrapper1 = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 2.125em;
-  justify-content: center;
-  align-items: center;
-`;
-const RowLogoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.9em;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1.125em;
-  margin-top: 0.625em;
-  background-image: url(${backImage});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-`;
-
-const Text = styled.p`
-  color: #d0d1d9;
-  font-size: 0.9375em;
-  font-weight: 700;
 `;
 
 /* 화면 분활 (오른쪽 사이드) */

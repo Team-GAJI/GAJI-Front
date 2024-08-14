@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import StudySummary from "../components/studyRoom/StudySummary";
 import WeekCurriculum from "../components/studyRoom/WeekCurriculum";
 import StudyPostList from "../components/studyRoom/StudyPostList";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const StudyRoomPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  const location = useLocation();
+  const data = location.state?.data || {};
+  const studyInfo = data;
+
   const navigate = useNavigate();
 
   const headerTitles = [
@@ -16,12 +20,23 @@ const StudyRoomPage = () => {
     "정보나눔 게시판",
     "채팅방",
   ];
-
   const handleHeaderButtonClick = (index) => {
-    if (index === 1) {
-      navigate("/troubleshooting");
+    setActiveButtonIndex(index);
+    if (index === 0) {
+      navigate("/studyroom");
+    } else if (index === 1) {
+      handleTroubleShooting(1);
     } else {
-      setActiveButtonIndex(index);
+      navigate("/");
+    }
+  };
+
+  const handleTroubleShooting = async (roomId) => {
+    try {
+      const response = await studyInfoAPI(roomId);
+      navigate("/troubleshooting", { state: { data: response } });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -48,15 +63,19 @@ const StudyRoomPage = () => {
               </React.Fragment>
             ))}
           </Sidebar>
-          <SidebarManageButton>스터디 관리</SidebarManageButton>
+          <SidebarManageButton onClick={() => navigate("/studymanage")}>
+            스터디 관리
+          </SidebarManageButton>
         </SidebarWrapper>
 
         <MainContent>
-          <StudySummary />
+          <StudySummary studyInfo={studyInfo} />{" "}
+          {/* StudySummary에 데이터 전달 */}
           <DivisionLine2 />
           <WeekCurriculum />
           <DivisionLine2 />
-          <StudyPostList />
+          <StudyPostList comments={studyInfo?.comments} />{" "}
+          {/* StudyPostList에 댓글 데이터 전달 */}
         </MainContent>
       </ContentWrapper>
     </>
@@ -81,8 +100,8 @@ const ContentWrapper = styled.div`
 
 const DivisionLine2 = styled.div`
   border-top: 0.1125em solid #8e59ff;
-  margin: 1.25em 0px;
-  width: 98%;
+  margin: 2.125em 0px;
+  width: 100%;
 `;
 
 const Sidebar = styled.div`

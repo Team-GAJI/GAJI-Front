@@ -68,8 +68,9 @@ const FirstNoticeSquare = ({
 export default FirstNoticeSquare;
 
 const NoticeSquareWrapper = styled.div`
-  width: 51.25em;
-  height: 9.3125em;
+  width: 100%;
+  max-width: 51.25em;
+  height: auto;
   border: 0.1em solid #8e59ff;
   border-radius: 1.25em;
   display: flex;
@@ -77,6 +78,17 @@ const NoticeSquareWrapper = styled.div`
   justify-content: center;
   position: relative;
   padding: 1.25em;
+
+  @media (max-width: 768px) {
+    padding: 1em;
+    border-radius: 1em;
+    max-width: 90%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75em;
+    max-width: 100%;
+  }
 `;
 
 const ColumnWrapper = styled.div`
@@ -84,8 +96,20 @@ const ColumnWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0.3em;
+  width: 100%;
   margin-top: 0.2em;
   margin-left: 0.2em;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    gap: 0.25em;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 0.1em;
+    margin-left: 0.1em;
+    gap: 0.2em;
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -93,33 +117,75 @@ const InputWrapper = styled.div`
   display: inline-block;
   width: 100%;
   margin-bottom: -1.25em;
+
+  @media (max-width: 768px) {
+    margin-bottom: -1em;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: -0.75em;
+  }
 `;
 
 const Text1 = styled.p`
   padding-left: ${(props) => (props.isHovered ? "2.5em" : "0.5em")};
-  height: 1.875em;
+  height: auto;
   font-weight: 800;
   font-size: 1em;
+  line-height: 1.4em;
+
+  @media (max-width: 768px) {
+    font-size: 0.9em;
+    padding-left: ${(props) => (props.isHovered ? "2em" : "0.5em")};
+    line-height: 1.2em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8em;
+    padding-left: ${(props) => (props.isHovered ? "1.5em" : "0.5em")};
+    line-height: 1.1em;
+  }
 `;
 
 const AlarmIcon = styled.img`
   position: absolute;
   left: 0.625em;
-  top: 40%;
+  top: 50%;
   transform: translateY(-50%);
   width: 0.9375em;
   height: auto;
   cursor: pointer;
   display: ${(props) => (props.isHovered ? "block" : "none")};
+
+  @media (max-width: 768px) {
+    width: 0.8em;
+  }
+
+  @media (max-width: 480px) {
+    width: 0.7em;
+  }
 `;
 
 const Text2 = styled.p`
-  height: 1.875em;
+  height: auto;
   font-weight: 600;
   font-size: 0.8em;
   color: #697077;
-  padding: 0.8125em;
+  padding: 0.8125em 0;
   margin-top: 0;
+  line-height: 1.4em;
+
+  @media (max-width: 768px) {
+    font-size: 0.75em;
+    padding: 0.5em 0;
+    line-height: 1.2em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.7em;
+    padding: 0.4em 0;
+    line-height: 1.1em;
+  }
 `;
 
 const Container1 = styled.div`
@@ -127,6 +193,15 @@ const Container1 = styled.div`
   align-items: center;
   padding-bottom: 0.625em;
   width: 100%;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    padding-bottom: 0.5em;
+  }
+
+  @media (max-width: 480px) {
+    padding-bottom: 0.4em;
+  }
 `;
 
 const User = styled.img`
@@ -139,25 +214,59 @@ const User = styled.img`
   justify-content: center;
   margin-left: 0.625em;
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 2em;
+    height: 2em;
+    margin-left: 0.5em;
+  }
+
+  @media (max-width: 480px) {
+    width: 1.75em;
+    height: 1.75em;
+    margin-left: 0.4em;
+  }
 `;
 
 const Text3 = styled.p`
-  height: 1.875em;
+  height: auto;
   font-weight: 600;
   font-size: 0.5em;
   color: #a2a3b2;
   padding: 0.8125em;
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.45em;
+    padding: 0.5em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.4em;
+    padding: 0.4em;
+  }
 `;
 
 const Text4 = styled.p`
-  height: 1.875em;
+  height: auto;
   font-weight: 600;
   font-size: 0.5em;
   color: #a2a3b2;
   padding: 0.8125em;
   margin-left: 0.625em;
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.45em;
+    padding: 0.5em;
+    margin-left: 0.5em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.4em;
+    padding: 0.4em;
+    margin-left: 0.4em;
+  }
 `;
 
 const CheckButton = styled.button`
@@ -174,4 +283,16 @@ const CheckButton = styled.button`
   margin-left: auto;
   flex-shrink: 0;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 4.5em;
+    height: 2em;
+    font-size: 0.75em;
+  }
+
+  @media (max-width: 480px) {
+    width: 4em;
+    height: 1.75em;
+    font-size: 0.7em;
+  }
 `;

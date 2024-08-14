@@ -8,6 +8,7 @@ const Notices = ({ notices, onMoveToTop, hoveredIndex, setHoveredIndex }) => {
     <NoticeSquareWrapper>
       {notices.map((notice, index) => {
         const NoticeComponent = index === 0 ? FirstNoticeSquare : NoticeSquare;
+
         return (
           <NoticeComponent
             key={index}
@@ -27,8 +28,17 @@ export default Notices;
 
 const NoticeSquareWrapper = styled.div`
   display: grid;
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: repeat(
+    ${(props) => props.noticesLength || 5},
+    auto
+  ); /* Dynamically set rows based on notices length */
   gap: 0.625em;
   margin-bottom: 1.875em;
   font-family: "NanumSquareNeo", sans-serif;
+
+  @media (max-width: 768px) {
+    grid-template-rows: 1fr;
+    gap: 0.5em;
+    margin-bottom: 1.5em;
+  }
 `;

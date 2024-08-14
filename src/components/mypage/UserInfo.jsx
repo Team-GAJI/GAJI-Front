@@ -7,7 +7,7 @@ import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../style/Button';
 import userProfileUrl from '../../assets/images/mypage/userProfile.png';
 
 const UserInfo = forwardRef((props, ref) => {
-    const [userName, setUserName] = useState('USER 1023');
+    const [userName, setUserName] = useState('GAJI');
     const [isEditing, setIsEditing] = useState(false);
 
     const userGrade = 'Gold';

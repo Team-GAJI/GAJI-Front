@@ -241,23 +241,21 @@ export default ItemList;
 
 const ItemGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Default for larger screens */
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.25em;
   max-width: 75em;
   width: 100%;
   margin-top: 2.5em;
   margin-bottom: 3.125em;
 
-  @media (max-width: 768px) {
-    /* For screens 768px wide or less */
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
     gap: 1em;
   }
 
-  @media (max-width: 480px) {
-    /* For smaller mobile screens */
-    grid-template-columns: repeat(2, 1fr); /* Keep 2 columns */
-    gap: 0.75em;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
   }
 `;
 

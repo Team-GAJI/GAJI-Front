@@ -56,6 +56,7 @@ const Header = styled.div`
   position: ${({ pageTitle }) =>
     pageTitle === "마이페이지" ? "fixed" : "relative"};
   top: ${({ pageTitle }) => (pageTitle === "마이페이지" ? "60px" : "")};
+  left: ${({ pageTitle }) => (pageTitle === "마이페이지" ? "0px" : "")};
   flex-direction: column;
   align-items: center;
   justify-content: center;

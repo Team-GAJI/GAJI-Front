@@ -120,6 +120,11 @@ export default StudyNoticePage;
 const ContentWrapper = styled.div`
   flex-grow: 1;
   font-family: "NanumSquareNeo", sans-serif;
+  padding: 0 1em;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const MainSection1 = styled.section`
@@ -131,6 +136,12 @@ const MainSection1 = styled.section`
   justify-content: center;
   align-items: center;
   font-family: "NanumSquareNeo", sans-serif;
+
+  @media (max-width: 768px) {
+    padding-top: 20px;
+    gap: 0.5em;
+    align-items: flex-start;
+  }
 `;
 
 const Text = styled.p`
@@ -139,6 +150,10 @@ const Text = styled.p`
   color: #8e59ff;
   margin-top: 0.625em;
   font-family: "NanumSquareNeo", sans-serif;
+
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
 `;
 
 const Container = styled.div`
@@ -150,6 +165,11 @@ const Container = styled.div`
   border-bottom: 0.0625em solid #a2a3b2;
   padding-top: 0.625em;
   font-family: "NanumSquareNeo", sans-serif;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1em;
+    padding-top: 0.5em;
+  }
 `;
 
 const WritingButton = styled.button`
@@ -166,6 +186,12 @@ const WritingButton = styled.button`
   &:hover {
     background-color: #5548c8;
   }
+
+  @media (max-width: 768px) {
+    width: 9em;
+    height: 2em;
+    font-size: 0.9em;
+  }
 `;
 
 const NoticeSquareWrapper = styled.div`
@@ -174,6 +200,11 @@ const NoticeSquareWrapper = styled.div`
   gap: 0.625em;
   margin-bottom: 1.875em;
   font-family: "NanumSquareNeo", sans-serif;
+
+  @media (max-width: 768px) {
+    gap: 0.5em;
+    margin-bottom: 1.5em;
+  }
 `;
 
 const ColumnWrapper = styled.div`
@@ -184,4 +215,10 @@ const ColumnWrapper = styled.div`
   margin-top: 0.625em;
   margin-left: 1.25em;
   font-family: "NanumSquareNeo", sans-serif;
+
+  @media (max-width: 768px) {
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    gap: 0.5em;
+  }
 `;

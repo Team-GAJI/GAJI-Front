@@ -90,30 +90,11 @@ const WritePost = () => {
 
     // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
     const linkText = selected.length > 0 ? selected : "text";
-    const linkSyntax = `[${linkText}](https://)`;
+    const linkSyntax = `[${linkText}]()`;
     setMarkdown(`${before}${linkSyntax}${after}`);
     textarea.setSelectionRange(
       selectionStart + linkSyntax.length - 4,
       selectionEnd + linkSyntax.length - 4
-    );
-    textarea.focus();
-  };
-
-  // 이미지 추가 함수
-  const addImage = () => {
-    const textarea = textareaRef.current;
-    const { selectionStart, selectionEnd } = textarea;
-    const before = markdown.substring(0, selectionStart);
-    const selected = markdown.substring(selectionStart, selectionEnd);
-    const after = markdown.substring(selectionEnd);
-
-    // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
-    const altText = selected.length > 0 ? selected : "alt text";
-    const imageSyntax = `![${altText}](url)`;
-    setMarkdown(`${before}${imageSyntax}${after}`);
-    textarea.setSelectionRange(
-      selectionStart + imageSyntax.length - 6,
-      selectionEnd + imageSyntax.length - 6
     );
     textarea.focus();
   };
@@ -169,7 +150,7 @@ const WritePost = () => {
         <StyledItalicIcon onClick={() => applyFormatting("*")} />
         <StyledThroughIcon onClick={() => applyFormatting("~~")} />
         <StyledBar>|</StyledBar>
-        <StyledImageIcon onClick={addImage} />
+        <StyledImageIcon />
         <StyledLinkIcon onClick={addLink} />
         <StyledBar>|</StyledBar>
         <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
@@ -187,7 +168,7 @@ const WritePost = () => {
         />
         <TextareaBottom>
           <TextLength lengthCount={lengthCount}>
-            {lengthCount}/20000 자
+            {lengthCount} / 20,000 자
           </TextLength>
           <StyledContentHr />
         </TextareaBottom>
@@ -227,6 +208,9 @@ export default WritePost;
 /* CSS */
 const TitleWrapper = styled.div`
   width: 59.125em;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const TitleInput = styled.input`
@@ -246,6 +230,10 @@ const TitleInput = styled.input`
   &::placeholder {
     color: #a2a3b2;
     font-weight: bold;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 0.75em;
   }
 `;
 
@@ -269,6 +257,11 @@ const ToolbarWrapper = styled.div`
   font-size: 0.9em;
   position: sticky;
   top: 60px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 0.75em;
+  }
 `;
 
 const StyledFontSizeSelect = styled.select`
@@ -284,6 +277,10 @@ const StyledFontSizeSelect = styled.select`
   cursor: pointer;
   &:focus {
     outline: none;
+  }
+  @media (max-width: 768px) {
+    width: 6em;
+    font-size: 0.75em;
   }
 `;
 
@@ -350,10 +347,14 @@ const TextareaWrapper = styled.div`
     box-shadow: 0 0.25em 1.25em rgba(22, 26, 63, 0.2);
   }
   transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StyledTextarea = styled.textarea`
-  padding: 1.23em 1.23em 0 1.23em;
+  padding: 1.23em 1.23em 0 1.23em; /* Initial padding: top-right-bottom-left */
   border: none;
   width: 68em;
   height: 65.19em;
@@ -370,8 +371,13 @@ const StyledTextarea = styled.textarea`
     font-weight: 700;
   }
   resize: none;
-`;
 
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 0.75em;
+    padding-left: 1.5em; /* Add more padding on mobile for left margin */
+  }
+`;
 const TextareaBottom = styled.div`
   margin-top: 1em;
   display: flex;
@@ -390,6 +396,10 @@ const StyledContentHr = styled.hr`
   width: 55.125em;
   height: 1.5px;
   background-color: rgba(162, 163, 178, 0.4);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StyledPreviewButton = styled.div`
@@ -404,6 +414,11 @@ const StyledPreviewButton = styled.div`
   font-size: 1em;
   font-weight: 800;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 5em;
+    font-size: 0.75em;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -421,6 +436,11 @@ const SubmitButton = styled.button`
     box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
   }
   transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 7.5em;
+    font-size: 0.875em;
+  }
 `;
 
 // 모달
@@ -436,6 +456,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   z-index: 3;
 `;
+
 const ModalContent = styled.div`
   background-color: #fff;
   padding: 2.4615em;
@@ -445,7 +466,13 @@ const ModalContent = styled.div`
   font-size: 0.8125em;
   overflow-y: auto;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 1.5em;
+  }
 `;
+
 const CloseButton = styled.button`
   position: absolute;
   top: 1em;

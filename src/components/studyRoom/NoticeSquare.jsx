@@ -68,8 +68,9 @@ const NoticeSquare = ({
 export default NoticeSquare;
 
 const NoticeSquareWrapper = styled.div`
-  width: 51.25em;
-  height: 9.3125em;
+  width: 100%;
+  max-width: 51.25em;
+  height: auto;
   border: 0.1em solid ${(props) => (props.isHovered ? "#8E59FF" : "#ccc")};
   border-radius: 1.25em;
   display: flex;
@@ -79,14 +80,14 @@ const NoticeSquareWrapper = styled.div`
   padding: 1.25em;
 
   @media (max-width: 768px) {
-    width: 90%;
-    height: auto;
     padding: 1em;
+    border-radius: 1em;
+    max-width: 90%;
   }
 
   @media (max-width: 480px) {
-    width: 100%;
     padding: 0.75em;
+    max-width: 100%;
   }
 `;
 
@@ -95,16 +96,19 @@ const ColumnWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0.3em;
+  width: 100%;
   margin-top: 0.2em;
   margin-left: 0.2em;
 
   @media (max-width: 768px) {
+    margin-left: 0;
     gap: 0.25em;
   }
 
   @media (max-width: 480px) {
     margin-top: 0.1em;
     margin-left: 0.1em;
+    gap: 0.2em;
   }
 `;
 
@@ -125,23 +129,28 @@ const InputWrapper = styled.div`
 
 const Text1 = styled.p`
   padding-left: ${(props) => (props.isHovered ? "2.5em" : "0.5em")};
-  height: 1.875em;
+  height: auto;
   font-weight: 800;
   font-size: 1em;
+  line-height: 1.4em;
 
   @media (max-width: 768px) {
     font-size: 0.9em;
+    padding-left: ${(props) => (props.isHovered ? "2em" : "0.5em")};
+    line-height: 1.2em;
   }
 
   @media (max-width: 480px) {
     font-size: 0.8em;
+    padding-left: ${(props) => (props.isHovered ? "1.5em" : "0.5em")};
+    line-height: 1.1em;
   }
 `;
 
 const AlarmIcon = styled.img`
   position: absolute;
   left: 0.625em;
-  top: 40%;
+  top: 50%;
   transform: translateY(-50%);
   width: 0.9375em;
   height: auto;
@@ -149,28 +158,33 @@ const AlarmIcon = styled.img`
   display: ${(props) => (props.isHovered ? "block" : "none")};
 
   @media (max-width: 768px) {
-    width: 0.875em;
+    width: 0.8em;
   }
 
   @media (max-width: 480px) {
-    width: 0.8125em;
+    width: 0.7em;
   }
 `;
 
 const Text2 = styled.p`
-  height: 1.875em;
+  height: auto;
   font-weight: 600;
   font-size: 0.8em;
   color: #697077;
-  padding: 0.8125em;
+  padding: 0.8125em 0;
   margin-top: 0;
+  line-height: 1.4em;
 
   @media (max-width: 768px) {
     font-size: 0.75em;
+    padding: 0.5em 0;
+    line-height: 1.2em;
   }
 
   @media (max-width: 480px) {
     font-size: 0.7em;
+    padding: 0.4em 0;
+    line-height: 1.1em;
   }
 `;
 
@@ -181,9 +195,8 @@ const Container1 = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
+    flex-wrap: wrap;
     padding-bottom: 0.5em;
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   @media (max-width: 480px) {
@@ -205,17 +218,18 @@ const User = styled.img`
   @media (max-width: 768px) {
     width: 2em;
     height: 2em;
-    margin-left: 0;
+    margin-left: 0.5em;
   }
 
   @media (max-width: 480px) {
     width: 1.75em;
     height: 1.75em;
+    margin-left: 0.4em;
   }
 `;
 
 const Text3 = styled.p`
-  height: 1.875em;
+  height: auto;
   font-weight: 600;
   font-size: 0.5em;
   color: #a2a3b2;
@@ -224,15 +238,17 @@ const Text3 = styled.p`
 
   @media (max-width: 768px) {
     font-size: 0.45em;
+    padding: 0.5em;
   }
 
   @media (max-width: 480px) {
     font-size: 0.4em;
+    padding: 0.4em;
   }
 `;
 
 const Text4 = styled.p`
-  height: 1.875em;
+  height: auto;
   font-weight: 600;
   font-size: 0.5em;
   color: #a2a3b2;
@@ -242,11 +258,14 @@ const Text4 = styled.p`
 
   @media (max-width: 768px) {
     font-size: 0.45em;
-    margin-left: 0;
+    padding: 0.5em;
+    margin-left: 0.5em;
   }
 
   @media (max-width: 480px) {
     font-size: 0.4em;
+    padding: 0.4em;
+    margin-left: 0.4em;
   }
 `;
 
@@ -267,13 +286,13 @@ const CheckButton = styled.button`
 
   @media (max-width: 768px) {
     width: 4.5em;
-    height: 2.25em;
-    font-size: 0.875em;
+    height: 2em;
+    font-size: 0.75em;
   }
 
   @media (max-width: 480px) {
     width: 4em;
-    height: 2em;
-    font-size: 0.75em;
+    height: 1.75em;
+    font-size: 0.7em;
   }
 `;

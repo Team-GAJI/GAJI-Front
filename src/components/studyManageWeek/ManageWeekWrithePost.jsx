@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
 import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
 import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
@@ -11,21 +11,21 @@ import remarkGfm from 'remark-gfm';
 
 const WritePost = () => {
     // 상태 관리
-    const [title, setTitle] = useState('');
+    // const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(0);
-    const [styledHr, setStyledHr] = useState(false);
+    // const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
 
     // 제목 하단바 색상 관리
-    const handlePurpleHr = () => {
-        setStyledHr(true);
-    };
-    const handleGrayHr = () => {
-        setStyledHr(false);
-    };
+    // const handlePurpleHr = () => {
+    //     setStyledHr(true);
+    // };
+    // const handleGrayHr = () => {
+    //     setStyledHr(false);
+    // };
     
     // 제목 크기 적용 함수
     const applyFontSize = (e) => {
@@ -110,7 +110,7 @@ const WritePost = () => {
     };
 
     // useNavigate
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // 모달 열고 닫기 함수
     const openModal = () => {

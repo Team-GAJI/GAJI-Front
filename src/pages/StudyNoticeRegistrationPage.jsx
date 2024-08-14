@@ -40,7 +40,7 @@ const StudyNoticeRegistrationPage = () => {
   return (
     <>
       <PageHeader
-        large={true}
+        large="true"
         pageTitle="공지사항 글쓰기"
         headerTitles={headerTitles}
         activeButtonIndex={activeButtonIndex}

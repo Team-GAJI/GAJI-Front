@@ -12,7 +12,7 @@ const TroubleshootingRegistrationPage = () => {
   const handleKeyPress = (e, index) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (hashtags.length < 3 && hashtags[index] !== "") {
+      if (hashtags.length < 5 && hashtags[index] !== "") {
         setHashtags([...hashtags, ""]);
       }
     }
@@ -63,7 +63,8 @@ const TroubleshootingRegistrationPage = () => {
             <HashtagInputWrapper key={index}>
               #{" "}
               <HashtagInput
-                placeholder=" 해시태그를 작성해주세요"
+                id={`hashtag-${index}`}
+                placeholder=" 해시태그를 작성해주세요  "
                 value={hashtag}
                 onChange={(e) => handleChange(e, index)}
                 onKeyPress={(e) => handleKeyPress(e, index)}
@@ -142,7 +143,6 @@ const HashtagInputWrapper = styled.div`
   padding: 0 1em;
   border: 1.5px solid #8e59ff;
   border-radius: 20px;
-  width: auto;
   height: 2.5em;
   line-height: 2.5em;
   background-color: transparent;
@@ -152,15 +152,28 @@ const HashtagInputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  /* Adjust margin-top when hashtags wrap to a new line */
+  &:nth-of-type(n + 2) {
+    margin-top: 0.5em;
+  }
 
   @media (max-width: 768px) {
     margin-right: 0.5em;
     padding: 0 0.75em;
+    &:nth-of-type(n + 2) {
+      margin-top: 0.4em;
+    }
   }
 
   @media (max-width: 480px) {
     margin-right: 0.3em;
     padding: 0 0.5em;
+    &:nth-of-type(n + 2) {
+      margin-top: 0.3em;
+    }
   }
 `;
 
@@ -170,7 +183,10 @@ const HashtagInput = styled.input`
   background-color: transparent;
   font-weight: 800;
   padding: 0;
-  width: calc(100% - 1.5em - 5px);
+  width: ${(props) =>
+    props.value
+      ? `${props.value.length + 2}ch`
+      : `${props.placeholder.length + 1}ch`};
   -webkit-appearance: none;
   &:focus {
     outline: none;
@@ -189,6 +205,19 @@ const HashtagInput = styled.input`
     font-size: 0.75em;
   }
 `;
+
+const handleKeyPress = (e, index) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    if (hashtags.length < 5 && hashtags[index] !== "") {
+      setHashtags([...hashtags, ""]);
+      setTimeout(() => {
+        // Move the cursor to the newly created input
+        document.getElementById(`hashtag-${index + 1}`).focus();
+      }, 0);
+    }
+  }
+};
 
 const RemoveButton = styled.button`
   position: absolute;
