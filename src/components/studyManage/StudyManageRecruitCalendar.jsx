@@ -4,7 +4,7 @@ import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
 import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../style/Color';
 
-const StudyManageCalendar = ({ onStartDateChange, onEndDateChange }) => {
+const StudyManageRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -129,7 +129,7 @@ const StudyManageCalendar = ({ onStartDateChange, onEndDateChange }) => {
     );
 };
 
-export default StudyManageCalendar;
+export default StudyManageRecruitCalendar;
 
 const StyledPrevMonth = styled(PrevMonth)`
     width: 0.61em;
@@ -150,7 +150,6 @@ const CalendarWrapper = styled.div`
         height : auto;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, 1fr);
-        margin-right : -4em; /* 여기 수정함*/
     }
 `;
 
@@ -174,7 +173,6 @@ const CalendarWrapper1 = styled.div`
         border-right: none;
         border-bottom: 1px solid #d0d1d9;
         padding-bottom: 1em;
-
     }
 `;
 

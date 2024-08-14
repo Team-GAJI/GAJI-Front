@@ -83,12 +83,14 @@ const SelectWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
 `;
 
 const StyledButton = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 28em;
+
     height: 2.5em;
     line-height: 2.5em;
     background-color: transparent;
@@ -99,6 +101,11 @@ const StyledButton = styled.div`
     &:focus{
         outline: none;
     }
+        
+    @media(max-width : 768px){
+        width : 50%;
+    }
+    
 `;
 
 const Text = styled.div`
@@ -118,6 +125,11 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
     height: 1em;
     transition: all 0.5s ease;
     transform: rotate(${(props) => (props.isVisible ? "-180deg" : "0deg")});
+     @media(max-width : 768px){
+        width : 50%;
+        margin-top:1em;
+        height : 0.5em;
+    }
 `;
 
 const OptionWrapper = styled.div`
