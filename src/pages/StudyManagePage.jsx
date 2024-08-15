@@ -144,11 +144,7 @@ const DelIcons = styled.img`
   width: 3em;
   height: auto;
 `;
-const TextWrapper = styled.div`
-  flex: 1;
-  text-align: center;
 
-`;
 
 const Sidebar1 = styled.aside`
   overflow-y: auto;
