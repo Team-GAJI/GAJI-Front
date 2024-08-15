@@ -1,82 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-const ManageWeekBasics = ({ selectedWeek }) => {
-
-    const [isOn, setIsOn] = useState(true)
+import {descriptionAPI} from '../../utils/studyManageWeek/descriptionAPI';
+const ManageWeekBasics = ({ selectedWeek, roomId }) => {
+    const [isOn, setIsOn] = useState(true);
     const handleToggle = () => setIsOn(!isOn);
     const onToggle = () => setIsOn(true);
     const offToggle = () => setIsOn(false);
     
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');
-  
+
+    useEffect(() => {
+        const fetchDescription = async () => {
+            try {
+                const weeks = selectedWeek;
+                const response = await descriptionAPI(roomId, weeks);
+                
+                setStudyDescription(response.data.description);
+            } catch (error) {
+                console.error('Failed to fetch description:', error);
+            }
+        };
+
+        fetchDescription();
+    }, [roomId, selectedWeek]);
+
     const handleStudyNameChange = (event) => {
-      setStudyName(event.target.value);
+        setStudyName(event.target.value);
     };
-  
+
     const handleStudyDescriptionChange = (event) => {
-      setStudyDescription(event.target.value);
+        setStudyDescription(event.target.value);
     };
 
-    // const handleSubmit = async () => {
-    //     try {
-    //         // const roomId = '...?'; 
-    //         const weeks = selectedWeek;
-    //         await descriptionAPI(roomId, weeks);
-    //         alert('성공');
-    //     } catch (error) {
-    //         alert('실패');
-    //     }
-    // };
+    const handleSubmit = async () => {
+        try {
+            const weeks = selectedWeek;
+            await descriptionAPI(roomId, weeks);
+            alert('성공');
+        } catch (error) {
+            alert('실패');
+        }
+    };
 
-    return(
+    return (
         <Container>
-        {/* 선택한 N주차가 나오게 */}
-        <Text2>{selectedWeek + 1}주차 스터디 관리</Text2>
-        <MainWrapper1>
-            <InputWrapper>
-                <InputStudyName
-                    placeholder="스터디 이름 작성"
-                    value={studyName}
-                    onChange={handleStudyNameChange}
-                />
-                {!studyName && <CharCount>0자/20자</CharCount>}
-            </InputWrapper>
-            <DivisionLine2/>
-            <RowContainer>
-                <Container>
-                <Text4>스터디 설명</Text4>
-                <ExWrapper>
-                <InputExStudy
-                    placeholder="설명을 입력해주세요"
-                    value={studyDescription}
-                    onChange={handleStudyDescriptionChange}
-                />
-                {!studyDescription && <ExStudyCharCount>0자/800자</ExStudyCharCount>}
-                </ExWrapper>
-{/* 
-                <ExWrapper>
-                    <InputExStudy
-                        placeholder="설명을 입력해주세요"
-                        value={studyDescription}
-                        onChange={handleStudyDescriptionChange}
+            {/* 선택한 N주차가 나오게 */}
+            <Text2>{selectedWeek + 1}주차 스터디 관리</Text2>
+            <MainWrapper1>
+                <InputWrapper>
+                    <InputStudyName
+                        placeholder="스터디 이름 작성"
+                        value={studyName}
+                        onChange={handleStudyNameChange}
                     />
-                </ExWrapper> */}
-
-                </Container>
-            </RowContainer>  
-            <Container>
-            <ToggleWrapper>
-                <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
-                <ToggleBox onClick={handleToggle}>
-                    <Toggle isOn={isOn}></Toggle>
-                </ToggleBox>
-                <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
-            </ToggleWrapper>
-
-            </Container>  
-        </MainWrapper1>  
+                    {!studyName && <CharCount>0자/20자</CharCount>}
+                </InputWrapper>
+                <DivisionLine2/>
+                <RowContainer>
+                    <Container>
+                        <Text4>스터디 설명</Text4>
+                        <ExWrapper>
+                            <InputExStudy
+                                placeholder="설명을 입력해주세요"
+                                value={studyDescription}
+                                onChange={handleStudyDescriptionChange}
+                            />
+                            {!studyDescription && <ExStudyCharCount>0자/800자</ExStudyCharCount>}
+                        </ExWrapper>
+                    </Container>
+                </RowContainer>  
+                <Container>
+                    <ToggleWrapper>
+                        <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
+                        <ToggleBox onClick={handleToggle}>
+                            <Toggle isOn={isOn}></Toggle>
+                        </ToggleBox>
+                        <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
+                    </ToggleWrapper>
+                </Container>  
+            </MainWrapper1>  
         </Container>
     );
 };
