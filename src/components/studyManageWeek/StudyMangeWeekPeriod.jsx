@@ -212,7 +212,7 @@ export default StudyMangeWeekPeriod;
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 100%;
+    width: 81.5%;
     display: flex;
     align-items: center;
 `;
@@ -225,7 +225,7 @@ const RightWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-    margin: 0 0 3.5em 4em;
+    margin: 3.5em 0 3.5em 4em;
     display: flex;
     flex-direction: column;
 `;
