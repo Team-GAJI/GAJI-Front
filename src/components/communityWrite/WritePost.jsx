@@ -246,11 +246,10 @@ const TitleWrapper = styled.div`
 `;
 
 const TitleInput = styled.input`
-    padding-left: 1.2307em;
     border: none;
     border-radius: 10px;
     width : 100%;
-    height: 3em;
+    
     background-color: transparent;
     font-size: 0.8125em;
     font-family: 'NanumSquareNeo';
@@ -440,7 +439,7 @@ const TextLength = styled.div`
 `;
 
 const StyledContentHr = styled.hr`
-    margin: 1.5em 0 2em 0;
+    margin: 1em 0 2em 0;
     border: none;
     width : 100%;
     height: 1.5px;
@@ -470,6 +469,7 @@ const StyledPreviewButton = styled.div`
 const SubmitButton = styled.button`
     border: none;
     border-radius: 10px;
+    margin-top : 1em;
     width: 9.1em;
     height: 2.25em;
     background-color: #8E59FF;
