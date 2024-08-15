@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setActiveButton } from '../feautres/community/communitySlice';
 import Hashtag from '../components/communityWrite/Hashtag';
-import WritePost from '../components/communityWrite/WritePost';
+import WritePost from '../components/common/WritePost';
 import PageHeader from '../components/common/PageHeader';
 import WriteSelectBox from '../components/communityWrite/WriteSelectBox';
 import { ContentWrapper60 } from '../components/common/MediaWrapper';
@@ -104,7 +104,7 @@ const CommunityWritePage = () => {
                     ))}
                 </HashtagWrapper>
                 {/* 작성 공간 */}
-                <WritePost/>
+                <WritePost link={"community"}/>
         
         </ContentWrapper60>
     );
