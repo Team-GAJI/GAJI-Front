@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import WritePost from "../components/communityWrite/WritePost";
+import WritePost from "../components/troubleshooting/WritePost";
 import PageHeader from "../components/common/PageHeader";
-import { registerTroubleShooting } from "../utils/studyRoom/troubleShootingInfoAPI";
 
 const TroubleshootingRegistrationPage = () => {
   const [hashtags, setHashtags] = useState([""]);
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
   const navigate = useNavigate();
 
   const handleKeyPress = (e, index) => {
@@ -40,18 +37,6 @@ const TroubleshootingRegistrationPage = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const roomId = "actual_room_id"; // 실제 room ID로 교체하세요.
-      const data = await registerTroubleShooting(roomId, title, body);
-      console.log("등록 성공:", data);
-      navigate("/studyroom");
-    } catch (error) {
-      console.error("등록 중 오류 발생:", error);
-    }
-  };
-
   const headerTitles = [
     "스터디 홈",
     "트러블 슈팅 게시판",
@@ -71,14 +56,6 @@ const TroubleshootingRegistrationPage = () => {
         changeColorOnHover={true}
       />
 
-      <HeaderWrapper>
-        <Title>트러블슈팅 게시판</Title>
-        <ButtonsWrapper>
-          <StyledButton>버튼1</StyledButton>
-          <StyledButton>버튼2</StyledButton>
-        </ButtonsWrapper>
-      </HeaderWrapper>
-
       <PostsWrapper>
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
@@ -86,7 +63,7 @@ const TroubleshootingRegistrationPage = () => {
             <HashtagInputWrapper key={index}>
               #{" "}
               <HashtagInput
-                id={`hashtag-${index}`} // Corrected this line.
+                id={`hashtag-${index}`}
                 placeholder=" 해시태그를 작성해주세요  "
                 value={hashtag}
                 onChange={(e) => handleChange(e, index)}
@@ -95,64 +72,18 @@ const TroubleshootingRegistrationPage = () => {
               <RemoveButton onClick={() => handleRemove(index)}>x</RemoveButton>
             </HashtagInputWrapper>
           ))}
+          {/* 여기서 부터 공용컴포넌트라 반응형 수정필요! */}
         </PostOptionWrapper>
 
-        {/* WritePost 컴포넌트에 props 전달 */}
-        <WritePost
-          title={title}
-          setTitle={setTitle}
-          content={body}
-          setContent={setBody}
-        />
+        <PostTitle>게시글 제목</PostTitle>
 
-        <SubmitButton onClick={handleSubmit}>게시글 등록</SubmitButton>
+        <WritePost />
       </PostsWrapper>
     </>
   );
 };
 
 export default TroubleshootingRegistrationPage;
-
-const HeaderWrapper = styled.div`
-  height: 16.1875em;
-  background-image: url(${BackgroundImage});
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
-
-const Title = styled.div`
-  margin-bottom: 0.5em;
-  font-size: 1.5em;
-  font-weight: 800;
-  color: #8e59ff;
-`;
-
-const ButtonsWrapper = styled.div`
-  margin-top: 1em;
-`;
-
-const StyledButton = styled.button`
-  margin: 0.3em;
-  border: none;
-  border-radius: 10px;
-  margin-right: 10px;
-  width: 140px;
-  height: 2.2em;
-  background-color: #8e59ff;
-  opacity: 0.6;
-  color: white;
-  font-size: 0.9em;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-
-  &:hover {
-    opacity: 1;
-  }
-`;
 
 const PostsWrapper = styled.div`
   margin: 2.5em 0 6em 0;
@@ -161,13 +92,35 @@ const PostsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
+  padding: 0 1.5em;
+
+  @media (max-width: 768px) {
+    margin: 1.5em 0 4em 0;
+    padding: 0 1em;
+  }
+
+  @media (max-width: 480px) {
+    margin: 1em 0 3em 0;
+    padding: 0 0.5em;
+  }
 `;
 
 const PostOptionWrapper = styled.div`
   margin-bottom: 2.5em;
-  width: 57.125em;
+  width: 100%;
+  max-width: 57.125em; /* Limit the maximum width */
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.5em;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 1em;
+  }
 `;
 
 const Label = styled.div`
@@ -175,13 +128,21 @@ const Label = styled.div`
   font-weight: bold;
   margin-right: 1em;
   color: #8e59ff;
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1em;
+    margin-right: 0.5em;
+  }
 `;
 
 const HashtagInputWrapper = styled.div`
   padding: 0 1em;
   border: 1.5px solid #8e59ff;
   border-radius: 20px;
-  width: auto;
   height: 2.5em;
   line-height: 2.5em;
   background-color: transparent;
@@ -191,6 +152,29 @@ const HashtagInputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  /* Adjust margin-top when hashtags wrap to a new line */
+  &:nth-of-type(n + 2) {
+    margin-top: 0.5em;
+  }
+
+  @media (max-width: 768px) {
+    margin-right: 0.5em;
+    padding: 0 0.75em;
+    &:nth-of-type(n + 2) {
+      margin-top: 0.4em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-right: 0.3em;
+    padding: 0 0.5em;
+    &:nth-of-type(n + 2) {
+      margin-top: 0.3em;
+    }
+  }
 `;
 
 const HashtagInput = styled.input`
@@ -199,7 +183,10 @@ const HashtagInput = styled.input`
   background-color: transparent;
   font-weight: 800;
   padding: 0;
-  width: calc(100% - 1.5em - 5px);
+  width: ${(props) =>
+    props.value
+      ? `${props.value.length + 2}ch`
+      : `${props.placeholder.length + 1}ch`};
   -webkit-appearance: none;
   &:focus {
     outline: none;
@@ -209,7 +196,28 @@ const HashtagInput = styled.input`
     font-weight: 800;
   }
   font-family: "NanumSquareNeo";
+
+  @media (max-width: 768px) {
+    font-size: 0.875em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75em;
+  }
 `;
+
+const handleKeyPress = (e, index) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    if (hashtags.length < 5 && hashtags[index] !== "") {
+      setHashtags([...hashtags, ""]);
+      setTimeout(() => {
+        // Move the cursor to the newly created input
+        document.getElementById(`hashtag-${index + 1}`).focus();
+      }, 0);
+    }
+  }
+};
 
 const RemoveButton = styled.button`
   position: absolute;
@@ -221,26 +229,29 @@ const RemoveButton = styled.button`
   color: #8e59ff;
   cursor: pointer;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 0.875em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75em;
+  }
 `;
 
 const PostTitle = styled.div`
-  width: 57.125em;
+  width: 100%;
+  max-width: 57.125em; /* Limit the maximum width */
   color: #161a3f;
   font-weight: 800;
-`;
-
-const SectionTitle = styled.div`
-  font-size: 1.3em;
-  font-weight: bold;
+  font-family: "NanumSquareNeo";
   margin-bottom: 1em;
-  color: #161a3f;
-  margin-top: 2em;
-  text-align: left;
-  width: 60%;
-`;
 
-const ExtraPostsWrapper = styled.div`
-  width: 60%;
-  display: flex;
-  justify-content: space-between;
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1em;
+  }
 `;

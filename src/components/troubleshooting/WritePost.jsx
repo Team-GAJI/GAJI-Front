@@ -10,7 +10,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const WritePost = () => {
-  // 상태 관리
   const [title, setTitle] = useState("");
   const [markdown, setMarkdown] = useState("");
   const [lengthCount, setLengthCount] = useState(0);
@@ -18,16 +17,11 @@ const WritePost = () => {
   const [fontSize, setFontSize] = useState("0");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const textareaRef = useRef(null);
+  const navigate = useNavigate();
 
-  // 제목 하단바 색상 관리
-  const handlePurpleHr = () => {
-    setStyledHr(true);
-  };
-  const handleGrayHr = () => {
-    setStyledHr(false);
-  };
+  const handlePurpleHr = () => setStyledHr(true);
+  const handleGrayHr = () => setStyledHr(false);
 
-  // 제목 크기 적용 함수
   const applyFontSize = (e) => {
     const value = e.target.value;
     setFontSize(value);
@@ -47,14 +41,12 @@ const WritePost = () => {
     textarea.focus();
   };
 
-  // 엔터 키 이벤트 핸들러
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       setFontSize("0");
     }
   };
 
-  // 포맷팅 적용 함수
   const applyFormatting = (syntax) => {
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
@@ -63,14 +55,12 @@ const WritePost = () => {
     const after = markdown.substring(selectionEnd);
 
     if (selected.length > 0) {
-      // 선택된 텍스트에 포맷팅 적용
       setMarkdown(`${before}${syntax}${selected}${syntax}${after}`);
       textarea.setSelectionRange(
         selectionStart + syntax.length,
         selectionEnd + syntax.length
       );
     } else {
-      // 빈 공간에서 포맷팅 문법 추가
       setMarkdown(`${before}${syntax}${after}`);
       textarea.setSelectionRange(
         selectionStart + syntax.length,
@@ -80,7 +70,6 @@ const WritePost = () => {
     textarea.focus();
   };
 
-  // 링크 추가 함수
   const addLink = () => {
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
@@ -88,7 +77,6 @@ const WritePost = () => {
     const selected = markdown.substring(selectionStart, selectionEnd);
     const after = markdown.substring(selectionEnd);
 
-    // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
     const linkText = selected.length > 0 ? selected : "text";
     const linkSyntax = `[${linkText}]()`;
     setMarkdown(`${before}${linkSyntax}${after}`);
@@ -99,26 +87,26 @@ const WritePost = () => {
     textarea.focus();
   };
 
-  // 마크다운 내용, 글자 수 관리
   const handleMarkdownChange = (e) => {
     setMarkdown(e.target.value);
     setLengthCount(e.target.value.length);
   };
 
-  // useNavigate
-  const navigate = useNavigate();
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
-  // 모달 열고 닫기 함수
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const handleSubmit = async () => {
+    try {
+      const roomId = "your_room_id_here"; // Replace with actual room ID
+      await registerTroubleShooting(roomId, title, markdown);
+      navigate("/studyroom");
+    } catch (error) {
+      console.error("Failed to submit the post:", error);
+    }
   };
 
   return (
     <>
-      {/* 제목 */}
       <TitleWrapper>
         <TitleInput
           value={title}
@@ -130,7 +118,6 @@ const WritePost = () => {
         <StyledTitleHr styledHr={styledHr} />
       </TitleWrapper>
 
-      {/* 툴바 */}
       <ToolbarWrapper>
         <StyledFontSizeSelect
           name="fontSize"
@@ -156,7 +143,6 @@ const WritePost = () => {
         <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
       </ToolbarWrapper>
 
-      {/* 내용 */}
       <TextareaWrapper>
         <StyledTextarea
           ref={textareaRef}
@@ -174,21 +160,8 @@ const WritePost = () => {
         </TextareaBottom>
       </TextareaWrapper>
 
-      {/* 업로드 버튼 */}
-      <SubmitButton
-        onClick={() => {
-          navigate("/community/post", {
-            state: {
-              title: title,
-              content: markdown,
-            },
-          });
-        }}
-      >
-        게시글 업로드
-      </SubmitButton>
+      <SubmitButton onClick={handleSubmit}>게시글 업로드</SubmitButton>
 
-      {/* 모달 */}
       {isModalOpen && (
         <ModalOverlay onClick={closeModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -205,7 +178,6 @@ const WritePost = () => {
 
 export default WritePost;
 
-/* CSS */
 const TitleWrapper = styled.div`
   width: 59.125em;
   @media (max-width: 768px) {

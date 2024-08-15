@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import UserIcon from "../../assets/icons/common/usericon.svg"; // UserIcon 경로를 정확히 확인하세요
-import ItemImageSrc from "../../assets/images/common/Rectangle16.png"; // 올바른 이미지 경로로 수정
+import UserIcon from "../../assets/icons/common/usericon.svg";
+import ItemImageSrc from "../../assets/images/common/Rectangle16.png";
+import CommentIconSrc from "../../assets/images/troubleshooting/comment.png";
 
 const items = [
   {
@@ -10,6 +11,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 2,
@@ -17,6 +19,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 3,
@@ -24,6 +27,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 4,
@@ -31,6 +35,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 5,
@@ -38,6 +43,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 6,
@@ -45,6 +51,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 7,
@@ -52,6 +59,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 8,
@@ -59,6 +67,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 9,
@@ -66,6 +75,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 10,
@@ -73,6 +83,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 11,
@@ -80,6 +91,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 12,
@@ -87,6 +99,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 13,
@@ -94,6 +107,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 14,
@@ -101,6 +115,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 15,
@@ -108,6 +123,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 16,
@@ -115,6 +131,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 17,
@@ -122,6 +139,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 18,
@@ -129,6 +147,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 19,
@@ -136,6 +155,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 20,
@@ -143,6 +163,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 21,
@@ -150,6 +171,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 22,
@@ -157,6 +179,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 23,
@@ -164,6 +187,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 24,
@@ -171,6 +195,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
   {
     id: 25,
@@ -178,6 +203,7 @@ const items = [
     user: "user1023",
     time: "1시간 전",
     views: 50,
+    comments: 10,
   },
 ];
 
@@ -186,7 +212,14 @@ const ItemList = () => {
     <ItemGrid>
       {items.map((item) => (
         <Item key={item.id}>
-          <ItemImage src={ItemImageSrc} alt={item.title} />
+          <ItemImageWrapper>
+            <ItemImage src={ItemImageSrc} alt={item.title} />
+            <CommentInfo>
+              <CommentIcon src={CommentIconSrc} alt="comment icon" />
+              <CommentCount>{item.comments}</CommentCount>
+            </CommentInfo>
+          </ItemImageWrapper>
+
           <ItemContent>
             <ItemTitle>{item.title}</ItemTitle>
             <ItemDetails>
@@ -209,61 +242,117 @@ export default ItemList;
 const ItemGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  max-width: 1200px;
+  gap: 1.25em;
+  max-width: 75em;
   width: 100%;
-  margin-bottom: 50px;
+  margin-top: 2.5em;
+  margin-bottom: 3.125em;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+  }
 `;
 
 const Item = styled.div`
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.625em;
+  box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 1px solid #8e59ff;
+  border: 0.0625em solid #8e59ff;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-0.5em);
+    box-shadow: 0 0.5em 0.75em rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const ItemImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 9.375em;
 `;
 
 const ItemImage = styled.img`
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
 `;
 
+const CommentInfo = styled.div`
+  position: absolute;
+  top: 0.65em;
+  left: 0.65em;
+  display: flex;
+  align-items: center;
+`;
+
+const CommentIcon = styled.img`
+  width: 0.65em;
+  height: 0.65em;
+  margin-right: 0.45em;
+`;
+
+const CommentCount = styled.span`
+  margin-left: 0.3em;
+  font-size: 0.75em;
+  color: white;
+`;
+
 const ItemContent = styled.div`
-  padding: 14px;
+  padding: 0.875em;
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+  }
 `;
 
 const ItemTitle = styled.h2`
-  font-size: 16px;
-  margin-bottom: 30px;
+  font-size: 1em;
+  margin-bottom: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ItemDetails = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 0.625em;
+  margin-bottom: 0.1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ItemUser = styled.p`
-  font-size: 12px;
+  font-size: 0.55em;
   color: #d0d1d9;
   display: flex;
   align-items: center;
 `;
 
 const UserIconImg = styled.img`
-  width: 14px;
-  height: 14px;
-  margin-right: 5px;
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 0.5em;
 `;
 
 const ItemTime = styled.p`
-  font-size: 12px;
+  font-size: 0.65em;
   color: #d0d1d9;
 `;
 
 const ItemViews = styled.p`
-  font-size: 12px;
+  font-size: 0.5em;
   color: #d0d1d9;
 `;
