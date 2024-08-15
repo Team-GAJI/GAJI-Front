@@ -4,23 +4,23 @@ import ManageDel from '../assets/icons/studyManage/StudyManageDel.svg';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
 // import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import ManageDate from '../components/studyManage/ManageDate';
+import ManageInfo from '../components/studyManage/ManageInfo';
+import ManagePeriod from '../components/studyManage/StudyManagePeriod';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 import PageHeader from '../components/common/PageHeader';
-import ManageInfo from '../components/studyManage/ManageInfo';
+import { ContentWrapper } from '../components/common/MediaWrapper';
 const StudyManagePage = () => {
     // n주차 버튼 기능
 
   const [weeks, setWeeks] = useState([...Array(9).keys()]); 
   const sidebarRef = useRef(null);
 
-  const handleDelete = (index) => {
-    setWeeks(weeks.filter((_, i) => i !== index));
+  const handleDelete = () => {
+    setWeeks(weeks.slice(0, -1)); 
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length]); 
+    setWeeks([...weeks, weeks.length + 1]); 
   };
 
   useEffect(() => {
@@ -29,19 +29,23 @@ const StudyManagePage = () => {
       const newHeight = sidebarRef.current.scrollHeight;
       sidebarRef.current.style.height = `${newHeight}px`;
     }
-    }, [weeks]);
-    const [selectedWeek, setSelectedWeek] = useState(0);
-      
-    const handleWeekSelect = (index) => {
-        setSelectedWeek(index);
-    };
-      //studymanage 페이지로 이동
-    const navigate = useNavigate();
-    const handleButtonClick = (navigate) => {
-        navigate('/studyweekmanage');
-    };
-    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  }, [weeks]);
+  const [selectedWeek, setSelectedWeek] = useState(0);
+    
+  const handleWeekSelect = (index) => {
+      setSelectedWeek(index);
+  };
+    //studymanage 페이지로 이동
+  const navigate = useNavigate();
 
+  const handleButtonClick = (navigate) => {
+      navigate('/studyweekmanage');
+      
+  };
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+  // Redux 상태 관리
+  // const dispatch = useDispatch();
 
   // 헤더 함수
   const headerTitles = ["저장하기"];
@@ -64,10 +68,17 @@ const StudyManagePage = () => {
           changeColorOnClick={true}
           changeColorOnHover={true}
       />
-      <MainSection>
-      
-        <SidebarWrapper>
-            <Sidebar1 ref={sidebarRef}>
+
+      <RowWrapper>
+        
+        <ContentWrapper>
+            <ManageInfo/>
+            <ManagePeriod/>
+            <ManageDetailed/>
+        </ContentWrapper>
+
+       
+          <Sidebar1 ref={sidebarRef}>
               {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
               <BasicInfoButton>
                   기본정보
@@ -97,15 +108,9 @@ const StudyManagePage = () => {
               <PlusButton onClick={handleAdd}>
                 <PlusIcons src={ManagePlus} alt="추가" />
               </PlusButton>
-            </Sidebar1>
-        </SidebarWrapper>
 
-
-            <ManageInfo/>
-           <ManageDate/>
-           <ManageDetailed/>
-      </MainSection>
-
+          </Sidebar1>
+        </RowWrapper>
     </Wrapper>
 
     </> 
@@ -113,7 +118,10 @@ const StudyManagePage = () => {
 };
 
 export default StudyManagePage;
+const RowWrapper = styled.div`
+  display : flex;
 
+`
 const Wrapper = styled.div`
     z-index: 5;
     background-color: #FBFAFF;
@@ -123,6 +131,7 @@ const Wrapper = styled.div`
     padding: 0 3.1em;
     width: 100%;
 `;
+
 
 
 const DelIconWrapper = styled.div`
@@ -135,60 +144,49 @@ const DelIcons = styled.img`
   width: 3em;
   height: auto;
 `;
+
+
+const Sidebar1 = styled.aside`
+  overflow-y: auto;
+  background-color: #FBFAFF;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #A2A3B2;
+
+  border-radius: 0.5em;
+  max-height: 78.5vh;
+  width: 11.25em;
+  margin-left: 2em;
+  padding-bottom: 1em;
+  overflow-x: hidden;
+  margin-top: 2.4em;
+  // 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2.4em;
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 15em;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+    // width: 35em;
+    width : 80%; /* 맞는지 확인*/
+    overflow-x: scroll; 
+    overflow-y: hidden; 
+    margin: 1em 2em;
+    z-index: 10;
+    height: 3em; 
+    max-height: 5em; 
+  }
+
+`;
 const TextWrapper = styled.div`
   flex: 1;
   text-align: center;
 
 `;
-
-
-const SidebarWrapper = styled.div`
-    position: absolute; 
-    margin-top: -3.2em; 
-    right: -2.375em; 
-    height: 100vh; 
-    width: 15.625em;
-    padding: 1.25em; 
-    box-sizing: border-box;
-
-  @media(max-width: 768px) {
-    position: static;
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    overflow-x: auto;
-    margin-top: 0;
-    padding: 0.5em;
-  }
-
-`;
-const Sidebar1 = styled.aside`
-
- transition: height 0.5s ease; 
-  overflow: hidden; 
-  background-color: #FBFAFF;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 0.5em; 
-  width: 11.25em; 
-  height: 32.5em; 
-  margin-top: 1.9375em; 
-
-  @media(max-width: 768px) {
-    flex-direction: row;
-    width: auto;
-    height: auto;
-    border: none;
-    margin-top: 0;
-    background-color: transparent;
-  }
-
-`;
-
 const SidebarButton1 = styled.div`
   display: flex;
   align-items: center;
@@ -196,97 +194,90 @@ const SidebarButton1 = styled.div`
   background-color: transparent;
   color: #A2A3B2;
   font-weight: ${(props) => (props.bold ? '800' : '400')};
-  margin-top: 0.625em; 
-  padding: 0.6em 0.625em; 
+  padding: 0.4em 0em;
   border: 1px solid transparent;
   cursor: pointer;
+  width: 100%;
+  margin: 0.5em 0;
+  box-sizing: border-box;
 
-  @media(max-width: 768px) {
+
+  @media (max-width: 768px) {
     flex-direction: row;
     width: auto;
+    min-width: 8em; 
     padding: 0.5em 0.5em;
-    margin-top: 0;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    margin-top: 0em;
   }
 
   &:hover {
     border: 1px solid #8E59FF;
-    border-radius: 0.5em; 
+    border-radius: 0.4em;
     color: #8E59FF;
-    margin-left: 0.4em; 
-    margin-right: 0.4em;
     font-weight: 800;
-
   }
-
+  // 마지막 주차 글자 위치조정
   &.last-week {
-    margin-left: 3em; 
-    position: relative;
-    
-    @media(max-width: 768px) {
-      margin-left: 0.5em;
 
-    }
+    margin-left: 1.5em;
+
   }
-    
+
   &.last-week:hover {
+    margin-left: 0;
     border: 1px solid #8E59FF;
-    border-radius: 0.5em; 
+    border-radius: 0.4em;
     color: #8E59FF;
-    margin-left: 0.4em; 
-    margin-right: 0.4em;
     font-weight: 800;
 
     ${DelIconWrapper} {
+      margin-right: 1em;
       visibility: visible;
+      
+      @media(max-width: 768px) {
+      margin-left: 0.1em;
+      margin-right : 0em;
+      }
     }
 
     ${TextWrapper} {
       text-align: center;
-      // 마지막 주차 글 위치 수정해라~
     }
-  }
+   
+}
 `;
 
- const BasicInfoButton = styled(SidebarButton1)`
-   font-size: 1em;
-   font-weight: 1.125em; 
-   background-color: #8E59FF;
-   border: none;
-   background-color: transparent;
-   color: #A2A3B2;
 
-    @media(max-width: 768px) {
+const BasicInfoButton = styled(SidebarButton1)`
+  font-size: 1em;
+  font-weight: 1.125em;
+  background-color: #8E59FF;
+  border: none;
+  background-color: transparent;
+  color: #A2A3B2;
+
+  @media(max-width: 768px) {
     margin-left: 0.5em;
   }
 `;
 
-
-
-/* 화면 분활 (오른쪽 사이드) */
-const MainSection = styled.section`
-    display: flex;
-    flex: 1;
-    padding-top: 30px;
-    /*overflow: auto;*/
-    flex-direction: row; 
-    gap: 20px; 
-    flex-direction: column; 
-    position: relative;
-    margin-bottom : 40px;
-`;
 const PlusButton = styled.button`
-    font-size: 1em;
-    font-weight: 1.125em; 
-    background-color: #8E59FF;
+  font-size: 1em;
+  font-weight: 1.125em;
+  background-color: #8E59FF;
+  border: none;
+  background-color: transparent;
+  color: #A2A3B2;
+  padding: 0.6em 0.625em;
+  margin-top: auto;
 
-    border: none;
-    background-color: transparent;
-    color: #A2A3B2;
-    padding: 0.6em 0.625em;
-    
+  @media (max-width: 768px) {
+    padding: 0.5em 0.5em;
+    margin-top: 0em;
+    margin-right : 3em;
+  }
 `;
+
 const PlusIcons = styled.img`
   width: 1em;
   height: auto;
@@ -296,3 +287,4 @@ const PlusIcons = styled.img`
     filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
   }
 `;
+

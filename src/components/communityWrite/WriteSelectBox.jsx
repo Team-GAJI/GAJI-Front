@@ -77,18 +77,19 @@ export default WriteSelectBox;
 /* CSS */
 const SelectWrapper = styled.div`
     position: relative;
+    width : 49%;
     z-index: 1;
-    margin-right: 0.8em;
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+
 `;
 
 const StyledButton = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 28em;
+    width: 100%;
     height: 2.5em;
     line-height: 2.5em;
     background-color: transparent;
@@ -99,11 +100,15 @@ const StyledButton = styled.div`
     &:focus{
         outline: none;
     }
+        
+    @media(max-width : 768px){
+        width : 80%;
+    }
+    
 `;
 
 const Text = styled.div`
     margin-left: 1.5em;
-    width: 20em;
     height: 100%;
     font-size: 0.8125em;
     overflow: hidden;
@@ -118,13 +123,18 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
     height: 1em;
     transition: all 0.5s ease;
     transform: rotate(${(props) => (props.isVisible ? "-180deg" : "0deg")});
+     @media(max-width : 768px){
+        width : 20%;
+        margin-top:1em;
+        height : 0.5em;
+    }
 `;
 
 const OptionWrapper = styled.div`
     margin-top: 4.5em;
     padding: 1.5em 0;
     border-radius: 10px;
-    width: 40em;
+    width : 100%;
     background-color: rgba(22, 26, 63, 0.7);
     backdrop-filter: blur(3px);
     display: flex;
