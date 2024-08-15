@@ -169,7 +169,8 @@ const Sidebar1 = styled.aside`
     left: 50%;
     transform: translateX(-50%);
     flex-direction: row;
-    width: 35em;
+    // width: 35em;
+    width : 80%; /* 맞는지 확인*/
     overflow-x: scroll; 
     overflow-y: hidden; 
     margin: 1em 2em;

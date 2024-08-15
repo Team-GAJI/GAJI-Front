@@ -8,6 +8,7 @@ import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/Stu
 import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
 import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
+import ManageWeekPeriod from '../components/studyManageWeek/StudyManageWeekPeriod.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 
 
@@ -109,7 +110,7 @@ const StudyManageWeeKPage = () => {
           </SidebarWrapper>
 
         <ManageWeekBasics selectedWeek={selectedWeek}/>
-        <ManageWeekeDate selectedWeek={selectedWeek}/>
+        <ManageWeekPeriod selectedWeek={selectedWeek}/>
         <ManageWeekeDetailed selectedWeek={selectedWeek} />
       </MainSection>
 
@@ -152,7 +153,8 @@ const Sidebar1 = styled.aside`
   width: 11.25em; 
   height: 32.5em; 
   margin-top: 1.9375em; 
-`;
+  
+  `;
 const DelIconWrapper = styled.div`
   visibility: hidden;
   margin-left: 0em; 
