@@ -78,6 +78,9 @@ const Container = styled.div`
   flex-direction: column; 
   gap: 0.625em; 
   margin : 1em 0em;
+  @media(max-width : 768px){
+    margin-left : 18em;
+  }
 `;
 const Text2 = styled.div`
     color: #8E59FF;
@@ -85,6 +88,10 @@ const Text2 = styled.div`
     font-weight: 800;
     text-align: left;
     margin-left: -24em; 
+    
+    @media(max-width : 768px){
+        font-size: 1.1em; 
+    }
 `;
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;

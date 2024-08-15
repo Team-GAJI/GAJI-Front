@@ -154,8 +154,8 @@ const Container = styled.div`
   margin-bottom : 1em;
   @media(max-width : 786px){
     align-items: center;
-    margin-left : 2em /* 이거 확인*/
-
+    margin-left : 2em; /* 이거 확인*/
+    margin-top : 2em;
  }
 `;
 
@@ -238,9 +238,7 @@ const TotalCount = styled.div`
 const TitleWrapper = styled.div`
     margin: 1em 0;
     width: 100%;
-    @media(max-width : 768px){
-       margin-left : 5em;
-    }
+    
 `;
 
 const InputWrapper = styled.div`
@@ -325,10 +323,10 @@ const UploadWrapper = styled.div`
         flex-direction : row;
         align-items: center;
         justify-content: space-between;
-        gap : 0em;
+        gap : 1em;
         margin-left : 13em;
         height : 11em;
-        background-position: center 50%; 
+        width : 86%;
     }
 
 `;
@@ -343,9 +341,6 @@ const ImageWrapper = styled.div`
     align-items: center;
     justify-content: center;
     
-    @media(max-width : 786px){
-       width : 50%;
-    }
 
 `;
 
@@ -382,6 +377,10 @@ const PreivewWrapper = styled.div`
     height: 11.625em; 
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
+    
+    @media(max-width : 768px){
+        background-position: center 50%; 
+    }
 `;
 
 const ToggleWrapper = styled.div`

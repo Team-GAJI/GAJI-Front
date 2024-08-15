@@ -307,6 +307,9 @@ const TextLength = styled.div`
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
+    @media(max-width : 768px){
+        margin-right : 13em;
+    }
 `;
 
 const StyledPreviewButton = styled.div`
