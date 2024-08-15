@@ -11,11 +11,6 @@ import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetaile
 import PageHeader from '../components/common/PageHeader.jsx';
 
 
-import ManageWeekBasics from "../components/studyManageWeek/ManageWeekBasics.jsx";
-import ManageWeekeDate from "../components/studyManageWeek/ManageWeekDate.jsx";
-import ManageWeekeDetailed from "../components/studyManageWeek/ManageWeekDetailed.jsx";
-import PageHeader from "../components/common/PageHeader.jsx";
-
 const StudyManageWeeKPage = () => {
   // n주차 버튼 기능 마지막 주차만 삭제, 추가 가능하도록 수정
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
