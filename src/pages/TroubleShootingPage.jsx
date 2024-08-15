@@ -1,56 +1,60 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Category from "../components/troubleshooting/Category";
-import ItemList from "../components/troubleshooting/ItemList";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
+import Category from "../components/troubleshooting/Category";
+import ItemList from "../components/troubleshooting/ItemList";
 
 const TroubleShootingPage = () => {
-
-  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  const [activeButtonIndex, setActiveButtonIndex] = useState(1);
   const navigate = useNavigate();
 
-  const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
+  const headerTitles = [
+    "스터디 홈",
+    "트러블 슈팅 게시판",
+    "정보나눔 게시판",
+    "채팅방",
+  ];
+
   const handleHeaderButtonClick = (index) => {
-      setActiveButtonIndex(index);
-      if (index == 0) {
-        navigate('/studyroom')
-    } else if (index == 1) {
-      navigate('/troubleshooting')
+    if (index === 0) {
+      navigate("/studyroom");
     } else {
-      navigate('/')
+      setActiveButtonIndex(index);
     }
   };
 
   return (
-    <PageContainer>
-      <Content>
+    <>
       <PageHeader
-            large={true}
-            pageTitle="스터디룸"
-            headerTitles={headerTitles}
-            activeButtonIndex={activeButtonIndex}
-            onButtonClick={handleHeaderButtonClick}
-            changeColorOnClick={false}
-            changeColorOnHover={true}
-          />
+        large={true}
+        pageTitle="트러블슈팅 게시판"
+        headerTitles={headerTitles}
+        activeButtonIndex={activeButtonIndex}
+        onButtonClick={handleHeaderButtonClick}
+        changeColorOnClick={false}
+        changeColorOnHover={true}
+      />
+      <ContentWrapper>
         <Category />
         <ItemList />
-      </Content>
-    </PageContainer>
+      </ContentWrapper>
+    </>
   );
 };
 
 export default TroubleShootingPage;
 
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
+const ContentWrapper = styled.div`
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 4em;
 
-const Content = styled.div`
-  width: 80%;
-  margin: 0 auto;
+  @media (max-width: 1199px) {
+    width: 70%;
+  }
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
