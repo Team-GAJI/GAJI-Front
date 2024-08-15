@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import WritePost from "../components/communityWrite/WritePost";
 import PageHeader from "../components/common/PageHeader";
+import { registerTroubleShooting } from "../utils/studyRoom/troubleShootingInfoAPI";
 
 const TroubleshootingRegistrationPage = () => {
   const [hashtags, setHashtags] = useState([""]);
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   const navigate = useNavigate();
 
   const handleKeyPress = (e, index) => {
@@ -34,6 +37,18 @@ const TroubleshootingRegistrationPage = () => {
       navigate("/studyroom");
     } else {
       setActiveButtonIndex(index);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const roomId = "actual_room_id"; // 실제 room ID로 교체하세요.
+      const data = await registerTroubleShooting(roomId, title, body);
+      console.log("등록 성공:", data);
+      navigate("/studyroom");
+    } catch (error) {
+      console.error("등록 중 오류 발생:", error);
     }
   };
 
@@ -72,12 +87,17 @@ const TroubleshootingRegistrationPage = () => {
               <RemoveButton onClick={() => handleRemove(index)}>x</RemoveButton>
             </HashtagInputWrapper>
           ))}
-          {/* 여기서 부터 공용컴포넌트라 반응형 수정필요! */}
         </PostOptionWrapper>
 
-        <PostTitle>게시글 제목</PostTitle>
+        {/* WritePost 컴포넌트에 props 전달 */}
+        <WritePost
+          title={title}
+          setTitle={setTitle}
+          content={body}
+          setContent={setBody}
+        />
 
-        <WritePost />
+        <SubmitButton onClick={handleSubmit}>게시글 등록</SubmitButton>
       </PostsWrapper>
     </>
   );
@@ -212,7 +232,6 @@ const handleKeyPress = (e, index) => {
     if (hashtags.length < 5 && hashtags[index] !== "") {
       setHashtags([...hashtags, ""]);
       setTimeout(() => {
-        // Move the cursor to the newly created input
         document.getElementById(`hashtag-${index + 1}`).focus();
       }, 0);
     }
@@ -236,22 +255,5 @@ const RemoveButton = styled.button`
 
   @media (max-width: 480px) {
     font-size: 0.75em;
-  }
-`;
-
-const PostTitle = styled.div`
-  width: 100%;
-  max-width: 57.125em; /* Limit the maximum width */
-  color: #161a3f;
-  font-weight: 800;
-  font-family: "NanumSquareNeo";
-  margin-bottom: 1em;
-
-  @media (max-width: 768px) {
-    font-size: 1.2em;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1em;
   }
 `;

@@ -8,18 +8,18 @@ import ImageIcon from "../../assets/icons/communityWrite/image.svg?react";
 import LinkIcon from "../../assets/icons/communityWrite/link.svg?react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { registerTroubleShooting } from "../utils/studyRoom/troubleShootingInfoAPI";
 
-const WritePost = () => {
-  // 상태 관리
-  const [title, setTitle] = useState("");
-  const [markdown, setMarkdown] = useState("");
+const WritePost = ({ title, setTitle, content, setContent }) => {
   const [lengthCount, setLengthCount] = useState(0);
   const [styledHr, setStyledHr] = useState(false);
   const [fontSize, setFontSize] = useState("0");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const textareaRef = useRef(null);
 
-  // 제목 하단바 색상 관리
+  // useNavigate hook for navigating after post submission
+  const navigate = useNavigate();
+
   const handlePurpleHr = () => {
     setStyledHr(true);
   };
@@ -27,7 +27,6 @@ const WritePost = () => {
     setStyledHr(false);
   };
 
-  // 제목 크기 적용 함수
   const applyFontSize = (e) => {
     const value = e.target.value;
     setFontSize(value);
@@ -36,10 +35,10 @@ const WritePost = () => {
     const headerSyntax = "#".repeat(value) + " ";
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
-    const before = markdown.substring(0, selectionStart);
-    const after = markdown.substring(selectionEnd);
+    const before = content.substring(0, selectionStart);
+    const after = content.substring(selectionEnd);
 
-    setMarkdown(`${before}${headerSyntax}${after}`);
+    setContent(`${before}${headerSyntax}${after}`);
     textarea.setSelectionRange(
       selectionStart + headerSyntax.length,
       selectionStart + headerSyntax.length
@@ -47,31 +46,27 @@ const WritePost = () => {
     textarea.focus();
   };
 
-  // 엔터 키 이벤트 핸들러
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       setFontSize("0");
     }
   };
 
-  // 포맷팅 적용 함수
   const applyFormatting = (syntax) => {
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
-    const before = markdown.substring(0, selectionStart);
-    const selected = markdown.substring(selectionStart, selectionEnd);
-    const after = markdown.substring(selectionEnd);
+    const before = content.substring(0, selectionStart);
+    const selected = content.substring(selectionStart, selectionEnd);
+    const after = content.substring(selectionEnd);
 
     if (selected.length > 0) {
-      // 선택된 텍스트에 포맷팅 적용
-      setMarkdown(`${before}${syntax}${selected}${syntax}${after}`);
+      setContent(`${before}${syntax}${selected}${syntax}${after}`);
       textarea.setSelectionRange(
         selectionStart + syntax.length,
         selectionEnd + syntax.length
       );
     } else {
-      // 빈 공간에서 포맷팅 문법 추가
-      setMarkdown(`${before}${syntax}${after}`);
+      setContent(`${before}${syntax}${after}`);
       textarea.setSelectionRange(
         selectionStart + syntax.length,
         selectionStart + syntax.length
@@ -80,18 +75,16 @@ const WritePost = () => {
     textarea.focus();
   };
 
-  // 링크 추가 함수
   const addLink = () => {
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
-    const before = markdown.substring(0, selectionStart);
-    const selected = markdown.substring(selectionStart, selectionEnd);
-    const after = markdown.substring(selectionEnd);
+    const before = content.substring(0, selectionStart);
+    const selected = content.substring(selectionStart, selectionEnd);
+    const after = content.substring(selectionEnd);
 
-    // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
     const linkText = selected.length > 0 ? selected : "text";
     const linkSyntax = `[${linkText}]()`;
-    setMarkdown(`${before}${linkSyntax}${after}`);
+    setContent(`${before}${linkSyntax}${after}`);
     textarea.setSelectionRange(
       selectionStart + linkSyntax.length - 4,
       selectionEnd + linkSyntax.length - 4
@@ -99,26 +92,29 @@ const WritePost = () => {
     textarea.focus();
   };
 
-  // 마크다운 내용, 글자 수 관리
   const handleMarkdownChange = (e) => {
-    setMarkdown(e.target.value);
+    setContent(e.target.value);
     setLengthCount(e.target.value.length);
   };
 
-  // useNavigate
-  const navigate = useNavigate();
-
-  // 모달 열고 닫기 함수
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const handleSubmit = async () => {
+    try {
+      const roomId = "your_room_id"; // Replace with the actual room ID
+      const data = await registerTroubleShooting(roomId, title, content);
+      console.log("등록 성공:", data);
+      navigate("/community/post", {
+        state: {
+          title: title,
+          content: content,
+        },
+      });
+    } catch (error) {
+      console.error("등록 중 오류 발생:", error);
+    }
   };
 
   return (
     <>
-      {/* 제목 */}
       <TitleWrapper>
         <TitleInput
           value={title}
@@ -130,7 +126,6 @@ const WritePost = () => {
         <StyledTitleHr styledHr={styledHr} />
       </TitleWrapper>
 
-      {/* 툴바 */}
       <ToolbarWrapper>
         <StyledFontSizeSelect
           name="fontSize"
@@ -153,14 +148,15 @@ const WritePost = () => {
         <StyledImageIcon />
         <StyledLinkIcon onClick={addLink} />
         <StyledBar>|</StyledBar>
-        <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
+        <StyledPreviewButton onClick={() => setIsModalOpen(true)}>
+          미리보기
+        </StyledPreviewButton>
       </ToolbarWrapper>
 
-      {/* 내용 */}
       <TextareaWrapper>
         <StyledTextarea
           ref={textareaRef}
-          value={markdown}
+          value={content}
           onChange={handleMarkdownChange}
           onKeyDown={handleKeyDown}
           placeholder="게시글의 내용을 입력해주세요."
@@ -174,28 +170,14 @@ const WritePost = () => {
         </TextareaBottom>
       </TextareaWrapper>
 
-      {/* 업로드 버튼 */}
-      <SubmitButton
-        onClick={() => {
-          navigate("/community/post", {
-            state: {
-              title: title,
-              content: markdown,
-            },
-          });
-        }}
-      >
-        게시글 업로드
-      </SubmitButton>
+      <SubmitButton onClick={handleSubmit}>게시글 업로드</SubmitButton>
 
       {/* 모달 */}
       {isModalOpen && (
-        <ModalOverlay onClick={closeModal}>
+        <ModalOverlay onClick={() => setIsModalOpen(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={closeModal}>x</CloseButton>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {markdown}
-            </ReactMarkdown>
+            <CloseButton onClick={() => setIsModalOpen(false)}>x</CloseButton>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
           </ModalContent>
         </ModalOverlay>
       )}
