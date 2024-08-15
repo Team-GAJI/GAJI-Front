@@ -11,7 +11,7 @@ import remarkGfm from 'remark-gfm';
 import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
 
 
-const WritePost = () => {
+const WritePost = ({ link }) => {
     // 상태 관리
     const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
@@ -27,21 +27,38 @@ const WritePost = () => {
         "thumbnailUrl": "string",
         "type": "스터디",
         "hashtagList": [
-          "string"
+            "string"
         ],
-        "categoryIdList": [
-          0
+            "categoryIdList": [
+            0
         ]
-      }
-
+    };
     const handleSubmit = async () => {
         try {
-            navigate("/community/post", { state: {data: data} }); 
-            const result = await communityWriteAPI(data);
-            console.log(result)
+            // link에 따라 다른 API 함수를 선택
+            let apiCall;
+            switch (link) {
+                case 'community':
+                    apiCall = communityWriteAPI;
+                    break;
+                case 'studyroom':
+                    // apiCall = studyRoomWrite;
+                    break;
+                case 'troubleshooting':
+                    //트러블 슈팅 API
+                    // apiCall = troubleShootingWrite;
+                    break;
+                default:
+                    throw new Error('Invalid link type');
+            }
+
+            // API 호출 및 페이지 이동
+            const result = await apiCall(data);
+            console.log(result);
+            navigate(`/${link}/post`, { state: { data: data } });
 
         } catch (error) {
-            console.error('스터디 생성 중 오류 발생:', error);
+            console.error('포스트 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
         }
     };
