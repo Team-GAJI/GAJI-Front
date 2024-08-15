@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import BackgroundImage from "../assets/images/troubleshooting/titleBackground.png";
-import ExtraPostPreview from "../components/troubleshooting/AddedPostPrieview";
+import { useNavigate } from "react-router-dom";
 import WritePost from "../components/communityWrite/WritePost";
+import PageHeader from "../components/common/PageHeader";
+import { registerTroubleShooting } from "../utils/studyRoom/troubleShootingInfoAPI";
 
 const TroubleshootingRegistrationPage = () => {
   const [hashtags, setHashtags] = useState([""]);
+  const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const navigate = useNavigate();
 
   const handleKeyPress = (e, index) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (hashtags.length < 3 && hashtags[index] !== "") {
+      if (hashtags.length < 5 && hashtags[index] !== "") {
         setHashtags([...hashtags, ""]);
       }
     }
@@ -27,20 +32,53 @@ const TroubleshootingRegistrationPage = () => {
     setHashtags(newHashtags);
   };
 
+  const handleNavigate = (index) => {
+    if (index === 0) {
+      navigate("/studyroom");
+    } else {
+      setActiveButtonIndex(index);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const roomId = "actual_room_id"; // 실제 room ID로 교체하세요.
+      const data = await registerTroubleShooting(roomId, title, body);
+      console.log("등록 성공:", data);
+      navigate("/studyroom");
+    } catch (error) {
+      console.error("등록 중 오류 발생:", error);
+    }
+  };
+
+  const headerTitles = [
+    "스터디 홈",
+    "트러블 슈팅 게시판",
+    "정보나눔 게시판",
+    "채팅방",
+  ];
+
   return (
     <>
-      {/* Header */}
+      <PageHeader
+        large={true}
+        pageTitle="트러블슈팅 게시판 글쓰기"
+        headerTitles={headerTitles}
+        activeButtonIndex={activeButtonIndex}
+        onButtonClick={handleNavigate}
+        changeColorOnClick={false}
+        changeColorOnHover={true}
+      />
+
       <HeaderWrapper>
-        <Title>트러블슈팅 게시판 글쓰기</Title>
+        <Title>트러블슈팅 게시판</Title>
         <ButtonsWrapper>
-          <StyledButton isActive={true}>스터디 홈</StyledButton>
-          <StyledButton isActive={true}>트러블 슈팅</StyledButton>
-          <StyledButton isActive={true}>정보나눔</StyledButton>
-          <StyledButton isActive={true}>채팅방</StyledButton>
+          <StyledButton>버튼1</StyledButton>
+          <StyledButton>버튼2</StyledButton>
         </ButtonsWrapper>
       </HeaderWrapper>
 
-      {/* Form */}
       <PostsWrapper>
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
@@ -48,7 +86,8 @@ const TroubleshootingRegistrationPage = () => {
             <HashtagInputWrapper key={index}>
               #{" "}
               <HashtagInput
-                placeholder="해시태그를 작성해주세요"
+                id={`hashtag-${index}`} // Corrected this line.
+                placeholder=" 해시태그를 작성해주세요  "
                 value={hashtag}
                 onChange={(e) => handleChange(e, index)}
                 onKeyPress={(e) => handleKeyPress(e, index)}
@@ -58,20 +97,15 @@ const TroubleshootingRegistrationPage = () => {
           ))}
         </PostOptionWrapper>
 
-        <PostTitle>게시글 제목</PostTitle>
+        {/* WritePost 컴포넌트에 props 전달 */}
+        <WritePost
+          title={title}
+          setTitle={setTitle}
+          content={body}
+          setContent={setBody}
+        />
 
-        {/* Write Post */}
-        <WritePost />
-
-        {/* Section Title */}
-        <SectionTitle>추가된 링크</SectionTitle>
-
-        {/* Additional Links */}
-        <ExtraPostsWrapper>
-          <ExtraPostPreview />
-          <ExtraPostPreview />
-          <ExtraPostPreview />
-        </ExtraPostsWrapper>
+        <SubmitButton onClick={handleSubmit}>게시글 등록</SubmitButton>
       </PostsWrapper>
     </>
   );
