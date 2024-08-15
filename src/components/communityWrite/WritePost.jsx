@@ -113,22 +113,6 @@ const WritePost = () => {
         textarea.focus();
     };
 
-    // 이미지 추가 함수
-    // const addImage = () => {
-    //     const textarea = textareaRef.current;
-    //     const { selectionStart, selectionEnd } = textarea;
-    //     const before = markdown.substring(0, selectionStart);
-    //     const selected = markdown.substring(selectionStart, selectionEnd);
-    //     const after = markdown.substring(selectionEnd);
-
-    //     // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
-    //     const altText = selected.length > 0 ? selected : 'alt text';
-    //     const imageSyntax = `![${altText}](url)`;
-    //     setMarkdown(`${before}${imageSyntax}${after}`);
-    //     textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
-    //     textarea.focus();
-    // };
-
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
         setMarkdown(e.target.value);
