@@ -1,44 +1,56 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import WriteSelectBox from '../communityWrite/WriteSelectBox';
 import ThumbNailImg from '../../assets/images/studyDetail/thumbNailImg.png';
 import StudyData from './StudyData';
+import { useDispatch, useSelector } from 'react-redux';
+import { setName, setPeopleMaximum, setThumbnailUrl, setPrivate } from '../../feautres/study/studyCreateSlice';
+import StudyCreateSelectBox from './StudyCreateSelectBox';
 
 const StudyInfo = () => {
-    // state 관리
-    const [memberCount, setMemberCount] = useState(0);
-    const [isWarningVisible, setIsWarningVisible] = useState(false);
+    const [isMinWarningVisible, setIsMinWarningVisible] = useState(false);
+    const [isMaxWarningVisible, setIsMaxWarningVisible] = useState(false);
     const [lengthCount, setLengthCount] = useState(0);
     const [styledHr, setStyledHr] = useState(false);
     const [isOn, setIsOn] = useState(true);
     const [imgFile, setImgFile] = useState("");
 
+    // Redux 관리
+    const dispatch = useDispatch();
+    const { name, peopleMaximum } = useSelector((state) => state.studyCreate);
+
+    // 제목 입력
+    const handleTitleChange = (e) => {
+        dispatch(setName(e.target.value));
+        setLengthCount(e.target.value.length);
+    };
+
     // 인원수 카운터
     const increaseCount = () => {
-        setMemberCount(memberCount + 1);
-        setIsWarningVisible(false);
-    }
-    const decreaseCount = () => {
-        if (memberCount === 0) {
-            setIsWarningVisible(true);
-        } else if (memberCount === 1) {
-            setMemberCount(memberCount - 1);
-            setIsWarningVisible(true);
+        if (peopleMaximum === 100) {
+            setIsMaxWarningVisible(true);
+            const timer = setTimeout(() => setIsMaxWarningVisible(false), 3000);
+            return () => clearTimeout(timer);  // 3초후 자동으로 취소
         } else {
-            setMemberCount(memberCount - 1);
-            setIsWarningVisible(false);
+            dispatch(setPeopleMaximum(peopleMaximum + 1));
         }
-    }
+        setIsMinWarningVisible(false);
+    };
 
-    // 제목 글자 수 관리
-    const handleTitleLength = (e) => {
-        setLengthCount(e.target.value.length);
+    const decreaseCount = () => {
+        if (peopleMaximum === 1) {
+            setIsMinWarningVisible(true);
+            const timer = setTimeout(() => setIsMinWarningVisible(false), 3000);
+            return () => clearTimeout(timer);  // 3초후 자동으로 취소
+        } else {
+            dispatch(setPeopleMaximum(peopleMaximum - 1));
+        }
+        setIsMaxWarningVisible(false);
     };
 
     // 제목 하단바 색상 관리
     const handlePurpleHr = () => setStyledHr(true);
     const handleGrayHr = () => setStyledHr(false);
-    
+
     // 이미지 업로드 input의 onChange
     const imgRef = useRef();
     const saveImgFile = () => {
@@ -48,26 +60,41 @@ const StudyInfo = () => {
         reader.onloadend = () => {
             setImgFile(reader.result);
         };
+        // if (file) {
+        //     // 보통 파일 업로드 후, 서버에서 받은 URL을 상태에 저장합니다.
+        //     const url = URL.createObjectURL(file);
+        //     dispatch(setThumbnailUrl(url));
+        // }
     };
 
     // 토글 기능
-    const handleToggle = () => setIsOn(!isOn);
-    const onToggle = () => setIsOn(true);
-    const offToggle = () => setIsOn(false);
+    const handleToggle = () => {
+        setIsOn(!isOn);
+        dispatch(setPrivate(isOn));
+    };
+    const onToggle = () => {
+        setIsOn(true);
+        dispatch(setPrivate(true));
+    };
+    const offToggle = () => {
+        setIsOn(false);
+        dispatch(setPrivate(false));
+    };
 
     return (
         <ComponentWrapper>
             {/* 카테고리, 인원수 영역 */}
             <TopWrapper>
-                <WriteSelectBox/>
+                <StudyCreateSelectBox />
                 <TotalMembersWrapper>
                     <CounterWrapper>
                         <Text>최대 인원수 설정</Text>
                         <CountButton onClick={decreaseCount}>-</CountButton>
-                        <TotalCount>{memberCount}</TotalCount>
+                        <TotalCount>{peopleMaximum}</TotalCount>
                         <CountButton onClick={increaseCount}>+</CountButton>
                     </CounterWrapper>
-                    <WanringText isVisible={isWarningVisible}>인원수는 1명 이상이어야 합니다!</WanringText>
+                    <WanringText isVisible={isMinWarningVisible}>인원수는 1명 이상이어야 합니다!</WanringText>
+                    <WanringText isVisible={isMaxWarningVisible}>최대 인원수는 100명입니다!</WanringText>
                 </TotalMembersWrapper>
             </TopWrapper>
 
@@ -77,19 +104,20 @@ const StudyInfo = () => {
                     <TitleInput
                         onFocus={handlePurpleHr}
                         onBlur={handleGrayHr}
-                        onChange={handleTitleLength}
+                        onChange={handleTitleChange}
+                        value={name}
                         placeholder='스터디 명을 입력해주세요'
                         maxLength='20'
                     />
-                <TextLength lengthCount={lengthCount}>{lengthCount}/20 자</TextLength>
+                    <TextLength lengthCount={lengthCount}>{lengthCount}/20 자</TextLength>
                 </InputWrapper>
-                <StyledTitleHr styledHr={styledHr}/>
+                <StyledTitleHr styledHr={styledHr} />
             </TitleWrapper>
 
             {/* 썸네일 업로드 영역 */}
             <ThumbNailWrapper>
                 <Title>
-                    대표 이미지 
+                    대표 이미지
                 </Title>
                 <UploadWrapper>
                     {/* 업로드 버튼 */}
@@ -98,8 +126,8 @@ const StudyInfo = () => {
                             이미지 업로드
                         </FileInputLabel>
                         <ImageUploadInput type="file" id="file" accept=".png"
-                                            onChange={saveImgFile}
-                                            ref={imgRef}/>
+                            onChange={saveImgFile}
+                            ref={imgRef} />
                         <ImageText>용량 제한: 232123mb</ImageText>
                         <ImageText>파일 형식: png만 가능</ImageText>
                     </ImageWrapper>
@@ -110,7 +138,7 @@ const StudyInfo = () => {
             </ThumbNailWrapper>
 
             {/* 스터디자료 링크 영역 */}
-            <StudyData/>
+            <StudyData />
 
             {/* 공개/비공개 토글 영역 */}
             <ToggleWrapper>
@@ -125,6 +153,7 @@ const StudyInfo = () => {
 };
 
 export default StudyInfo;
+
 
 /* CSS */
 const ComponentWrapper = styled.div`
@@ -147,6 +176,7 @@ const TotalMembersWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: end;
+    position: relative;
 `;
 
 const CounterWrapper = styled.div`
@@ -155,13 +185,14 @@ const CounterWrapper = styled.div`
 `;
 
 const WanringText = styled.div`
-    margin-top: 0.5em;
+    margin-top: 3em;
     color: red;
     font-size: 0.8125em;
     font-weight: bold;
     visibility: ${(props) => (props.isVisible ? 'visibility' : 'hidden')};
     opacity: ${(props) => (props.isVisible ? '1' : '0')};
     transition: all 0.3s ease;
+    position: absolute;
 `;
 
 const Text = styled.div`
