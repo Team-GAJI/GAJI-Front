@@ -4,7 +4,7 @@ import WriteSelectBox from '../communityWrite/WriteSelectBox';
 import ThumbNailImg from '../../assets/images/studyDetail/thumbNailImg.png';
 import LinkData from './LinkData';
 
-const StudyInfo = () => {
+const StudyManageInfo = () => {
     // state 관리
     const [memberCount, setMemberCount] = useState(0);
     const [isWarningVisible, setIsWarningVisible] = useState(false);
@@ -130,7 +130,7 @@ const StudyInfo = () => {
     );
 };
 
-export default StudyInfo;
+export default StudyManageInfo;
 
 /* CSS */
 const ComponentWrapper = styled.div`

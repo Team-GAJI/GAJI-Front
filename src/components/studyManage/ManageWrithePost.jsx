@@ -8,7 +8,7 @@ import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 
-const StudyDetail = () => {
+const StudyManageDetail = () => {
     // 상태 관리
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(0);
@@ -164,7 +164,7 @@ const StudyDetail = () => {
     );
 };
 
-export default StudyDetail;
+export default StudyManageDetail;
 
 /* CSS */
 const ComponentWrapper = styled.div`
