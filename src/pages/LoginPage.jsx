@@ -6,7 +6,7 @@ import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { api, apiBase } from '../utils/API';
+import { apiBase } from '../utils/API';
 
 const LoginPage = () => {
     const [register, setRegister] = useState(false);
@@ -34,7 +34,7 @@ const LoginPage = () => {
 
     const handleNaverLogin = async () => {
         try {
-            const res = await api.get('oauth2/authorization/naver');
+            const res = await apiBase.get('oauth2/authorization/naver');
             console.log(res);
             const userToken = { accessToken: res.data.accessToken, refreshToken: res.data.refreshToken };
             saveTokenToLocalStorage(userToken);
