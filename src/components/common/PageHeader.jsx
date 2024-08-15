@@ -17,6 +17,7 @@ const PageHeader = ({ pageTitle, subTitle, headerTitles, activeButtonIndex, onBu
                             $changeColorOnClick={changeColorOnClick}
                             $changeColorOnHover={changeColorOnHover}
                             onClick={() => onButtonClick(index)}
+                            $large={large}
                         >
                             {title}
                         </StyledPuppleButton>
@@ -97,7 +98,7 @@ const StyledPuppleButton = styled(PuppleButton)`
     transition: all 0.3s ease;
 
     @media (max-width: 768px) {
-        width : ${({ large }) => (large ? '3em' : '8em')};
+        width : ${({ $large }) => ($large ? '10em' : '5em')};
         height: 3em;
         font-size: 0.8125em;
     }
