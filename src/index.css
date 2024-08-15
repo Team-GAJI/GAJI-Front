@@ -40,5 +40,15 @@ body {
   overflow-x:hidden;
   font-family: 'NanumSquareNeo';
   background-color: #FBFAFF;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8x;
+    background: none;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+      border-radius: 30px;
+      background-color: rgb(142,89,255,0.5);
+}
 }
 

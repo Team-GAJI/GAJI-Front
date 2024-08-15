@@ -1,8 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import StudyManageWeekManageDel from "../assets/icons/studyManageWeek/StudyManageWeekDel.svg";
-import StudyManageWeekManageManagePlus from "../assets/icons/studyManageWeek/StudyManageWeekPlus.svg";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import StudyManageWeekManageDel from '../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
+import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
+
+
+import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
+import ManageWeekPeriod from  '../components/studyManageWeek/StudyMangeWeekPeriod.jsx';
+import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
+import PageHeader from '../components/common/PageHeader.jsx';
+
 
 import ManageWeekBasics from "../components/studyManageWeek/ManageWeekBasics.jsx";
 import ManageWeekeDate from "../components/studyManageWeek/ManageWeekDate.jsx";
@@ -100,14 +107,15 @@ const StudyManageWeeKPage = () => {
               </PlusButton>
             </Sidebar1>
           </SidebarWrapper>
+        <ManageWeekBasics selectedWeek={selectedWeek}/>
+        <ManageWeekPeriod selectedWeek={selectedWeek}/>
+        <ManageWeekeDetailed selectedWeek={selectedWeek} />
+      </MainSection>
 
-          <ManageWeekBasics selectedWeek={selectedWeek} />
-          <ManageWeekeDate selectedWeek={selectedWeek} />
-          <ManageWeekeDetailed selectedWeek={selectedWeek} />
-        </MainSection>
-      </Wrapper>
-    </>
-  );
+    </Wrapper>
+
+    </> 
+    );
 };
 
 export default StudyManageWeeKPage;
@@ -137,12 +145,13 @@ const Sidebar1 = styled.aside`
   background-color: #fbfaff;
   display: flex;
   flex-direction: column;
-  border: 1px solid #a2a3b2;
-  border-radius: 0.5em;
-  width: 11.25em;
-  height: 32.5em;
-  margin-top: 1.9375em;
-`;
+  border: 1px solid #A2A3B2;
+  border-radius: 0.5em; 
+  width: 11.25em; 
+  height: 32.5em; 
+  margin-top: 1.9375em; 
+  
+  `;
 const DelIconWrapper = styled.div`
   visibility: hidden;
   margin-left: 0em;

@@ -4,7 +4,7 @@ import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
 import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../style/Color';
 
-const StudyCreateRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
+const StudyManageWeekRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -129,12 +129,23 @@ const StudyCreateRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
     );
 };
 
-export default StudyCreateRecruitCalendar;
+export default StudyManageWeekRecruitCalendar;
 
-/* CSS */
+const StyledPrevMonth = styled(PrevMonth)`
+    width: 0.61em;
+    cursor: pointer;
+`;
+
+const StyledNextMonth = styled(NextMonth)`
+    width: 0.61em;
+    cursor: pointer;
+`;
+
 const CalendarWrapper = styled.div`
     width: 50%;
-    
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
     @media (max-width: 768px) {
         height : auto;
         grid-template-columns: 1fr;
@@ -143,9 +154,9 @@ const CalendarWrapper = styled.div`
 `;
 
 const CalendarWrapper1 = styled.div`
-    padding: 3em 1em 1em 1em;
     font-size: 0.8125em;
     font-weight: bold;
+    margin-left: 4.5em;
     display : flex;
     flex-direction : column;
     justify-content :center;
@@ -153,6 +164,8 @@ const CalendarWrapper1 = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
+    padding-top: 3em;
+    padding-right: 1em;
     box-sizing: border-box;
 
     @media (max-width: 768px) {
@@ -164,27 +177,17 @@ const CalendarWrapper1 = styled.div`
 `;
 
 const Header = styled.div`
-    margin-bottom: 1em;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2em;
-`;
-
-const StyledPrevMonth = styled(PrevMonth)`
-    width: 0.61em;
-    cursor: pointer;
+    margin-bottom: 2.5em;
 `;
 
 const MonthYear = styled.div`
-    font-size: 1em;
+    font-size: 1.25em;
     font-weight: 800;
-`;
-
-const StyledNextMonth = styled(NextMonth)`
-    width: 0.61em;
-    cursor: pointer;
 `;
 
 const Grid = styled.div`
@@ -194,7 +197,7 @@ const Grid = styled.div`
     grid-template-rows: repeat(7, 1fr);
     grid-row-gap: 0.7em;
     font-size : 1em;
-    place-items: center;
+    place-items: center center;  
 `;
 
 const Day = styled.div`

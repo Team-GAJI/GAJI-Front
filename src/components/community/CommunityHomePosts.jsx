@@ -11,6 +11,8 @@ import { dummyProjectPosts } from './DummyProjectPosts';
 import { dummyQuestionPosts } from './DummyQuestionPosts';
 import { dummyBlogPosts } from './DummyBlogPosts';
 import CommunitySelectBox from './CommunitySelectBox';
+import { ContentWrapper } from '../common/MediaWrapper';
+import { Scroll } from '../common/Scroll';
 
 const CommunityHomePosts = () => {
   // state 관리
@@ -118,7 +120,7 @@ const CommunityHomePosts = () => {
 
 
   return (
-    <PageWrapper>      
+    <ContentWrapper>      
       {/* 검색창 */}
       <SearchInputWrapper>
         <StyledLogoIcon />
@@ -194,29 +196,27 @@ const CommunityHomePosts = () => {
           )}
         </PostPreviewWrapper>
       )}
-    </PageWrapper>
+    </ContentWrapper>
   );
 };
 
 export default CommunityHomePosts;
 
-/* CSS */
-const PageWrapper = styled.div`
-  margin-bottom: 5em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const SearchInputWrapper = styled.div`
   border: 1px solid #D0D1D9;
-  border-radius: 10px;
-  width: 38.75em;
-  height: 2.5em;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    border-radius: 10px;
+    width: 50%;
+    min-width :273px;
+
+    @media(max-width : 768px){
+        width : 80%;
+    }
+    height: 2.5em;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const StyledLogoIcon = styled(LogoIcon)`
@@ -241,7 +241,7 @@ const StyledSearchInput = styled.input`
 
 const SelectAndButtonWrapper = styled.div`
   margin-top: 2em;
-  width: 70em;
+  width : 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -263,24 +263,32 @@ const CreatePostButton = styled.button`
   transition: all 0.3s ease;
 `;
 
-const StyledHr = styled.hr`
-  margin-top: 1em;
-  border: none;
-  width: 70em;
-  height: 1.5px;
-  background-color: #D0D1D9;
+const StyledHr = styled.div`
+    margin-top: 1.2em;
+    width: 100%;
+    height: 1.5px;
+    background-color: #D0D1D9;
 `;
 
 const PostPreviewWrapper = styled.div`
   margin-top: 1.2em;
-  width: 70em;
+  width: 100%;
 `;
 
-const BlogPreviewWrapper = styled.div`
+const BlogPreviewWrapper = styled(Scroll)`
   margin-top: 1em;
-  width: 72.4em;
+  width: 100%;
   display: flex;
+  overflow-x : none;
+  justify-content : center;
+  gap : 2em;
   flex-wrap: wrap;
+  @media(max-width:768px){
+    display : flex;
+    align-items: center;
+    flex-direction : column;
+    overflow-x : scroll;
+  }
 `;
 
 
