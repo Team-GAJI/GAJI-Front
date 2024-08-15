@@ -14,7 +14,7 @@ import BlogPreview from '../components/community/BlogPreview';
 import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
-import { ContentWrapper } from '../components/common/MediaWrapper';
+import {  ContentWrapperMain } from '../components/common/MediaWrapper';
 import { Scroll } from '../components/common/Scroll';
 
 const MainPage = () => {
@@ -47,7 +47,7 @@ const MainPage = () => {
                 <StyledSwiperSlide3></StyledSwiperSlide3>
             </StyledSwiper>
 
-        <ContentWrapper>
+        <ContentWrapperMain>
             {/* 검색창 */}
             <Text><PuppleText>&#039;가지&#039;</PuppleText>고 싶은 스터디를 검색해보세요!</Text>
             
@@ -124,7 +124,7 @@ const MainPage = () => {
                         like={post.postLike} />
                 ))}
             </BlogPreviewWrapper2>
-        </ContentWrapper>
+        </ContentWrapperMain>
         </PageWrapper>
     );
 };

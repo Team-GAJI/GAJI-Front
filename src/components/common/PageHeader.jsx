@@ -6,7 +6,7 @@ import { PuppleButton } from '../style/Button';
 const PageHeader = ({ pageTitle, subTitle, headerTitles, activeButtonIndex, onButtonClick, changeColorOnClick, changeColorOnHover, large }) => {
     return (
         <>
-            <Header pageTitle={pageTitle}>
+            <Header pageTitle={pageTitle} $large={large}>
                 <PageHeaderTitle>{pageTitle}</PageHeaderTitle>
                 <SubTitle>{subTitle}</SubTitle>
                 <RowWrapper large={large}>
@@ -50,7 +50,7 @@ const Header = styled.div`
     background-color: #FBFAFF;
     background-image: url(${backGroundUrl});
     @media (max-width: 768px) {
-        margin-bottom : ${({ large }) => (large ? '0' : '3em')};
+        margin-bottom : ${({ $large }) => ( $large ? '3em' : '0em')};
     }
 `;
 
