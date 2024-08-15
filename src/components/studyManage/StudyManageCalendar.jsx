@@ -172,7 +172,7 @@ const CalendarWrapper1 = styled.div`
     @media (max-width: 768px) {
         padding-right: 0;
         border-right: none;
-        border-bottom: 1px solid #d0d1d9;
+        // border-bottom: 1px solid #d0d1d9;
         padding-bottom: 1em;
 
     }

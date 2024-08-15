@@ -69,9 +69,6 @@ const StudyDataWrapper = styled.div`
     display: flex;
     flex-direction: column;
 
-    @media(max-width : 768px){
-        margin-left : 25em; 
-    }
 `;
 
 const LinkInput = styled.input`

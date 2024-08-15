@@ -171,6 +171,7 @@ const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 100%;
+
 `;
 
 const ToolbarWrapper = styled.div`
@@ -183,6 +184,9 @@ const ToolbarWrapper = styled.div`
     font-size: 0.9em;
     position: sticky;
     top: 60px;
+    @media(max-width : 768px){
+       margin: 1.5em 1.5em; 
+    }
 `;
 
 const StyledFontSizeSelect = styled.select`
@@ -264,6 +268,10 @@ const TextareaWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     transition: all 0.3s ease;
+
+    @media(max-width : 768px){
+        margin-left : 12em;
+    }
 `;
 
 const StyledTextarea = styled.textarea`

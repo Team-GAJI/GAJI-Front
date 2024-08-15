@@ -143,6 +143,7 @@ const ComponentWrapper = styled.div`
         flex-direction : column;
         align-items: center;
         justify-content: flex-start;
+
     }
 `;
 
@@ -151,6 +152,11 @@ const Container = styled.div`
   flex-direction: column; 
   gap: 0.625em; 
   margin-bottom : 1em;
+  @media(max-width : 786px){
+    align-items: center;
+    margin-left : 2em /* 이거 확인*/
+
+ }
 `;
 
 const TopWrapper = styled.div`
@@ -175,7 +181,6 @@ const TotalMembersWrapper = styled.div`
     @media(max-width: 768px) {
         margin-top : 2em;
         font-size: 0.4em;
-       
     }
 `;
 
@@ -185,7 +190,7 @@ const CounterWrapper = styled.div`
     
     @media(max-width: 768px) {
         width : 100%;
-        padding-left : 10em;
+        padding-left : 20em;
     }
 
 `;
@@ -273,7 +278,7 @@ const TextLength = styled.div`
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
     @media(max-width : 768px){
-       width: 80%; 
+       width: 12%; 
        font-size: 0.3em;
     }
 `;
@@ -292,6 +297,9 @@ const ThumbNailWrapper = styled.div`
     margin-bottom: 1em;
     display: flex;
     flex-direction: column;
+    @media(max-width : 768px ){
+        margin-right : 20em; 
+    }
 
 `;
 
@@ -301,6 +309,11 @@ const Title = styled.div`
     font-weight: 800;
     text-align: left;
     margin-left: -24em; 
+    @media(max-width : 768px){
+        font-size: 1.1em; 
+        margin-left : -27em;
+
+    }
 `;
 
 const UploadWrapper = styled.div`
@@ -312,7 +325,7 @@ const UploadWrapper = styled.div`
         flex-direction : row;
         align-items: center;
         justify-content: space-between;
-        gap : 1em;
+        gap : 0em;
         margin-left : 13em;
         height : 11em;
         background-position: center 50%; 
@@ -325,7 +338,7 @@ const ImageWrapper = styled.div`
     flex-direction: column;
     border: 1px solid #A2A3B2;
     border-radius: 10px; 
-    width: 32em; 
+    width: 60%; 
     height: 11.625em; 
     align-items: center;
     justify-content: center;
@@ -369,7 +382,6 @@ const PreivewWrapper = styled.div`
     height: 11.625em; 
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
-    
 `;
 
 const ToggleWrapper = styled.div`

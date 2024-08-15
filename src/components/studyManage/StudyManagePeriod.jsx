@@ -98,7 +98,7 @@ const ComponentWrapper = styled.div`
         flex-direction : row;
         align-items: center;
         justify-content: flex-start;
-        margin-left : 25em;  
+        margin-left : 2em; 
     }
 `;
 

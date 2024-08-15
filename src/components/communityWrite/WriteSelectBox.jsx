@@ -103,7 +103,7 @@ const StyledButton = styled.div`
     }
         
     @media(max-width : 768px){
-        width : 50%;
+        width : 80%;
     }
     
 `;
@@ -126,7 +126,7 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
     transition: all 0.5s ease;
     transform: rotate(${(props) => (props.isVisible ? "-180deg" : "0deg")});
      @media(max-width : 768px){
-        width : 50%;
+        width : 20%;
         margin-top:1em;
         height : 0.5em;
     }
