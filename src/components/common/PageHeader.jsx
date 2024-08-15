@@ -97,7 +97,7 @@ const StyledPuppleButton = styled(PuppleButton)`
     transition: all 0.3s ease;
 
     @media (max-width: 768px) {
-        width : ${({ large }) => (large ? '3em' : '10em')};
+        width : ${({ large }) => (large ? '3em' : '8em')};
         height: 3em;
         font-size: 0.8125em;
     }

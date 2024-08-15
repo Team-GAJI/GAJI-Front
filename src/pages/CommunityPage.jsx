@@ -113,7 +113,8 @@ const HotPostText = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 52em;
+    width : 100%;
+    max-width: 52em;
     height: 16em;
 `;
 

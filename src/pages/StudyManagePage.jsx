@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ManageDel from '../assets/icons/studyManage/StudyManageDel.png';
+import ManageDel from '../assets/icons/studyManage/StudyManageDel.svg';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
 // import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
