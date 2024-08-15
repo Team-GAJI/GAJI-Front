@@ -60,11 +60,11 @@ const StudyInfo = () => {
         reader.onloadend = () => {
             setImgFile(reader.result);
         };
-        // if (file) {
-        //     // 보통 파일 업로드 후, 서버에서 받은 URL을 상태에 저장합니다.
-        //     const url = URL.createObjectURL(file);
-        //     dispatch(setThumbnailUrl(url));
-        // }
+        if (file) {
+            // 보통 파일 업로드 후, 서버에서 받은 URL을 상태에 저장합니다.
+            const url = URL.createObjectURL(file);
+            dispatch(setThumbnailUrl(url));
+        }
     };
 
     // 토글 기능
