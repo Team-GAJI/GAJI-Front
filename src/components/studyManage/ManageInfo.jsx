@@ -93,6 +93,9 @@ const StudyInfo = () => {
 
             {/* 썸네일 업로드 영역 */}
             <ThumbNailWrapper>
+                <Title2>
+                    대표 이미지 
+                </Title2>
                 <UploadWrapper>
                     {/* 업로드 버튼 */}
                     <ImageWrapper>
@@ -425,4 +428,10 @@ const Toggle = styled.div`
     position: absolute;
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
+`;
+
+const Title2 = styled.div`
+    margin: 1em 0 0.7em 0;
+    color: #8E59FF;
+    font-weight: 800;
 `;
