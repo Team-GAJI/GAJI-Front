@@ -8,7 +8,7 @@ import ImageIcon from "../../assets/icons/communityWrite/image.svg?react";
 import LinkIcon from "../../assets/icons/communityWrite/link.svg?react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-
+import communityWriteAPI from "../../utils/communityWrite/communityWriteAPI";
 
 const WritePost = ({ link }) => {
     // 상태 관리
@@ -38,7 +38,7 @@ const WritePost = ({ link }) => {
             let apiCall;
             switch (link) {
                 case 'community':
-                    apiCall = communityWriteAPI;
+                    communityWriteAPI();
                     break;
                 case 'studyroom':
                     // apiCall = studyRoomWrite;
@@ -230,164 +230,7 @@ const WritePost = ({ link }) => {
         </Wrapper>
 
     );
-    textarea.focus();
   };
-
-  // 엔터 키 이벤트 핸들러
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      setFontSize("0");
-    }
-  };
-
-  // 포맷팅 적용 함수
-  const applyFormatting = (syntax) => {
-    const textarea = textareaRef.current;
-    const { selectionStart, selectionEnd } = textarea;
-    const before = markdown.substring(0, selectionStart);
-    const selected = markdown.substring(selectionStart, selectionEnd);
-    const after = markdown.substring(selectionEnd);
-
-    if (selected.length > 0) {
-      // 선택된 텍스트에 포맷팅 적용
-      setMarkdown(`${before}${syntax}${selected}${syntax}${after}`);
-      textarea.setSelectionRange(
-        selectionStart + syntax.length,
-        selectionEnd + syntax.length
-      );
-    } else {
-      // 빈 공간에서 포맷팅 문법 추가
-      setMarkdown(`${before}${syntax}${after}`);
-      textarea.setSelectionRange(
-        selectionStart + syntax.length,
-        selectionStart + syntax.length
-      );
-    }
-    textarea.focus();
-  };
-
-  // 링크 추가 함수
-  const addLink = () => {
-    const textarea = textareaRef.current;
-    const { selectionStart, selectionEnd } = textarea;
-    const before = markdown.substring(0, selectionStart);
-    const selected = markdown.substring(selectionStart, selectionEnd);
-    const after = markdown.substring(selectionEnd);
-
-    // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
-    const linkText = selected.length > 0 ? selected : "text";
-    const linkSyntax = `[${linkText}]()`;
-    setMarkdown(`${before}${linkSyntax}${after}`);
-    textarea.setSelectionRange(
-      selectionStart + linkSyntax.length - 4,
-      selectionEnd + linkSyntax.length - 4
-    );
-    textarea.focus();
-  };
-
-  // 마크다운 내용, 글자 수 관리
-  const handleMarkdownChange = (e) => {
-    setMarkdown(e.target.value);
-    setLengthCount(e.target.value.length);
-  };
-
-  // useNavigate
-  const navigate = useNavigate();
-
-  // 모달 열고 닫기 함수
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  return (
-    <>
-      {/* 제목 */}
-      <TitleWrapper>
-        <TitleInput
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onFocus={handlePurpleHr}
-          onBlur={handleGrayHr}
-          placeholder="게시글의 제목을 입력해주세요"
-        />
-        <StyledTitleHr styledHr={styledHr} />
-      </TitleWrapper>
-
-      {/* 툴바 */}
-      <ToolbarWrapper>
-        <StyledFontSizeSelect
-          name="fontSize"
-          value={fontSize}
-          onChange={applyFontSize}
-        >
-          <option value="0">폰트크기</option>
-          <option value="1">1h</option>
-          <option value="2">2h</option>
-          <option value="3">3h</option>
-          <option value="4">4h</option>
-          <option value="5">5h</option>
-          <option value="6">6h</option>
-        </StyledFontSizeSelect>
-        <StyledBar>|</StyledBar>
-        <StyledBoldIcon onClick={() => applyFormatting("**")} />
-        <StyledItalicIcon onClick={() => applyFormatting("*")} />
-        <StyledThroughIcon onClick={() => applyFormatting("~~")} />
-        <StyledBar>|</StyledBar>
-        <StyledImageIcon />
-        <StyledLinkIcon onClick={addLink} />
-        <StyledBar>|</StyledBar>
-        <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
-      </ToolbarWrapper>
-
-      {/* 내용 */}
-      <TextareaWrapper>
-        <StyledTextarea
-          ref={textareaRef}
-          value={markdown}
-          onChange={handleMarkdownChange}
-          onKeyDown={handleKeyDown}
-          placeholder="게시글의 내용을 입력해주세요."
-          maxLength="20000"
-        />
-        <TextareaBottom>
-          <TextLength lengthCount={lengthCount}>
-            {lengthCount} / 20000 자
-          </TextLength>
-          <StyledContentHr />
-        </TextareaBottom>
-      </TextareaWrapper>
-
-      {/* 업로드 버튼 */}
-      <SubmitButton
-        onClick={() => {
-          navigate("/community/post", {
-            state: {
-              title: title,
-              content: markdown,
-            },
-          });
-        }}
-      >
-        게시글 업로드
-      </SubmitButton>
-
-      {/* 모달 */}
-      {isModalOpen && (
-        <ModalOverlay onClick={closeModal}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={closeModal}>x</CloseButton>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {markdown}
-            </ReactMarkdown>
-          </ModalContent>
-        </ModalOverlay>
-      )}
-    </>
-  );
-};
 
 export default WritePost;
 
