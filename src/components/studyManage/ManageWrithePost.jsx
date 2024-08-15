@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
 import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
 import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
@@ -9,24 +8,14 @@ import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 
-const WritePost = () => {
+const StudyDetail = () => {
     // 상태 관리
-    const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(0);
-    const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
 
-    // 제목 하단바 색상 관리
-    const handlePurpleHr = () => {
-        setStyledHr(true);
-    };
-    const handleGrayHr = () => {
-        setStyledHr(false);
-    };
-    
     // 제목 크기 적용 함수
     const applyFontSize = (e) => {
         const value = e.target.value;
@@ -81,36 +70,33 @@ const WritePost = () => {
 
         // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
         const linkText = selected.length > 0 ? selected : 'text';
-        const linkSyntax = `[${linkText}](https://)`;
+        const linkSyntax = `[${linkText}]()`;
         setMarkdown(`${before}${linkSyntax}${after}`);
         textarea.setSelectionRange(selectionStart + linkSyntax.length - 4, selectionEnd + linkSyntax.length - 4);
         textarea.focus();
     };
 
     // 이미지 추가 함수
-    const addImage = () => {
-        const textarea = textareaRef.current;
-        const { selectionStart, selectionEnd } = textarea;
-        const before = markdown.substring(0, selectionStart);
-        const selected = markdown.substring(selectionStart, selectionEnd);
-        const after = markdown.substring(selectionEnd);
+    // const addImage = () => {
+    //     const textarea = textareaRef.current;
+    //     const { selectionStart, selectionEnd } = textarea;
+    //     const before = markdown.substring(0, selectionStart);
+    //     const selected = markdown.substring(selectionStart, selectionEnd);
+    //     const after = markdown.substring(selectionEnd);
 
-        // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
-        const altText = selected.length > 0 ? selected : 'alt text';
-        const imageSyntax = `![${altText}](url)`;
-        setMarkdown(`${before}${imageSyntax}${after}`);
-        textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
-        textarea.focus();
-    };
+    //     // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
+    //     const altText = selected.length > 0 ? selected : 'alt text';
+    //     const imageSyntax = `![${altText}](url)`;
+    //     setMarkdown(`${before}${imageSyntax}${after}`);
+    //     textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
+    //     textarea.focus();
+    // };
 
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
         setMarkdown(e.target.value);
         setLengthCount(e.target.value.length);
     };
-
-    // useNavigate
-    const navigate = useNavigate();
 
     // 모달 열고 닫기 함수
     const openModal = () => {
@@ -121,7 +107,7 @@ const WritePost = () => {
     };
 
     return (
-        <>
+        <ComponentWrapper>
             {/* 툴바 */}
             <ToolbarWrapper>
                 <StyledFontSizeSelect name="fontSize" value={fontSize} onChange={applyFontSize}>
@@ -138,7 +124,11 @@ const WritePost = () => {
                 <StyledItalicIcon onClick={() => applyFormatting('*')}/>
                 <StyledThroughIcon onClick={() => applyFormatting('~~')}/>
                 <StyledBar>|</StyledBar>
-                <StyledImageIcon onClick={addImage}/>
+                {/* <StyledImageIcon onClick={addImage}/> */}
+                <FileInputLabel htmlFor="contentImg">
+                    <StyledImageIcon/>
+                </FileInputLabel>
+                <ImageUploadInput type="file" id="contentImg" accept="image/*"/>
                 <StyledLinkIcon onClick={addLink}/>
                 <StyledBar>|</StyledBar>
                 <StyledPreviewButton onClick={openModal}>
@@ -158,10 +148,9 @@ const WritePost = () => {
                 />
                 <TextareaBottom>
                     <TextLength lengthCount={lengthCount}>{lengthCount}/20000 자</TextLength>
-                    <StyledContentHr/>
                 </TextareaBottom>
             </TextareaWrapper>
-            
+
             {/* 모달 */}
             {isModalOpen && (
                 <ModalOverlay onClick={closeModal}>
@@ -171,27 +160,32 @@ const WritePost = () => {
                     </ModalContent>
                 </ModalOverlay>
             )}
-        </>
+        </ComponentWrapper>
     );
-}
+};
 
-export default WritePost;
+export default StudyDetail;
 
 /* CSS */
+const ComponentWrapper = styled.div`
+    border: 1px solid #8E59FF;
+    border-radius: 10px;
+    width: 100%;
+
+`;
 
 const ToolbarWrapper = styled.div`
-    margin: 0.6em 0 0.9em 0.6em;
-    width: 57.125em;
+    margin: 1.5em 1.7em;
+    width: 96%;
     height: 2em;
     display: flex;
     align-items: center;
     background-color: #FBFAFF;
+    font-size: 0.9em;
     position: sticky;
-    top: 6.5em;
-
+    top: 60px;
     @media(max-width : 768px){
-        width : 90%;
-        margin-left : 1.5em;
+       margin: 1.5em 1.5em; 
     }
 `;
 
@@ -199,7 +193,7 @@ const StyledFontSizeSelect = styled.select`
     padding-left: 0.7em;
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 6em;
+    width: 7em;
     height: 1.75em;
     background-color: transparent;
     color: #8E59FF;
@@ -241,6 +235,15 @@ const StyledThroughIcon = styled(ThroughIcon)`
     }
 `;
 
+const FileInputLabel = styled.label`
+    display: flex;
+    align-items: center;
+`;
+
+const ImageUploadInput = styled.input`
+    display: none;
+`;
+
 const StyledImageIcon = styled(ImageIcon)`
     width: 1.2716em;
     height: 1.2em;
@@ -259,26 +262,27 @@ const StyledLinkIcon = styled(LinkIcon)`
 `;
 
 const TextareaWrapper = styled.div`
-    border-radius: 15px;
-    width: 59.125em;
-    height: 22em;
+    width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*&:focus-within{
-        box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
-    }*/
     transition: all 0.3s ease;
+
+    @media(max-width : 768px){
+        margin-left : 12em;
+    }
 `;
 
 const StyledTextarea = styled.textarea`
-    padding: 1em 1em 0 1em;
+    padding: 0 1.23em 0 1.23em;
     border: none;
-    width: 57.125em;
-    height: 53em;
-    line-height: 1.5em;
+    margin-left : 2em;
+    width: 75em;
+    height: 25.5425em;
+    line-height: 1.845em;
     background-color: transparent;
-    font-size: 1em;
+    font-size: 0.8125em;
     font-weight: 700;
     font-family: 'NanumSquareNeo';
     &:focus{
@@ -292,33 +296,17 @@ const StyledTextarea = styled.textarea`
 `;
 
 const TextareaBottom = styled.div`
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-
-
+    margin: 1em 4em 2em 0;
+    width: 100%;
+    text-align: end;
 `;
 
 const TextLength = styled.div`
     margin-left: auto;
+    font-size: 0.9em;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
-    @media(max-width : 768px){
-        width : 100%;
-        margin-right : 2em;
-    }
-`;
-
-const StyledContentHr = styled.hr`
-    margin: 1.5em 0 3em 0;
-    border: none;
-    width: 55.125em;
-    height: 1.5px;
-    background-color: rgba(162, 163, 178, 0.4);
-    @media(max-width : 768px){
-        width : 32em;
-        margin-left : -25em;
-    }
+    transition: all 0.3s ease;
 `;
 
 const StyledPreviewButton = styled.div`
@@ -346,13 +334,15 @@ const ModalOverlay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 3;
 `;
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 2em;
+    padding: 2.4615em;
     border-radius: 10px;
-    width: 57em;
-    max-height: 25em;
+    width: 68em;
+    max-height: 30.7692em;
+    font-size: 0.8125em;
     overflow-y: auto;
     position: relative;
 `;

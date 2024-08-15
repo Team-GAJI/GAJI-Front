@@ -152,7 +152,8 @@ const Sidebar1 = styled.aside`
   width: 11.25em; 
   height: 32.5em; 
   margin-top: 1.9375em; 
-`;
+  
+  `;
 const DelIconWrapper = styled.div`
   visibility: hidden;
   margin-left: 0em; 
