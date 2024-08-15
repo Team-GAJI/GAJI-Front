@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 // API 설명
 // 1. N주차에 스터디 이름 및 상세 설명을 작성한다.
 // 2. 저장하기 버튼을 클릭하면 그 주차에 작성한 내용을 저장한다.
-// 3. 저장한 후에 어디로...?
+// 3. 저장한 후에 어디로...? (스웨거) 
 // ? roomId는 studyroom에서 받아온다
 
 const ManageWeekBasics = ({ selectedWeek }) => {
@@ -46,7 +46,7 @@ const ManageWeekBasics = ({ selectedWeek }) => {
     const handleStudyDescriptionChange = (event) => {
         setStudyDescription(event.target.value);
     };
-
+    // 이거 나중에 삭제
     // const handleSave = async () => {
     //     if (!roomId || selectedWeek === undefined) {
     //         console.warn('roomId 또는 selectedWeek가 설정되지 않았습니다.');
