@@ -40,6 +40,7 @@ const WritePost = ({ link }) => {
             let apiCall;
             switch (link) {
                 case 'community':
+                    //각 커뮤니티 리덕스
                     apiCall = communityWriteAPI;
                     break;
                 case 'studyroom':
