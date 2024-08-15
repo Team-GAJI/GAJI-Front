@@ -32,18 +32,11 @@ const LoginPage = () => {
         }
     };
 
-    const handleNaverLogin = async () => {
-        try {
-            const res = await apiBase.get('oauth2/authorization/naver');
-            console.log(res);
-            const userToken = { accessToken: res.data.accessToken, refreshToken: res.data.refreshToken };
-            saveTokenToLocalStorage(userToken);
-            navigate('/'); // 로그인 후 메인 페이지로 이동
-        } catch (e) {
-            console.error(e);
-        }
+    const handleNaverLogin = () => {
+        const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
+        window.location.href = naverLoginUrl;
     };
-
+    
     const handleGoogleRegister = () => {
         if (isAgreed) {
             console.log('로그인 시작');
