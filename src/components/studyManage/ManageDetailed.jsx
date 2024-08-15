@@ -22,11 +22,11 @@ const MainWrapper = styled.div`
   background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
-  border: 1px solid #8E59FF;
-  border-radius: 0.5em; 
-  width: 59.375em; 
-  height: 25em;
-  
+  // border: 1px solid #8E59FF;
+  // border-radius: 0.5em; 
+  width: 62em; 
+  height: 32em;
+  // margin-left : 1em;
   @media(max-width : 768px){
     width : 80%;
     margin-left : 15em;
@@ -37,7 +37,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column; 
   gap: 0.625em; 
-  margin-left : -2.5em;
+  margin-left : -0.2em;
   
   @media(max-width : 768px){
     border : none;
