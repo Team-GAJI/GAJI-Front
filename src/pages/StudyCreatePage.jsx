@@ -15,16 +15,14 @@ const StudyCreatePage = () => {
 
     // Redux 관리
     const { name, peopleMaximum, thumbnailUrl, categoryList, privateCheck,
-        recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description } = useSelector((state) => state.studyCreate);
+        recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description, materialList } = useSelector((state) => state.studyCreate);
 
     // 서버로 전달할 데이터
     const data = {
         "name": name,
         "description": description,
         "thumbnailUrl": thumbnailUrl,
-        "materialList": [
-          "string"
-        ],
+        "materialList": materialList,
         "recruitStartDay": recruitStartDay,
         "recruitEndDay": recruitEndDay,
         "studyStartDay": studyStartDay,
