@@ -12,3 +12,17 @@ export const ContentWrapper = styled.div`
     }
 
 `
+
+
+export const ContentWrapper60 = styled.div`
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+    width : 60%;
+    margin : 0 auto;
+    
+    @media(max-width: 768px) {
+        width : 90%;
+    }
+
+`
