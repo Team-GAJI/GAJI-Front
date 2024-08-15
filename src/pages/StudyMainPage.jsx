@@ -6,6 +6,8 @@ import StudyPreview from '../components/studyMain/StudyPreview';
 import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
+import { ContentWrapper } from '../components/common/MediaWrapper';
+import { Scroll } from '../components/common/Scroll';
 
 const MainPage = () => {
     // state 관리
@@ -27,7 +29,7 @@ const MainPage = () => {
     };
 
     return (
-        <PageWrapper>
+        <ContentWrapper>
             {/* 페이지 헤더 */}
             <Header>
                 <PageHeaderTitle>스터디</PageHeaderTitle>
@@ -279,19 +281,11 @@ const MainPage = () => {
                         applicant={post.postApplicant}/>
                 ))}
             </StudyPreviewWrapper>
-        </PageWrapper>
+        </ContentWrapper>
     );
 };
 
 export default MainPage;
-
-/* CSS */
-const PageWrapper = styled.div`
-    margin-bottom: 6em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
 
 const SubTitle = styled.div`
     color : #D0D1D9;
@@ -326,6 +320,7 @@ const PageHeaderTitle = styled.div`
 `;
 
 const RowWrapper = styled.div`
+    width : 100%;
     display: flex;
     gap: 1em;
     justify-content: center;
@@ -334,7 +329,12 @@ const RowWrapper = styled.div`
 const SearchInputWrapper = styled.div`
     border: 1px solid #D0D1D9;
     border-radius: 10px;
-    width: 38.75em;
+    width: 50%;
+    min-width :273px;
+
+    @media(max-width : 768px){
+        width : 80%;
+    }
     height: 2.5em;
     background-color: white;
     display: flex;
@@ -364,7 +364,7 @@ const StyledSearchInput = styled.input`
 
 const SelectAndButtonWrapper = styled.div`
     margin-top: 2em;
-    width: 70em;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -389,14 +389,14 @@ const CreatePostButton = styled.button`
 const StyledHr = styled.hr`
     margin: 1.2em 0;
     border: none;
-    width: 70em;
+    width: 100%;
     height: 1.5px;
     background-color: #D0D1D9;
 `;
 
 const CategoryTitleWrapper = styled.div`
     margin: 1.2em 0 0.8em 0;
-    width: 70em;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -422,11 +422,11 @@ const ViewAllWrapper = styled.div`
     align-items: center;
 `;
 
-const StudyPreviewWrapper = styled.div`
-    margin-left: 1.2em;
-    width: 72.4em;
+const StudyPreviewWrapper = styled(Scroll)`
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    justify-content : center;
+    overflow-x : scroll;
 `;
 
 const ViewAll = styled.span`
