@@ -158,6 +158,10 @@ const Sidebar1 = styled.aside`
   padding-bottom: 1em;
   overflow-x: hidden;
   margin-top: 2.4em;
+  // 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2.4em;
 
   @media (max-width: 768px) {
     position: absolute;
