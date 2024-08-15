@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {descriptionAPI} from '../../utils/studyManageWeek/descriptionAPI';
-const ManageWeekBasics = ({ selectedWeek, roomId }) => {
+import { descriptionAPI/*, saveDescriptionAPI*/ } from '../../utils/studyManageWeek/descriptionAPI'; 
+import { useLocation } from 'react-router-dom';
+// API 설명
+// 1. N주차에 스터디 이름 및 상세 설명을 작성한다.
+// 2. 저장하기 버튼을 클릭하면 그 주차에 작성한 내용을 저장한다.
+// 3. 저장한 후에 어디로...?
+// ? roomId는 studyroom에서 받아온다
+
+const ManageWeekBasics = ({ selectedWeek }) => {
     const [isOn, setIsOn] = useState(true);
     const handleToggle = () => setIsOn(!isOn);
     const onToggle = () => setIsOn(true);
@@ -9,16 +16,23 @@ const ManageWeekBasics = ({ selectedWeek, roomId }) => {
     
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');
+    const location = useLocation();
+    const { roomId } = location.state || {};
 
     useEffect(() => {
+        if (!roomId || selectedWeek === undefined) {
+            console.warn('roomId 또는 selectedWeek가 설정되지 않았습니다.');
+            return;
+        }
+
         const fetchDescription = async () => {
             try {
-                const weeks = selectedWeek;
-                const response = await descriptionAPI(roomId, weeks);
-                
-                setStudyDescription(response.data.description);
+                const response = await descriptionAPI(roomId, selectedWeek);
+                if (response) {
+                    setStudyDescription(response.description);
+                }
             } catch (error) {
-                console.error('Failed to fetch description:', error);
+                console.error('API 오류:', error);
             }
         };
 
@@ -33,19 +47,21 @@ const ManageWeekBasics = ({ selectedWeek, roomId }) => {
         setStudyDescription(event.target.value);
     };
 
-    const handleSubmit = async () => {
-        try {
-            const weeks = selectedWeek;
-            await descriptionAPI(roomId, weeks);
-            alert('성공');
-        } catch (error) {
-            alert('실패');
-        }
-    };
+    // const handleSave = async () => {
+    //     if (!roomId || selectedWeek === undefined) {
+    //         console.warn('roomId 또는 selectedWeek가 설정되지 않았습니다.');
+    //         return;
+    //     }
+    //     try {
+    //         await saveDescriptionAPI(roomId, selectedWeek, studyDescription);
+    //         alert('저장 완료!');
+    //     } catch (error) {
+    //         console.error('저장 오류:', error);
+    //     }
+    // };
 
     return (
         <Container>
-            {/* 선택한 N주차가 나오게 */}
             <Text2>{selectedWeek + 1}주차 스터디 관리</Text2>
             <MainWrapper1>
                 <InputWrapper>
@@ -78,13 +94,15 @@ const ManageWeekBasics = ({ selectedWeek, roomId }) => {
                         </ToggleBox>
                         <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
                     </ToggleWrapper>
-                </Container>  
+                </Container>
+                {/* <SaveButton onClick={handleSave}>저장하기</SaveButton>  */}
             </MainWrapper1>  
         </Container>
     );
 };
 
 export default ManageWeekBasics;
+
 
 
 const Container = styled.div`
@@ -244,4 +262,19 @@ const Toggle = styled.div`
     position: absolute;
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
+`;
+
+const SaveButton = styled.button`
+    padding: 10px 20px;
+    background-color: #4CAF50; // Green background
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+
+    &:hover {
+        background-color: #45a049; // Darker green on hover
+    }
 `;
