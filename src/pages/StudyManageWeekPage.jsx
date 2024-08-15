@@ -8,7 +8,6 @@ import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/Stu
 import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
 import ManageWeekeDate from '../components/studyManageWeek/ManageWeekDate.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
-import ManageWeekPeriod from '../components/studyManageWeek/StudyManageWeekPeriod.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 
 
@@ -110,7 +109,7 @@ const StudyManageWeeKPage = () => {
           </SidebarWrapper>
 
         <ManageWeekBasics selectedWeek={selectedWeek}/>
-        <ManageWeekPeriod selectedWeek={selectedWeek}/>
+        <ManageWeekeDate selectedWeek={selectedWeek}/>
         <ManageWeekeDetailed selectedWeek={selectedWeek} />
       </MainSection>
 
