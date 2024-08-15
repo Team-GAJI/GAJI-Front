@@ -9,6 +9,7 @@ export const ContentWrapper = styled.div`
     
     @media(max-width: 768px) {
         width : 90%;
+        margin-top: 6em;
     }
 
 `

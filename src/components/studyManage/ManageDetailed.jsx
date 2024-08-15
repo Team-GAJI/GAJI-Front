@@ -22,14 +22,14 @@ const MainWrapper = styled.div`
   background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
-  border: 1px solid #8E59FF;
-  border-radius: 0.5em; 
-  width: 59.375em; 
-  height: 25em;
-  
+  // border: 1px solid #8E59FF;
+  // border-radius: 0.5em; 
+  width: 62em; 
+  height: 32em;
+  // margin-left : 1em;
   @media(max-width : 768px){
-    width : 80%;
-    margin-left : 15em;
+    width : 50%;
+    margin-left : 0em;
   }
   
 `;
@@ -37,12 +37,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column; 
   gap: 0.625em; 
+  margin-left : -0.2em;
+  
   @media(max-width : 768px){
     border : none;
     flex-direction : column;
     align-items: center;
     justify-content: flex-start;
-    margin-top : 10em;
+    margin-top : -28em;
   }
 `;
 const Text2 = styled.p`
@@ -51,7 +53,7 @@ const Text2 = styled.p`
     font-weight: 800;
 
   @media(max-width : 768px){
-    margin-left : -10em;
+    margin-left : -25em;
     font-size: 1.1em; 
   }
 

@@ -56,6 +56,11 @@ const StudyInfo = () => {
     const offToggle = () => setIsOn(false);
 
     return (
+        <>
+        <Container>
+            <Title>스터디 기본정보</Title>
+        </Container>
+        
         <ComponentWrapper>
             {/* 카테고리, 인원수 영역 */}
             <TopWrapper>
@@ -118,6 +123,7 @@ const StudyInfo = () => {
                 <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
             </ToggleWrapper>
         </ComponentWrapper>
+        </>
     );
 };
 
@@ -128,7 +134,7 @@ const ComponentWrapper = styled.div`
     padding: 2em 2em 1em 2em;
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 53.6em; 
+    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -137,7 +143,20 @@ const ComponentWrapper = styled.div`
         flex-direction : column;
         align-items: center;
         justify-content: flex-start;
+
     }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column; 
+  gap: 0.625em; 
+  margin-bottom : 1em;
+  @media(max-width : 786px){
+    align-items: center;
+    margin-left : 2em /* 이거 확인*/
+
+ }
 `;
 
 const TopWrapper = styled.div`
@@ -147,7 +166,7 @@ const TopWrapper = styled.div`
     justify-content: space-between;
     
     @media(max-width : 786px){
-        flex-direction : column;
+        flex-direction : row;
         align-items: center;
         justify-content: flex-start;
     }
@@ -161,12 +180,19 @@ const TotalMembersWrapper = styled.div`
 
     @media(max-width: 768px) {
         margin-top : 2em;
+        font-size: 0.4em;
     }
 `;
 
 const CounterWrapper = styled.div`
     display: flex;
     align-items: center;
+    
+    @media(max-width: 768px) {
+        width : 100%;
+        padding-left : 20em;
+    }
+
 `;
 
 const WanringText = styled.div`
@@ -213,8 +239,7 @@ const TitleWrapper = styled.div`
     margin: 1em 0;
     width: 100%;
     @media(max-width : 768px){
-       width: 50%; 
-      
+       margin-left : 5em;
     }
 `;
 
@@ -253,8 +278,8 @@ const TextLength = styled.div`
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
     @media(max-width : 768px){
-       width: 50%; 
-       margin-left: 18em;
+       width: 12%; 
+       font-size: 0.3em;
     }
 `;
 
@@ -272,13 +297,23 @@ const ThumbNailWrapper = styled.div`
     margin-bottom: 1em;
     display: flex;
     flex-direction: column;
+    @media(max-width : 768px ){
+        margin-right : 20em; 
+    }
 
 `;
 
 const Title = styled.div`
-    margin: 1em 0 0.7em 0;
     color: #8E59FF;
+    font-size: 1.25em; 
     font-weight: 800;
+    text-align: left;
+    margin-left: -24em; 
+    @media(max-width : 768px){
+        font-size: 1.1em; 
+        margin-left : -27em;
+
+    }
 `;
 
 const UploadWrapper = styled.div`
@@ -287,9 +322,13 @@ const UploadWrapper = styled.div`
     justify-content: space-between;
     
     @media(max-width : 786px){
-        flex-direction : column;
+        flex-direction : row;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        gap : 0em;
+        margin-left : 13em;
+        height : 11em;
+        background-position: center 50%; 
     }
 
 `;
@@ -299,15 +338,15 @@ const ImageWrapper = styled.div`
     flex-direction: column;
     border: 1px solid #A2A3B2;
     border-radius: 10px; 
-    width: 32em; 
+    width: 60%; 
     height: 11.625em; 
     align-items: center;
     justify-content: center;
-
     
-    @media(max-width : 768px){
-        margin-bottom : 2em;
+    @media(max-width : 786px){
+       width : 50%;
     }
+
 `;
 
 const FileInputLabel = styled.label`
@@ -343,15 +382,6 @@ const PreivewWrapper = styled.div`
     height: 11.625em; 
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
-
-    
-    @media(max-width : 768px){
-        width : 100%;
-        height : 11em;
-        background-position: center 50%; 
-
-    }
-    
 `;
 
 const ToggleWrapper = styled.div`
