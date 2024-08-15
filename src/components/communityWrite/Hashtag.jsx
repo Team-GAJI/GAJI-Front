@@ -14,8 +14,7 @@ export default Hashtag;
 
 /* CSS */
 const Wrapper = styled.div`
-    position: relative;
-    margin-right: 0.7em;
+    position : relative;
     padding: 0 1.2em;
     border-radius: 15px;
     height: 1.8182em;
@@ -33,10 +32,10 @@ const Wrapper = styled.div`
 `;
 
 const DeleteButton = styled.button`
+    position : absolute;
     display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
+    top: 0.125em;
+    right : 0;
     background: none;
     border: none;
     color: white;

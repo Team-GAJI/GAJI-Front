@@ -4,7 +4,6 @@ import ManageDel from '../assets/icons/studyManage/StudyManageDel.svg';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
 // import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import ManageInfo from '../components/studyManage/ManageInfo';
 import ManagePeriod from '../components/studyManage/StudyManagePeriod';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
@@ -21,7 +20,7 @@ const StudyManagePage = () => {
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length]); 
+    setWeeks([...weeks, weeks.length + 1]); 
   };
 
   useEffect(() => {
@@ -30,19 +29,23 @@ const StudyManagePage = () => {
       const newHeight = sidebarRef.current.scrollHeight;
       sidebarRef.current.style.height = `${newHeight}px`;
     }
-    }, [weeks]);
-    const [selectedWeek, setSelectedWeek] = useState(0);
-      
-    const handleWeekSelect = (index) => {
-        setSelectedWeek(index);
-    };
-      //studymanage 페이지로 이동
-    const navigate = useNavigate();
-    const handleButtonClick = (navigate) => {
-        navigate('/studyweekmanage');
-    };
-    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  }, [weeks]);
+  const [selectedWeek, setSelectedWeek] = useState(0);
+    
+  const handleWeekSelect = (index) => {
+      setSelectedWeek(index);
+  };
+    //studymanage 페이지로 이동
+  const navigate = useNavigate();
 
+  const handleButtonClick = (navigate) => {
+      navigate('/studyweekmanage');
+      
+  };
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
+  // Redux 상태 관리
+  // const dispatch = useDispatch();
 
   // 헤더 함수
   const headerTitles = ["저장하기"];
@@ -105,6 +108,7 @@ const StudyManagePage = () => {
               <PlusButton onClick={handleAdd}>
                 <PlusIcons src={ManagePlus} alt="추가" />
               </PlusButton>
+
           </Sidebar1>
         </RowWrapper>
     </Wrapper>
@@ -129,6 +133,7 @@ const Wrapper = styled.div`
 `;
 
 
+
 const DelIconWrapper = styled.div`
   visibility: hidden;
   margin-left: 0em; 
@@ -151,6 +156,7 @@ const Sidebar1 = styled.aside`
   display: flex;
   flex-direction: column;
   border: 1px solid #A2A3B2;
+
   border-radius: 0.5em;
   max-height: 78.5vh;
   width: 11.25em;
@@ -178,8 +184,13 @@ const Sidebar1 = styled.aside`
     height: 3em; 
     max-height: 5em; 
   }
-`;
 
+`;
+const TextWrapper = styled.div`
+  flex: 1;
+  text-align: center;
+
+`;
 const SidebarButton1 = styled.div`
   display: flex;
   align-items: center;
@@ -193,6 +204,7 @@ const SidebarButton1 = styled.div`
   width: 100%;
   margin: 0.5em 0;
   box-sizing: border-box;
+
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -208,8 +220,9 @@ const SidebarButton1 = styled.div`
     color: #8E59FF;
     font-weight: 800;
   }
-
+  // 마지막 주차 글자 위치조정
   &.last-week {
+
     margin-left: 1.5em;
 
   }

@@ -202,6 +202,14 @@ const StyledButton = styled.div`
     &:focus{
         outline: none;
     }
+
+    @media(max-width : 768px){
+        width : 6em;
+        font-size: 0.75em;
+        gap : 0.0125em;
+        padding-right: 0.5em;
+        padding-left : 0.5em;
+    }
 `;
 
 const Text = styled.div`
