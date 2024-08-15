@@ -74,7 +74,7 @@ const MainSelectBox = () => {
                     <StyledOption
                         onClick={() => handleCategorySelect("네트워크 - 클라우드")}
                         isSelected={selectedCategoryOption === "네트워크 - 클라우드"}
-                    >네트워크 - 클라우드</StyledOption>
+                    >클라우드</StyledOption>
                     <StyledOption
                         onClick={() => handleCategorySelect("어학")}
                         isSelected={selectedCategoryOption === "어학"}
@@ -231,15 +231,24 @@ const OptionWrapper = styled.div`
     opacity: ${(props) => (props.isVisible ? 1 : 0)};
     transition: all 0.3s ease;
     position: absolute;
+    @media(max-width : 768px){
+        width : 8em;
+        font-size: 0.55em;
+        gap : 0.0125em;
+        padding-right: 0.5em;
+        padding-left : 0.5em;
+    }
 `;
 
 const StyledOption = styled.div`
+    display : flex;
+    justify-content : center;
+    align-items :center;
     margin: 0.5em 0;
     border: ${(props) => (props.isSelected ? "1px solid #D0D1D9" : "none")};
     border-radius: 10px;
     width: 11em;
     height: 2.0769em;
-    line-height: 2.0769em;
     cursor: pointer;
     text-align: center;
     color: ${(props) => (props.isSelected ? "white" : "#D0D1D9")};
@@ -247,5 +256,11 @@ const StyledOption = styled.div`
     &:hover{
         color: white;
         font-weight: bold;
+    }
+
+    @media(max-width : 768px){
+        width : 8em;
+        overflow-wrap: break-word; 
+        
     }
 `;

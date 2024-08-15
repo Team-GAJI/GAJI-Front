@@ -6,11 +6,12 @@ import userProfileUrl from '../../assets/images/common/userProfile.png';
 
 const Header = () => {
     const navigate = useNavigate();
-    const accessToken = localStorage.getItem('accessToken');
+    const [accessToken,setAccessToken] = useState(localStorage.getItem('accessToken'));
     const [menuVisible, setMenuVisible] = useState(false);
 
     const handleLogout = () => {
-        
+        localStorage.removeItem('accessToken');
+        setAccessToken(null);
     };
 
     const toggleMenu = () => {

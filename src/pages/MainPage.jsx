@@ -110,7 +110,7 @@ const MainPage = () => {
                 <Arrow onClick={() => {navigate("/community");}}>&gt;</Arrow>
             </ViewAllWrapper>
 
-            <BlogPreviewWrapper>
+            <BlogPreviewWrapper2>
                 {blogs.slice(0, 8).map((post) => (
                     <BlogPreview
                         key={post.postId}
@@ -123,7 +123,7 @@ const MainPage = () => {
                         views={post.postViews}
                         like={post.postLike} />
                 ))}
-            </BlogPreviewWrapper>
+            </BlogPreviewWrapper2>
         </ContentWrapper>
         </PageWrapper>
     );
@@ -257,7 +257,27 @@ const Arrow = styled.span`
 const BlogPreviewWrapper = styled(Scroll)`
     width : 100%;
     display: flex;
+    justify-content: center;
     overflow-x : scroll;
     overflow-y : hidden;
-    padding-left : 0;
+    
+`;
+
+
+const BlogPreviewWrapper2 = styled(Scroll)`
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    place-items : center;
+    column-gap : 3em;
+    row-gap : 3em;
+    padding-top : 1.2em;
+    margin-bottom : 1.2em;
+    
+
+    @media(max-width: 768px) {
+        display: flex;
+        overflow-x: scroll; 
+        overflow-y: hidden;
+    }
 `;

@@ -42,7 +42,6 @@ export default BlogPreview;
 /* CSS */
 const PostWrapper = styled.div`
     border-radius: 10px;
-    margin: 1.2em;
     width: 21.6em;
     height: 21.6em;
     font-size: 0.7489em;

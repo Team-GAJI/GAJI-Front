@@ -10,6 +10,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
 
+
 const WritePost = () => {
     // 상태 관리
     const [title, setTitle] = useState('');
@@ -131,7 +132,7 @@ const WritePost = () => {
     };
 
     return (
-        <>
+        <Wrapper>
             {/* 제목 */}
             <TitleWrapper>
                 <TitleInput
@@ -210,22 +211,29 @@ const WritePost = () => {
                     </ModalContent>
                 </ModalOverlay>
             )}
-        </>
+        </Wrapper>
     );
 }
 
 export default WritePost;
 
-/* CSS */
+
+const Wrapper = styled.div`
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+    width : 100%;
+    margin-bottom :1em;
+`
 const TitleWrapper = styled.div`
-    width: 59.125em;
+    width : 100%;
 `;
 
 const TitleInput = styled.input`
     padding-left: 1.2307em;
     border: none;
     border-radius: 10px;
-    width: 71.4em;
+    width : 100%;
     height: 3em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -242,7 +250,8 @@ const TitleInput = styled.input`
 `;
 
 const StyledTitleHr = styled.hr`
-    margin: 0 1em;
+    margin-bottom : 1em;
+    width : 100%;
     border: none;
     height: 1.5px;
     background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
@@ -251,19 +260,23 @@ const StyledTitleHr = styled.hr`
 `;
 
 const ToolbarWrapper = styled.div`
-    margin: 0.6em 0 0.9em 0;
-    width: 63.4722em;
+    margin-top : 0.6em;
+    width : 100%;
     height: 2em;
     display: flex;
     align-items: center;
     background-color: #FBFAFF;
     font-size: 0.9em;
+    overflow-x : scorll;
     position: sticky;
     top: 60px;
 `;
 
 const StyledFontSizeSelect = styled.select`
-    padding-left: 0.7em;
+    display : flex;
+    justify-content : center;
+    padding-left : 0.25em;
+    box-sizing : border-box;
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 6em;
@@ -275,6 +288,11 @@ const StyledFontSizeSelect = styled.select`
     cursor: pointer;
     &:focus{
         outline: none;
+    }
+
+    @media(max-width:768px){
+        font-size : 0.75em;
+
     }
 `;
 
@@ -289,6 +307,9 @@ const StyledBoldIcon = styled(BoldIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const StyledItalicIcon = styled(ItalicIcon)`
@@ -298,6 +319,9 @@ const StyledItalicIcon = styled(ItalicIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const StyledThroughIcon = styled(ThroughIcon)`
@@ -306,15 +330,22 @@ const StyledThroughIcon = styled(ThroughIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const FileInputLabel = styled.label`
     display: flex;
     align-items: center;
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const ImageUploadInput = styled.input`
     display: none;
+    
 `;
 
 const StyledImageIcon = styled(ImageIcon)`
@@ -322,6 +353,9 @@ const StyledImageIcon = styled(ImageIcon)`
     height: 1.2em;
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
+    }
+            @media(max-width:768px){
+        width : 0.75em;
     }
 `;
 
@@ -332,12 +366,20 @@ const StyledLinkIcon = styled(LinkIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.8125em;
+        margin-left:1em;
+    }
 `;
 
 const TextareaWrapper = styled.div`
     border-radius: 15px;
-    width: 59.125em;
+    width: 100%;
     height: auto;
+    padding : 1em;
+    padding-bottom : 0em;
+    margin-top : 0.8125em;
+    box-sizing : border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -350,7 +392,7 @@ const TextareaWrapper = styled.div`
 const StyledTextarea = styled.textarea`
     padding: 1.23em 1.23em 0 1.23em;
     border: none;
-    width: 68em;
+    width: 100%;
     height: 65.19em;
     line-height: 1.845em;
     background-color: transparent;
@@ -368,12 +410,14 @@ const StyledTextarea = styled.textarea`
 `;
 
 const TextareaBottom = styled.div`
+    width : 100%;
     margin-top: 1em;
     display: flex;
     flex-direction: column;
 `;
 
 const TextLength = styled.div`
+    font-size : 0.8125em;
     margin-left: auto;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
@@ -382,7 +426,7 @@ const TextLength = styled.div`
 const StyledContentHr = styled.hr`
     margin: 1.5em 0 2em 0;
     border: none;
-    width: 55.125em;
+    width : 100%;
     height: 1.5px;
     background-color: rgba(162, 163, 178, 0.4);
 `;
@@ -391,6 +435,9 @@ const StyledPreviewButton = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 6em;
+    box-sizing : border-box;
+    padding-left : 0.25em;
+    padding-right : 0.25em;
     height: 1.75em;
     line-height: 1.75em;
     text-align: center;
@@ -399,10 +446,12 @@ const StyledPreviewButton = styled.div`
     font-size: 1em;
     font-weight: 800;
     cursor: pointer;
+    @media(max-width:768px){
+        font-size: 0.75em;
+    }
 `;
 
 const SubmitButton = styled.button`
-    margin-top: 1em;
     border: none;
     border-radius: 10px;
     width: 9.1em;
@@ -416,6 +465,12 @@ const SubmitButton = styled.button`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
+
+    @media(max-width : 768px){
+        width: 7em;
+        height: 2.25em;
+        font-size: 0.8125em;
+    }
 `;
 
 // 모달
@@ -429,7 +484,8 @@ const ModalOverlay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
+    z-index: 10;
+
 `;
 const ModalContent = styled.div`
     background-color: #fff;
@@ -440,6 +496,9 @@ const ModalContent = styled.div`
     font-size: 0.8125em;
     overflow-y: auto;
     position: relative;
+    @media(max-width:768px){
+        width : 80%;
+    }
 `;
 const CloseButton = styled.button`
     position: absolute;

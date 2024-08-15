@@ -6,6 +6,7 @@ import Hashtag from '../components/communityWrite/Hashtag';
 import WritePost from '../components/communityWrite/WritePost';
 import PageHeader from '../components/common/PageHeader';
 import WriteSelectBox from '../components/communityWrite/WriteSelectBox';
+import { ContentWrapper60 } from '../components/common/MediaWrapper';
 
 const CommunityWritePage = () => {
     // Redux 상태 관리
@@ -70,7 +71,7 @@ const CommunityWritePage = () => {
     };
 
     return (
-        <>
+        <ContentWrapper60>
             {/* 헤더 */}
             <PageHeader
                 pageTitle="커뮤니티 글쓰기"
@@ -82,12 +83,11 @@ const CommunityWritePage = () => {
             />
 
             {/* 게시글 작성 */}
-            <PostsWrapper>
                 <PostOptionWrapper>
                     <WriteSelectBox/>
                     <HashtagInputWrapper>
                         # <HashtagInput
-                            placeholder='해시태그를 작성해주세요'
+                            placeholder='해시태그'
                             value={inputValue} 
                             onChange={handleInputChange} 
                             onKeyDown={handleInputKeyDown}
@@ -105,44 +105,43 @@ const CommunityWritePage = () => {
                 </HashtagWrapper>
                 {/* 작성 공간 */}
                 <WritePost/>
-            </PostsWrapper>
-        </>
+        
+        </ContentWrapper60>
     );
 };
 
 export default CommunityWritePage;
 
-/* CSS */
-const PostsWrapper = styled.div`
-    margin: 2.5em 0 3.5em 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-`;
-
 const PostOptionWrapper = styled.div`
     margin-bottom: 2em;
-    width: 57.125em;
+    width: 100%;
     display: flex;
+    gap : 2%;
 `;
 
 const HashtagInputWrapper = styled.div`
+    position : relative;
+    width : 49%;
     padding-left: 1.5em;
+    box-sizing :border-box;
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 27.5em;
+    display : flex;
+    justify-content : flex-start;
+    align-items : center;
     height: 2.5em;
     line-height: 2.5em;
+    
     background-color: transparent;
     color: #8E59FF;
     font-weight: 800;
+
+}
 `;
 
 const HashtagInput = styled.input`
-    border: none;
-    width: 29em;
+    border: none;  
+    width : 80%;
     background-color: transparent;
     font-weight: 800;
     -webkit-appearance: none;
@@ -157,13 +156,15 @@ const HashtagInput = styled.input`
 `;
 
 const PostTitle = styled.div`
-    width: 57.125em;
+    width: 100%;
     color: #161A3F;
     font-weight: 800;
 `;
 
 const HashtagWrapper = styled.div`
     margin: 0.7em 0;
-    width: 57.125em;
+    width: 100%;
     display: flex;
+    flex-wrap: wrap; 
+    gap : 0.5em;
 `;
