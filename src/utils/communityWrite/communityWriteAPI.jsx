@@ -1,8 +1,8 @@
 import { api } from "../API";
 
-export const studyInfoAPI = async (roomId) => {
+export const communityWriteAPI = async (data) => {
     try {
-        const response = await api.get(`/api/studyRooms/home/${roomId}`);
+        const response = await api.post(`/api/community-posts`, data);
         console.log(response)
 
     } catch (error) {

@@ -6,8 +6,7 @@ import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setTokens } from '../feautres/auth/authSlice';
+
 
 
 
@@ -17,13 +16,11 @@ const LoginRedirectPage = () => {
     const [isAgreed, setIsAgreed] = useState(false); 
     const navigate = useNavigate()
     const [register , setRegister] = useState(true);
-    const dispatch = useDispatch();
+
 
     const submitNickname = () => {
         //서버에 닉네임 저장 로직 추가
         setModal(false)  
-        const userToken = { accessToken: 'sampleAccessToken', refreshToken: 'sampleRefreshToken' }; // 예제 토큰
-        dispatch(setTokens(userToken));
         navigate('/')
         
     }

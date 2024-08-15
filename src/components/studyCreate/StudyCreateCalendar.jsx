@@ -4,9 +4,11 @@ import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
 import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../style/Color';
 
-const StudyCreateCalendar = () => {
+const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     const monthName = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear();
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -20,11 +22,45 @@ const StudyCreateCalendar = () => {
     const nextMonthStartDay = (firstDayOfMonth + daysInMonth) % 7;
 
     const cells = [];
+    const today = new Date();
 
-    const handleDateClick = (day) => {
-        setSelectedDate(new Date(currentYear, currentMonth, day));
+    const isDateSelected = (day) => {
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        return (startDate && endDate && 
+                (currentDate.toDateString() === startDate.toDateString() || 
+                 currentDate.toDateString() === endDate.toDateString()));
     };
 
+    const isInSelectionRange = (day) => {
+        if (!startDate || !endDate) return false;
+        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+        return currentDate >= startDate && currentDate <= endDate;
+    };
+
+    const handleDateClick = (day) => {
+        const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
+        
+        if (!startDate) {
+            setStartDate(selectedDate);
+            setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
+        } else if (!endDate) {
+            if (selectedDate < startDate) {
+                setStartDate(selectedDate);
+                setEndDate(null);
+                onStartDateChange(selectedDate); // Start date 변경 알림
+            } else {
+                setEndDate(selectedDate);
+                onEndDateChange(selectedDate); // End date 변경 알림
+            }
+        } else {
+            setStartDate(selectedDate);
+            setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
+        }
+    };
+
+    // 이전 달의 날짜 추가
     for (let i = firstDayOfMonth; i > 0; i--) {
         cells.push(
             <Cell key={`prev-${i}`} className="empty">
@@ -33,19 +69,29 @@ const StudyCreateCalendar = () => {
         );
     }
 
+    // 현재 달의 날짜 추가
     for (let day = 1; day <= daysInMonth; day++) {
-        const isSelectedDate =
-            selectedDate.getDate() === day &&
-            selectedDate.getMonth() === currentMonth &&
-            selectedDate.getFullYear() === currentYear;
-
+        const isToday = 
+            today.getDate() === day && 
+            today.getMonth() === currentMonth && 
+            today.getFullYear() === currentYear;
+    
         cells.push(
-            <Cell key={day} $isSelected={isSelectedDate} onClick={() => handleDateClick(day)}>
+            <Cell
+                key={day}
+                isToday={isToday}
+                isInRange={isInSelectionRange(day)}
+                isSelected={isDateSelected(day)}
+                isStart={startDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()}
+                isEnd={endDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === endDate.toDateString()}
+                onClick={() => handleDateClick(day)}
+            >
                 {day}
             </Cell>
         );
     }
 
+    // 다음 달의 날짜 추가
     for (let i = 1; i <= (7 - nextMonthStartDay) % 7; i++) {
         cells.push(
             <Cell key={`next-${i}`} className="empty">
@@ -149,13 +195,12 @@ const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    gap: 1em;
+    grid-row-gap: 0.7em;
     font-size : 1em;
     place-items: center center;  
 `;
 
 const Day = styled.div`
-    padding: 0.625em;
     text-align: center;
     box-sizing: border-box;
 `;
@@ -167,15 +212,39 @@ const Cell = styled.div`
     justify-content: center;
     height: 2.5em;
     width: 2.5em;
-    padding: 0.625em;
-    font-weight: ${props => (props.$isSelected ? '600' : '400')};
-    color: ${props => (props.$isSelected ? '#ffffff' : '#000000')};
-    background-color: ${props => (props.$isSelected ? '#8e59ff' : 'transparent')};
-    border-radius: ${props => (props.$isSelected ? '100%' : 'none')};
-    box-shadow: ${props => (props.$isSelected ? '0px 4px 0.625em rgba(129, 76, 161, 0.19)' : 'none')};
     cursor: pointer;
     &.empty {
         color: #ccc;
     }
     transition: all ease 0.3s;
+
+    font-weight: ${props => props.isToday ? '600' : '400'};
+    color: ${props => (props.isToday || props.isStart || props.isEnd) ? '#FFFFFF' : '#000000'};
+    background-color: ${props => 
+        props.isToday ? 'rgba(142,89,255,0.5)' : 
+        props.isStart || props.isEnd ? '#8E59FF' : 
+        'transparent'
+    };
+    border-radius: 50%;
+    box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
+    position: relative; 
+    // z-index: 10;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: ${props => props.isInRange ? 'rgba(142,89,255,0.1)' : 'transparent'};
+        z-index: -1;
+        transition: all ease 0.3s;
+        border-radius: ${props => 
+            props.isStart ? '20px 0 0 20px' :
+            props.isEnd ? '0 20px 20px 0' : 
+            '0'
+        };
+        visibility: ${props => props.isInRange ? 'visible' : 'hidden'};
+    }
 `;

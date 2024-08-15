@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek }) => {
+
     const [isOn, setIsOn] = useState(true)
     const handleToggle = () => setIsOn(!isOn);
     const onToggle = () => setIsOn(true);
     const offToggle = () => setIsOn(false);
-
     
     const [studyName, setStudyName] = useState('');
     const [studyDescription, setStudyDescription] = useState('');

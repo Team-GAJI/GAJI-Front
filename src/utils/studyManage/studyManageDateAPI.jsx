@@ -1,8 +1,8 @@
 import { api } from "../API";
 
-export const studyInfoAPI = async (roomId) => {
+export const studyManageDateAPI = async (roomId, Weeks, userId) => {
     try {
-        const response = await api.get(`/api/studyRooms/home/${roomId}`);
+        const response = await api.get(`/api/studyRooms/event/${roomId}/${Weeks}/${userId}/period`);
         console.log(response)
 
     } catch (error) {

@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuIcon from '../../assets/icons/common/menuBar.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeTokens } from '../../feautres/auth/authSlice';
 import userProfileUrl from '../../assets/images/common/userProfile.png';
 
 const Header = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const accessToken = useSelector((state) => state.auth.accessToken);
+    const accessToken = localStorage.getItem('accessToken');
     const [menuVisible, setMenuVisible] = useState(false);
 
     const handleLogout = () => {
-        dispatch(removeTokens());
+        
     };
 
     const toggleMenu = () => {
@@ -63,12 +60,6 @@ const HeaderWrapper = styled.div`
     align-items: center;
     padding-left: 3.1em;
     padding-right: 3.1em;
-
-    @media (max-width: 768px) {
-        height: 80px;
-        padding-left: 1.5em;
-        padding-right: 1.5em;
-    }
 `;
 
 const RowWrapper = styled.div`
@@ -85,16 +76,20 @@ const RowWrapper = styled.div`
 const MenuWrapper = styled.div`
     visibility: ${(props) => (props.$menuVisible ? 'visible' : 'hidden')};
     opacity: ${(props) => (props.$menuVisible ? '1' : '0')};
-    transition: visibility 0.3s ease, opacity 0.3s ease;
+    transition:  visibility 0.3s ease, opacity 0.3s ease;
     display: flex;
     gap: 4.25em;
 
     @media (max-width: 768px) {
+        width : 5em;
+        height : 100vh;
         flex-direction: column;
+        transform: ${(props) => (props.$menuVisible ? 'translateX(0)' : 'translateX(-100%)')};
+        transition: transform 0.3s ease, visibility 0.3s ease, opacity 0.3s ease;
+        align-items : center;
         position: absolute;
-        top: 79px;
+        top: 60px;
         left: 0;
-        right: 0;
         background-color: #FBFAFF;
         padding: 2.1em;
     }
@@ -110,6 +105,7 @@ const StyledMenuIcon = styled(MenuIcon)`
     @media (max-width: 768px) {
         width: 1em;
         height : 1em;
+        margin-left : 1em;
     }
 `;
 

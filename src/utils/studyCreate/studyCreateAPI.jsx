@@ -1,8 +1,8 @@
 import { api } from "../API";
 
-export const studyInfoAPI = async (roomId) => {
+export const studyCreateAPI = async (data) => {
     try {
-        const response = await api.get(`/api/studyRooms/home/${roomId}`);
+        const response = await api.post(`/studyRecruitPosts/`, data);
         console.log(response)
 
     } catch (error) {

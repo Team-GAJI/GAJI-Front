@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/studyManage/StudyManageprevmonth.svg';
-import NextMonth from '../../assets/icons/studyManage/StudyManagenextmonth.svg';
+import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
+import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
+import { Color } from '../style/Color';
 
-const ManageCalendar = () => {
+const StudyCreateRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -22,14 +23,6 @@ const ManageCalendar = () => {
 
     const cells = [];
     const today = new Date();
-
-    const isDateInRange = (day) => {
-        const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
-        if (startDate && endDate) {
-            return currentDate > startDate && currentDate < endDate;
-        }
-        return false;
-    };
 
     const isDateSelected = (day) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
@@ -50,16 +43,20 @@ const ManageCalendar = () => {
         if (!startDate) {
             setStartDate(selectedDate);
             setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
         } else if (!endDate) {
             if (selectedDate < startDate) {
                 setStartDate(selectedDate);
                 setEndDate(null);
+                onStartDateChange(selectedDate); // Start date 변경 알림
             } else {
                 setEndDate(selectedDate);
+                onEndDateChange(selectedDate); // End date 변경 알림
             }
         } else {
             setStartDate(selectedDate);
             setEndDate(null);
+            onStartDateChange(selectedDate); // Start date 변경 알림
         }
     };
 
@@ -112,29 +109,71 @@ const ManageCalendar = () => {
     };
 
     return (
-        <CalendarContainer>
-            <Header>
-                <Icons src={PrevMonth} alt="전으로 넘어가기" onClick={prevMonth} />
-                <MonthYear>
-                    {`${year}년`} {`${monthName}`}
-                </MonthYear>
-                <Icons src={NextMonth} alt="다음으로 넘어가기" onClick={nextMonth} />
-            </Header>
-            <Grid>
-                {days.map((day, index) => (
-                    <Day key={index}>{day}</Day>
-                ))}
-                {cells}
-            </Grid>
-        </CalendarContainer>
+        <CalendarWrapper>
+            <CalendarWrapper1>
+                <Header>
+                    <StyledPrevMonth onClick={prevMonth} />
+                    <MonthYear>
+                        {`${year}년`} <Color>{`${monthName}`}</Color>
+                    </MonthYear>
+                    <StyledNextMonth onClick={nextMonth} />
+                </Header>
+                <Grid>
+                    {days.map((day, index) => (
+                        <Day key={index}>{day}</Day>
+                    ))}
+                    {cells}
+                </Grid>
+            </CalendarWrapper1>
+        </CalendarWrapper>
     );
 };
 
-export default ManageCalendar;
+export default StudyCreateRecruitCalendar;
 
-const CalendarContainer = styled.div`
-    margin: 0 auto;
-    text-align: center;
+const StyledPrevMonth = styled(PrevMonth)`
+    width: 0.61em;
+    cursor: pointer;
+`;
+
+const StyledNextMonth = styled(NextMonth)`
+    width: 0.61em;
+    cursor: pointer;
+`;
+
+const CalendarWrapper = styled.div`
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 768px) {
+        height : auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+    }
+`;
+
+const CalendarWrapper1 = styled.div`
+    font-size: 0.8125em;
+    font-weight: bold;
+    margin-left: 4.5em;
+    display : flex;
+    flex-direction : column;
+    justify-content :center;
+    align-items : center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-top: 3em;
+    padding-right: 1em;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #d0d1d9;
+        padding-bottom: 1em;
+    }
 `;
 
 const Header = styled.div`
@@ -147,61 +186,65 @@ const Header = styled.div`
 `;
 
 const MonthYear = styled.div`
+    font-size: 1.25em;
     font-weight: 800;
-    font-size: 1.2em;
 `;
 
 const Grid = styled.div`
+    padding : 1em;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
+    grid-row-gap: 0.7em;
+    font-size : 1em;
+    place-items: center center;  
 `;
 
 const Day = styled.div`
-    padding: 10px;
-    font-weight: bold;
+    text-align: center;
+    box-sizing: border-box;
 `;
-
-const Icons = styled.img`
-    width: 1em;
-    cursor: pointer;
-`;
-
 
 const Cell = styled.div`
-    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5em;
+    width: 2.5em;
+    cursor: pointer;
+    &.empty {
+        color: #ccc;
+    }
+    transition: all ease 0.3s;
+
     font-weight: ${props => props.isToday ? '600' : '400'};
-    color: ${props => (props.isToday || props.isSelected) ? '#FFFFFF' : '#000000'};
+    color: ${props => (props.isToday || props.isStart || props.isEnd) ? '#FFFFFF' : '#000000'};
     background-color: ${props => 
-        props.isToday ? '#8E59FF' : 
-        props.isSelected ? '#8E59FF' : 
+        props.isToday ? 'rgba(142,89,255,0.5)' : 
+        props.isStart || props.isEnd ? '#8E59FF' : 
         'transparent'
     };
-    border-radius: ${props => props.isToday || props.isSelected ? '50%' : '0'};
+    border-radius: 50%;
     box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
-    cursor: pointer;
     position: relative; 
-    z-index: 10; 
+    // z-index: 10;
 
     &:before {
         content: '';
         position: absolute;
-        top: 0; 
+        top: 0;
         left: 0;
         right: 0;
-        bottom: 0; 
-        background-color: ${props => props.isInRange ? '#CBB8EE' : 'transparent'};
-        z-index: -1; 
+        bottom: 0;
+        background-color: ${props => props.isInRange ? 'rgba(142,89,255,0.1)' : 'transparent'};
+        z-index: -1;
+        transition: all ease 0.3s;
         border-radius: ${props => 
             props.isStart ? '20px 0 0 20px' :
             props.isEnd ? '0 20px 20px 0' : 
             '0'
         };
         visibility: ${props => props.isInRange ? 'visible' : 'hidden'};
-       
-    }
-
-    &.empty {
-        color: #FBFAFF ;
     }
 `;

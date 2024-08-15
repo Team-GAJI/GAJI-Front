@@ -26,14 +26,33 @@ const MainWrapper = styled.div`
   border-radius: 0.5em; 
   width: 59.375em; 
   height: 25em;
+  
+  @media(max-width : 768px){
+    width : 80%;
+    margin-left : 15em;
+  }
+  
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column; 
   gap: 0.625em; 
+  @media(max-width : 768px){
+    border : none;
+    flex-direction : column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top : 10em;
+  }
 `;
 const Text2 = styled.p`
     color: #8E59FF;
     font-size: 1.25em; 
     font-weight: 800;
+
+  @media(max-width : 768px){
+    margin-left : -10em;
+    font-size: 1.1em; 
+  }
+
 `;

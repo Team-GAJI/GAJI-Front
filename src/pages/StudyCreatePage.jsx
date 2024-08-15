@@ -5,10 +5,19 @@ import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import StudyInfo from '../components/studyCreate/StudyInfo';
 import StudyPeriod from '../components/studyCreate/StudyPeriod';
 import StudyDetail from '../components/studyCreate/StudyDetail';
+import { studyCreateAPI } from '../utils/studyCreate/studyCreateAPI';
+
 
 const StudyCreatePage = () => {
     // useNavigate
     const navigate = useNavigate();
+
+
+    const handleSubmit = () => {
+        navigate("/studydetail");
+        // studyCreateAPI(data);
+    };
+
 
     return (
         <PageWrapper>
@@ -42,7 +51,8 @@ const StudyCreatePage = () => {
                 </ContentWrapper>
 
                 {/* 제출 버튼 */}
-                <SubmitButton onClick={() => {navigate("/studydetail");}}>
+
+                <SubmitButton onClick={handleSubmit()}>
                 스터디 만들기
             </SubmitButton>
             </ContentContainer>
