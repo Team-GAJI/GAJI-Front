@@ -3,7 +3,7 @@
 // import StudyManageRecruitCalendar from './StudyManageRecruitCalendar';
 // import StudyManageCalendar from './StudyManageCalendar';
 // import { useDispatch } from 'react-redux';                                                     
-// // import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../feautres/';
+// import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../feautres/community/communitySlice';
 //     // state 관리
 //     const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
 //     const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
