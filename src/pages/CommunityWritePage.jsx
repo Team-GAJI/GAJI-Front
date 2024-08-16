@@ -132,7 +132,7 @@ const HashtagInputWrapper = styled.div`
     display : flex;
     justify-content : flex-start;
     align-items : center;
-    height: 2.5em;
+    
     line-height: 2.5em;
     
     background-color: transparent;
