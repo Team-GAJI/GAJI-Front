@@ -6,7 +6,7 @@ import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/Stu
 
 
 import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
-import ManageWeekPeriod from  '../components/studyManageWeek/StudyMangeWeekPeriod.jsx';
+import StudyMangeWeekPeriod from  '../components/studyManageWeek/StudyMangeWeekPeriod.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
@@ -74,7 +74,7 @@ const StudyManageWeeKPage = () => {
 
           <ContentWrapper70>
             <ManageWeekBasics selectedWeek={selectedWeek}/>
-            <ManageWeekPeriod selectedWeek={selectedWeek}/>
+            <StudyMangeWeekPeriod selectedWeek={selectedWeek}/>
             <ManageWeekeDetailed selectedWeek={selectedWeek} />
           </ContentWrapper70>
 
@@ -146,7 +146,7 @@ display: flex;
 flex-direction: column;
 border: 1px solid #A2A3B2;  
 border-radius: 0.5em;
-max-height: 78.5vh;
+max-height: 550px;
 width : 10%;
 width: 11.25em;
 right : 3%;
