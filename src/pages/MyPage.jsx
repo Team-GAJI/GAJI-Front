@@ -114,8 +114,8 @@ const MyPage = () => {
     };
 
     return (
-        <MyPageWrapper ref={homeRef}> 
-            <SidePageHeader
+        <>
+        <SidePageHeader
                 large={true}
                 pageTitle="마이페이지"
                 headerTitles={headerTitles}
@@ -124,6 +124,9 @@ const MyPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
+            
+        <MyPageWrapper ref={homeRef}> 
+            
             <UserInfo userInfo={userInfo} />
             <RowWrapper4 ref={studyRoomRef}>
                 <StudyList isCurrent={true} studyList={ongoingStudyList} />
@@ -136,6 +139,7 @@ const MyPage = () => {
                 <MyPost />
             </Div>
         </MyPageWrapper>
+        </>
     );
 };
 

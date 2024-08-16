@@ -86,7 +86,7 @@ const Header = styled.div`
     display: flex;
     z-index: 2;
     position : fixed;
-    top : 18em;
+    top : 14em;
     right : 8em;
     flex-direction: column;
     align-items: center;
