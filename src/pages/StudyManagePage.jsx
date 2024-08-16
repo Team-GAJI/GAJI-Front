@@ -105,7 +105,6 @@ const StudyManagePage = () => {
               <PlusButton onClick={handleAdd}>
                 <PlusIcons src={ManagePlus} alt="추가" />
               </PlusButton>
-
           </Sidebar1>
         </RowWrapper>
 

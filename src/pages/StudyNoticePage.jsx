@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Notices from "../components/studyRoom/Notices";
 import PageHeader from "../components/common/PageHeader";
+import {  ContentWrapper60 } from "../components/common/MediaWrapper";
 
 const StudyNoticePage = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ const StudyNoticePage = () => {
         changeColorOnClick={false}
         changeColorOnHover={true}
       />
-      <ContentWrapper>
+      <ContentWrapper60>
         <MainSection1>
           <ColumnWrapper>
             <Container>
@@ -110,27 +111,18 @@ const StudyNoticePage = () => {
             </NoticeSquareWrapper>
           </ColumnWrapper>
         </MainSection1>
-      </ContentWrapper>
+      </ContentWrapper60>
     </>
   );
 };
 
 export default StudyNoticePage;
 
-const ContentWrapper = styled.div`
-  flex-grow: 1;
-  font-family: "NanumSquareNeo", sans-serif;
-  padding: 0 1em;
 
-  @media (max-width: 768px) {
-    padding: 0;
-  }
-`;
 
 const MainSection1 = styled.section`
   display: flex;
   flex: 1;
-  background-color: #fff;
   padding-top: 30px;
   gap: 0.625em;
   justify-content: center;

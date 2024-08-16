@@ -69,7 +69,6 @@ export default NoticeSquare;
 
 const NoticeSquareWrapper = styled.div`
   width: 100%;
-  max-width: 51.25em;
   height: auto;
   border: 0.1em solid ${(props) => (props.isHovered ? "#8E59FF" : "#ccc")};
   border-radius: 1.25em;
@@ -78,16 +77,15 @@ const NoticeSquareWrapper = styled.div`
   justify-content: center;
   position: relative;
   padding: 1.25em;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     padding: 1em;
     border-radius: 1em;
-    max-width: 90%;
   }
 
   @media (max-width: 480px) {
     padding: 0.75em;
-    max-width: 100%;
   }
 `;
 
@@ -133,6 +131,7 @@ const Text1 = styled.p`
   font-weight: 800;
   font-size: 1em;
   line-height: 1.4em;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     font-size: 0.9em;
@@ -174,6 +173,7 @@ const Text2 = styled.p`
   padding: 0.8125em 0;
   margin-top: 0;
   line-height: 1.4em;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     font-size: 0.75em;
@@ -214,6 +214,7 @@ const User = styled.img`
   justify-content: center;
   margin-left: 0.625em;
   flex-shrink: 0;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     width: 2em;
@@ -235,6 +236,7 @@ const Text3 = styled.p`
   color: #a2a3b2;
   padding: 0.8125em;
   flex-shrink: 0;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     font-size: 0.45em;
@@ -255,6 +257,7 @@ const Text4 = styled.p`
   padding: 0.8125em;
   margin-left: 0.625em;
   flex-shrink: 0;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     font-size: 0.45em;
@@ -283,6 +286,7 @@ const CheckButton = styled.button`
   margin-left: auto;
   flex-shrink: 0;
   position: relative;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     width: 4.5em;
