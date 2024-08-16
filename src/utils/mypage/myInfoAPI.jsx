@@ -1,6 +1,6 @@
 import { api } from "../API";
 
-export const studyInfoAPI = async (userId) => {
+export const myInfoAPI = async (userId) => {
     try {
         const response = await api.get(`users/${userId}`);
         console.log(response)
