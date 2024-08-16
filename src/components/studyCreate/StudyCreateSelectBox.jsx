@@ -88,13 +88,14 @@ const SelectWrapper = styled.div`
     color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width : 50%;
+    align-items: start;
 `;
 
 const StyledButton = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 28em;
+    width: 100%;
     height: 2.5em;
     line-height: 2.5em;
     background-color: transparent;

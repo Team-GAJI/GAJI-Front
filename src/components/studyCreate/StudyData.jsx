@@ -72,7 +72,7 @@ const Title = styled.div`
 `;
 
 const StudyDataWrapper = styled.div`
-    width: 58em;
+    width: 100%;
     display: flex;
     flex-direction: column;
 `;

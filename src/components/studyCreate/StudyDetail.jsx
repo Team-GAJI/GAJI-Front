@@ -165,7 +165,7 @@ const ComponentWrapper = styled.div`
 
 const ToolbarWrapper = styled.div`
     margin: 1.5em 1.7em;
-    width: 96%;
+    width: 100%
     height: 2em;
     display: flex;
     align-items: center;
@@ -257,9 +257,10 @@ const TextareaWrapper = styled.div`
 `;
 
 const StyledTextarea = styled.textarea`
-    padding: 0 1.23em 0 1.23em;
+    padding : 2em;
+    box-sizing : border-box;
     border: none;
-    width: 75em;
+    width : 100%;
     height: 25.5425em;
     line-height: 1.845em;
     background-color: transparent;
