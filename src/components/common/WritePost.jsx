@@ -10,48 +10,41 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
 import { registerTroubleShootingAPI } from '../../utils/troubleShooting/troubleShootingInfoAPI';
-
+import { useSelector } from 'react-redux';
 
 const WritePost = ({ link }) => {
     // 상태 관리
     const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
-    const [lengthCount, setLengthCount] = useState(0);
+
+    const { additionalData } = useSelector((state) => state.additionalData);
+
+    const [lengthCount, setLengthCount] = useState(markdown.length);
     const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
 
-    const data = {
-        "title": title,
-        "body": markdown,
-        "thumbnailUrl": "string",
-        "type": "스터디",
-        "hashtagList": [
-            "string"
-        ],
-            "categoryIdList": [
-            0
-        ]
-    };
     const handleSubmit = async () => {
         try {
-            // link에 따라 다른 API 함수를 선택
+            console.log(additionalData)
+            // 기본 data 구조를 props에서 받아 설정
+            let data = {
+                title: title,
+                body: markdown,
+                ...additionalData // 추가 데이터는 props에서 직접 받아옴
+            };
+
+            // API 호출 함수 선택
             let apiCall;
-            switch (link) {
-                case 'community':
-                    apiCall = communityWriteAPI;
-                    break;
-                case 'studyroom':
-                    // apiCall = studyRoomWrite;
-                    break;
-                case 'troubleshooting':
-                    //트러블 슈팅 API
-                    apiCall = registerTroubleShootingAPI;
-                    // apiCall = troubleShootingWrite;
-                    break;
-                default:
-                    throw new Error('Invalid link type');
+            if (link === 'community') {
+                apiCall = communityWriteAPI;
+            } else if (link === 'studyroom') {
+                // apiCall = studyRoomWriteAPI; // studyRoomWriteAPI를 사용한다고 가정
+            } else if (link === 'troubleshooting') {
+                apiCall = registerTroubleShootingAPI;
+            } else {
+                throw new Error('Invalid link type');
             }
 
             // API 호출 및 페이지 이동
@@ -61,7 +54,6 @@ const WritePost = ({ link }) => {
 
         } catch (error) {
             console.error('포스트 생성 중 오류 발생:', error);
-            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
         }
     };
 
@@ -72,13 +64,13 @@ const WritePost = ({ link }) => {
     const handleGrayHr = () => {
         setStyledHr(false);
     };
-    
+
     // 제목 크기 적용 함수
     const applyFontSize = (e) => {
         const value = e.target.value;
         setFontSize(value);
         if (value === '0') return;
-        
+
         const headerSyntax = '#'.repeat(value) + ' ';
         const textarea = textareaRef.current;
         const { selectionStart, selectionEnd } = textarea;
@@ -133,7 +125,6 @@ const WritePost = ({ link }) => {
         textarea.focus();
     };
 
-
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
         setMarkdown(e.target.value);
@@ -180,7 +171,6 @@ const WritePost = ({ link }) => {
                 <StyledItalicIcon onClick={() => applyFormatting('*')}/>
                 <StyledThroughIcon onClick={() => applyFormatting('~~')}/>
                 <StyledBar>|</StyledBar>
-                {/* <StyledImageIcon onClick={addImage}/> */}
                 <FileInputLabel htmlFor="thumbNail">
                     <StyledImageIcon/>
                 </FileInputLabel>
@@ -209,16 +199,7 @@ const WritePost = ({ link }) => {
             </TextareaWrapper>
 
             {/* 업로드 버튼 */}
-            {/* <SubmitButton onClick={() =>
-                {navigate("/community/post",{
-                    state: {
-                        title: title,
-                        content: markdown,
-                    },
-                });}}>
-                게시글 업로드
-            </SubmitButton> */}
-            <SubmitButton onClick={()=>handleSubmit()}>
+            <SubmitButton onClick={handleSubmit}>
                 게시글 업로드
             </SubmitButton>
 
@@ -236,7 +217,6 @@ const WritePost = ({ link }) => {
 }
 
 export default WritePost;
-
 
 const Wrapper = styled.div`
     display : flex;

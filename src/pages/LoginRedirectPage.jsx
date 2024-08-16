@@ -20,7 +20,8 @@ const LoginRedirectPage = () => {
 
     const submitNickname = async () => {
         try {
-            const userId = localStorage.getItem('userId');
+            // const userId = localStorage.getItem('userId');
+            const userId = 3;
             const response = await nickNameAPI(userId);
             console.log(response);
         } catch (error) {

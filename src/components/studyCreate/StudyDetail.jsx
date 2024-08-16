@@ -8,7 +8,7 @@ import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { useDispatch } from 'react-redux';
-import { setDescription } from '../../feautres/study/studyCreateSlice';
+import { setDescription } from '../../features/study/studyCreateSlice';
 
 const StudyDetail = () => {
     // 상태 관리

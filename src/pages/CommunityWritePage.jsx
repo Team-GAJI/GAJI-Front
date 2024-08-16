@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveButton } from '../feautres/community/communitySlice';
+import { setActiveButton } from '../features/community/communitySlice';
 import Hashtag from '../components/communityWrite/Hashtag';
 import WritePost from '../components/common/WritePost';
 import PageHeader from '../components/common/PageHeader';
@@ -12,6 +12,7 @@ const CommunityWritePage = () => {
     // Redux 상태 관리
     const { title } = useSelector((state) => state.community);
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         setActiveButtonIndex(getTitleIndex(title));
@@ -33,6 +34,8 @@ const CommunityWritePage = () => {
     const [hashtags, setHashtags] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
+
+
 
     // 헤더 함수
     const headerTitles = ["프로젝트", "질문", "블로그"];

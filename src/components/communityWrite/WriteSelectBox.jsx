@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import styled from 'styled-components';
 import DownArrowIcon from "../../assets/icons/communityWrite/purpleDownArrow.svg?react";
 
@@ -6,6 +6,7 @@ const WriteSelectBox = () => {
     // 필터 상태 관리
     const [isCategoryVisible, setIsCategoryVisible] = useState(false);
     const [selectedCategoryOption, setSelectedCategoryOption] = useState("카테고리");
+
 
     // 필터 버튼 텍스트
     const toggleCategoryVisibility = () => {
@@ -17,6 +18,8 @@ const WriteSelectBox = () => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
     };
+
+
 
     return (
         <SelectWrapper>
