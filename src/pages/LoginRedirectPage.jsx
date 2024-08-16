@@ -1,37 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backgroundimage from '../assets/images/login/background.png';
 import Logo from '../components/common/Logo';
 import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
-import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
-import { useNavigate } from 'react-router-dom';
-
-
-
-
+import {  useLocation, useNavigate } from 'react-router-dom';
+import { nickNameAPI } from '../utils/auth/nickNameAPI';
+import { userIdAPI } from '../utils/auth/userIdAPI';
 
 const LoginRedirectPage = () => {
     const [modal, setModal] = useState(true);
-    const [isAgreed, setIsAgreed] = useState(false); 
+    const [nickName, setNickName] = useState(''); 
     const navigate = useNavigate()
-    const [register , setRegister] = useState(true);
 
 
-    const submitNickname = () => {
-        //서버에 닉네임 저장 로직 추가
-        setModal(false)  
-        navigate('/')
-        
-    }
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);    
+    const token = queryParams.get('access_token');
 
-    const hadnleRegister = () =>{
+    const submitNickname = async () => {
+        try {
+            const userId = localStorage.getItem('userId');
+            const response = await nickNameAPI(userId);
+            console.log(response);
+        } catch (error) {
+            console.error('닉네임 저장 중 오류 발생:', error);
+            // 오류 처리 추가
+        }finally{
+            setModal(false);
+            navigate('/'); // 로그인 후 메인 페이지로 이동
+        }
+    };
 
-    }
 
-    const handleLogin = () => {
+    const saveTokenToLocalStorage = (token) => {
+        localStorage.setItem('accessToken', token);
+        localStorage.setItem('refreshToken', token);
+    };
 
-    }
+    useEffect(() => {
+        const fetchUserId = async () => {
+            if (token) {
+                saveTokenToLocalStorage(token);
+                try {
+                    const userId = await userIdAPI();
+                    localStorage.setItem('userId', userId);
+                } catch (error) {
+                    console.error('User ID 불러오기 실패:', error);
+                }
+            }
+        };
+    
+        fetchUserId();
+    }, [token, navigate]);
 
     return (
             <LoginWrapper image={backgroundimage}>
@@ -41,7 +62,10 @@ const LoginRedirectPage = () => {
                             <ColumnWrapper2>
                                 <Text4>스터디 가지기 전</Text4>
                                 <Text5><Color>닉네임</Color>을 입력해주세요</Text5>
-                                <NickNameInput placeholder='닉네임 입력시 제한 사항 적기'/>
+                                <NickNameInput  
+                                    placeholder='닉네임 입력시 제한 사항 적기'
+                                    value={nickName}
+                                    onChange={(e) => setNickName(e.target.value)}/>
                                 <NickNameSubmitButton onClick={()=>submitNickname()}>닉네임 가지기</NickNameSubmitButton>
                             </ColumnWrapper2>
                         </Modal>
@@ -49,13 +73,11 @@ const LoginRedirectPage = () => {
                 }
                 <StyledLogo/>
                 <Title>가지고 싶은 스터디, <Color>GAJI</Color></Title>
-                {register ? 
                 <ColumnWrapper>
                 <RowWrapper>
                     <RowWrapper>
                         <Radio
-                            checked={isAgreed} 
-                            onChange={(e) => setIsAgreed(e.target.checked)}/>
+                            onChange={(e) => (e.target.checked)}/>
                         <Text2>개인정보 수집 및 이용에 동의합니다(필수)</Text2>
                     </RowWrapper>
                     <Text3>약관보기</Text3>
@@ -67,29 +89,16 @@ const LoginRedirectPage = () => {
                     <Text3>약관보기</Text3>
                 </RowWrapper>
                 <Padding/>
-                <LoginButton onClick={()=>hadnleRegister()} disabled={!isAgreed}>
+                {/* <LoginButton onClick={()=>hadnleRegister()} disabled={!isAgreed}>
                     <GoogleLogo/>
                     구글로 회원가입하기
-                </LoginButton> 
-                <LoginButton onClick={()=>handleLogin()}>
+                </LoginButton>  */}
+                <LoginButton>
                     <NaverLogo>N</NaverLogo>
                     네이버로 회원가입하기
                 </LoginButton>
                 </ColumnWrapper>
-                :
-                <ColumnWrapper>
-
-                        <LoginButton onClick={()=>handleLogin()}>
-                            <GoogleLogo/>
-                            구글로 로그인하기
-                        </LoginButton>
-                    <LoginButton onClick={()=>handleLogin()}>
-                        <NaverLogo>N</NaverLogo>
-                        네이버로 로그인하기
-                    </LoginButton>
-                    <Text onClick={()=>setRegister(true)}>회원가입하기</Text>
-                </ColumnWrapper>
-                }
+            
                 <LoginFooter>@ Copyright 2024_GAJI</LoginFooter>
                 
             </LoginWrapper>
@@ -148,11 +157,6 @@ const Title = styled.div`
 `;
 
 
-const Text = styled.div`
-    color : #C1C7CD;
-    text-align : center;
-    font-size : 0.8125em;
-`;
 
 const Text2 = styled.div`
     text-align : center;

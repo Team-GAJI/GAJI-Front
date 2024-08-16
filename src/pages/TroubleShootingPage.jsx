@@ -32,7 +32,7 @@ const TroubleShootingPage = () => {
         headerTitles={headerTitles}
         activeButtonIndex={activeButtonIndex}
         onButtonClick={handleHeaderButtonClick}
-        changeColorOnClick={false}
+        changeColorOnClick={true}
         changeColorOnHover={true}
       />
       <ContentWrapper>

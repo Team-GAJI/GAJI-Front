@@ -14,25 +14,25 @@ import BlogPreview from '../components/community/BlogPreview';
 import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
-import { ContentWrapper } from '../components/common/MediaWrapper';
+import {  ContentWrapperMain } from '../components/common/MediaWrapper';
 import { Scroll } from '../components/common/Scroll';
+
 
 const MainPage = () => {
     // state 관리
+    const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
     const [studies, setStudies] = useState([]);
+
+
 
     // 스터디, 커뮤니티 불러오기
     useEffect(() => {
         setStudies(dummyStudyPosts);
-    }, []);
-    useEffect(() => {
         setBlogs(dummyBlogPosts);
     }, []);
 
-    // useNavigate
-    const navigate = useNavigate();
-
+    
     return (
         <PageWrapper>
              {/* 배너 */}
@@ -47,7 +47,7 @@ const MainPage = () => {
                 <StyledSwiperSlide3></StyledSwiperSlide3>
             </StyledSwiper>
 
-        <ContentWrapper>
+        <ContentWrapperMain>
             {/* 검색창 */}
             <Text><PuppleText>&#039;가지&#039;</PuppleText>고 싶은 스터디를 검색해보세요!</Text>
             
@@ -124,7 +124,7 @@ const MainPage = () => {
                         like={post.postLike} />
                 ))}
             </BlogPreviewWrapper2>
-        </ContentWrapper>
+        </ContentWrapperMain>
         </PageWrapper>
     );
 };

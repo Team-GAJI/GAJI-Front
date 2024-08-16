@@ -4,9 +4,9 @@ import backgroundimage from '../assets/images/login/background.png';
 import Logo from '../components/common/Logo';
 import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
-import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
+// import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { apiBase } from '../utils/API';
+// import { apiBase } from '../utils/API';
 
 const LoginPage = () => {
     const [register, setRegister] = useState(false);
@@ -15,36 +15,36 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const saveTokenToLocalStorage = (token) => {
-        localStorage.setItem('accessToken', token.accessToken);
-        localStorage.setItem('refreshToken', token.refreshToken);
-    };
+    // const saveTokenToLocalStorage = (token) => {
+    //     localStorage.setItem('accessToken', token.accessToken);
+    //     localStorage.setItem('refreshToken', token.refreshToken);
+    // };
 
-    const handleGoogleLogin = async () => {
-        try {
-            const res = await apiBase.get(`oauth2/authorization/google`);
-            console.log(res);
-            const userToken = { accessToken: res.data.accessToken, refreshToken: res.data.refreshToken };
-            saveTokenToLocalStorage(userToken);
-            navigate('/'); // 로그인 후 메인 페이지로 이동
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    // const handleGoogleLogin = async () => {
+    //     try {
+    //         const res = await apiBase.get(`oauth2/authorization/google`);
+    //         console.log(res);
+    //         const userToken = { accessToken: res.data.accessToken, refreshToken: res.data.refreshToken };
+    //         saveTokenToLocalStorage(userToken);
+    //         navigate('/'); // 로그인 후 메인 페이지로 이동
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // };
 
     const handleNaverLogin = () => {
         const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
         window.location.href = naverLoginUrl;
     };
-
-    const handleGoogleRegister = () => {
-        if (isAgreed) {
-            console.log('로그인 시작');
-            handleGoogleLogin();
-        } else {
-            alert("필수 약관에 동의해야 합니다.");
-        }
-    };
+    
+    // const handleGoogleRegister = () => {
+    //     if (isAgreed) {
+    //         console.log('로그인 시작');
+    //         handleGoogleLogin();
+    //     } else {
+    //         alert("필수 약관에 동의해야 합니다.");
+    //     }
+    // };
 
     const handleNaverRegister = () => {
         if (isAgreed) {
@@ -95,10 +95,10 @@ const LoginPage = () => {
                     <Text3>약관보기</Text3>
                 </RowWrapper>
                 <Padding/>
-                <LoginButton onClick={handleGoogleRegister} disabled={!isAgreed}>
+                {/* <LoginButton onClick={handleGoogleRegister} disabled={!isAgreed}>
                     <GoogleLogo/>
                     구글로 회원가입하기
-                </LoginButton> 
+                </LoginButton>  */}
                 <LoginButton onClick={handleNaverRegister} disabled={!isAgreed}>
                     <NaverLogo>N</NaverLogo>
                     네이버로 회원가입하기
@@ -106,10 +106,10 @@ const LoginPage = () => {
             </ColumnWrapper>
             :
             <ColumnWrapper>
-                    <LoginButton onClick={handleGoogleLogin}>
+                    {/* <LoginButton onClick={handleGoogleLogin}>
                         <GoogleLogo/>
                         구글로 로그인하기
-                    </LoginButton>
+                    </LoginButton> */}
                     <LoginButton onClick={handleNaverLogin}>
                         <NaverLogo>N</NaverLogo>
                         네이버로 로그인하기

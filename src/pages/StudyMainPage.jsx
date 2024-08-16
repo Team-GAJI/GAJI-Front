@@ -29,19 +29,22 @@ const MainPage = () => {
     };
 
     return (
+        <>
+        <Header>
+        <PageHeaderTitle>스터디</PageHeaderTitle>
+        <SubTitle>&#039;가지&#039;고싶은 스터디를 검색해보세요!</SubTitle>
+        <RowWrapper>
+            {/* 검색창 */}
+            <SearchInputWrapper>
+                <StyledLogoIcon />
+                <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
+            </SearchInputWrapper>
+        </RowWrapper>
+    </Header>
+    
         <ContentWrapper>
             {/* 페이지 헤더 */}
-            <Header>
-                <PageHeaderTitle>스터디</PageHeaderTitle>
-                <SubTitle>&#039;가지&#039;고싶은 스터디를 검색해보세요!</SubTitle>
-                <RowWrapper>
-                    {/* 검색창 */}
-                    <SearchInputWrapper>
-                        <StyledLogoIcon />
-                        <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
-                    </SearchInputWrapper>
-                </RowWrapper>
-            </Header>
+            
             
             {/* 게시글 필터 */}
             <SelectAndButtonWrapper>
@@ -282,6 +285,7 @@ const MainPage = () => {
                 ))}
             </StudyPreviewWrapper>
         </ContentWrapper>
+        </>
     );
 };
 

@@ -7,18 +7,6 @@ const StudyNoticeRegistrationPage = () => {
   const navigate = useNavigate();
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
-  const handleNavigate = (index) => {
-    switch (index) {
-      case 0:
-        navigate("/studyroom");
-        break;
-      case 1:
-        navigate("/troubleshooting");
-        break;
-      default:
-        break;
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +24,17 @@ const StudyNoticeRegistrationPage = () => {
     "정보나눔 게시판",
     "채팅방",
   ];
-
+  
+  const handleHeaderButtonClick = (index) => {
+      setActiveButtonIndex(index);
+      if (index === 0) {
+        navigate('/studyroom');
+    } else if (index === 1) {
+      navigate('/troubleshooting');
+    } else {
+      navigate('/');
+    }
+  };
   return (
     <>
       <PageHeader
@@ -44,7 +42,7 @@ const StudyNoticeRegistrationPage = () => {
         pageTitle="공지사항 글쓰기"
         headerTitles={headerTitles}
         activeButtonIndex={activeButtonIndex}
-        onButtonClick={handleNavigate}
+        onButtonClick={handleHeaderButtonClick}
         changeColorOnClick={false}
         changeColorOnHover={true}
       />
