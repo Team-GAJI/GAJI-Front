@@ -1,14 +1,16 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import BoldIcon from "../../assets/icons/communityWrite/bold.svg?react";
-import ItalicIcon from "../../assets/icons/communityWrite/italic.svg?react";
-import ThroughIcon from "../../assets/icons/communityWrite/through.svg?react";
-import ImageIcon from "../../assets/icons/communityWrite/image.svg?react";
-import LinkIcon from "../../assets/icons/communityWrite/link.svg?react";
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
+import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
+import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
+import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
+import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import communityWriteAPI from "../../utils/communityWrite/communityWriteAPI";
+import remarkGfm from 'remark-gfm';
+import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
+import { registerTroubleShootingAPI } from '../../utils/troubleShooting/troubleShootingInfoAPI';
+
 
 const WritePost = ({ link }) => {
     // 상태 관리
@@ -38,13 +40,14 @@ const WritePost = ({ link }) => {
             let apiCall;
             switch (link) {
                 case 'community':
-                    communityWriteAPI();
+                    apiCall = communityWriteAPI;
                     break;
                 case 'studyroom':
                     // apiCall = studyRoomWrite;
                     break;
                 case 'troubleshooting':
                     //트러블 슈팅 API
+                    apiCall = registerTroubleShootingAPI;
                     // apiCall = troubleShootingWrite;
                     break;
                 default:
@@ -129,6 +132,7 @@ const WritePost = ({ link }) => {
         textarea.setSelectionRange(selectionStart + linkSyntax.length - 4, selectionEnd + linkSyntax.length - 4);
         textarea.focus();
     };
+
 
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
@@ -228,9 +232,8 @@ const WritePost = ({ link }) => {
                 </ModalOverlay>
             )}
         </Wrapper>
-
     );
-  };
+}
 
 export default WritePost;
 
@@ -243,7 +246,6 @@ const Wrapper = styled.div`
     margin-bottom :1em;
 `
 const TitleWrapper = styled.div`
-
     width : 100%;
 `;
 
@@ -256,11 +258,14 @@ const TitleInput = styled.input`
     font-size: 0.8125em;
     font-family: 'NanumSquareNeo';
     font-weight: bold;
-  }
-  @media (max-width: 768px) {
-    width: 100%;
-    font-size: 0.75em;
-  }
+    &:focus{
+        outline: none;
+    }
+    transition: all 0.3s ease;
+    &::placeholder{
+        color: #A2A3B2;
+        font-weight: bold;
+    }
 `;
 
 const StyledTitleHr = styled.hr`
@@ -311,8 +316,8 @@ const StyledFontSizeSelect = styled.select`
 `;
 
 const StyledBar = styled.div`
-  margin: 0 1.2em;
-  color: #a2a3b2;
+    margin: 0 1.2em;
+    color: #A2A3B2;
 `;
 
 const StyledBoldIcon = styled(BoldIcon)`
@@ -412,15 +417,17 @@ const StyledTextarea = styled.textarea`
     background-color: transparent;
     font-size: 0.8125em;
     font-weight: 700;
-  }
-  resize: none;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    font-size: 0.75em;
-    padding-left: 1.5em; /* Add more padding on mobile for left margin */
-  }
+    font-family: 'NanumSquareNeo';
+    &:focus{
+        outline: none;
+    }
+    &::placeholder{
+        color: #A2A3B2;
+        font-weight: 700;
+    }
+    resize: none;
 `;
+
 const TextareaBottom = styled.div`
     width : 100%;
     margin-top: 1em;
@@ -488,7 +495,6 @@ const SubmitButton = styled.button`
 
 // 모달
 const ModalOverlay = styled.div`
-
     position: fixed;
     top: 0;
     left: 0;
@@ -499,10 +505,9 @@ const ModalOverlay = styled.div`
     align-items: center;
     justify-content: center;
     z-index: 10;
+
 `;
-
 const ModalContent = styled.div`
-
     background-color: #fff;
     padding: 2.4615em;
     border-radius: 10px;
@@ -515,13 +520,12 @@ const ModalContent = styled.div`
         width : 80%;
     }
 `;
-
 const CloseButton = styled.button`
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  background: none;
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
 `;

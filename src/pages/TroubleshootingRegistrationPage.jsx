@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import WritePost from "../components/troubleshooting/WritePost";
 import PageHeader from "../components/common/PageHeader";
+import WritePost from "../components/common/WritePost";
 
 const TroubleshootingRegistrationPage = () => {
   const [hashtags, setHashtags] = useState([""]);
@@ -77,7 +77,7 @@ const TroubleshootingRegistrationPage = () => {
 
         <PostTitle>게시글 제목</PostTitle>
 
-        <WritePost />
+        <WritePost link={"troubleshooting"}/>
       </PostsWrapper>
     </>
   );
@@ -205,19 +205,6 @@ const HashtagInput = styled.input`
     font-size: 0.75em;
   }
 `;
-
-const handleKeyPress = (e, index) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    if (hashtags.length < 5 && hashtags[index] !== "") {
-      setHashtags([...hashtags, ""]);
-      setTimeout(() => {
-        // Move the cursor to the newly created input
-        document.getElementById(`hashtag-${index + 1}`).focus();
-      }, 0);
-    }
-  }
-};
 
 const RemoveButton = styled.button`
   position: absolute;
