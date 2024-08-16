@@ -50,14 +50,14 @@ const CategoryWrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid #d0d1d9;
   margin-bottom: 20px;
-  background-color: #fff;
+
 `;
 
 const CategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0px;
 `;
 
 const DropdownContainer = styled.div`
@@ -66,7 +66,6 @@ const DropdownContainer = styled.div`
 `;
 
 const SelectedOption = styled.div`
-  background-color: #fff;
   border: 1.5px solid #d0d1d9;
   border-radius: 10px;
   padding: 10px 15px;
