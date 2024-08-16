@@ -8,7 +8,7 @@ import ManageInfo from '../components/studyManage/ManageInfo';
 import ManagePeriod from '../components/studyManage/StudyManagePeriod';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 import PageHeader from '../components/common/PageHeader';
-import { ContentWrapper } from '../components/common/MediaWrapper';
+import { ContentWrapper70 } from '../components/common/MediaWrapper';
 const StudyManagePage = () => {
     // n주차 버튼 기능
 
@@ -58,7 +58,6 @@ const StudyManagePage = () => {
 
     return (
     <>
-    <Wrapper>
       <PageHeader
           pageTitle="스터디 관리 페이지"
           subTitle = "스터디장에게만 보이는 메뉴에요"
@@ -70,11 +69,11 @@ const StudyManagePage = () => {
       />
 
       <RowWrapper>
-        <ContentWrapper>
+        <ContentWrapper70>
             <ManageInfo/>
             <ManagePeriod/>
             <ManageDetailed/>
-        </ContentWrapper>
+        </ContentWrapper70>
 
         <Sidebar1 ref={sidebarRef}>
               {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
@@ -109,7 +108,6 @@ const StudyManagePage = () => {
 
           </Sidebar1>
         </RowWrapper>
-    </Wrapper>
 
     </> 
     );
@@ -123,15 +121,7 @@ const RowWrapper = styled.div`
   }
 
 `
-const Wrapper = styled.div`
-    z-index: 5;
-    background-color: #FBFAFF;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column; 
-    padding: 0 3.1em;
-    width: 100%;
-`;
+
 
 
 
@@ -152,13 +142,13 @@ const Sidebar1 = styled.aside`
   background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
-  border: 1px solid #A2A3B2;
-
+  border: 1px solid #A2A3B2;  
   border-radius: 0.5em;
   max-height: 78.5vh;
+  width : 10%;
   width: 11.25em;
+  right : 3%;
   padding : 0.2em;
-  margin-left: 2em;
   padding-bottom: 1em;
   overflow-x: hidden;
 

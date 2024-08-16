@@ -172,7 +172,6 @@ const TopWrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     @media(max-width : 768px){
-        flex-direction : column;
         gap : 1em;
     }
 `;
@@ -182,7 +181,7 @@ const TotalMembersWrapper = styled.div`
     flex-direction: column;
     align-items: end;
     position: relative;
-    width : 30%
+    width : 49%;
 `;
 
 const CounterWrapper = styled.div`

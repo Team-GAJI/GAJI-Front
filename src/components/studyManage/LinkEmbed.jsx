@@ -25,7 +25,6 @@ const StudyManageLinkEmbed = ({ link, onRemove }) => {
 };
 
 export default StudyManageLinkEmbed;
-
 /* CSS */
 const PostWrapper = styled.div`
     margin-right: 0.5em;

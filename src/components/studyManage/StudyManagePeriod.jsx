@@ -95,9 +95,7 @@ const StudyManagePeriod = () => {
 
     return (
         <>
-        <Container>
-            <MainTitle>스터디 기본정보</MainTitle>
-        </Container>
+        <Title>스터디 기한</Title>
 
         <ComponentWrapper>
             {/* 캘린더 영역 */}
@@ -118,7 +116,7 @@ const StudyManagePeriod = () => {
             {/* 기한 영역 */}
             <RightWrapper>
                 {/* 스터디 모집기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>스터디 모집 기한</Title>
                     <RecruitButton
                         onClick={handleRecruitmentButtonClick}
@@ -135,10 +133,10 @@ const StudyManagePeriod = () => {
                             {recruitmentEndDate ? formatDate(recruitmentEndDate) : formatDate(today)}
                         </Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
 
                 {/* 스터디 진행기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>스터디 진행 기한</Title>
                     <StudyButton
                         onClick={handleStudyPeriodButtonClick}
@@ -155,7 +153,7 @@ const StudyManagePeriod = () => {
                             {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
                         </Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
             </RightWrapper>
         </ComponentWrapper>
         </>
@@ -165,51 +163,82 @@ const StudyManagePeriod = () => {
 export default StudyManagePeriod;
 
 /* CSS */
-
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 62em; 
+    width: 100%;
     display: flex;
     align-items: center;
 
-
-    @media(max-width : 786px){
-        border : none;
-        flex-direction : row;
-        align-items: center;
-        justify-content: flex-start;
-        margin-left : 25em;  
+    @media(max-width : 768px){
+        flex-direction : column;
+        gap : 1em;
+        padding-bottom  :1em;
     }
 `;
 
 const RightWrapper = styled.div`
     border-left: 1.2px solid #A2A3B2;
-    height: 17em;
+    width : 50%;
     display: flex;
     flex-direction: column;
 
-    @media(max-width : 786px){
-        margin-top : -28em;   
+    @media(max-width : 768px){
+        margin-top : 2em;
+        align-items : center;
+        border : none;
+        width  :100%
     }
 `;
 
-const ContentWrapper = styled.div`
+const StyledContentWrapper = styled.div`
     margin: 0 0 3.5em 4em;
     display: flex;
     flex-direction: column;
-
-     @media(max-width : 786px){
-        margin: 0 0 3.5em 1em;
-    }
-    
 `;
 
 const Title = styled.div`
+    width : 100%;
+    margin : 1em 0em;
     color: #8E59FF;
     font-weight: 800;
 `;
 
+const RecruitButton = styled.div`
+    margin: 1.2em 0;
+    border-radius: 10px;
+    width: 11em;
+    height: 2.2308em;
+    line-height: 2.2308em;
+    text-align: center;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+    color: white;
+    font-size: 0.8125em;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+`;
+
+const StudyButton = styled.div`
+    margin: 1.2em 0;
+    border-radius: 10px;
+    width: 11em;
+    height: 2.2308em;
+    line-height: 2.2308em;
+    text-align: center;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+    color: white;
+    font-size: 0.8125em;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+`;
 
 const PeriodWrapper = styled.div`
     display: flex;
@@ -233,64 +262,4 @@ const Period = styled.div`
     color: #161A3F;
     font-size: 0.8125em;
     font-weight: bold;
-`;
-const RecruitButton = styled.div`
-    margin: 1.2em 0;
-    border-radius: 10px;
-    width: 11em;
-    height: 2.2308em;
-    line-height: 2.2308em;
-    text-align: center;
-    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
-    color: white;
-    font-size: 0.8125em;
-    font-weight: bold;
-    cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
-    }
-    transition: all 0.3s ease;
-`;
-const StudyButton = styled.div`
-    margin: 1.2em 0;
-  border-radius: 10px;
-     width: 11em;
-     height: 2.2308em;
-     line-height: 2.2308em;
-     text-align: center;
-     background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
-     color: white;
-     font-size: 0.8125em;
-     font-weight: bold;
-     cursor: pointer;
-     &:hover{
-         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
-     }
-     transition: all 0.3s ease;
- `;
-
- const Container = styled.div`
-  display: flex;
-  flex-direction: column; 
-  gap: 0.625em; 
-  margin : 1em 0;
-
-  @media(max-width : 786px){
-    align-items: center;
-    margin-left : 2em; /* 이거 확인*/
-    margin-top : 2em;
- }
-`;
-
-const MainTitle = styled.div`
-    color: #8E59FF;
-    font-size: 1.25em; 
-    font-weight: 800;
-    text-align: left;
-    margin-left: -24em; 
-    @media(max-width : 768px){
-        font-size: 1.1em; 
-        margin-left : -27em;
-
-    }
 `;

@@ -58,6 +58,7 @@ const StudyManageInfo = () => {
     return (
         <>
         <Title>스터디 기본정보</Title>
+
         <ComponentWrapper>
             {/* 카테고리, 인원수 영역 */}
             <TopWrapper>
@@ -129,7 +130,6 @@ const StudyManageInfo = () => {
 
 export default StudyManageInfo;
 
-
 /* CSS */
 const ComponentWrapper = styled.div`
     padding: 3em 3em 2em 3em;
@@ -147,7 +147,6 @@ const TopWrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     @media(max-width : 768px){
-        flex-direction : column;
         gap : 1em;
     }
 `;
@@ -157,7 +156,7 @@ const TotalMembersWrapper = styled.div`
     flex-direction: column;
     align-items: end;
     position: relative;
-    width : 30%
+    width : 49%;
 `;
 
 const CounterWrapper = styled.div`
@@ -261,10 +260,10 @@ const ThumbNailWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    width : 100%;
     margin: 1em 0 0.7em 0;
     color: #8E59FF;
     font-weight: 800;
+    width : 100%;
 `;
 
 const UploadWrapper = styled.div`
@@ -371,6 +370,7 @@ const Toggle = styled.div`
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
 `;
+
 
 
 //아래가 기존 코드인데 혹시 필요한 속성은 골라서 사용해주세요

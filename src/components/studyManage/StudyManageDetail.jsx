@@ -168,32 +168,35 @@ export default StudyManageDetail;
 
 /* CSS */
 const ComponentWrapper = styled.div`
+    padding : 1em;
+    box-sizing : border-box;
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 100%;
-
+    margin-bottom  : 2em;
 `;
 
 const ToolbarWrapper = styled.div`
-    margin: 1.5em 1.7em;
-    width: 96%;
+    margin-top : 0.6em;
+    width : 100%;
     height: 2em;
     display: flex;
     align-items: center;
     background-color: #FBFAFF;
     font-size: 0.9em;
+    overflow-x : scorll;
     position: sticky;
     top: 60px;
-    @media(max-width : 768px){
-       margin: 1.5em 1.5em; 
-    }
 `;
 
 const StyledFontSizeSelect = styled.select`
-    padding-left: 0.7em;
+    display : flex;
+    justify-content : center;
+    padding-left : 0.25em;
+    box-sizing : border-box;
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 7em;
+    width: 6em;
     height: 1.75em;
     background-color: transparent;
     color: #8E59FF;
@@ -202,6 +205,11 @@ const StyledFontSizeSelect = styled.select`
     cursor: pointer;
     &:focus{
         outline: none;
+    }
+
+    @media(max-width:768px){
+        font-size : 0.75em;
+
     }
 `;
 
@@ -216,6 +224,9 @@ const StyledBoldIcon = styled(BoldIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const StyledItalicIcon = styled(ItalicIcon)`
@@ -225,6 +236,10 @@ const StyledItalicIcon = styled(ItalicIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+        margin: 0 1em;
+    }
 `;
 
 const StyledThroughIcon = styled(ThroughIcon)`
@@ -233,15 +248,22 @@ const StyledThroughIcon = styled(ThroughIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const FileInputLabel = styled.label`
     display: flex;
     align-items: center;
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const ImageUploadInput = styled.input`
     display: none;
+    
 `;
 
 const StyledImageIcon = styled(ImageIcon)`
@@ -249,6 +271,9 @@ const StyledImageIcon = styled(ImageIcon)`
     height: 1.2em;
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
+    }
+            @media(max-width:768px){
+        width : 0.75em;
     }
 `;
 
@@ -259,27 +284,34 @@ const StyledLinkIcon = styled(LinkIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-`;
-
-const TextareaWrapper = styled.div`
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.3s ease;
-
-    @media(max-width : 768px){
-        margin-left : 12em;
+    @media(max-width:768px){
+        width : 0.8125em;
+        margin-left:1em;
     }
 `;
 
+const TextareaWrapper = styled.div`
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+    padding : 1em;
+    padding-bottom : 0em;
+    margin-top : 0.8125em;
+    box-sizing : border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &:focus-within{
+        box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+`;
+
 const StyledTextarea = styled.textarea`
-    padding: 0 1.23em 0 1.23em;
+    padding: 1.23em 1.23em 0 1.23em;
     border: none;
-    margin-left : 2em;
-    width: 75em;
-    height: 25.5425em;
+    width: 100%;
+    height: 30.19em;
     line-height: 1.845em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -296,26 +328,28 @@ const StyledTextarea = styled.textarea`
 `;
 
 const TextareaBottom = styled.div`
-    margin: 1em 4em 2em 0;
-    width: 100%;
-    text-align: end;
+    width : 100%;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
 `;
 
 const TextLength = styled.div`
+    font-size : 0.8125em;
     margin-left: auto;
-    font-size: 0.9em;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
-    transition: all 0.3s ease;
-    @media(max-width : 768px){
-        margin-right : 13em;
-    }
 `;
+
+
 
 const StyledPreviewButton = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 6em;
+    box-sizing : border-box;
+    padding-left : 0.25em;
+    padding-right : 0.25em;
     height: 1.75em;
     line-height: 1.75em;
     text-align: center;
@@ -324,7 +358,12 @@ const StyledPreviewButton = styled.div`
     font-size: 1em;
     font-weight: 800;
     cursor: pointer;
+    @media(max-width:768px){
+        font-size: 0.75em;
+    }
 `;
+
+
 
 // 모달
 const ModalOverlay = styled.div`
@@ -337,7 +376,8 @@ const ModalOverlay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
+    z-index: 10;
+
 `;
 const ModalContent = styled.div`
     background-color: #fff;
@@ -348,6 +388,9 @@ const ModalContent = styled.div`
     font-size: 0.8125em;
     overflow-y: auto;
     position: relative;
+    @media(max-width:768px){
+        width : 80%;
+    }
 `;
 const CloseButton = styled.button`
     position: absolute;
