@@ -5,6 +5,7 @@ import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
 import SidePageHeader from '../components/common/SidePageHeader';
+import { myInfoAPI } from '../utils/mypage/myInfoAPI';
 
 const MyPage = () => {
     const homeRef = useRef(null);
@@ -14,6 +15,7 @@ const MyPage = () => {
 
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300);
+    const [userInfo, setUserInfo] = useState(null);
 
     const handleScroll = (section) => {
         let ref;
@@ -33,6 +35,16 @@ const MyPage = () => {
     };
 
     useEffect(() => {
+        //임시 유저 아이디 추후 로컬스토리지에 불러오는 방식으로 변경해야함
+        const userId = 3;
+        const response = myInfoAPI(userId);
+
+        if (response.success) {
+            setUserInfo(response.result);
+        } else {
+            console.error('Failed to fetch user info:', response.message);
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -56,7 +68,8 @@ const MyPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
-            <UserInfo/>
+            {/* UserInfo 컴포넌트에 userInfo 데이터를 전달 */}
+            <UserInfo userInfo={userInfo} />
             <RowWrapper4 ref={studyRoomRef}>
                 <StudyList isCurrent={true} />
                 <StudyList isCurrent={false} />
