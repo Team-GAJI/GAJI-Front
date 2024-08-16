@@ -1,8 +1,8 @@
-import { api } from "../API";
+import { apiJson } from "../API";
 
 export const myStudyListAPI = async () => {
     try {
-        const response = await api.get(`/api/users/rooms`);
+        const response = await apiJson.get(`/api/users/rooms`);
         console.log(response)
         return response
     } catch (error) {

@@ -5,7 +5,7 @@ import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
 import SidePageHeader from '../components/common/SidePageHeader';
-import { myInfoAPI } from '../utils/mypage/myInfoAPI';
+import { userInfoAPI } from '../utils/mypage/userInfoAPI';
 
 const MyPage = () => {
     const homeRef = useRef(null);
@@ -35,20 +35,29 @@ const MyPage = () => {
     };
 
     useEffect(() => {
-        //임시 유저 아이디 추후 로컬스토리지에 불러오는 방식으로 변경해야함
-        const userId = 3;
-        const response = myInfoAPI(userId);
-
-        if (response.success) {
-            setUserInfo(response.result);
-        } else {
-            console.error('Failed to fetch user info:', response.message);
-        }
-
+        const fetchUserInfo = async () => {
+            try {
+                // 임시 유저 아이디 추후 로컬스토리지에 불러오는 방식으로 변경해야함
+                const userId = 3;
+                const response = await userInfoAPI(userId);
+    
+                if (response.success === true) {
+                    setUserInfo(response);
+                } else {
+                    console.error('Failed to fetch user info:', response.message);
+                }
+            } catch (error) {
+                console.error('API 요청 중 오류 발생:', error);
+            }
+        };
+    
+        fetchUserInfo();
+    
         window.scrollTo({ top: 0, behavior: 'smooth' });
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+    
 
     const headerTitles = ["내 정보", "스터디룸", "일정", "내가 쓴 글"];
     const handleHeaderButtonClick = (index) => {
@@ -68,7 +77,6 @@ const MyPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
-            {/* UserInfo 컴포넌트에 userInfo 데이터를 전달 */}
             <UserInfo userInfo={userInfo} />
             <RowWrapper4 ref={studyRoomRef}>
                 <StudyList isCurrent={true} />
