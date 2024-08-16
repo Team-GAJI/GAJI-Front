@@ -156,10 +156,12 @@ const Sidebar1 = styled.aside`
   border-radius: 0.5em;
   max-height: 78.5vh;
   width: 11.25em;
+  padding : 0.2em;
   margin-left: 2em;
   padding-bottom: 1em;
   overflow-x: hidden;
   margin-top: 2.4em;
+
   // 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
   position: -webkit-sticky;
   position: sticky;
@@ -168,7 +170,7 @@ const Sidebar1 = styled.aside`
   @media (max-width: 768px) {
     position: absolute;
     top: 15em;
-    left: 50%;
+    left: 45%;
     transform: translateX(-50%);
     flex-direction: row;
     // width: 35em;
@@ -198,7 +200,8 @@ const SidebarButton1 = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
   width: 100%;
-  margin: 0.5em 0;
+  margin: 0.5em 0em;
+
   box-sizing: border-box;
 
 
@@ -207,7 +210,7 @@ const SidebarButton1 = styled.div`
     width: auto;
     min-width: 8em; 
     padding: 0.5em 0.5em;
-    margin-top: 0em;
+    margin-top: 0.5em;
   }
 
   &:hover {

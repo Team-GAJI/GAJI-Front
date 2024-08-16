@@ -4,7 +4,7 @@ import WriteSelectBox from '../communityWrite/WriteSelectBox';
 import ThumbNailImg from '../../assets/images/studyDetail/thumbNailImg.png';
 import LinkData from './LinkData';
 
-const StudyInfo = () => {
+const StudyManageInfo = () => {
     // state 관리
     const [memberCount, setMemberCount] = useState(0);
     const [isWarningVisible, setIsWarningVisible] = useState(false);
@@ -93,6 +93,9 @@ const StudyInfo = () => {
 
             {/* 썸네일 업로드 영역 */}
             <ThumbNailWrapper>
+                <Title2>
+                    대표 이미지 
+                </Title2>
                 <UploadWrapper>
                     {/* 업로드 버튼 */}
                     <ImageWrapper>
@@ -127,7 +130,7 @@ const StudyInfo = () => {
     );
 };
 
-export default StudyInfo;
+export default StudyManageInfo;
 
 /* CSS */
 const ComponentWrapper = styled.div`
@@ -154,8 +157,8 @@ const Container = styled.div`
   margin-bottom : 1em;
   @media(max-width : 786px){
     align-items: center;
-    margin-left : 2em /* 이거 확인*/
-
+    margin-left : 2em; /* 이거 확인*/
+    margin-top : 2em;
  }
 `;
 
@@ -238,9 +241,7 @@ const TotalCount = styled.div`
 const TitleWrapper = styled.div`
     margin: 1em 0;
     width: 100%;
-    @media(max-width : 768px){
-       margin-left : 5em;
-    }
+    
 `;
 
 const InputWrapper = styled.div`
@@ -325,10 +326,10 @@ const UploadWrapper = styled.div`
         flex-direction : row;
         align-items: center;
         justify-content: space-between;
-        gap : 0em;
+        gap : 1em;
         margin-left : 13em;
         height : 11em;
-        background-position: center 50%; 
+        width : 86%;
     }
 
 `;
@@ -343,9 +344,6 @@ const ImageWrapper = styled.div`
     align-items: center;
     justify-content: center;
     
-    @media(max-width : 786px){
-       width : 50%;
-    }
 
 `;
 
@@ -382,6 +380,10 @@ const PreivewWrapper = styled.div`
     height: 11.625em; 
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
+    
+    @media(max-width : 768px){
+        background-position: center 50%; 
+    }
 `;
 
 const ToggleWrapper = styled.div`
@@ -426,4 +428,10 @@ const Toggle = styled.div`
     position: absolute;
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
+`;
+
+const Title2 = styled.div`
+    margin: 1em 0 0.7em 0;
+    color: #8E59FF;
+    font-weight: 800;
 `;
