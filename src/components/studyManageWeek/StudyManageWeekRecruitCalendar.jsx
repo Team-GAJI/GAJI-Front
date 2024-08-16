@@ -28,7 +28,7 @@ const StudyManageWeekRecruitCalendar = ({ onStartDateChange, onEndDateChange }) 
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
         return (startDate && endDate && 
                 (currentDate.toDateString() === startDate.toDateString() || 
-                 currentDate.toDateString() === endDate.toDateString()));
+                currentDate.toDateString() === endDate.toDateString()));
     };
 
     const isInSelectionRange = (day) => {
@@ -161,14 +161,14 @@ const CalendarWrapper1 = styled.div`
     flex-direction : column;
     justify-content :center;
     align-items : center;
-    position: relative;
-    width: 100%;
     height: 100%;
     padding-top: 3em;
     padding-right: 1em;
     box-sizing: border-box;
 
     @media (max-width: 768px) {
+        position  :relative;
+        width : 100%;
         padding-right: 0;
         border-right: none;
         border-bottom: 1px solid #d0d1d9;
@@ -198,14 +198,19 @@ const Grid = styled.div`
     grid-row-gap: 0.7em;
     font-size : 1em;
     place-items: center center;  
+
 `;
 
 const Day = styled.div`
     text-align: center;
     box-sizing: border-box;
+    
+
 `;
 
 const Cell = styled.div`
+
+
     box-sizing: border-box;
     display: flex;
     align-items: center;

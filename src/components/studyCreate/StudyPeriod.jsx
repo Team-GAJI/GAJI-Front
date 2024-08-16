@@ -176,11 +176,11 @@ const ComponentWrapper = styled.div`
 const RightWrapper = styled.div`
     border-left: 1.2px solid #A2A3B2;
     width : 50%;
-    height: 17em;
     display: flex;
     flex-direction: column;
 
     @media(max-width : 768px){
+        margin-top : 2em;
         align-items : center;
         border : none;
         width  :100%
