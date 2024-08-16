@@ -389,7 +389,7 @@ const PostStateWrapper = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items : center;
+  align-items : end;
     @media(max-width : 768px){
     align-items : start;
   }
