@@ -189,7 +189,7 @@ const StyledNextMonth = styled(NextMonth)`
 const Grid = styled.div`
     width : 100%;
     padding : 1em;
-    box-sizing : border-box;
+    
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
@@ -205,9 +205,21 @@ const Grid = styled.div`
 const Day = styled.div`
     text-align: center;
     box-sizing: border-box;
+
 `;
 
 const Cell = styled.div`
+
+    @media(max-width : 1100px){
+        font-size : 0.8125em;
+    }
+    @media(max-width : 900px){
+        font-size : 0.75em;
+    }
+
+    @media(max-width : 768px){
+        font-size : 1em;
+    }
     padding: 0.625em;
     box-sizing: border-box;
     display: flex;

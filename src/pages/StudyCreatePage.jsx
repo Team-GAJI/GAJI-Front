@@ -147,6 +147,7 @@ const Title = styled.div`
 
 const SubmitButton = styled.button`
     margin-top: 2.5em;
+    margin-bottom: 2.5em;
     border: none;
     border-radius: 10px;
     width: 17.2308em;
@@ -160,4 +161,8 @@ const SubmitButton = styled.button`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
+
+    @media(max-width : 768px){
+        width : 9em;
+    }
 `;
