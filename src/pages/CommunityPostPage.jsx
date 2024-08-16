@@ -239,7 +239,7 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8125em;
-
+  box-sizing : border-box;
   @media(max-width : 768px){
     padding-left : 5%;
     padding-right : 5%;
@@ -281,6 +281,9 @@ const StyledReportCheck = styled(ReportCheck)`
 
 const TitleWrapper = styled.div`
   width : 80%;
+  @media(max-width : 768px){
+    width : 100%;
+  }
 `;
 
 const TitleDetail = styled.div`
@@ -318,7 +321,7 @@ const PostWriterInfoWrapper = styled.div`
 
 const Title = styled.div`
   margin: 0.8em 0 0.5em 0;
-  width: 25em;
+  width: 100%;
   color: #8e59ff;
   font-size: 2em;
   font-weight: 800;
@@ -473,7 +476,7 @@ const PostContent = styled.div`
 const StyledHr = styled.hr`
   margin: 2em 0;
   border: none;
-  width: 84.5588em;
+  width: 100%;
   height: 1.5px;
   font-size: 0.85em;
   background-color: rgba(162, 163, 178, 0.4);
