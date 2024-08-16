@@ -35,6 +35,9 @@ function App() {
         path="/login/oauth2/code/naver"
         element={<LoginRedirectPage />}
       />
+
+      <Route path="/redirect" element={<LoginRedirectPage />} />
+
       {/* 사용자가 로그인할 수 있는 페이지 */}
 
       {/* 메인 레이아웃이 적용되는 라우트 그룹 */}
