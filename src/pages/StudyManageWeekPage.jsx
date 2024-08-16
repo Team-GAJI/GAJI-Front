@@ -9,6 +9,7 @@ import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx
 import ManageWeekPeriod from  '../components/studyManageWeek/StudyMangeWeekPeriod.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
+import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 
 
 const StudyManageWeeKPage = () => {
@@ -59,7 +60,6 @@ const StudyManageWeeKPage = () => {
 
   return (
     <>
-      <Wrapper>
         {/* 헤더 */}
         <PageHeader
           pageTitle="스터디 관리 페이지"
@@ -70,8 +70,14 @@ const StudyManageWeeKPage = () => {
           changeColorOnClick={true}
           changeColorOnHover={true}
         />
-        <MainSection>
-          <SidebarWrapper>
+        <RowWrapper>
+
+          <ContentWrapper70>
+            <ManageWeekBasics selectedWeek={selectedWeek}/>
+            <ManageWeekPeriod selectedWeek={selectedWeek}/>
+            <ManageWeekeDetailed selectedWeek={selectedWeek} />
+          </ContentWrapper70>
+
             <Sidebar1 ref={sidebarRef}>
               {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
               <BasicInfoButton onClick={() => handleButtonClick(navigate)}>
@@ -101,150 +107,182 @@ const StudyManageWeeKPage = () => {
                 <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
               </PlusButton>
             </Sidebar1>
-          </SidebarWrapper>
-        <ManageWeekBasics selectedWeek={selectedWeek}/>
-        <ManageWeekPeriod selectedWeek={selectedWeek}/>
-        <ManageWeekeDetailed selectedWeek={selectedWeek} />
-      </MainSection>
 
-    </Wrapper>
+      </RowWrapper>
 
-    </> 
+    </>
     );
 };
 
 export default StudyManageWeeKPage;
 
-const Wrapper = styled.div`
-  z-index: 5;
-  background-color: #fbfaff;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding: 0 3.1em;
-  width: 100%;
-`;
+const RowWrapper = styled.div`
+display : flex;
+@media(max-width : 768px){
+  flex-direction : column-reverse;
+}
 
-const SidebarWrapper = styled.div`
-  position: absolute;
-  margin-top: 1.25em;
-  right: -2.375em;
-  height: 100vh;
-  width: 15.625em;
-  padding: 1.25em;
-  box-sizing: border-box;
-`;
-const Sidebar1 = styled.aside`
-  transition: height 0.5s ease;
-  overflow: hidden;
-  background-color: #fbfaff;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 0.5em; 
-  width: 11.25em; 
-  height: 32.5em; 
-  margin-top: 1.9375em; 
-  
-  `;
+`
+
+
+
+
 const DelIconWrapper = styled.div`
-  visibility: hidden;
-  margin-left: 0em;
-  margin-bottom: -0.3em;
+visibility: hidden;
+margin-left: 0em; 
+margin-bottom: -0.3em;
 `;
 
 const DelIcons = styled.img`
-  width: 3em;
-  height: auto;
+width: 3em;
+height: auto;
+`;
+
+
+const Sidebar1 = styled.aside`
+overflow-y: auto;
+background-color: #FBFAFF;
+display: flex;
+flex-direction: column;
+border: 1px solid #A2A3B2;  
+border-radius: 0.5em;
+max-height: 78.5vh;
+width : 10%;
+width: 11.25em;
+right : 3%;
+padding : 0.2em;
+padding-bottom: 1em;
+overflow-x: hidden;
+
+// 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
+position: -webkit-sticky;
+position: sticky;
+top: 5em;
+margin-top : 2.75em;
+
+@media (max-width: 768px) {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px;
+  left : 0;
+  width : 100%;
+  margin-left: 0;
+  box-sizing : border-box;
+  border : none;
+  flex-direction: row;
+  overflow-x: scroll; 
+  overflow-y: hidden; 
+
+  z-index: 10;
+  height: 3em; 
+  max-height: 5em; 
+}
+
 `;
 const TextWrapper = styled.div`
-  flex: 1;
-  text-align: center;
-  // color : ${(props) => (props ? "#8E59FF" : "#A2A3B2")};
-`;
+flex: 1;
+text-align: center;
 
+`;
 const SidebarButton1 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: #a2a3b2;
-  font-weight: ${(props) => (props.bold ? "800" : "400")};
-  margin-top: 0.625em;
-  padding: 0.6em 0.625em;
-  border: 1px solid transparent;
-  cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: transparent;
+color: #A2A3B2;
+font-weight: ${(props) => (props.bold ? '800' : '400')};
+padding: 0.4em 0em;
+border: 1px solid transparent;
+cursor: pointer;
+width: 100%;
+margin: 0.5em 0em;
 
-  &:hover {
-    border: 1px solid #8e59ff;
-    border-radius: 0.5em;
-    color: #8e59ff;
-    margin-left: 0.4em;
-    margin-right: 0.4em;
-    font-weight: 800;
-  }
-  // 마지막 주차 글자 위치조정
-  &.last-week {
-    margin-left: 3em;
-    position: relative;
-  }
+box-sizing: border-box;
 
-  &.last-week:hover {
-    border: 1px solid #8e59ff;
-    border-radius: 0.5em;
-    color: #8e59ff;
-    margin-left: 0.4em;
-    margin-right: 0.4em;
-    font-weight: 800;
 
-    ${DelIconWrapper} {
-      visibility: visible;
+@media (max-width: 768px) {
+  flex-direction: row;
+  width: auto;
+  min-width: 8em; 
+  padding: 0.5em 0.5em;
+  margin-top: 0.5em;
+}
+
+&:hover {
+  border: 1px solid #8E59FF;
+  border-radius: 0.4em;
+  color: #8E59FF;
+  font-weight: 800;
+}
+// 마지막 주차 글자 위치조정
+&.last-week {
+
+  margin-left: 1.5em;
+
+}
+
+&.last-week:hover {
+  margin-left: 0;
+  border: 1px solid #8E59FF;
+  border-radius: 0.4em;
+  color: #8E59FF;
+  font-weight: 800;
+
+  ${DelIconWrapper} {
+    margin-right: 1em;
+    visibility: visible;
+    
+    @media(max-width: 768px) {
+    margin-left: 0.1em;
+    margin-right : 0em;
     }
-
-    ${TextWrapper} {
-      text-align: center;
-      // 마지막 주차 글 위치 수정해라~
-    }
   }
+
+  ${TextWrapper} {
+    text-align: center;
+  }
+ 
+}
 `;
+
 
 const BasicInfoButton = styled(SidebarButton1)`
-  font-size: 1em;
-  font-weight: 1.125em;
-  background-color: #8e59ff;
-  border: none;
-  background-color: transparent;
-  color: #a2a3b2;
+font-size: 1em;
+font-weight: 1.125em;
+background-color: #8E59FF;
+border: none;
+background-color: transparent;
+color: #A2A3B2;
+
+@media(max-width: 768px) {
+  margin-left: 0.5em;
+}
 `;
 
-/* 화면 분활 (오른쪽 사이드) */
-const MainSection = styled.section`
-  display: flex;
-  flex: 1;
-  padding-top: 30px;
-  /*overflow: auto;*/
-  flex-direction: row;
-  gap: 20px;
-  flex-direction: column;
-  position: relative;
-  margin-bottom: 40px;
-`;
 const PlusButton = styled.button`
-  font-size: 1em;
-  font-weight: 1.125em;
-  background-color: #8e59ff;
-  border: none;
-  background-color: transparent;
-  color: #a2a3b2;
-  padding: 0.6em 0.625em;
-`;
-const PlusIcons = styled.img`
-  width: 1em;
-  height: auto;
-  transition: filter 0.3s;
+font-size: 1em;
+font-weight: 1.125em;
+background-color: #8E59FF;
+border: none;
+background-color: transparent;
+color: #A2A3B2;
+padding: 0.6em 0.625em;
+margin-top: auto;
 
-  &:hover {
-    filter: brightness(0) saturate(100%) invert(29%) sepia(90%) saturate(1996%)
-      hue-rotate(246deg) brightness(94%) contrast(101%);
-  }
+@media (max-width: 768px) {
+  padding: 0.5em 0.5em;
+  margin-top: 0em;
+  margin-right : 3em;
+}
 `;
+
+const PlusIcons = styled.img`
+width: 1em;
+height: auto;
+transition: filter 0.3s;
+
+&:hover {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
+}
+`;
+
