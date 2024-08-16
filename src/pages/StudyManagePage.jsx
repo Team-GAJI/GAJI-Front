@@ -70,15 +70,13 @@ const StudyManagePage = () => {
       />
 
       <RowWrapper>
-        
         <ContentWrapper>
             <ManageInfo/>
             <ManagePeriod/>
             <ManageDetailed/>
         </ContentWrapper>
 
-       
-          <Sidebar1 ref={sidebarRef}>
+        <Sidebar1 ref={sidebarRef}>
               {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
               <BasicInfoButton>
                   기본정보
@@ -120,6 +118,9 @@ const StudyManagePage = () => {
 export default StudyManagePage;
 const RowWrapper = styled.div`
   display : flex;
+  @media(max-width : 768px){
+    flex-direction : column-reverse;
+  }
 
 `
 const Wrapper = styled.div`
@@ -160,24 +161,26 @@ const Sidebar1 = styled.aside`
   margin-left: 2em;
   padding-bottom: 1em;
   overflow-x: hidden;
-  margin-top: 2.4em;
 
   // 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
   position: -webkit-sticky;
   position: sticky;
-  top: 2.4em;
+  top: 5em;
+  margin-top : 2.75em;
 
   @media (max-width: 768px) {
-    position: absolute;
-    top: 15em;
-    left: 45%;
-    transform: translateX(-50%);
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+    left : 0;
+    width : 100%;
+    margin-left: 0;
+    box-sizing : border-box;
+    border : none;
     flex-direction: row;
-    // width: 35em;
-    width : 80%; /* 맞는지 확인*/
     overflow-x: scroll; 
     overflow-y: hidden; 
-    margin: 1em 2em;
+
     z-index: 10;
     height: 3em; 
     max-height: 5em; 
