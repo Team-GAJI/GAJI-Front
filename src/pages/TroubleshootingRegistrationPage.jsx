@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import WritePost from "../components/common/WritePost";
+import { ContentWrapper, ContentWrapper60 } from "../components/common/MediaWrapper";
 
 const TroubleshootingRegistrationPage = () => {
   const [hashtags, setHashtags] = useState([""]);
@@ -56,10 +57,11 @@ const TroubleshootingRegistrationPage = () => {
         changeColorOnHover={true}
       />
 
-      <PostsWrapper>
+      <ContentWrapper60>
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
-          {hashtags.map((hashtag, index) => (
+          {/* 해쉬태그 수정 */}
+          {/* {hashtags.map((hashtag, index) => (
             <HashtagInputWrapper key={index}>
               #{" "}
               <HashtagInput
@@ -71,45 +73,25 @@ const TroubleshootingRegistrationPage = () => {
               />
               <RemoveButton onClick={() => handleRemove(index)}>x</RemoveButton>
             </HashtagInputWrapper>
-          ))}
+          ))} */}
           {/* 여기서 부터 공용컴포넌트라 반응형 수정필요! */}
         </PostOptionWrapper>
 
         <PostTitle>게시글 제목</PostTitle>
 
         <WritePost link={"troubleshooting"}/>
-      </PostsWrapper>
+      </ContentWrapper60>
     </>
   );
 };
 
 export default TroubleshootingRegistrationPage;
 
-const PostsWrapper = styled.div`
-  margin: 2.5em 0 6em 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  padding: 0 1.5em;
 
-  @media (max-width: 768px) {
-    margin: 1.5em 0 4em 0;
-    padding: 0 1em;
-  }
-
-  @media (max-width: 480px) {
-    margin: 1em 0 3em 0;
-    padding: 0 0.5em;
-  }
-`;
 
 const PostOptionWrapper = styled.div`
   margin-bottom: 2.5em;
   width: 100%;
-  max-width: 57.125em; /* Limit the maximum width */
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -228,7 +210,6 @@ const RemoveButton = styled.button`
 
 const PostTitle = styled.div`
   width: 100%;
-  max-width: 57.125em; /* Limit the maximum width */
   color: #161a3f;
   font-weight: 800;
   font-family: "NanumSquareNeo";
