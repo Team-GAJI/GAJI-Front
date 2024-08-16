@@ -8,7 +8,7 @@ import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 
-const StudyDetail = () => {
+const StudyManageDetail = () => {
     // 상태 관리
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(0);
@@ -164,7 +164,7 @@ const StudyDetail = () => {
     );
 };
 
-export default StudyDetail;
+export default StudyManageDetail;
 
 /* CSS */
 const ComponentWrapper = styled.div`
@@ -307,6 +307,9 @@ const TextLength = styled.div`
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
+    @media(max-width : 768px){
+        margin-right : 13em;
+    }
 `;
 
 const StyledPreviewButton = styled.div`

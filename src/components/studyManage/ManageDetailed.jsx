@@ -51,7 +51,7 @@ const Text2 = styled.p`
     color: #8E59FF;
     font-size: 1.25em; 
     font-weight: 800;
-
+    margin-left : 0.5em;
   @media(max-width : 768px){
     margin-left : -25em;
     font-size: 1.1em; 
