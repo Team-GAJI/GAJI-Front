@@ -5,7 +5,8 @@ import MyPost from '../components/mypage/MyPost';
 import StudyList from '../components/mypage/StudyList';
 import UserInfo from '../components/mypage/UserInfo';
 import SidePageHeader from '../components/common/SidePageHeader';
-
+import { userInfoAPI } from '../utils/mypage/userInfoAPI';
+import { ongoingStudyListAPI, endedStudyListAPI } from '../utils/mypage/myStudyListAPI';
 
 const MyPage = () => {
     const homeRef = useRef(null);
@@ -15,13 +16,28 @@ const MyPage = () => {
 
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300);
-   
+    const [userInfo, setUserInfo] = useState(null);
+    const [ongoingStudyList, setOngoingStudyList] = useState([]);
+    const [endedStudyList, setEndedStudyList] = useState([]);
+
     const handleScroll = (section) => {
         let ref;
-        if (section === 'home') ref = homeRef;
-        if (section === 'studyroom') ref = studyRoomRef;
-        if (section === 'calendar') ref = calendarRef;
-        if (section === 'mypost') ref = myPostRef;
+        switch (section) {
+            case 'home':
+                ref = homeRef;
+                break;
+            case 'studyroom':
+                ref = studyRoomRef;
+                break;
+            case 'calendar':
+                ref = calendarRef;
+                break;
+            case 'mypost':
+                ref = myPostRef;
+                break;
+            default:
+                ref = homeRef;
+        }
 
         const yOffset = isMobile ? -250 : -57;
         const yPosition = ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
@@ -33,12 +49,62 @@ const MyPage = () => {
         setIsMobile(window.innerWidth <= 768);
     };
 
+    const handleScrollEvent = () => {
+        const scrollY = window.scrollY;
+        const positions = [
+            homeRef.current.offsetTop,
+            studyRoomRef.current.offsetTop,
+            calendarRef.current.offsetTop,
+            myPostRef.current.offsetTop,
+        ];
+
+        const offsets = isMobile ? 300 : 100;
+
+        positions.forEach((position, index) => {
+            if (scrollY >= position - offsets) {
+                setActiveButtonIndex(index);
+            }
+        });
+    };
+
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const fetchUserData = async () => {
+            try {
+                const userId = 3; // 임시 사용자 ID, 나중에 로컬스토리지 등에서 불러오도록 수정
+                const userInfoData = await userInfoAPI(userId);
+                const ongoingStudyListData = await ongoingStudyListAPI(userId);
+                const endedStudyListData = await endedStudyListAPI(userId);
+
+                if (userInfoData.success) {
+                    setUserInfo(userInfoData.result);
+                } else {
+                    console.error('Failed to fetch user info:', userInfoData.message);
+                }
+
+                if (ongoingStudyListData.success) {
+                    setOngoingStudyList(ongoingStudyListData.result);
+                } else {
+                    console.error('Failed to fetch ongoing study list:', ongoingStudyListData.message);
+                }
+
+                if (endedStudyListData.success) {
+                    setEndedStudyList(endedStudyListData.result);
+                } else {
+                    console.error('Failed to fetch ended study list:', endedStudyListData.message);
+                }
+            } catch (error) {
+                console.error('API 요청 중 오류 발생:', error);
+            }
+        };
+
+        fetchUserData();
+        window.addEventListener('scroll', handleScrollEvent);
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('scroll', handleScrollEvent);
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
-    
 
     const headerTitles = ["내 정보", "스터디룸", "일정", "내가 쓴 글"];
     const handleHeaderButtonClick = (index) => {
@@ -58,10 +124,10 @@ const MyPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
-            <UserInfo />
+            <UserInfo userInfo={userInfo} />
             <RowWrapper4 ref={studyRoomRef}>
-                <StudyList isCurrent={true} />
-                <StudyList isCurrent={false} />
+                <StudyList isCurrent={true} studyList={ongoingStudyList} />
+                <StudyList isCurrent={false} studyList={endedStudyList} />
             </RowWrapper4>
             <Div ref={calendarRef}>
                 <Calendar />

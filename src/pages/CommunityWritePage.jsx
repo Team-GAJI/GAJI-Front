@@ -13,6 +13,7 @@ const CommunityWritePage = () => {
     const { title } = useSelector((state) => state.community);
     const dispatch = useDispatch();
 
+
     useEffect(() => {
         setActiveButtonIndex(getTitleIndex(title));
     }, [title]);
@@ -33,6 +34,8 @@ const CommunityWritePage = () => {
     const [hashtags, setHashtags] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
+
+
 
     // 헤더 함수
     const headerTitles = ["프로젝트", "질문", "블로그"];

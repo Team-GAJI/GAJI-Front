@@ -5,59 +5,41 @@ import studyProfileUrl from '../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
 import { studyInfoAPI } from '../../utils/mypage/studyInfoAPI';
 
-const dummyStudyList = [
-    {
-        name: 'React 기본 스터디',
-        description: 'React의 기본 개념과 Hooks를 공부하는 스터디입니다.',
-    },
-    {
-        name: 'JavaScript 심화 스터디',
-        description: 'JavaScript의 심화 개념을 공부하고 프로젝트를 진행합니다.',
-    },
-    {
-        name: '알고리즘 문제 풀이',
-        description: '알고리즘 문제를 함께 풀고 토론하는 스터디입니다.',
-    },
-    {
-        name: '웹 디자인 스터디',
-        description: '웹 디자인의 기본 원리와 최신 트렌드를 공부합니다.',
-    },
-    {
-        name: '풀스택 개발 스터디',
-        description: '풀스택 개발의 전체 과정을 함께 배우고 프로젝트를 진행합니다.',
-    },
-];
-
-
-const StudyList = ({ isCurrent }) => {
-    
+const StudyList = ({ isCurrent, studyList }) => {
     const navigate = useNavigate();
 
-    const handleStudyRoom = async (roomId) => {
+    const handleStudyRoom = async () => {
         try {
+            const roomId = 3;
             const response = await studyInfoAPI(roomId);
             navigate('/studyroom', { state: { data: response } });
         } catch (error) {
             console.log(error);
         }
     };
-    
+
     return (
         <StudyListWrapper>
             <Wrapper>
                 <RowWrapper>
                     <ExtraBold>{isCurrent ? "현재 스터디룸" : "이전 스터디룸"}</ExtraBold>
                 </RowWrapper>
-                <ListWrapper>
-                    {dummyStudyList.map((study, index) => (
-                        <ListItem key={index}>
-                            <StudyProfile />
-                            <ColumnWrapper onClick={()=>handleStudyRoom(1)}>
-                                <StudyName>{study.name}</StudyName>
-                                <StudyText>{study.description}</StudyText>
-                            </ColumnWrapper>
-                        </ListItem>
-                    ))}
+                {/* 임시구현 */}
+                <ListWrapper onClick={() => handleStudyRoom()} > 
+                    {studyList && studyList.length > 0 ? (
+                        studyList.map((study, index) => (
+                            <ListItem key={index}>
+                                <StudyProfile />
+                                <ColumnWrapper>
+                                {/* <ColumnWrapper onClick={() => handleStudyRoom(study.roomId)}> */}
+                                    <StudyName>{study.name}</StudyName>
+                                    <StudyText>{study.description}</StudyText>
+                                </ColumnWrapper>
+                            </ListItem>
+                        ))
+                    ) : (
+                        <NoDataText>스터디룸 정보가 없습니다.</NoDataText>
+                    )}
                 </ListWrapper>
             </Wrapper>
         </StudyListWrapper>
@@ -163,4 +145,12 @@ const StudyProfile = styled.div`
         width: 100%;
         height: 5em;
     }
+`;
+
+const NoDataText = styled.div`
+    font-size: 1em;
+    font-weight: 700;
+    color: #7E7D80;
+    text-align: center;
+    margin-top: 1em;
 `;
