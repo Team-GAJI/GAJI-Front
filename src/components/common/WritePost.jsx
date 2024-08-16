@@ -15,9 +15,6 @@ const WritePost = ({ link }) => {
     // 상태 관리
     const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
-
-
-
     const [lengthCount, setLengthCount] = useState(markdown.length);
     const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
@@ -51,6 +48,8 @@ const WritePost = ({ link }) => {
             navigate(`/${link}/post`, { state: { data: data } });
 
         } catch (error) {
+            //임시 추가
+            navigate(`/${link}/post`)
             console.error('포스트 생성 중 오류 발생:', error);
         }
     };
