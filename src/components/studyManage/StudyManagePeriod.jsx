@@ -94,6 +94,11 @@ const StudyManagePeriod = () => {
     };
 
     return (
+        <>
+        <Container>
+            <MainTitle>스터디 기본정보</MainTitle>
+        </Container>
+
         <ComponentWrapper>
             {/* 캘린더 영역 */}
             {isRecruitmentActive && (
@@ -115,19 +120,19 @@ const StudyManagePeriod = () => {
                 {/* 스터디 모집기한 */}
                 <ContentWrapper>
                     <Title>스터디 모집 기한</Title>
-                    <StudyButton
-                        onClick={handleStudyPeriodButtonClick}
-                        isActive={isStudyPeriodActive}>
+                    <RecruitButton
+                        onClick={handleRecruitmentButtonClick}
+                        isActive={isRecruitmentActive}>
                         입력하기
-                    </StudyButton>
+                    </RecruitButton>
                     <PeriodWrapper>
                         <Text>시작</Text>
                         <Period>
-                            {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)}
+                            {recruitmentStartDate ? formatDate(recruitmentStartDate) : formatDate(today)}
                         </Period>
                         <Text>끝</Text>
                         <Period>
-                            {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
+                            {recruitmentEndDate ? formatDate(recruitmentEndDate) : formatDate(today)}
                         </Period>
                     </PeriodWrapper>
                 </ContentWrapper>
@@ -153,18 +158,29 @@ const StudyManagePeriod = () => {
                 </ContentWrapper>
             </RightWrapper>
         </ComponentWrapper>
+        </>
     );
 };
 
 export default StudyManagePeriod;
 
 /* CSS */
+
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 100%;
+    width: 62em; 
     display: flex;
     align-items: center;
+
+
+    @media(max-width : 786px){
+        border : none;
+        flex-direction : row;
+        align-items: center;
+        justify-content: flex-start;
+        margin-left : 25em;  
+    }
 `;
 
 const RightWrapper = styled.div`
@@ -172,12 +188,21 @@ const RightWrapper = styled.div`
     height: 17em;
     display: flex;
     flex-direction: column;
+
+    @media(max-width : 786px){
+        margin-top : -28em;   
+    }
 `;
 
 const ContentWrapper = styled.div`
     margin: 0 0 3.5em 4em;
     display: flex;
     flex-direction: column;
+
+     @media(max-width : 786px){
+        margin: 0 0 3.5em 1em;
+    }
+    
 `;
 
 const Title = styled.div`
@@ -185,23 +210,6 @@ const Title = styled.div`
     font-weight: 800;
 `;
 
-const StudyButton = styled.div`
-    margin: 1.2em 0;
-    border-radius: 10px;
-    width: 11em;
-    height: 2.2308em;
-    line-height: 2.2308em;
-    text-align: center;
-    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
-    color: white;
-    font-size: 0.8125em;
-    font-weight: bold;
-    cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
-    }
-    transition: all 0.3s ease;
-`;
 
 const PeriodWrapper = styled.div`
     display: flex;
@@ -225,4 +233,64 @@ const Period = styled.div`
     color: #161A3F;
     font-size: 0.8125em;
     font-weight: bold;
+`;
+const RecruitButton = styled.div`
+    margin: 1.2em 0;
+    border-radius: 10px;
+    width: 11em;
+    height: 2.2308em;
+    line-height: 2.2308em;
+    text-align: center;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+    color: white;
+    font-size: 0.8125em;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+`;
+const StudyButton = styled.div`
+    margin: 1.2em 0;
+  border-radius: 10px;
+     width: 11em;
+     height: 2.2308em;
+     line-height: 2.2308em;
+     text-align: center;
+     background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+     color: white;
+     font-size: 0.8125em;
+     font-weight: bold;
+     cursor: pointer;
+     &:hover{
+         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+     }
+     transition: all 0.3s ease;
+ `;
+
+ const Container = styled.div`
+  display: flex;
+  flex-direction: column; 
+  gap: 0.625em; 
+  margin : 1em 0;
+
+  @media(max-width : 786px){
+    align-items: center;
+    margin-left : 2em; /* 이거 확인*/
+    margin-top : 2em;
+ }
+`;
+
+const MainTitle = styled.div`
+    color: #8E59FF;
+    font-size: 1.25em; 
+    font-weight: 800;
+    text-align: left;
+    margin-left: -24em; 
+    @media(max-width : 768px){
+        font-size: 1.1em; 
+        margin-left : -27em;
+
+    }
 `;
