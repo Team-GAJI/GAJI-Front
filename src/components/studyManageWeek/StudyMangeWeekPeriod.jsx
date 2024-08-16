@@ -5,7 +5,7 @@ import StudyCreateCalendar from './StudyManageWeekCalendar';
 import { useDispatch } from 'react-redux';
 import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../feautres/study/studyCreateSlice';
 
-const StudyPeriod = () => {
+const StudyManageWeekPeriod = ( {selectedWeek}) => {
     // state 관리
     const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
     const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
@@ -94,6 +94,11 @@ const StudyPeriod = () => {
     };
 
     return (
+        <>
+        <Container>
+            <MainText>{selectedWeek + 1}주차 스터디 관리</MainText>
+        </Container>
+      
         <ComponentWrapper>
             {/* 캘린더 영역 */}
             {isRecruitmentActive && (
@@ -134,18 +139,21 @@ const StudyPeriod = () => {
                 </ContentWrapper>
             </RightWrapper>
         </ComponentWrapper>
+        </>
     );
 };
 
-export default StudyPeriod;
+export default StudyManageWeekPeriod;
 
 /* CSS */
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 100%;
+    width: 101%;
     display: flex;
     align-items: center;
+    
+
 `;
 
 const RightWrapper = styled.div`
@@ -206,4 +214,28 @@ const Period = styled.div`
     color: #161A3F;
     font-size: 0.8125em;
     font-weight: bold;
+`;
+
+const MainText = styled.div`
+    color: #8E59FF;
+    font-size: 1.25em; 
+    font-weight: 800;
+    text-align: left;
+    margin-left: -24em; 
+    @media(max-width : 768px){
+        font-size: 1.1em; 
+        margin-left : -27em;
+
+    }
+`;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column; 
+  gap: 0.625em; 
+  margin: 1em 0;
+  @media(max-width : 786px){
+    align-items: center;
+    margin-left : 2em /* 이거 확인*/
+
+ }
 `;
