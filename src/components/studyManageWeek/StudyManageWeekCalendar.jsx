@@ -228,7 +228,7 @@ const Cell = styled.div`
     border-radius: 50%;
     box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
     position: relative; 
-    // z-index: 10;
+    z-index: 10;
 
     &:before {
         content: '';

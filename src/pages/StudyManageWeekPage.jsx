@@ -10,6 +10,7 @@ import ManageWeekPeriod from  '../components/studyManageWeek/StudyMangeWeekPerio
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 
+import { ContentWrapper } from '../components/common/MediaWrapper';
 
 
 const StudyManageWeeKPage = () => {
@@ -107,10 +108,12 @@ const StudyManageWeeKPage = () => {
               </PlusButton>
             </Sidebar1>
           </SidebarWrapper>
-
-        <ManageWeekBasics selectedWeek={selectedWeek}/>
-        <ManageWeekPeriod selectedWeek={selectedWeek}/>
-        <ManageWeekeDetailed selectedWeek={selectedWeek} />
+        <ContentWrapper>
+          <ManageWeekBasics selectedWeek={selectedWeek}/>
+          <ManageWeekPeriod selectedWeek={selectedWeek}/>
+          <ManageWeekeDetailed selectedWeek={selectedWeek} />
+        </ContentWrapper>
+        
       </MainSection>
 
     </Wrapper>
