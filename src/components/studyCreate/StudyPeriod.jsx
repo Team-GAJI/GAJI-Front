@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import StudyCreateRecruitCalendar from './StudyCreateRecruitCalendar';
 import StudyCreateCalendar from './StudyCreateCalendar';
 import { useDispatch } from 'react-redux';
-import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../feautres/study/studyCreateSlice';
+import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
 const StudyPeriod = () => {
     // state 관리

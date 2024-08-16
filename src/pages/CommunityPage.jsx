@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { setActiveButton } from '../feautres/community/communitySlice';
+import { setActiveButton } from '../features/community/communitySlice';
 import CommunityHomePosts from '../components/community/CommunityHomePosts';
 import PageHeader from '../components/common/PageHeader';
 

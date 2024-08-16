@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ThumbNailImg from '../../assets/images/studyDetail/thumbNailImg.png';
 import StudyData from './StudyData';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName, setPeopleMaximum, setThumbnailUrl, setPrivate } from '../../feautres/study/studyCreateSlice';
+import { setName, setPeopleMaximum, setThumbnailUrl, setPrivate } from '../../features/study/studyCreateSlice';
 import StudyCreateSelectBox from './StudyCreateSelectBox';
 
 const StudyInfo = () => {

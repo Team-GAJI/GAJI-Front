@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import communityReducer from "../feautres/community/communitySlice";
-import studyCreateReducer from "../feautres/study/studyCreateSlice";
+import communityReducer from "../features/community/communitySlice";
+import studyCreateReducer from "../features/study/studyCreateSlice";
 
 export const store = configureStore({
   reducer: {

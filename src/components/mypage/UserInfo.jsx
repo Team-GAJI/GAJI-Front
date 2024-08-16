@@ -5,16 +5,33 @@ import SendIcon from '../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../style/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../style/Button';
 import defaultProfileImage from '../../assets/images/mypage/userProfile.png'; // 기본 프로필 이미지 경로
+import { userInfoAPI } from '../../utils/mypage/userInfoAPI';
 
-const UserInfo = forwardRef(({ userInfo }, ref) => {
+const UserInfo = forwardRef(({ref}) => {
+    const [userInfo, setUserInfo] = useState(null);
     const [userName, setUserName] = useState(userInfo?.result?.nickname || 'Guest');
     const [isEditing, setIsEditing] = useState(false);
     const userGrade = 'Gold';
 
     useEffect(() => {
-        // userInfo가 업데이트될 때마다 닉네임을 업데이트합니다.
-        setUserName(userInfo?.result?.nickname || 'Guest');
-    }, [userInfo]);
+        const fetchUserInfo = async () => {
+            try {
+                const userId = 3; // 예시 ID
+                const response = await userInfoAPI(userId);
+    
+                if (response.success === true) {
+                    setUserInfo(response);
+                } else {
+                    console.error('Failed to fetch user info:', response.message);
+                }
+            } catch (error) {
+                console.error('API 요청 중 오류 발생:', error);
+            }
+        };
+    
+        fetchUserInfo();
+    }, []); 
+    
 
     const toggleEditingMode = () => {
         if (isEditing && userName.trim() === '') {
