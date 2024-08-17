@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
+import { ContentWrapper60 } from "../components/common/MediaWrapper";
 
 const StudyNoticeRegistrationPage = () => {
   const navigate = useNavigate();
@@ -46,9 +47,7 @@ const StudyNoticeRegistrationPage = () => {
         changeColorOnClick={false}
         changeColorOnHover={true}
       />
-      <ContentWrapper>
-        <MainSection>
-          <FormWrapper>
+      <ContentWrapper60>
             <FormField>
               <Label>공지사항 제목</Label>
               <Input placeholder="제목을 입력해주세요" />
@@ -59,47 +58,13 @@ const StudyNoticeRegistrationPage = () => {
             <SubmitButtonWrapper>
               <SubmitButton onClick={handleSubmit}>공지사항 등록</SubmitButton>
             </SubmitButtonWrapper>
-          </FormWrapper>
-        </MainSection>
-      </ContentWrapper>
+      </ContentWrapper60>
     </>
   );
 };
 
 export default StudyNoticeRegistrationPage;
 
-const ContentWrapper = styled.div`
-  flex-grow: 1;
-`;
-
-const MainSection = styled.section`
-  display: flex;
-  flex: 1;
-  background-color: #fff;
-  padding-top: 1.5em;
-  margin-bottom: 5em;
-  justify-content: center;
-  align-items: center;
-`;
-
-const FormWrapper = styled.div`
-  font-family: "NanumSquareNeo", sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 55%;
-  padding: 2em;
-
-  @media (max-width: 1000px) {
-    width: 90%;
-    padding: 1.5em;
-  }
-
-  @media (max-width: 480px) {
-    width: 95%;
-    padding: 1em;
-  }
-`;
 
 const FormField = styled.div`
   width: 100%;
@@ -123,6 +88,7 @@ const Input = styled.input`
   border: 1px solid #a2a3b2;
   border-radius: 0.5em;
   box-sizing: border-box;
+  background : none;
 
   &::placeholder {
     font-size: 1em;
@@ -139,7 +105,7 @@ const Textarea = styled.textarea`
   box-sizing: border-box;
   height: 150px;
   resize: none;
-
+  background : none;
   &::placeholder {
     font-size: 1em;
   }
@@ -152,7 +118,8 @@ const SubmitButtonWrapper = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  font-family: "NanumSquareNeo", sans-serif;
+  margin-bottom : 1em;
+  font-family: "NanumSquareNeo";
   background-color: #8e59ff;
   border: 0.0625em solid #8e59ff;
   color: #fff;
@@ -160,7 +127,7 @@ const SubmitButton = styled.button`
   font-weight: 700;
   width: 12em;
   padding: 1em;
-  margin-top: 1.5em;
+  margin-top: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
 

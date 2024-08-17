@@ -10,15 +10,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
 import { registerTroubleShootingAPI } from '../../utils/troubleShooting/troubleShootingInfoAPI';
-import { useSelector } from 'react-redux';
 
 const WritePost = ({ link }) => {
     // 상태 관리
     const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
-
-    const { additionalData } = useSelector((state) => state.additionalData);
-
     const [lengthCount, setLengthCount] = useState(markdown.length);
     const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
@@ -27,12 +23,11 @@ const WritePost = ({ link }) => {
 
     const handleSubmit = async () => {
         try {
-            console.log(additionalData)
             // 기본 data 구조를 props에서 받아 설정
             let data = {
                 title: title,
                 body: markdown,
-                ...additionalData // 추가 데이터는 props에서 직접 받아옴
+                // ...additionalData // 추가 데이터는 props에서 직접 받아옴
             };
 
             // API 호출 함수 선택
@@ -53,6 +48,8 @@ const WritePost = ({ link }) => {
             navigate(`/${link}/post`, { state: { data: data } });
 
         } catch (error) {
+            //임시 추가
+            navigate(`/${link}/post`)
             console.error('포스트 생성 중 오류 발생:', error);
         }
     };

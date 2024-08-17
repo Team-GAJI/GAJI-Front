@@ -113,7 +113,7 @@ const StudyPeriod = () => {
             {/* 기한 영역 */}
             <RightWrapper>
                 {/* 스터디 모집기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>스터디 모집 기한</Title>
                     <RecruitButton
                         onClick={handleRecruitmentButtonClick}
@@ -130,10 +130,10 @@ const StudyPeriod = () => {
                             {recruitmentEndDate ? formatDate(recruitmentEndDate) : formatDate(today)}
                         </Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
 
                 {/* 스터디 진행기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>스터디 진행 기한</Title>
                     <StudyButton
                         onClick={handleStudyPeriodButtonClick}
@@ -150,7 +150,7 @@ const StudyPeriod = () => {
                             {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
                         </Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
             </RightWrapper>
         </ComponentWrapper>
     );
@@ -165,16 +165,29 @@ const ComponentWrapper = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
+
+    @media(max-width : 768px){
+        flex-direction : column;
+        gap : 1em;
+        padding-bottom  :1em;
+    }
 `;
 
 const RightWrapper = styled.div`
     border-left: 1.2px solid #A2A3B2;
-    height: 17em;
+    width : 50%;
     display: flex;
     flex-direction: column;
+
+    @media(max-width : 768px){
+        margin-top : 2em;
+        align-items : center;
+        border : none;
+        width  :100%
+    }
 `;
 
-const ContentWrapper = styled.div`
+const StyledContentWrapper = styled.div`
     margin: 0 0 3.5em 4em;
     display: flex;
     flex-direction: column;

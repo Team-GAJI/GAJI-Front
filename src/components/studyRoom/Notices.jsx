@@ -35,6 +35,7 @@ const NoticeSquareWrapper = styled.div`
   gap: 0.625em;
   margin-bottom: 1.875em;
   font-family: "NanumSquareNeo", sans-serif;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     grid-template-rows: 1fr;

@@ -131,33 +131,17 @@ const StudyManageCalendar = ({ onStartDateChange, onEndDateChange }) => {
 
 export default StudyManageCalendar;
 
-const StyledPrevMonth = styled(PrevMonth)`
-    width: 0.61em;
-    cursor: pointer;
-`;
-
-const StyledNextMonth = styled(NextMonth)`
-    width: 0.61em;
-    cursor: pointer;
-`;
-
+/* CSS */
 const CalendarWrapper = styled.div`
     width: 50%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
+    
     @media (max-width: 768px) {
         height : auto;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
-        margin-right : -4em; /* 여기 수정함*/
+        width : 100%
     }
 `;
 
 const CalendarWrapper1 = styled.div`
-    font-size: 0.8125em;
-    font-weight: bold;
-    margin-left: 4.5em;
     display : flex;
     flex-direction : column;
     justify-content :center;
@@ -165,16 +149,16 @@ const CalendarWrapper1 = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    padding-top: 3em;
-    padding-right: 1em;
+    padding : 2em;
+    padding-bottom : 1em;
     box-sizing: border-box;
 
     @media (max-width: 768px) {
+        width : 100%
         padding-right: 0;
         border-right: none;
-        // border-bottom: 1px solid #d0d1d9;
+        border-bottom: 1px solid #d0d1d9;
         padding-bottom: 1em;
-
     }
 `;
 
@@ -184,30 +168,59 @@ const Header = styled.div`
     justify-content: center;
     align-items: center;
     gap: 2em;
-    margin-bottom: 2.5em;
+    margin-bottom: 1em;
+`;
+
+const StyledPrevMonth = styled(PrevMonth)`
+    width: 0.61em;
+    cursor: pointer;
 `;
 
 const MonthYear = styled.div`
-    font-size: 1.25em;
+    font-size: 1em;
     font-weight: 800;
 `;
 
+const StyledNextMonth = styled(NextMonth)`
+    width: 0.61em;
+    cursor: pointer;
+`;
+
 const Grid = styled.div`
+    width : 100%;
     padding : 1em;
+    
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    grid-row-gap: 0.7em;
+    gap: 1em;
     font-size : 1em;
-    place-items: center center;  
+    place-items: center center;
+
+    @media (max-width: 768px) {
+        gap: 0.5em;
+    }
 `;
 
 const Day = styled.div`
     text-align: center;
     box-sizing: border-box;
+
 `;
 
 const Cell = styled.div`
+
+    @media(max-width : 1100px){
+        font-size : 0.8125em;
+    }
+    @media(max-width : 900px){
+        font-size : 0.75em;
+    }
+
+    @media(max-width : 768px){
+        font-size : 1em;
+    }
+    padding: 0.625em;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -230,7 +243,13 @@ const Cell = styled.div`
     border-radius: 50%;
     box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
     position: relative; 
-    z-index: 10;
+    // z-index: 10;
+
+    @media (max-width: 768px) {
+        height: 2em;
+        width: 2em;
+        padding: 0.4em;
+    }
 
     &:before {
         content: '';

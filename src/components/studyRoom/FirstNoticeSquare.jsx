@@ -69,7 +69,6 @@ export default FirstNoticeSquare;
 
 const NoticeSquareWrapper = styled.div`
   width: 100%;
-  max-width: 51.25em;
   height: auto;
   border: 0.1em solid #8e59ff;
   border-radius: 1.25em;
@@ -78,16 +77,15 @@ const NoticeSquareWrapper = styled.div`
   justify-content: center;
   position: relative;
   padding: 1.25em;
+  box-sizing :border-box;
 
   @media (max-width: 768px) {
     padding: 1em;
     border-radius: 1em;
-    max-width: 90%;
   }
 
   @media (max-width: 480px) {
     padding: 0.75em;
-    max-width: 100%;
   }
 `;
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import Category from "../components/troubleshooting/Category";
 import ItemList from "../components/troubleshooting/ItemList";
+import { ContentWrapper } from "../components/common/MediaWrapper";
 
 const TroubleShootingPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
@@ -45,16 +45,3 @@ const TroubleShootingPage = () => {
 
 export default TroubleShootingPage;
 
-const ContentWrapper = styled.div`
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-  gap: 4em;
-
-  @media (max-width: 1199px) {
-    width: 70%;
-  }
-  @media (max-width: 768px) {
-    width: 90%;
-  }
-`;

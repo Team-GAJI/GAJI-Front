@@ -87,6 +87,7 @@ const SelectWrapper = styled.div`
     flex-direction: column;
     align-items: center;
 
+
 `;
 
 const StyledButton = styled.div`
@@ -126,7 +127,7 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
     height: 1em;
     transition: all 0.5s ease;
     transform: rotate(${(props) => (props.isVisible ? "-180deg" : "0deg")});
-     @media(max-width : 768px){
+    @media(max-width : 768px){
         width : 20%;
         margin-top:1em;
         height : 0.5em;

@@ -56,7 +56,6 @@ const LinkData = () => {
 };
 
 export default LinkData;
-
 /* CSS */
 const Title = styled.div`
     margin: 1em 0 0.7em 0;
@@ -65,17 +64,16 @@ const Title = styled.div`
 `;
 
 const StudyDataWrapper = styled.div`
-    width : 100%
+    width: 100%;
     display: flex;
     flex-direction: column;
-
 `;
 
 const LinkInput = styled.input`
     padding-left: 1em;
     border: 1px solid #A2A3B2;
     border-radius: 10px;
-    width: 98.5%;
+    width: 100%;
     height: 2.8125em;
     background-color: transparent;
     font-family: 'NanumSquareNeo';
@@ -89,10 +87,6 @@ const LinkInput = styled.input`
         font-size: 0.9em;
         font-weight: bold;
     }
-    @media(max-width : 768px){
-      width : 41em;
-    }
-   
 `;
 
 const LinkEmbedWrapper = styled.div`
@@ -100,6 +94,5 @@ const LinkEmbedWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-
 `;
 

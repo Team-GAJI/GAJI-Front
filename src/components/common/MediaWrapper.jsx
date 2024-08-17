@@ -37,3 +37,15 @@ export const ContentWrapper60 = styled.div`
     }
 
 `
+export const ContentWrapper70 = styled.div`
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+    width : 70%;
+    margin : 0 auto;
+    
+    @media(max-width: 768px) {
+        width : 90%;
+    }
+
+`

@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ReportModal from "../components/studyDetail/ReportModal";
+import { ContentWrapper } from "../components/common/MediaWrapper";
 
 // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
@@ -202,6 +203,7 @@ const CommunityPostPage = () => {
         </PostStateWrapper>
       </HeaderWrapper>
 
+  <ContentWrapper>
       {/* 게시글 내용 */}
       <PostContentWrapper>
         {/* 게시글 본문 */}
@@ -219,6 +221,7 @@ const CommunityPostPage = () => {
         {/* 댓글 영역 */}
         <CommentContainer />
       </PostContentWrapper>
+      </ContentWrapper> 
     </>
   );
 };
@@ -227,7 +230,8 @@ export default CommunityPostPage;
 
 /* CSS */
 const HeaderWrapper = styled.div`
-  padding: 0 13em;
+  padding-left : 10%;
+  padding-right : 10%;
   height: 16.1875em;
   background-image: url(${BackgroundImage});
   background-size: cover;
@@ -235,7 +239,14 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8125em;
-  position: relative;
+  box-sizing : border-box;
+  @media(max-width : 768px){
+    padding-left : 5%;
+    padding-right : 5%;
+    flex-direction : column;
+    gap : 1em;
+    align-items : flex-start;
+  }
 `;
 
 const ReportNoticeWrapper = styled.div`
@@ -269,7 +280,10 @@ const StyledReportCheck = styled(ReportCheck)`
 `;
 
 const TitleWrapper = styled.div`
-  position: relative;
+  width : 80%;
+  @media(max-width : 768px){
+    width : 100%;
+  }
 `;
 
 const TitleDetail = styled.div`
@@ -307,7 +321,7 @@ const PostWriterInfoWrapper = styled.div`
 
 const Title = styled.div`
   margin: 0.8em 0 0.5em 0;
-  width: 25em;
+  width: 100%;
   color: #8e59ff;
   font-size: 2em;
   font-weight: 800;
@@ -370,11 +384,15 @@ const InteractionText = styled.div`
 
 const PostStateWrapper = styled.div`
   color: white;
+  width : 100%;
   font-size: 0.8125em;
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items : end;
+    @media(max-width : 768px){
+    align-items : start;
+  }
 `;
 
 const PostStateButton = styled.div`
@@ -430,6 +448,7 @@ const PostStateOption = styled.div`
 `;
 
 const PostContentWrapper = styled.div`
+  width : 100%;
   margin-bottom: 2.5em;
   display: flex;
   flex-direction: column;
@@ -438,9 +457,14 @@ const PostContentWrapper = styled.div`
 
 const PostContent = styled.div`
   margin: 1.5em 0;
-  width: 68em;
+  width : 100%;
+  padding : 1em;
   min-height: 22em;
   color: #161A3F;
+  @media(max-width : 768px){
+    padding-left : 5%;
+    padding-right : 5%;
+  }
 `;
 
 // const ExtraPostsWrapper = styled.div`
@@ -452,7 +476,7 @@ const PostContent = styled.div`
 const StyledHr = styled.hr`
   margin: 2em 0;
   border: none;
-  width: 84.5588em;
+  width: 100%;
   height: 1.5px;
   font-size: 0.85em;
   background-color: rgba(162, 163, 178, 0.4);

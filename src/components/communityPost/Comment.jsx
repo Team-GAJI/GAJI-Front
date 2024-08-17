@@ -24,7 +24,7 @@ export default Comment;
 /* CSS */
 const CommentWrapper = styled.div`
     margin: 2.5em 0;
-    width: 75em;
+    width: 100%;
     display: flex;
     flex-direction: column;
 `;
@@ -54,7 +54,7 @@ const RelativeTime = styled.div`
 
 const Content = styled.div`
     margin: 1em 0;
-    width: 50em;
+    width: 100%;
     color: #161A3F;
     font-weight: bold;
 `;

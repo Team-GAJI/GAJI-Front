@@ -4,6 +4,7 @@ import { Color } from '../style/Color';
 import studyProfileUrl from '../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
 import { studyInfoAPI } from '../../utils/mypage/studyInfoAPI';
+import { Scroll } from '../common/Scroll';
 
 const StudyList = ({ isCurrent, studyList }) => {
     const navigate = useNavigate();
@@ -66,10 +67,9 @@ const Wrapper = styled.div`
     gap: 2em;
 `;
 
-const ListWrapper = styled.div`
+const ListWrapper = styled(Scroll)`
     box-sizing: border-box;
     height: 20em;
-    overflow-y: hidden;
     border: 1px solid #8E59FF;
     border-radius: 20px;
     padding: 2.5em;
