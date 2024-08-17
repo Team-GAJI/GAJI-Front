@@ -62,7 +62,7 @@ const MainWrapper = styled.div`
   background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
-  width: 59.375em; 
+
   height: auto; 
 `;
 
@@ -70,6 +70,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column; 
   gap: 0.625em; 
+  width : 100%;
 `;
 
 const Text2 = styled.p`

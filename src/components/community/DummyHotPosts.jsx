@@ -1,4 +1,4 @@
-import PostBackground from '../../assets/images/community/postBackground.png';
+import PostBackground from '../../assets/images/common/studyExampleImage.png';
 
 export const dummyHotPosts = [
     {

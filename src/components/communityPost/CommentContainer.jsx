@@ -74,12 +74,12 @@ export default CommentContainer;
 
 /* CSS */
 const CommentContainerWrapper = styled.div`
-    width: 84.5588em;
+    width: 100%;
     font-size: 0.85em;
 `;
 
 const TitleWrapper = styled.div`
-    width: 75em;
+    width: 100%;
     display: flex;
     align-items: center;
 `;

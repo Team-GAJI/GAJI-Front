@@ -1,8 +1,8 @@
-import { api } from "../API";
+import { apiJson } from "../API";
 
 export const studyInfoAPI = async (roomId) => {
     try {
-        const response = await api.get(`/api/studyRooms/home/${roomId}`);
+        const response = await apiJson.get(`/studyRooms/home/${roomId}`);
         console.log(response)
 
     } catch (error) {

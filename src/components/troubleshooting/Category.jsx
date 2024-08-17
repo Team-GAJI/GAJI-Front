@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaChevronDown } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const Category = ({ onSelect }) => {
   const [selectedOption, setSelectedOption] = useState("정렬");
   const [isOpen, setIsOpen] = useState(false);
-  const sortingOptions = ["인기순", "최신순"];
-  const navigate = useNavigate(); // Use useNavigate
+  const sortingOptions = ["최신순", "좋아요순", "북마크순", "조회순"];
+  const navigate = useNavigate();
 
   const handleSelect = (option) => {
     setSelectedOption(option);
@@ -16,7 +16,7 @@ const Category = ({ onSelect }) => {
   };
 
   const handleCreatePost = () => {
-    navigate("/troubleshooting-register"); // Navigate to the registration page
+    navigate("/troubleshooting-register");
   };
 
   return (
@@ -50,14 +50,14 @@ const CategoryWrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid #d0d1d9;
   margin-bottom: 20px;
-  background-color: #fff;
+
 `;
 
 const CategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0px;
 `;
 
 const DropdownContainer = styled.div`
@@ -66,7 +66,6 @@ const DropdownContainer = styled.div`
 `;
 
 const SelectedOption = styled.div`
-  background-color: #fff;
   border: 1.5px solid #d0d1d9;
   border-radius: 10px;
   padding: 10px 15px;
@@ -106,13 +105,14 @@ const Option = styled.div`
 
 const CreatePostButton = styled.button`
   background-color: #8e59ff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 171px;
-  font-weight: semi-bold;
+  border: 0.0625em solid #8e59ff;
+  color: #fff;
+  border-radius: 0.7em;
+  font-weight: 700;
+  width: 11.75em;
+  height: 2.5em;
+  margin-right: 0;
+  font-family: "NanumSquareNeo", sans-serif;
 
   &:hover {
     background-color: #5548c8;

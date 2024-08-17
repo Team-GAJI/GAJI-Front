@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CloseButton from '../../assets/icons/community/closeButton.svg?react';
 
-const StudyCreateLinkEmbed = ({ link, onRemove }) => {
+const StudyManageLinkEmbed = ({ link, onRemove }) => {
     const handleLinkClick = () => {
         window.open(link, '_blank');
     };
@@ -24,8 +24,7 @@ const StudyCreateLinkEmbed = ({ link, onRemove }) => {
     );
 };
 
-export default StudyCreateLinkEmbed;
-
+export default StudyManageLinkEmbed;
 /* CSS */
 const PostWrapper = styled.div`
     margin-right: 0.5em;

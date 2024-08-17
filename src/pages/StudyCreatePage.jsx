@@ -7,6 +7,7 @@ import StudyPeriod from '../components/studyCreate/StudyPeriod';
 import StudyDetail from '../components/studyCreate/StudyDetail';
 import { studyCreateAPI } from '../utils/studyCreate/studyCreateAPI';
 import { useSelector } from 'react-redux';
+import { ContentWrapper } from '../components/common/MediaWrapper';
 
 
 const StudyCreatePage = () => {
@@ -15,16 +16,14 @@ const StudyCreatePage = () => {
 
     // Redux 관리
     const { name, peopleMaximum, thumbnailUrl, categoryList, privateCheck,
-        recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description } = useSelector((state) => state.studyCreate);
+        recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description, materialList } = useSelector((state) => state.studyCreate);
 
     // 서버로 전달할 데이터
     const data = {
         "name": name,
         "description": description,
         "thumbnailUrl": thumbnailUrl,
-        "materialList": [
-          "string"
-        ],
+        "materialList": materialList,
         "recruitStartDay": recruitStartDay,
         "recruitEndDay": recruitEndDay,
         "studyStartDay": studyStartDay,
@@ -49,8 +48,8 @@ const StudyCreatePage = () => {
 
 
     return (
-        <PageWrapper>
-            {/* 페이지 헤더 */}
+        <>
+        {/* 페이지 헤더 */}
             <Header>
                 <PageHeaderTitle>스터디 만들기</PageHeaderTitle>
                 <SubTitle>&#039;가지&#039;고싶은 스터디를 만들어보세요!</SubTitle>
@@ -58,46 +57,41 @@ const StudyCreatePage = () => {
                 </RowWrapper>
             </Header>
 
+
+        <ContentWrapper>
+
             {/* 내용 */}
-            <ContentContainer>
 
                 {/* 스터디 기본정보 */}
-                <ContentWrapper>
+                {/* <StudyContentWrapper> */}
                     <Title>스터디 기본정보</Title>
                     <StudyInfo/>
-                </ContentWrapper>
+                {/* </StudyContentWrapper> */}
 
                 {/* 스터디 기한 */}
-                <ContentWrapper>
+                <StudyContentWrapper>
                     <Title>스터디 기한</Title>
                     <StudyPeriod/>
-                </ContentWrapper>
+                </StudyContentWrapper>
 
                 {/* 스터디 상세정보 */}
-                <ContentWrapper>
+                <StudyContentWrapper>
                     <Title>스터디 상세정보</Title>
                     <StudyDetail/>
-                </ContentWrapper>
+                </StudyContentWrapper>
 
                 {/* 제출 버튼 */}
 
                 <SubmitButton onClick={()=>handleSubmit()}>
                 스터디 만들기
             </SubmitButton>
-            </ContentContainer>
-        </PageWrapper>
+        </ContentWrapper>
+        </>
     );
 };
 
 export default StudyCreatePage;
 
-/* CSS */
-const PageWrapper = styled.div`
-    margin-bottom: 6em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
 
 const SubTitle = styled.div`
     color : #D0D1D9;
@@ -137,20 +131,15 @@ const RowWrapper = styled.div`
     justify-content: center;
 `;
 
-const ContentContainer = styled.div`
-    width: 65em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
 
-const ContentWrapper = styled.div`
+const StudyContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
 `;
 
 const Title = styled.div`
+    width : 100%;
     margin: 1.5em 0;
     color: #8E59FF;
     font-weight: 800;
@@ -158,6 +147,7 @@ const Title = styled.div`
 
 const SubmitButton = styled.button`
     margin-top: 2.5em;
+    margin-bottom: 2.5em;
     border: none;
     border-radius: 10px;
     width: 17.2308em;
@@ -171,4 +161,8 @@ const SubmitButton = styled.button`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
+
+    @media(max-width : 768px){
+        width : 9em;
+    }
 `;

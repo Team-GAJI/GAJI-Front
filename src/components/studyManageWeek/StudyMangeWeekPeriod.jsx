@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import StudyCreateRecruitCalendar from './StudyManageWeekRecruitCalendar';
 import StudyCreateCalendar from './StudyManageWeekCalendar';
 import { useDispatch } from 'react-redux';
-import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../feautres/study/studyCreateSlice';
+import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
 const StudyManageWeekPeriod = ( {selectedWeek}) => {
     // state 관리
@@ -180,6 +180,7 @@ const StudyButton = styled.div`
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
     background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
     color: white;
     font-size: 0.8125em;

@@ -1,23 +1,80 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import StudyCreateRecruitCalendar from './StudyManageRecruitCalendar';
 import StudyCreateCalendar from './StudyManageCalendar';
+import { useDispatch } from 'react-redux';
+import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
 const StudyManagePeriod = () => {
     // state 관리
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
+    const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
+    const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
+    const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
+    // Button 활성화 상태 관리
+    const [isRecruitmentActive, setIsRecruitmentActive] = useState(true);
+    const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(false);
+
+    // Redux 관리
+    const dispatch = useDispatch();
 
     // 오늘 날짜 불러오기
     const today = new Date();
 
-    // 날짜 불러오기
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-        console.log("Start Date:", date.toDateString());
+    // 모집 날짜 불러오기
+    const handleRecruitStartDateChange = (date) => {
+        if (isRecruitmentActive) {
+            setRecruitmentStartDate(date);
+        } else if (isStudyPeriodActive) {
+            setStudyPeriodStartDate(date);
+        }
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        console.log("Start Date:", formattedDate);
+        dispatch(setRecruitStartDay(formattedDate));
     };
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-        console.log("End Date:", date.toDateString());
+    const handleRecruitEndDateChange = (date) => {
+        if (isRecruitmentActive) {
+            setRecruitmentEndDate(date);
+        } else if (isStudyPeriodActive) {
+            setStudyPeriodEndDate(date);
+        }
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        console.log("End Date:", formattedDate);
+        dispatch(setRecruitEndDay(formattedDate));
+    };
+
+    // 진행 날짜 불러오기
+    const handleStudyStartDateChange = (date) => {
+        if (isRecruitmentActive) {
+            setRecruitmentStartDate(date);
+        } else if (isStudyPeriodActive) {
+            setStudyPeriodStartDate(date);
+        }
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        console.log("Start Date:", formattedDate);
+        dispatch(setStudyStartDay(formattedDate));
+    };
+    const handleStudyEndDateChange = (date) => {
+        if (isRecruitmentActive) {
+            setRecruitmentEndDate(date);
+        } else if (isStudyPeriodActive) {
+            setStudyPeriodEndDate(date);
+        }
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        console.log("End Date:", formattedDate);
+        dispatch(setStudyEndDay(formattedDate));
     };
 
     const formatDate = (date) => {
@@ -26,121 +83,161 @@ const StudyManagePeriod = () => {
         return `${month}월 ${day}일`;
     };
 
+    const handleRecruitmentButtonClick = () => {
+        setIsRecruitmentActive(true);
+        setIsStudyPeriodActive(false);
+    };
+
+    const handleStudyPeriodButtonClick = () => {
+        setIsRecruitmentActive(false);
+        setIsStudyPeriodActive(true);
+    };
+
     return (
-    <>
-        <Container>
-            <Text2>스터디 기본정보</Text2>
-        </Container>
+        <>
+        <Title>스터디 기한</Title>
 
         <ComponentWrapper>
             {/* 캘린더 영역 */}
-            <StudyCreateCalendar
-                onStartDateChange={handleStartDateChange} 
-                onEndDateChange={handleEndDateChange}/>
-            
+            {isRecruitmentActive && (
+                <StudyCreateRecruitCalendar
+                    onStartDateChange={handleRecruitStartDateChange}
+                    onEndDateChange={handleRecruitEndDateChange}
+                />
+            )}
+
+            {isStudyPeriodActive && (
+                <StudyCreateCalendar
+                    onStartDateChange={handleStudyStartDateChange}
+                    onEndDateChange={handleStudyEndDateChange}
+                />
+            )}
+
             {/* 기한 영역 */}
             <RightWrapper>
-                
                 {/* 스터디 모집기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>스터디 모집 기한</Title>
-                    <Button>입력하기</Button>
+                    <RecruitButton
+                        onClick={handleRecruitmentButtonClick}
+                        isActive={isRecruitmentActive}>
+                        입력하기
+                    </RecruitButton>
                     <PeriodWrapper>
                         <Text>시작</Text>
-                        <Period>{startDate ? formatDate(startDate) : formatDate(today)}</Period>
+                        <Period>
+                            {recruitmentStartDate ? formatDate(recruitmentStartDate) : formatDate(today)}
+                        </Period>
                         <Text>끝</Text>
-                        <Period>{endDate ? formatDate(endDate) : formatDate(today)}</Period>
+                        <Period>
+                            {recruitmentEndDate ? formatDate(recruitmentEndDate) : formatDate(today)}
+                        </Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
 
                 {/* 스터디 진행기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>스터디 진행 기한</Title>
-                    <Button>입력하기</Button>
+                    <StudyButton
+                        onClick={handleStudyPeriodButtonClick}
+                        isActive={isStudyPeriodActive}>
+                        입력하기
+                    </StudyButton>
                     <PeriodWrapper>
                         <Text>시작</Text>
-                        <Period>{startDate ? formatDate(startDate) : formatDate(today)}</Period>
+                        <Period>
+                            {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)}
+                        </Period>
                         <Text>끝</Text>
-                        <Period>{endDate ? formatDate(endDate) : formatDate(today)}</Period>
+                        <Period>
+                            {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
+                        </Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
             </RightWrapper>
         </ComponentWrapper>
-    </>
+        </>
     );
 };
 
 export default StudyManagePeriod;
 
 /* CSS */
-const Container = styled.div`
-  display: flex;
-  flex-direction: column; 
-  gap: 0.625em; 
-  margin : 1em 0em;
-`;
-const Text2 = styled.div`
-    color: #8E59FF;
-    font-size: 1.25em; 
-    font-weight: 800;
-    text-align: left;
-    margin-left: -24em; 
-`;
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 62em; 
+    width: 100%;
     display: flex;
     align-items: center;
 
-    @media(max-width : 786px){
-        border : none;
-        flex-direction : row;
-        align-items: center;
-        justify-content: flex-start;
-        margin-left : 2em; 
+    @media(max-width : 768px){
+        flex-direction : column;
+        gap : 1em;
+        padding-bottom  :1em;
     }
 `;
 
 const RightWrapper = styled.div`
     border-left: 1.2px solid #A2A3B2;
-    height: 17em;
+    width : 50%;
     display: flex;
     flex-direction: column;
 
-    @media(max-width : 786px){
-        margin-top : -28em;   
+    @media(max-width : 768px){
+        margin-top : 2em;
+        align-items : center;
+        border : none;
+        width  :100%
     }
 `;
 
-const ContentWrapper = styled.div`
+const StyledContentWrapper = styled.div`
     margin: 0 0 3.5em 4em;
     display: flex;
     flex-direction: column;
-
-     @media(max-width : 786px){
-        margin: 0 0 3.5em 1em;
-    }
-    
 `;
 
 const Title = styled.div`
+    width : 100%;
+    margin : 1em 0em;
     color: #8E59FF;
     font-weight: 800;
 `;
 
-const Button = styled.div`
+const RecruitButton = styled.div`
     margin: 1.2em 0;
     border-radius: 10px;
     width: 11em;
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
-    background-color: #8E59FF;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
     color: white;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+`;
+
+const StudyButton = styled.div`
+    margin: 1.2em 0;
+    border-radius: 10px;
+    width: 11em;
+    height: 2.2308em;
+    line-height: 2.2308em;
+    text-align: center;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+    color: white;
+    font-size: 0.8125em;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
 `;
 
 const PeriodWrapper = styled.div`

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveButton } from '../feautres/community/communitySlice';
+import { setActiveButton } from '../features/community/communitySlice';
 import Hashtag from '../components/communityWrite/Hashtag';
-import WritePost from '../components/communityWrite/WritePost';
+import WritePost from '../components/common/WritePost';
 import PageHeader from '../components/common/PageHeader';
 import WriteSelectBox from '../components/communityWrite/WriteSelectBox';
 import { ContentWrapper60 } from '../components/common/MediaWrapper';
@@ -12,6 +12,7 @@ const CommunityWritePage = () => {
     // Redux 상태 관리
     const { title } = useSelector((state) => state.community);
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         setActiveButtonIndex(getTitleIndex(title));
@@ -33,6 +34,8 @@ const CommunityWritePage = () => {
     const [hashtags, setHashtags] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
+
+
 
     // 헤더 함수
     const headerTitles = ["프로젝트", "질문", "블로그"];
@@ -104,7 +107,7 @@ const CommunityWritePage = () => {
                     ))}
                 </HashtagWrapper>
                 {/* 작성 공간 */}
-                <WritePost/>
+                <WritePost link={"community"}/>
         
         </ContentWrapper60>
     );
@@ -129,7 +132,7 @@ const HashtagInputWrapper = styled.div`
     display : flex;
     justify-content : flex-start;
     align-items : center;
-    height: 2.5em;
+    
     line-height: 2.5em;
     
     background-color: transparent;

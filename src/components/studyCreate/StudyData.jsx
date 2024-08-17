@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import StudyCreateLinkEmbed from './StudyCreateLinkEmbed';
+import { setMaterialList } from '../../features/study/studyCreateSlice';
+import { useDispatch } from 'react-redux';
 
 const StudyData = () => {
+    // state 관리
     const [links, setLinks] = useState([]);
     const [linkInput, setLinkInput] = useState('');
     const [isComposing, setIsComposing] = useState(false);  // 한글 조합 상태 관리
+
+    // Redux 관리
+    const dispatch = useDispatch();
+    dispatch(setMaterialList(links));
 
     const handleLinkSubmit = (e) => {
         if (e.key === 'Enter' && !isComposing && linkInput.trim() !== '') {
@@ -65,7 +72,7 @@ const Title = styled.div`
 `;
 
 const StudyDataWrapper = styled.div`
-    width: 58em;
+    width: 100%;
     display: flex;
     flex-direction: column;
 `;
