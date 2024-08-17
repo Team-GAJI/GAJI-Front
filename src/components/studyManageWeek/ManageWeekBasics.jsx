@@ -66,8 +66,7 @@ const ManageWeekBasics = ({ selectedWeek }) => {
             <MainWrapper1>
                 <InputWrapper>
                     <InputStudyName
-                        placeholder="스터디 이름 작성"
-                        value={studyName}
+                        placeholder={`${selectedWeek + 1} 주차 제목을 입력해주세요.`}
                         onChange={handleStudyNameChange}
                     />
                     {!studyName && <CharCount>0자/20자</CharCount>}
@@ -166,7 +165,7 @@ const CharCount = styled.span`
     font-size: 0.8125em; 
     font-weight: 700;
     text-align: right; 
-    right: -35em; 
+    right: 0em; 
 `;
 
 const DivisionLine2 = styled.div`
