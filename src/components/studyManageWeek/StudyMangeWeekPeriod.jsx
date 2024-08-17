@@ -152,7 +152,6 @@ const ComponentWrapper = styled.div`
     width: 101%;
     display: flex;
     align-items: center;
-    
 
 `;
 
