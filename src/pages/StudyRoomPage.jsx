@@ -53,7 +53,7 @@ const StudyRoomPage = () => {
               <MainContent>
                     <StudySummary studyInfo={studyInfo} />  {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />
-                    <WeekCurriculum />
+                    <WeekCurriculum studyInfo={studyInfo}/>
                     <DivisionLine2 />
                     <StudyPostList comments={studyInfo?.comments} />  {/* StudyPostList에 댓글 데이터 전달 */}
                 </MainContent>     
