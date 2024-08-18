@@ -6,7 +6,7 @@ export const ongoingStudyListAPI = async () => {
         const response = await api.get(`/users/rooms/${userId}`, {
             params: { type: 'ONGOING' }
         });
-        console.log(response);
+        console.log(response.data.result.roomList);
         return response.data.result.roomList;
     } catch (error) {
         console.error('API 요청 중 오류 발생:', error);
@@ -20,7 +20,7 @@ export const endedStudyListAPI = async () => {
         const response = await api.get(`/users/rooms/${userId}`, {
             params: { type: 'ENDED' } 
         });
-        console.log(response);
+        console.log(response.data.result.roomList);
         return response.data.result.roomList;
     } catch (error) {
         console.error('API 요청 중 오류 발생:', error);
