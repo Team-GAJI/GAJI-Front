@@ -10,21 +10,17 @@ export const getRefreshToken = () => {
     return localStorage.getItem('refreshToken');
 }
 
-// API 요청을 위한 axios 인스턴스 생성
-export const apiJson = axios.create({
+
+export const api = axios.create({
     baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL_API,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
-export const api = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL_API,
-});
-
 
 // 요청 인터셉터를 사용해 매 요청마다 Authorization 헤더에 토큰 추가
-apiJson.interceptors.request.use(config => {
+api.interceptors.request.use(config => {
     const token = getAccessToken();
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
