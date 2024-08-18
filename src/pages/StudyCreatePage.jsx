@@ -16,7 +16,7 @@ const StudyCreatePage = () => {
     const navigate = useNavigate();
 
     // Redux 관리
-    const { name, peopleMaximum, thumbnailUrl, categoryList, privateCheck,
+    const { name, peopleMaximum, thumbnailUrl, category, privateCheck,
         recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description, materialList } = useSelector((state) => state.studyCreate);
 
     // 서버로 전달할 데이터
@@ -31,9 +31,9 @@ const StudyCreatePage = () => {
         "studyEndDay": studyEndDay,
         "peopleLimited": true,
         "peopleMaximum": peopleMaximum,
-        "categoryList": categoryList,
+        "category": category,
         "private": privateCheck
-    }
+    };
 
     const handleSubmit = async () => {
         try {
@@ -90,7 +90,6 @@ const StudyCreatePage = () => {
                 </StudyContentWrapper>
 
                 {/* 제출 버튼 */}
-
                 <SubmitButton onClick={()=>handleSubmit()}>
                 스터디 만들기
             </SubmitButton>

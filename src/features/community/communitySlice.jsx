@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     activeButton: '프로젝트',
-    title: '프로젝트',
+    type: '프로젝트',
 };
 
 const communitySlice = createSlice({
@@ -11,7 +11,7 @@ const communitySlice = createSlice({
     reducers: {
         setActiveButton(state, action) {
             state.activeButton = action.payload;
-            state.title = action.payload;
+            state.type = action.payload;
         },
     },
 });
