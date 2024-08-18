@@ -2,10 +2,7 @@ import { api } from "../API";
 
 export const registerTroubleShootingAPI = async (roomId, title, body) => {
   try {
-    const response = await api.post(`study-rooms/trouble/${roomId}`, {
-      title,
-      body,
-    });
+    const response = await api.post(`study-rooms/trouble/${roomId}`, data);
     console.log("성공:", response.data);
     return response.data;
   } catch (error) {

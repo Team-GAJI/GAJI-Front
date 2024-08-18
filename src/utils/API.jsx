@@ -10,7 +10,6 @@ export const getRefreshToken = () => {
   return localStorage.getItem("refreshToken");
 };
 
-// API 요청을 위한 axios 인스턴스 생성
 export const api = axios.create({
   baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL_API,
   headers: {
@@ -33,27 +32,3 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-// 필요 시, 기본적인 API 요청을 위한 인스턴스
-export const apiBase = axios.create({
-  baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-// 특정 상황에서 토큰을 사용하는 API 요청을 위한 함수
-export const apiToken = () => {
-  const token = getAccessToken();
-  if (!token) {
-    throw new Error("Access token이 없습니다.");
-  }
-  return axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL_API,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    withCredentials: true,
-  });
-};

@@ -6,67 +6,81 @@ import StudyCommentContainer from "../components/studyDetail/StudyCommentContain
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import HeightLine from "../assets/icons/studyDetail/heightLine.svg?react";
+import { useLocation } from "react-router-dom";
 
 const StudyDetailPage = () => {
-    // 게시글 본문
-    const content = "게시글 내용입니다. 어쩌구 저쩌구";
+    
+    const location = useLocation();
+    const { studyDetail } = location.state || {};
+
 
     return (
         <>
-        {/* 페이지 헤더 */}
-        <StudyDetailHeader/>
+        {studyDetail && 
+            <>
+            {/* 페이지 헤더 */}
+            <StudyDetailHeader 
+                title={studyDetail.name}
+                bookmarks={studyDetail.bookmarks}
+                views={studyDetail.views}
+                nickName={studyDetail.userNickName}
+                category={studyDetail.studyCategory || "카테고리 없음"}
+                imageUrl={studyDetail.imageUrl}
+                likes={studyDetail.likes}
+                recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === "RECRUITING" ? "모집 중" : "모집 완료"}
+            />
 
-        {/* 게시글 정보 */}
-        <PostInfoWrapper>
-            {/* 기간 영역 */}
-            <PeriodContainer>
-                <PeriodWrapper>
-                    <SubTitle>모집 기간</SubTitle>
-                    <Period>12월 12일 - 1월 1일</Period>
-                </PeriodWrapper>
-                <RightPeriodWrapper>
-                    <StyledHeightLine/>
+            {/* 게시글 정보 */}
+            <PostInfoWrapper>
+                {/* 기간 영역 */}
+                <PeriodContainer>
                     <PeriodWrapper>
-                        <SubTitle>스터디 진행 기간</SubTitle>
-                        <Period>2월 2일 - 3월 3일</Period>
+                        <SubTitle>모집 기간</SubTitle>
+                        <Period>{`${studyDetail.recruitStartTime} - ${studyDetail.recruitEndTime}`}</Period>
                     </PeriodWrapper>
-                </RightPeriodWrapper>
-            </PeriodContainer>
-            <StyledHr />
+                    <RightPeriodWrapper>
+                        <StyledHeightLine/>
+                        <PeriodWrapper>
+                            <SubTitle>스터디 진행 기간</SubTitle>
+                            <Period>{`${studyDetail.studyStartTime} - ${studyDetail.studyEndTime}`}</Period>
+                        </PeriodWrapper>
+                    </RightPeriodWrapper>
+                </PeriodContainer>
+                <StyledHr />
 
-            {/* 스터디 자료 */}
-            <StudyDataWrapper>
-                <SubTitle>스터디 자료</SubTitle>
-                <LinkEmbedWrapper>
-                    <StudyLinkEmbed />
-                    <StudyLinkEmbed />
-                    <StudyLinkEmbed />
-                    <StudyLinkEmbed />
-                    <StudyLinkEmbed />
-                    <StudyLinkEmbed />
-                </LinkEmbedWrapper>
-            </StudyDataWrapper>
-            <StyledHr />
+                {/* 스터디 자료 */}
+                <StudyDataWrapper>
+                    <SubTitle>스터디 자료</SubTitle>
+                    <LinkEmbedWrapper>
+                    {studyDetail.materialList.map((material, index) => (
+                        <StudyLinkEmbed key={index} link={material} />
+                    ))}
+                    </LinkEmbedWrapper>
+                </StudyDataWrapper>
+                <StyledHr />
 
-            {/* 게시글 본문 */}
-            <ContentWrapper>
-                <SubTitle>스터디 설명</SubTitle>
-                <PostContentWrapper>
-                    <PostContent>
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-                    </PostContent>
-                </PostContentWrapper>
-            </ContentWrapper>
+                {/* 게시글 본문 */}
+                <ContentWrapper>
+                    <SubTitle>스터디 설명</SubTitle>
+                    <PostContentWrapper>
+                        <PostContent>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{studyDetail.description}</ReactMarkdown>
+                        </PostContent>
+                    </PostContentWrapper>
+                </ContentWrapper>
 
-            <StyledHr />
-            {/* 댓글 영역 */}
-            <StudyCommentContainer />
-        </PostInfoWrapper>
+                <StyledHr />
+                {/* 댓글 영역 */}
+                <StudyCommentContainer />
+            </PostInfoWrapper>
+            </>
+        }
         </>
     );
 };
 
 export default StudyDetailPage;
+
 
 /* CSS */
 const PostInfoWrapper = styled.div`

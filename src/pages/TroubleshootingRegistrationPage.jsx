@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
-import WritePost from "../components/common/WritePost";
+import TroubleshootingWritePost from "../components/trobleshooting/TroubleshootingWritePost";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
 import { registerTroubleShootingAPI } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
@@ -11,7 +11,7 @@ const TroubleshootingRegistrationPage = () => {
 
   // API 연결
   const [title, setTitle] = useState(""); // State for the post title
-  const [body, setBody] = useState(""); // State for the post body
+  const [content, setContent] = useState(""); // State for the post content
 
   const navigate = useNavigate();
 
@@ -34,7 +34,8 @@ const TroubleshootingRegistrationPage = () => {
   const handleSubmit = async () => {
     const roomId = 81;
     try {
-      const result = await registerTroubleShootingAPI(roomId, title, body);
+      const data = { title, content };
+      const result = await registerTroubleShootingAPI(roomId, data);
       console.log("Post registered:", result);
       navigate(`/troubleshooting-detail/${result.result.troublePostId}`);
     } catch (error) {
@@ -59,7 +60,7 @@ const TroubleshootingRegistrationPage = () => {
           <Label>스터디 이름</Label>
         </PostOptionWrapper>
         <PostTitle>게시글 제목</PostTitle>
-        <WritePost link={"troubleshooting"} />
+        <TroubleshootingWritePost link={"troubleshooting"} />
       </ContentWrapper60>
     </>
   );

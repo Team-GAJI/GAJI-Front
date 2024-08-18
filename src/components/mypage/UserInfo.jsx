@@ -5,6 +5,7 @@ import SendIcon from '../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../style/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../style/Button';
 import defaultProfileImage from '../../assets/images/mypage/userProfile.png'; // 기본 프로필 이미지 경로
+import { nickNameAPI } from '../../utils/auth/nickNameAPI';
 
 const UserInfo = forwardRef(({ userInfo }, ref) => {
     const [userName, setUserName] = useState(userInfo?.result?.nickname || 'Guest');
@@ -12,17 +13,30 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
     const userGrade = 'Gold';
 
     useEffect(() => {
-        setUserName(userInfo?.nickname || 'Guest');
+        setUserName(userInfo?.nickname || '');
     }, [userInfo]);
 
-    const toggleEditingMode = () => {
-        if (isEditing && userName.trim() === '') {
-            alert('닉네임을 입력해주세요.');
-            return;
+    const toggleEditingMode = async () => {
+        if (isEditing) {
+            if (userName.trim() === '') {
+                alert('닉네임을 입력해주세요.');
+                return;
+            }
+    
+            try {
+                // 닉네임 수정 API 호출
+                const response = await nickNameAPI(userName);
+                console.log(response.message);
+                
+                alert(response.message || '닉네임이 수정되었습니다!');
+            } catch (error) {
+                console.error('닉네임 수정 중 오류 발생:', error);
+                alert('닉네임 수정에 실패했습니다: ' + (error.response?.data?.message || error.message));
+                return;
+            }
         }
         setIsEditing(!isEditing);
     };
-
     const handleNameChange = (event) => {
         setUserName(event.target.value);
     };
@@ -219,12 +233,14 @@ const UserNameInput = styled.input`
     outline: none;
     background-color: transparent;
     width: 100%;
+    
 
     &:focus {
         outline: none;
     }
 
     @media (max-width: 768px) {
+        text-align : center;
         font-size: 1em;
     }
 `;
