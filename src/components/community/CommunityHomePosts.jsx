@@ -113,7 +113,7 @@ const CommunityHomePosts = () => {
 
 
   // Redux 상태 가져오기
-  const { title } = useSelector((state) => state.community);
+  const { type } = useSelector((state) => state.community);
 
   // useNavigate
   const navigate = useNavigate();
@@ -133,13 +133,13 @@ const CommunityHomePosts = () => {
         <CommunitySelectBox/>
         {/* 게시글 버튼 */}
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
-          + {title} 작성하기
+          + {type} 작성하기
         </CreatePostButton>
       </SelectAndButtonWrapper>
       <StyledHr />
 
       {/* 게시글 미리보기 */}
-      {title === '블로그' ? (
+      {type === '블로그' ? (
         <BlogPreviewWrapper>
           {blogs.map((post) => (
             <BlogPreview
@@ -157,7 +157,7 @@ const CommunityHomePosts = () => {
             <Loading />
           )}
         </BlogPreviewWrapper>
-      ) : title === '질문' ? (
+      ) : type === '질문' ? (
         <PostPreviewWrapper>
           {questions.map((post) => (
             <QuestionPreview
