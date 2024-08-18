@@ -1,61 +1,30 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { setActiveButton } from '../features/community/communitySlice';
-import Hashtag from '../components/communityWrite/Hashtag';
-import PageHeader from '../components/common/PageHeader';
-import WriteSelectBox from '../components/communityWrite/WriteSelectBox';
-import { ContentWrapper60 } from '../components/common/MediaWrapper';
-import CommunityWritePost from '../components/common/CommunityWritePost';
-import { setHashtagList } from '../features/community/communityWriteSlice';
-
-const CommunityWritePage = () => {
-    // Redux 상태 관리
-    const { type } = useSelector((state) => state.community);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        setActiveButtonIndex(getTitleIndex(type));
-    }, [type]);
-
-    // 초기 typeIndex 설정
-    const getTitleIndex = (type) => {
-        if (type === '프로젝트') {
-            return 0;
-        } else if (type === '질문') {
-            return 1;
-        } else {
-            return 2;
-        }
-    };
-
-    // state 관리
-    const [activeButtonIndex, setActiveButtonIndex] = useState(getTitleIndex(type));
-    const [hashtags, setHashtags] = useState([]);
-    const [inputValue, setInputValue] = useState('');
-    const [isComposing, setIsComposing] = useState(false);
-
- 
-=======
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveButton } from "../features/community/communitySlice";
 import Hashtag from "../components/communityWrite/Hashtag";
-import WritePost from "../components/common/WritePost";
 import PageHeader from "../components/common/PageHeader";
 import WriteSelectBox from "../components/communityWrite/WriteSelectBox";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
+import { setHashtagList } from "../features/community/communityWriteSlice";
+import CommunityWritePost from "../components/common/CommunityWritePost";
 
 const CommunityWritePage = () => {
+  // state 관리
+  const [hashtags, setHashtags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [isComposing, setIsComposing] = useState(false);
+
   // Redux 상태 관리
-  const { title } = useSelector((state) => state.community);
+  const { type } = useSelector((state) => state.community);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setActiveButtonIndex(getTitleIndex(title));
-  }, [title]);
+      setActiveButtonIndex(getTitleIndex(type));
+  }, [type]);
+
+  // 해시태그 리스트 전달
+  dispatch(setHashtagList(hashtags));
 
   // 초기 titleIndex 설정
   const getTitleIndex = (title) => {
@@ -68,13 +37,8 @@ const CommunityWritePage = () => {
     }
   };
 
-  // state 관리
-  const [activeButtonIndex, setActiveButtonIndex] = useState(
-    getTitleIndex(title)
-  );
-  const [hashtags, setHashtags] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [isComposing, setIsComposing] = useState(false);
+  const [activeButtonIndex, setActiveButtonIndex] = useState(getTitleIndex(type));
+
 
   // 헤더 함수
   const headerTitles = ["프로젝트", "질문", "블로그"];
@@ -94,81 +58,28 @@ const CommunityWritePage = () => {
   };
 
   const handleInputKeyDown = (e) => {
-    if (
-      e.key === "Enter" &&
-      !isComposing &&
-      inputValue.trim() &&
-      !hashtags.includes(inputValue.trim())
-    ) {
-      setHashtags([...hashtags, inputValue.trim()]);
-      setInputValue("");
+    if (hashtags.length < 10) {
+        if (e.key === 'Enter' && !isComposing && inputValue.trim() && !hashtags.includes(inputValue.trim())) {
+            setHashtags([...hashtags, inputValue.trim()]);
+            setInputValue('');
+        }
     }
-  };
->>>>>>> 8629430981404547dacc9035723b09fdfd0dfc42
+};
 
   const handleCompositionStart = () => {
     setIsComposing(true);
   };
 
-<<<<<<< HEAD
-
-    const handleInputChange = (e) => {
-        setInputValue(e.target.value);
-    };
-
-    const handleInputKeyDown = (e) => {
-        if (hashtags.length < 10) {
-            if (e.key === 'Enter' && !isComposing && inputValue.trim() && !hashtags.includes(inputValue.trim())) {
-                setHashtags([...hashtags, inputValue.trim()]);
-                setInputValue('');
-            }
-        }
-    };
-=======
   const handleCompositionEnd = () => {
     setIsComposing(false);
   };
 
   const handleDeleteHashtag = (tagToDelete) => {
-    setHashtags(hashtags.filter((tag) => tag !== tagToDelete));
-  };
->>>>>>> 8629430981404547dacc9035723b09fdfd0dfc42
+    setHashtags(hashtags.filter(tag => tag !== tagToDelete));
+};
 
-  return (
-    <ContentWrapper60>
-      {/* 헤더 */}
-      <PageHeader
-        pageTitle="커뮤니티 글쓰기"
-        headerTitles={headerTitles}
-        activeButtonIndex={activeButtonIndex}
-        onButtonClick={handleHeaderButtonClick}
-        changeColorOnClick={true}
-        changeColorOnHover={true}
-      />
 
-      {/* 게시글 작성 */}
-      <PostOptionWrapper>
-        <WriteSelectBox />
-        <HashtagInputWrapper>
-          #{" "}
-          <HashtagInput
-            placeholder="해시태그"
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-            onCompositionStart={handleCompositionStart}
-            onCompositionEnd={handleCompositionEnd}
-          />
-        </HashtagInputWrapper>
-      </PostOptionWrapper>
 
-<<<<<<< HEAD
-    const handleDeleteHashtag = (tagToDelete) => {
-        setHashtags(hashtags.filter(tag => tag !== tagToDelete));
-    };
-
-    // 해시태그 리스트 전달
-    dispatch(setHashtagList(hashtags));
 
     return (
         <ContentWrapper60>
@@ -209,19 +120,6 @@ const CommunityWritePage = () => {
         
         </ContentWrapper60>
     );
-=======
-      <PostTitle>게시글 제목</PostTitle>
-      {/* 해시태그 */}
-      <HashtagWrapper>
-        {hashtags.map((tag, index) => (
-          <Hashtag key={index} hashtag={tag} onDelete={handleDeleteHashtag} />
-        ))}
-      </HashtagWrapper>
-      {/* 작성 공간 */}
-      <WritePost link={"community"} />
-    </ContentWrapper60>
-  );
->>>>>>> 8629430981404547dacc9035723b09fdfd0dfc42
 };
 
 export default CommunityWritePage;
