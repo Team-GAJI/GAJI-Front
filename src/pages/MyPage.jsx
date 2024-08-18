@@ -72,6 +72,7 @@ const MyPage = () => {
             try {
                 const userInfoData = await userInfoAPI();
                 const ongoingStudyListData = await ongoingStudyListAPI();
+                console.log(ongoingStudyListData);
                 const endedStudyListData = await endedStudyListAPI();
 
                 if (userInfoData.success) {
