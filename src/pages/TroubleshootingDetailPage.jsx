@@ -73,8 +73,6 @@ const TroubleshootingDetailPage = () => {
               user1023
             </Writer>
             <StyledBar>|</StyledBar>
-            프로젝트 &gt; 보안
-            <StyledBar>|</StyledBar>
             2024.03.01
             <StyledBar>|</StyledBar>
             조회 300
@@ -241,15 +239,15 @@ const InteractionWrapper = styled.div`
 `;
 
 const CommentWrapper = styled.div`
+  display: flex; /* Align items in a row */
+  align-items: center; /* Center items vertically */
   margin: 1em 1em 0 0;
-  width: 2.2em;
+  width: auto; /* Adjust width based on content */
   font-size: 1.2em;
-  display: flex;
-  align-items: center;
 `;
 
 const StyledCommentIcon = styled.img`
-  margin-right: 0.3em;
+  margin-right: 0.5em; /* Add space between the icon and the text */
   width: 1.2em;
   height: 1.2em;
   cursor: pointer;

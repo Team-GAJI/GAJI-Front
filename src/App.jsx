@@ -8,6 +8,7 @@ import CommunityWritePage from "./pages/CommunityWritePage";
 import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
 import TroubleshootingRegistrationPage from "./pages/TroubleshootingRegistrationPage";
+import TroubleshootingDetailPage from "./pages/TroubleshootingDetailPage";
 import TroubleShootingPage from "./pages/TroubleShootingPage.jsx";
 import StudyMainPage from "./pages/StudyMainPage.jsx";
 import StudyCategoryPage from "./pages/StudyCategoryPage.jsx";
@@ -110,6 +111,12 @@ function App() {
           element={<TroubleshootingRegistrationPage />}
         />
         {/* 사용자가 문제를 보고하는 트러블슈팅 등록 페이지 */}
+
+        <Route
+          path="/troubleshooting-detail"
+          element={<TroubleshootingDetailPage />}
+        />
+        {/* 트러블슈팅 글 등록 연결 페이지 */}
       </Route>
     </Routes>
   );
