@@ -8,7 +8,6 @@ import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 import DownArrowIcon from "../assets/icons/communityPost/whiteDownArrow.svg?react";
-// import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
 import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -37,19 +36,19 @@ const CommunityPostPage = () => {
   const handleBookMark = () => {
     if (bookMarkState) {
       setBookMarkState(false);
-      setBookMarkCount(prevCount => prevCount - 1);
+      setBookMarkCount((prevCount) => prevCount - 1);
     } else {
       setBookMarkState(true);
-      setBookMarkCount(prevCount => prevCount + 1);
+      setBookMarkCount((prevCount) => prevCount + 1);
     }
   };
   const handleLike = () => {
     if (likeState) {
       setLikeState(false);
-      setLikeCount(prevCount => prevCount - 1);
+      setLikeCount((prevCount) => prevCount - 1);
     } else {
       setLikeState(true);
-      setLikeCount(prevCount => prevCount + 1);
+      setLikeCount((prevCount) => prevCount + 1);
     }
   };
 
@@ -74,10 +73,10 @@ const CommunityPostPage = () => {
 
   // 신고 확인 메시지
   const showReportNotice = () => {
-      setIsReportNoticeVisible(true);
-      setTimeout(() => {
-          setIsReportNoticeVisible(false);
-      }, 2000);
+    setIsReportNoticeVisible(true);
+    setTimeout(() => {
+      setIsReportNoticeVisible(false);
+    }, 2000);
   };
 
   // 게시글 작성에서 정보 가져오기
@@ -92,7 +91,7 @@ const CommunityPostPage = () => {
         {/* 신고 알림 */}
         <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
           <ReportNotice>
-            <StyledReportCheck/>
+            <StyledReportCheck />
             신고가 완료되었습니다
           </ReportNotice>
         </ReportNoticeWrapper>
@@ -140,19 +139,22 @@ const CommunityPostPage = () => {
           {/* 게시글 상호작용 */}
           <InteractionWrapper>
             <BookMarkWrapper>
-              <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState}/>
+              <StyledBookMarkIcon
+                onClick={handleBookMark}
+                bookMarkState={bookMarkState}
+              />
               <InteractionText>
                 {formatNumberWithCommas(bookMarkCount)}
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledLikeIcon onClick={handleLike} likeState={likeState}/>
+              <StyledLikeIcon onClick={handleLike} likeState={likeState} />
               <InteractionText>
                 {formatNumberWithCommas(likeCount)}
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledReportIcon onClick={showReportModal}/>
+              <StyledReportIcon onClick={showReportModal} />
               <InteractionText>신고</InteractionText>
             </BookMarkWrapper>
 
@@ -203,25 +205,25 @@ const CommunityPostPage = () => {
         </PostStateWrapper>
       </HeaderWrapper>
 
-  <ContentWrapper>
-      {/* 게시글 내용 */}
-      <PostContentWrapper>
-        {/* 게시글 본문 */}
-        <PostContent>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-        </PostContent>
+      <ContentWrapper>
+        {/* 게시글 내용 */}
+        <PostContentWrapper>
+          {/* 게시글 본문 */}
+          <PostContent>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          </PostContent>
 
-        {/* 다음 게시물 div */}
-        {/* <ExtraPostsWrapper>
+          {/* 다음 게시물 div */}
+          {/* <ExtraPostsWrapper>
           <ExtraPostPreview />
           <ExtraPostPreview />
         </ExtraPostsWrapper> */}
 
-        <StyledHr />
-        {/* 댓글 영역 */}
-        <CommentContainer />
-      </PostContentWrapper>
-      </ContentWrapper> 
+          <StyledHr />
+          {/* 댓글 영역 */}
+          <CommentContainer />
+        </PostContentWrapper>
+      </ContentWrapper>
     </>
   );
 };
@@ -230,8 +232,8 @@ export default CommunityPostPage;
 
 /* CSS */
 const HeaderWrapper = styled.div`
-  padding-left : 10%;
-  padding-right : 10%;
+  padding-left: 10%;
+  padding-right: 10%;
   height: 16.1875em;
   background-image: url(${BackgroundImage});
   background-size: cover;
@@ -239,13 +241,13 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8125em;
-  box-sizing : border-box;
-  @media(max-width : 768px){
-    padding-left : 5%;
-    padding-right : 5%;
-    flex-direction : column;
-    gap : 1em;
-    align-items : flex-start;
+  box-sizing: border-box;
+  @media (max-width: 768px) {
+    padding-left: 5%;
+    padding-right: 5%;
+    flex-direction: column;
+    gap: 1em;
+    align-items: flex-start;
   }
 `;
 
@@ -265,12 +267,12 @@ const ReportNotice = styled.div`
   width: 14em;
   height: 2.3077em;
   background-color: white;
-  color: #8E59FF;
+  color: #8e59ff;
   font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+  box-shadow: 0 0.25em 1.25em rgba(22, 26, 63, 0.2);
 `;
 
 const StyledReportCheck = styled(ReportCheck)`
@@ -280,9 +282,9 @@ const StyledReportCheck = styled(ReportCheck)`
 `;
 
 const TitleWrapper = styled.div`
-  width : 80%;
-  @media(max-width : 768px){
-    width : 100%;
+  width: 80%;
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -338,7 +340,7 @@ const Hashtag = styled.div`
   border-radius: 15px;
   height: 1.8182em;
   line-height: 1.8182em;
-  background-color: #8E59FF;
+  background-color: #8e59ff;
   color: white;
   font-size: 0.6875em;
   font-weight: bold;
@@ -384,14 +386,14 @@ const InteractionText = styled.div`
 
 const PostStateWrapper = styled.div`
   color: white;
-  width : 100%;
+  width: 100%;
   font-size: 0.8125em;
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items : end;
-    @media(max-width : 768px){
-    align-items : start;
+  align-items: end;
+  @media (max-width: 768px) {
+    align-items: start;
   }
 `;
 
@@ -440,15 +442,15 @@ const PostStateOption = styled.div`
   cursor: pointer;
   text-align: center;
   color: ${(props) => (props.isSelected ? "white" : "#D0D1D9")};
-    font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
-    &:hover{
-        color: white;
-        font-weight: bold;
-    }
+  font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
+  &:hover {
+    color: white;
+    font-weight: bold;
+  }
 `;
 
 const PostContentWrapper = styled.div`
-  width : 100%;
+  width: 100%;
   margin-bottom: 2.5em;
   display: flex;
   flex-direction: column;
@@ -457,13 +459,13 @@ const PostContentWrapper = styled.div`
 
 const PostContent = styled.div`
   margin: 1.5em 0;
-  width : 100%;
-  padding : 1em;
+  width: 100%;
+  padding: 1em;
   min-height: 22em;
-  color: #161A3F;
-  @media(max-width : 768px){
-    padding-left : 5%;
-    padding-right : 5%;
+  color: #161a3f;
+  @media (max-width: 768px) {
+    padding-left: 5%;
+    padding-right: 5%;
   }
 `;
 

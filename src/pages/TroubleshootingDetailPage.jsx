@@ -5,7 +5,8 @@ import ReportCheck from "../assets/icons/studyDetail/reportCheck.svg?react";
 import BackgroundImage from "../assets/images/community/communityBackground.png";
 import UserProfileImg from "../assets/images/community/userProfile.png";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
-import CommentIconSrc from "../assets/images/troubleshooting/troubleComment.png";
+import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
+import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 
 import PostWriterInfo from "../components/troubleshooting/PostWriterInfo";
 import CommentContainer from "../components/troubleshooting/CommentContainer";
@@ -20,10 +21,33 @@ const formatNumberWithCommas = (number) => {
 };
 
 const TroubleshootingDetailPage = () => {
-  // state 관리
+  const [bookMarkState, setBookMarkState] = useState(false);
+  const [likeState, setLikeState] = useState(false);
+  const [bookMarkCount, setBookMarkCount] = useState(300);
+  const [likeCount, setLikeCount] = useState(6000);
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
+
+  // 북마크, 좋아요 기능
+  const handleBookMark = () => {
+    if (bookMarkState) {
+      setBookMarkState(false);
+      setBookMarkCount((prevCount) => prevCount - 1);
+    } else {
+      setBookMarkState(true);
+      setBookMarkCount((prevCount) => prevCount + 1);
+    }
+  };
+  const handleLike = () => {
+    if (likeState) {
+      setLikeState(false);
+      setLikeCount((prevCount) => prevCount - 1);
+    } else {
+      setLikeState(true);
+      setLikeCount((prevCount) => prevCount + 1);
+    }
+  };
 
   // 작성자 정보 모달 기능
   const showWriterInfo = () => setIsWriterInfoVisible(true);
@@ -94,16 +118,25 @@ const TroubleshootingDetailPage = () => {
 
           {/* 게시글 상호작용 */}
           <InteractionWrapper>
-            <CommentWrapper>
-              <StyledCommentIcon src={CommentIconSrc} alt="댓글 아이콘" />
+            <BookMarkWrapper>
+              <StyledBookMarkIcon
+                onClick={handleBookMark}
+                bookMarkState={bookMarkState}
+              />
               <InteractionText>
-                {formatNumberWithCommas(commentCount)}
+                {formatNumberWithCommas(bookMarkCount)}
               </InteractionText>
-            </CommentWrapper>
-            <ReportWrapper>
+            </BookMarkWrapper>
+            <BookMarkWrapper>
+              <StyledLikeIcon onClick={handleLike} likeState={likeState} />
+              <InteractionText>
+                {formatNumberWithCommas(likeCount)}
+              </InteractionText>
+            </BookMarkWrapper>
+            <BookMarkWrapper>
               <StyledReportIcon onClick={showReportModal} />
-              <InteractionText className="report-text">신고</InteractionText>
-            </ReportWrapper>
+              <InteractionText>신고</InteractionText>
+            </BookMarkWrapper>
 
             {/* 신고 모달창 */}
             <ReportModal
@@ -233,40 +266,22 @@ const Title = styled.div`
   word-wrap: break-word;
 `;
 
-const InteractionWrapper = styled.div`
-  display: flex;
-  text-align: center;
-`;
-
-const CommentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1em 0 0 0;
-  width: auto;
-  font-size: 1.2em;
-`;
-
-const StyledCommentIcon = styled.img`
-  margin-bottom: 0.35em;
-  margin-right: 0.9em;
-  width: 1.2em;
-  height: 1.2em;
+const StyledBookMarkIcon = styled(BookMarkIcon)`
+  margin-bottom: 0.1em;
+  width: 1em;
+  height: 1.3125em;
   cursor: pointer;
+  fill: ${(props) => (props.bookMarkState ? "#8E59FF" : "none")};
 `;
-
-const ReportWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 1em 1em 0 0;
-  width: 2.2em;
-  font-size: 1.2em;
+const StyledLikeIcon = styled(LikeIcon)`
+  margin-bottom: 0.1em;
+  width: 1.375em;
+  height: 1.25em;
+  cursor: pointer;
+  fill: ${(props) => (props.likeState ? "#8E59FF" : "none")};
 `;
-
 const StyledReportIcon = styled(ReportIcon)`
-  margin-bottom: 0.4em;
+  margin-bottom: 0.1em;
   width: 1.5em;
   height: 1.25em;
   cursor: pointer;
@@ -277,11 +292,22 @@ const InteractionText = styled.div`
   font-size: 0.6875em;
   text-align: center;
   white-space: nowrap;
-  margin-right: 1em;
+`;
 
-  &.report-text {
-    margin-left: 1em;
-  }
+const InteractionWrapper = styled.div`
+  display: flex;
+  text-align: center;
+  gap: 2em;
+  text-align: center;
+`;
+
+const BookMarkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  font-size: 1.2em;
 `;
 
 const PostContentWrapper = styled.div`
