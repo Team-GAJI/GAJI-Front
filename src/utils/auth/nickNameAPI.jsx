@@ -1,11 +1,12 @@
-import {  apiJson } from "../API";
+import {  api } from "../API";
 
-export const nickNameAPI = async () => {
+export const nickNameAPI = async (nickName) => {
     try {
         const userId = localStorage.getItem('userId');
-        const response = await apiJson.put(`users/nicknames/${userId}`);
+        const response = await api.put(`users/nicknames/${userId}`,
+            { nickname: nickName });
         console.log(response.data)
-        return response.data
+        return response;
     } catch (error) {
         console.error('API 요청 중 오류 발생:', error);
         throw error; 

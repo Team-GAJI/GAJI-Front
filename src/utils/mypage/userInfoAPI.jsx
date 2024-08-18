@@ -1,8 +1,9 @@
-import { apiJson } from "../API";
+import { api } from "../API";
 
-export const userInfoAPI = async (userId) => {
+export const userInfoAPI = async () => {
     try {
-        const response = await apiJson.get(`users/${userId}`);
+        const userId = localStorage.getItem('userId')
+        const response = await api.get(`users/${userId}`);
         console.log(response);
         return response.data;
     } catch (error) {

@@ -2,7 +2,7 @@ import { api } from "../API";
 
 export const studyManageDateAPI = async (roomId, Weeks, userId) => {
     try {
-        const response = await api.post(`/api/studyRooms/event/${roomId}/${Weeks}/${userId}/period`);
+        const response = await api.post(`studyRooms/event/${roomId}/${Weeks}/${userId}/period`);
         console.log(response)
 
     } catch (error) {

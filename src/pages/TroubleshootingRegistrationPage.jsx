@@ -3,32 +3,11 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import WritePost from "../components/common/WritePost";
-import {  ContentWrapper60 } from "../components/common/MediaWrapper";
+import { ContentWrapper60 } from "../components/common/MediaWrapper";
 
 const TroubleshootingRegistrationPage = () => {
-  // const [hashtags, setHashtags] = useState([""]);
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
   const navigate = useNavigate();
-
-  // const handleKeyPress = (e, index) => {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-  //     if (hashtags.length < 5 && hashtags[index] !== "") {
-  //       setHashtags([...hashtags, ""]);
-  //     }
-  //   }
-  // };
-
-  // const handleChange = (e, index) => {
-  //   const newHashtags = [...hashtags];
-  //   newHashtags[index] = e.target.value;
-  //   setHashtags(newHashtags);
-  // };
-
-  // const handleRemove = (index) => {
-  //   const newHashtags = hashtags.filter((_, i) => i !== index);
-  //   setHashtags(newHashtags);
-  // };
 
   const handleNavigate = (index) => {
     if (index === 0) {
@@ -60,34 +39,17 @@ const TroubleshootingRegistrationPage = () => {
       <ContentWrapper60>
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
-          {/* 해쉬태그 수정 */}
-          {/* {hashtags.map((hashtag, index) => (
-            <HashtagInputWrapper key={index}>
-              #{" "}
-              <HashtagInput
-                id={`hashtag-${index}`}
-                placeholder=" 해시태그를 작성해주세요  "
-                value={hashtag}
-                onChange={(e) => handleChange(e, index)}
-                onKeyPress={(e) => handleKeyPress(e, index)}
-              />
-              <RemoveButton onClick={() => handleRemove(index)}>x</RemoveButton>
-            </HashtagInputWrapper>
-          ))} */}
-          {/* 여기서 부터 공용컴포넌트라 반응형 수정필요! */}
         </PostOptionWrapper>
 
         <PostTitle>게시글 제목</PostTitle>
 
-        <WritePost link={"troubleshooting"}/>
+        <WritePost link={"troubleshooting"} />
       </ContentWrapper60>
     </>
   );
 };
 
 export default TroubleshootingRegistrationPage;
-
-
 
 const PostOptionWrapper = styled.div`
   margin-bottom: 2.5em;
@@ -120,93 +82,6 @@ const Label = styled.div`
     margin-right: 0.5em;
   }
 `;
-
-// const HashtagInputWrapper = styled.div`
-//   padding: 0 1em;
-//   border: 1.5px solid #8e59ff;
-//   border-radius: 20px;
-//   height: 2.5em;
-//   line-height: 2.5em;
-//   background-color: transparent;
-//   color: #8e59ff;
-//   font-weight: 800;
-//   margin-right: 1em;
-//   position: relative;
-//   display: flex;
-//   align-items: center;
-//   flex-grow: 0;
-//   flex-shrink: 0;
-
-//   /* Adjust margin-top when hashtags wrap to a new line */
-//   &:nth-of-type(n + 2) {
-//     margin-top: 0.5em;
-//   }
-
-//   @media (max-width: 768px) {
-//     margin-right: 0.5em;
-//     padding: 0 0.75em;
-//     &:nth-of-type(n + 2) {
-//       margin-top: 0.4em;
-//     }
-//   }
-
-//   @media (max-width: 480px) {
-//     margin-right: 0.3em;
-//     padding: 0 0.5em;
-//     &:nth-of-type(n + 2) {
-//       margin-top: 0.3em;
-//     }
-//   }
-// `;
-
-// const HashtagInput = styled.input`
-//   border: none;
-//   color: #8e59ff;
-//   background-color: transparent;
-//   font-weight: 800;
-//   padding: 0;
-//   width: ${(props) =>
-//     props.value
-//       ? `${props.value.length + 2}ch`
-//       : `${props.placeholder.length + 1}ch`};
-//   -webkit-appearance: none;
-//   &:focus {
-//     outline: none;
-//   }
-//   &::placeholder {
-//     color: #a2a3b2;
-//     font-weight: 800;
-//   }
-//   font-family: "NanumSquareNeo";
-
-//   @media (max-width: 768px) {
-//     font-size: 0.875em;
-//   }
-
-//   @media (max-width: 480px) {
-//     font-size: 0.75em;
-//   }
-// `;
-
-// const RemoveButton = styled.button`
-//   position: absolute;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   right: 5px;
-//   border: none;
-//   background: none;
-//   color: #8e59ff;
-//   cursor: pointer;
-//   font-weight: bold;
-
-//   @media (max-width: 768px) {
-//     font-size: 0.875em;
-//   }
-
-//   @media (max-width: 480px) {
-//     font-size: 0.75em;
-//   }
-// `;
 
 const PostTitle = styled.div`
   width: 100%;

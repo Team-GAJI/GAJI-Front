@@ -70,10 +70,9 @@ const MyPage = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userId = 3; // 임시 사용자 ID, 나중에 로컬스토리지 등에서 불러오도록 수정
-                const userInfoData = await userInfoAPI(userId);
-                const ongoingStudyListData = await ongoingStudyListAPI(userId);
-                const endedStudyListData = await endedStudyListAPI(userId);
+                const userInfoData = await userInfoAPI();
+                const ongoingStudyListData = await ongoingStudyListAPI();
+                const endedStudyListData = await endedStudyListAPI();
 
                 if (userInfoData.success) {
                     setUserInfo(userInfoData.result);
@@ -129,8 +128,7 @@ const MyPage = () => {
             
             <UserInfo userInfo={userInfo} />
             <RowWrapper4 ref={studyRoomRef}>
-                <StudyList isCurrent={true} studyList={ongoingStudyList} />
-                <StudyList isCurrent={false} studyList={endedStudyList} />
+                <StudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
             </RowWrapper4>
             <Div ref={calendarRef}>
                 <Calendar />

@@ -8,6 +8,7 @@ import StudyDetail from '../components/studyCreate/StudyDetail';
 import { studyCreateAPI } from '../utils/studyCreate/studyCreateAPI';
 import { useSelector } from 'react-redux';
 import { ContentWrapper } from '../components/common/MediaWrapper';
+import { studyDetailAPI } from '../utils/studyDetail/studyDetailAPI';
 
 
 const StudyCreatePage = () => {
@@ -36,9 +37,17 @@ const StudyCreatePage = () => {
 
     const handleSubmit = async () => {
         try {
-            navigate("/studydetail", { state: {data: data} }); 
-            const result = await studyCreateAPI(data);
-            console.log(result)
+            const response = await studyCreateAPI(data);
+            console.log(response.result.roomId);
+            const studyDetail = await studyDetailAPI(response.result.roomId);
+
+            navigate("/studydetail", { state: 
+                {
+                    studyDetail: studyDetail
+                } 
+            }); 
+            
+
 
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
