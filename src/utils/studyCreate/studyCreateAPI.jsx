@@ -2,7 +2,7 @@ import { api } from "../API";
 
 export const studyCreateAPI = async (data) => {
     try {
-        const response = await api.post(`/api/study-recruit-posts`, data);
+        const response = await api.post(`study-recruit-posts`, data);
         console.log(response)
 
     } catch (error) {

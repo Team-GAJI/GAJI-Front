@@ -11,7 +11,7 @@ const initialState = {
     studyEndDay: "",
     peopleLimited: true,
     peopleMaximum: 1,
-    categoryList: "",
+    category: "",
     privateCheck: true,
 };
 
@@ -29,7 +29,7 @@ const studyCreateSlice = createSlice({
         setStudyEndDay: (state, action) => { state.studyEndDay = action.payload; },
         setPeopleLimited: (state, action) => { state.peopleLimited = action.payload; },
         setPeopleMaximum: (state, action) => { state.peopleMaximum = action.payload; },
-        setCategoryList: (state, action) => { state.categoryList = action.payload; },
+        setCategory: (state, action) => { state.category = action.payload; },
         setPrivate: (state, action) => { state.privateCheck = action.payload; },
     },
 });
@@ -38,7 +38,7 @@ export const {
     setName, setDescription, setThumbnailUrl, setMaterialList,
     setRecruitStartDay, setRecruitEndDay, setStudyStartDay,
     setStudyEndDay, setPeopleLimited, setPeopleMaximum,
-    setCategoryList, setPrivate
+    setCategory, setPrivate
 } = studyCreateSlice.actions;
 
 export default studyCreateSlice.reducer;
