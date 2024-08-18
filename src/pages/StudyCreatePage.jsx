@@ -40,7 +40,7 @@ const StudyCreatePage = () => {
             const response = await studyCreateAPI(data);
             console.log(response.result.roomId);
             const studyDetail = await studyDetailAPI(response.result.roomId);
-
+            console.log(studyDetail)
             navigate("/studydetail", { state: 
                 {
                     studyDetail: studyDetail
