@@ -35,8 +35,11 @@ const ProfileWrapper = styled.div`
     align-items: center;
     box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
 
-    position: absolute;
-    right: 0;
+    position: fixed;
+    left : 50%;
+    top : 50%;
+    transform: translate(-50%, -50%); 
+    align-self : center;
     z-index: 1;
     visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
     opacity: ${(props) => (props.isVisible ? 1 : 0)};

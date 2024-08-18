@@ -9,6 +9,7 @@ import LikeIcon from "../../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../../assets/icons/communityPost/postReport.svg?react";
 // import ThumbNailImg from "../../assets/images/studyDetail/thumbNailImg.png";
 import ReportModal from "./ReportModal";
+import { ContentWrapper } from "../common/MediaWrapper";
 
 // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
@@ -23,7 +24,9 @@ const StudyDetailHeader = ({
     category, 
     imageUrl, 
     likes, 
-    recruitPostTypeEnum 
+    recruitPostTypeEnum ,
+    userActive,
+    userActiveColor,
 }) => {
     const [bookMarkState, setBookMarkState] = useState(false);
     const [likeState, setLikeState] = useState(false);
@@ -68,6 +71,8 @@ const StudyDetailHeader = ({
 
     return (
         <HeaderWrapper>
+            <ContentWrapper>
+            <RowWrapper>
             <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
                 <ReportNotice>
                     <StyledReportCheck/>
@@ -77,29 +82,34 @@ const StudyDetailHeader = ({
             
             <TitleWrapper>
                 <TitleDetail>
-                    <StyledUserProfileImg
-                        onMouseEnter={showWriterInfo}
-                        onMouseLeave={hideWriterInfo}
-                        src={UserProfileImg}
-                        alt="user profile"
-                    />
-                    <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
-                        {nickName}
-                    </Writer>
+                    <Wrapper>
+                        <StyledUserProfileImg
+                            onMouseEnter={showWriterInfo}
+                            onMouseLeave={hideWriterInfo}
+                            src={UserProfileImg}
+                            alt="user profile"
+                        />
+                        <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
+                            {nickName}
+                        </Writer>
+                    </Wrapper>
                     <StyledBar>|</StyledBar>
                     2024.03.01
-                    <StyledBar>|</StyledBar>
-                    조회 {formatNumberWithCommas(views)}
-                    <StyledBar>|</StyledBar>
-                    댓글 3
+                    <Wrapper>
+                        <StyledBar>|</StyledBar>
+                        조회 {formatNumberWithCommas(views)}
+                        <StyledBar>|</StyledBar>
+                        댓글 3
+                    </Wrapper>
                 </TitleDetail>
 
                 <PostWriterInfoWrapper
                     isVisible={isWriterInfoVisible}
                     onMouseEnter={showWriterInfo}
                     onMouseLeave={hideWriterInfo}
+                    
                 >
-                    <StudyPostWriterInfo />
+                    <StudyPostWriterInfo nickName={nickName} userActive={userActive}userActiveColor={userActiveColor} />
                 </PostWriterInfoWrapper>
 
                 <Title>{title}</Title>
@@ -140,6 +150,8 @@ const StudyDetailHeader = ({
                 </PostStateButton>
                 <ThumbNailImgWrapper imageUrl={imageUrl} />
             </HeaderRightWrapper>
+            </RowWrapper>
+            </ContentWrapper>
         </HeaderWrapper>
     );
 };
@@ -147,8 +159,17 @@ const StudyDetailHeader = ({
 export default StudyDetailHeader;
 
 /* CSS */
+
+const Wrapper = styled.div`
+    display  : flex;
+`
+
+const RowWrapper = styled.div`
+    display : flex;
+    width : 100%;
+`
 const HeaderWrapper = styled.div`
-    padding: 0 13em;
+    width : 100%;
     height: 16.1875em;
     background-image: url(${BackgroundImage});
     background-size: cover;
@@ -157,13 +178,15 @@ const HeaderWrapper = styled.div`
     align-items: center;
     font-size: 0.8125em;
     position: relative;
+
+    @media(max-width: 768px) {
+        width : 100%
+    }
 `;
 
 const ReportNoticeWrapper = styled.div`
-    width: 86.17em;
     display: flex;
     justify-content: center;
-    position: absolute;
     top: 1em;
     visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
     opacity: ${(props) => (props.isVisible ? 1 : 0)};
@@ -178,6 +201,10 @@ const ReportNotice = styled.div`
     color: #8E59FF;
     font-weight: 800;
     display: flex;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%); 
     justify-content: center;
     align-items: center;
     box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
@@ -190,7 +217,8 @@ const StyledReportCheck = styled(ReportCheck)`
 `;
 
 const TitleWrapper = styled.div`
-    position: relative;
+    width : 50%;
+    
 `;
 
 const TitleDetail = styled.div`
@@ -198,11 +226,15 @@ const TitleDetail = styled.div`
     color: #d0d1d9;
     font-size: 0.8125em;
     line-height: 1.5em;
+
+    @media(max-width : 768px){
+        flex-direction : column;
+    }
 `;
 
 const StyledUserProfileImg = styled.img`
     padding-right: 0.6em;
-    width: 1.5em;
+    width: 1;
     height: 1.55em;
     cursor: pointer;
 `;
@@ -214,6 +246,9 @@ const Writer = styled.div`
 
 const StyledBar = styled.div`
     margin: 0 0.7em 0 0.7em;
+    @media(max-width : 768px){
+        display : none;
+    }
 `;
 
 const PostWriterInfoWrapper = styled.div`
@@ -272,6 +307,10 @@ const JoinButton = styled.div`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
+    @media(max-width:768px){
+        width : 11em;
+        font-size : 0.8125em;
+    }
 `;
 
 const BookMarkWrapper = styled.div`
@@ -307,6 +346,7 @@ const InteractionText = styled.div`
 `;
 
 const HeaderRightWrapper = styled.div`
+    width : 50%;
     color: white;
     text-align: center;
     display: flex;
@@ -322,12 +362,16 @@ const PostStateButton = styled.div`
     font-weight: bold;
     display: flex;
     justify-content: center;
+    @media(max-width:768px){
+        width : 6em;
+        font-size : 0.8125em;
+    }
 `;
 
 const ThumbNailImgWrapper = styled.div`
     border: 1px solid #D0D1D9;
     border-radius: 10px;
-    width: 22.4375em;
+    width: 100%;
     height: 13.125em;
     background-image: url(${props => props.imageUrl});
     background-size: cover;

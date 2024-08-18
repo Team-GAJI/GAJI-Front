@@ -7,20 +7,27 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import HeightLine from "../assets/icons/studyDetail/heightLine.svg?react";
 import { useLocation } from "react-router-dom";
+import { ContentWrapper } from "../components/common/MediaWrapper";
 
 const StudyDetailPage = () => {
     
     const location = useLocation();
     const { studyDetail } = location.state || {};
 
-
+    // 날짜 형식을 변환하는 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+        const day = date.getDate();
+        return `${month}월 ${day}일`;
+    };
     return (
         <>
         {studyDetail && 
             <>
             {/* 페이지 헤더 */}
             <StudyDetailHeader 
-                title={studyDetail.name}
+                title={studyDetail.studyTitle}
                 bookmarks={studyDetail.bookmarks}
                 views={studyDetail.views}
                 nickName={studyDetail.userNickName}
@@ -28,21 +35,28 @@ const StudyDetailPage = () => {
                 imageUrl={studyDetail.imageUrl}
                 likes={studyDetail.likes}
                 recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === "RECRUITING" ? "모집 중" : "모집 완료"}
+                userActive={studyDetail.userActive === "ACTIVE" ? "활동중" : "자리비움"}
+                userActiveColor={studyDetail.userActive === "ACTIVE" ? "green" : "grey"}
+
             />
 
             {/* 게시글 정보 */}
-            <PostInfoWrapper>
+            <ContentWrapper>
                 {/* 기간 영역 */}
                 <PeriodContainer>
                     <PeriodWrapper>
                         <SubTitle>모집 기간</SubTitle>
-                        <Period>{`${studyDetail.recruitStartTime} - ${studyDetail.recruitEndTime}`}</Period>
+                        <Period>
+                        {`${formatDate(studyDetail.recruitStartTime)} - ${formatDate(studyDetail.recruitEndTime)}`}
+                        </Period>
                     </PeriodWrapper>
                     <RightPeriodWrapper>
                         <StyledHeightLine/>
                         <PeriodWrapper>
                             <SubTitle>스터디 진행 기간</SubTitle>
-                            <Period>{`${studyDetail.studyStartTime} - ${studyDetail.studyEndTime}`}</Period>
+                            <Period>
+                            {`${formatDate(studyDetail.studyStartTime)} - ${formatDate(studyDetail.studyEndTime)}`}
+                            </Period>
                         </PeriodWrapper>
                     </RightPeriodWrapper>
                 </PeriodContainer>
@@ -60,19 +74,19 @@ const StudyDetailPage = () => {
                 <StyledHr />
 
                 {/* 게시글 본문 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <SubTitle>스터디 설명</SubTitle>
                     <PostContentWrapper>
                         <PostContent>
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{studyDetail.description}</ReactMarkdown>
                         </PostContent>
                     </PostContentWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
 
                 <StyledHr />
                 {/* 댓글 영역 */}
                 <StudyCommentContainer />
-            </PostInfoWrapper>
+            </ContentWrapper>
             </>
         }
         </>
@@ -82,30 +96,23 @@ const StudyDetailPage = () => {
 export default StudyDetailPage;
 
 
-/* CSS */
-const PostInfoWrapper = styled.div`
-    margin-bottom: 2.5em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
 
 const PeriodContainer = styled.div`
     margin-top: 1.5em;
-    width: 70em;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 `;
 
 const PeriodWrapper = styled.div`
-    width: 32em;
+    width: 100%;
 `;
 
 const SubTitle = styled.div`
     margin-bottom: 1em;
     color: #8E59FF;
     font-weight: 800;
+    width : 100%;
 `;
 
 const Period = styled.div`
@@ -116,6 +123,7 @@ const Period = styled.div`
 
 const RightPeriodWrapper = styled.div`
     display: flex;
+    width: 100%;
 `;
 
 const StyledHeightLine = styled(HeightLine)`
@@ -123,12 +131,12 @@ const StyledHeightLine = styled(HeightLine)`
 `;
 
 const StudyDataWrapper = styled.div`
-    width: 70em;
+    width: 100%;
 `;
 
 const LinkEmbedWrapper = styled.div`
     padding-bottom: 1em;
-    width: 70em;
+    width : 100%;
     display: flex;
     // 스크롤
     overflow-x: auto;
@@ -143,12 +151,12 @@ const LinkEmbedWrapper = styled.div`
     }
 `;
 
-const ContentWrapper = styled.div`
-    width: 70em;
+const StyledContentWrapper = styled.div`
+    width : 100%;
     display: flex;
     flex-direction: column;
 `;
- 
+
 const PostContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -157,7 +165,7 @@ const PostContentWrapper = styled.div`
 
 const PostContent = styled.div`
     margin: 0 0 1.5em 0;
-    width: 68em;
+    width : 100%;
     min-height: 22em;
     color: #161A3F;
 `;
@@ -165,7 +173,7 @@ const PostContent = styled.div`
 const StyledHr = styled.hr`
     margin: 1.5em 0;
     border: none;
-    width: 70em;
+    width : 100%;
     height: 1.5px;
     background-color: rgba(162, 163, 178, 0.4);
 `;
