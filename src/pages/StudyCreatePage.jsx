@@ -39,6 +39,7 @@ const StudyCreatePage = () => {
         try {
             const response = await studyCreateAPI(data);
             console.log(response.result.roomId);
+            //전역상태초기화 함수
             const studyDetail = await studyDetailAPI(response.result.roomId);
             console.log(studyDetail)
             navigate("/studydetail", { state: 
