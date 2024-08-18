@@ -128,8 +128,7 @@ const MyPage = () => {
             
             <UserInfo userInfo={userInfo} />
             <RowWrapper4 ref={studyRoomRef}>
-                <StudyList isCurrent={true} studyList={ongoingStudyList} />
-                <StudyList isCurrent={false} studyList={endedStudyList} />
+                <StudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
             </RowWrapper4>
             <Div ref={calendarRef}>
                 <Calendar />
