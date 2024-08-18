@@ -291,7 +291,7 @@ const TextareaWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     &:focus-within{
-        box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+        // box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
 `;

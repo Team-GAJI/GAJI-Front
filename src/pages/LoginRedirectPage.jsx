@@ -19,14 +19,14 @@ const LoginRedirectPage = () => {
     const queryParams = new URLSearchParams(location.search);    
     const token = queryParams.get('access_token');
 
-    const submitNickname = async () => {
+    const submitNickname = async (nickName) => {
         try {
-            const response = await nickNameAPI();
+            const response = await nickNameAPI(nickName);
             console.log(response.data);
         } catch (error) {
             console.error('닉네임 저장 중 오류 발생:', error);
             // 오류 처리 추가
-        }finally{
+        } finally {
             setModal(false);
             navigate('/'); // 로그인 후 메인 페이지로 이동
         }
@@ -45,7 +45,6 @@ const LoginRedirectPage = () => {
                 try {
                     const userId = await userIdAPI();
                     console.log(userId)
-                    localStorage.setItem('userId', userId);
                 } catch (error) {
                     console.error('User ID 불러오기 실패:', error);
                 }
@@ -67,7 +66,7 @@ const LoginRedirectPage = () => {
                                     placeholder='닉네임 입력시 제한 사항 적기'
                                     value={nickName}
                                     onChange={(e) => setNickName(e.target.value)}/>
-                                <NickNameSubmitButton onClick={()=>submitNickname()}>닉네임 가지기</NickNameSubmitButton>
+                                <NickNameSubmitButton onClick={()=>submitNickname(nickName)}>닉네임 가지기</NickNameSubmitButton>
                             </ColumnWrapper2>
                         </Modal>
                     </ModalWrapper> 

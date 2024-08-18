@@ -7,7 +7,7 @@ import UserProfileImg from "../../assets/images/community/userProfile.png";
 import BookMarkIcon from "../../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../../assets/icons/communityPost/postReport.svg?react";
-import ThumbNailImg from "../../assets/images/studyDetail/thumbNailImg.png";
+// import ThumbNailImg from "../../assets/images/studyDetail/thumbNailImg.png";
 import ReportModal from "./ReportModal";
 
 // 세자리마다 콤마 기능
@@ -15,17 +15,24 @@ const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-const StudyDetailHeader = () => {
-    // state 관리
+const StudyDetailHeader = ({ 
+    title, 
+    bookmarks, 
+    views, 
+    nickName, 
+    category, 
+    imageUrl, 
+    likes, 
+    recruitPostTypeEnum 
+}) => {
     const [bookMarkState, setBookMarkState] = useState(false);
     const [likeState, setLikeState] = useState(false);
-    const [bookMarkCount, setBookMarkCount] = useState(300);
-    const [likeCount, setLikeCount] = useState(6000);
+    const [bookMarkCount, setBookMarkCount] = useState(bookmarks);
+    const [likeCount, setLikeCount] = useState(likes);
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
     const [isReportModalVisible, setIsReportModalVisible] = useState(false);
     const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-    // 북마크, 좋아요 기능
     const handleBookMark = () => {
         if (bookMarkState) {
             setBookMarkState(false);
@@ -35,6 +42,7 @@ const StudyDetailHeader = () => {
             setBookMarkCount(prevCount => prevCount + 1);
         }
     };
+
     const handleLike = () => {
         if (likeState) {
             setLikeState(false);
@@ -45,15 +53,12 @@ const StudyDetailHeader = () => {
         }
     };
 
-    // 작성자 정보 모달 기능
     const showWriterInfo = () => setIsWriterInfoVisible(true);
     const hideWriterInfo = () => setIsWriterInfoVisible(false);
 
-    // 신고 모달 기능
     const showReportModal = () => setIsReportModalVisible(true);
     const hideReportModal = () => setIsReportModalVisible(false);
 
-    // 신고 확인 메시지
     const showReportNotice = () => {
         setIsReportNoticeVisible(true);
         setTimeout(() => {
@@ -61,22 +66,16 @@ const StudyDetailHeader = () => {
         }, 2000);
     };
 
-    // 게시글 제목
-    const title = "스터디 이름";
-
     return (
         <HeaderWrapper>
-            {/* 신고 알림 */}
             <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
-                    <ReportNotice>
+                <ReportNotice>
                     <StyledReportCheck/>
                     신고가 완료되었습니다
                 </ReportNotice>
             </ReportNoticeWrapper>
             
-            {/* 제목 div */}
             <TitleWrapper>
-                {/* 게시글 상세정보 */}
                 <TitleDetail>
                     <StyledUserProfileImg
                         onMouseEnter={showWriterInfo}
@@ -85,17 +84,16 @@ const StudyDetailHeader = () => {
                         alt="user profile"
                     />
                     <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
-                        user1023
+                        {nickName}
                     </Writer>
                     <StyledBar>|</StyledBar>
                     2024.03.01
                     <StyledBar>|</StyledBar>
-                    조회 300
+                    조회 {formatNumberWithCommas(views)}
                     <StyledBar>|</StyledBar>
                     댓글 3
                 </TitleDetail>
 
-                {/* 작성자 정보 모달창 */}
                 <PostWriterInfoWrapper
                     isVisible={isWriterInfoVisible}
                     onMouseEnter={showWriterInfo}
@@ -104,11 +102,8 @@ const StudyDetailHeader = () => {
                     <StudyPostWriterInfo />
                 </PostWriterInfoWrapper>
 
-                {/* 게시글 제목 */}
                 <Title>{title}</Title>
-                {/* 게시글 해시태그 */}
-                <Category>스터디 카테고리</Category>
-                {/* 게시글 상호작용 */}
+                <Category>{category}</Category>
                 <InteractionWrapper>
                     <JoinButton>
                         스터디 가지기
@@ -130,7 +125,6 @@ const StudyDetailHeader = () => {
                         <InteractionText>신고</InteractionText>
                     </BookMarkWrapper>
 
-                    {/* 신고 모달창 */}
                     <ReportModal
                         isVisible={isReportModalVisible}
                         onClose={hideReportModal}
@@ -138,18 +132,13 @@ const StudyDetailHeader = () => {
                         title={title}
                     />
                 </InteractionWrapper>
-
             </TitleWrapper>
 
-            {/* 게시글 상태 div */}
             <HeaderRightWrapper>
-                {/* 상태 버튼 */}
                 <PostStateButton>
-                    모집 중
+                    {recruitPostTypeEnum}
                 </PostStateButton>
-                {/* 썸네일 사진 */}
-                <ThumbNailImgWrapper>
-                </ThumbNailImgWrapper>
+                <ThumbNailImgWrapper imageUrl={imageUrl} />
             </HeaderRightWrapper>
         </HeaderWrapper>
     );
@@ -340,6 +329,6 @@ const ThumbNailImgWrapper = styled.div`
     border-radius: 10px;
     width: 22.4375em;
     height: 13.125em;
-    background-image: url(${ThumbNailImg});
+    background-image: url(${props => props.imageUrl});
     background-size: cover;
 `;
