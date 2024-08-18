@@ -212,7 +212,7 @@ const ItemList = () => {
   const navigate = useNavigate();
 
   const handleItemClick = (id) => {
-    navigate(`/troubleshooting-detail/${id}`);
+    navigate("/troubleshooting-detail");
   };
 
   return (
