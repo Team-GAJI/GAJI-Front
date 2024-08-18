@@ -17,10 +17,6 @@ const StudySummary = () => {
         <>
             <Container>
                 <MainText>스터디 이름</MainText>
-                <TagList>
-                    <TagButton># 태그</TagButton>
-                    <TagButton># 태그</TagButton>
-                </TagList>
                 <OpenButton>모집중 D-5</OpenButton>
             </Container>
             <Container>
@@ -71,11 +67,6 @@ const Container = styled.div`
     width : 100%;
 `;
 
-const TagList = styled.div`
-    margin-left : 0.5em;
-    display : flex;
-    gap : 0.5em;
-`;
 
 const MainText = styled.h1`
     font-size: 1.25em;
@@ -86,20 +77,6 @@ const MainText = styled.h1`
     }
 `;
 
-const TagButton = styled.div`
-    border: 1px solid #8E59FF; 
-    border-radius: 0.625em;
-    font-size: 0.8125em;
-    font-weight: 700;
-    text-align: center;
-    padding: 0.25em 1.25em;
-    color: #8E59FF;
-    cursor: pointer;
-    
-    @media (max-width: 768px) {
-        font-size: 0.75em;
-    }
-`;
 
 const OpenButton = styled.div`
     background-color : #8E59FF;

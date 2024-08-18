@@ -46,7 +46,6 @@ const StudyCreatePage = () => {
                     studyDetail: studyDetail
                 } 
             }); 
-            
 
 
         } catch (error) {

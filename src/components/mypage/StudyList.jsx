@@ -28,7 +28,9 @@ const StudyList = ({ ongoingStudyList, endedStudyList }) => {
                     {ongoingStudyList && ongoingStudyList.length > 0 ? (
                         ongoingStudyList.map((study) => (
                             <ListItem key={study.roomId} onClick={() => handleStudyRoom(study.roomId)}>
-                                <StudyProfile src={study.thumbnail_url || studyProfileUrl} alt="Study Profile" />
+                                <StudyProfile src={
+                                    study.thumbnail_url || 
+                                    studyProfileUrl} alt="Study Profile" />
                                 <ColumnWrapper>
                                     <StudyName>{study.name}</StudyName>
                                     <StudyText>{study.description}</StudyText>
@@ -72,8 +74,11 @@ export default StudyList;
 const StudyListWrapper = styled.div`
     width: 100%;
     display: flex;
-    flex-direction: column;
     gap: 2em;
+    @media(max-width : 768px){
+        flex-direction: column;
+    }
+    
 `;
 
 const StudySection = styled.div`
@@ -162,13 +167,14 @@ const StudyDate = styled.div`
 `;
 
 const StudyProfile = styled.img`
-    width: 20%;
+    width: 3em;
     height: 3em;
     object-fit: cover;
     border-radius: 5px;
+    margin-bottom : 0.5em;
 
     @media (max-width: 768px) {
-        width: 100%;
+        width : 5em;
         height: 5em;
     }
 `;
