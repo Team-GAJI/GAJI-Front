@@ -24,7 +24,7 @@ const CommunityWritePost = () => {
     // Redux 관리
     const dispatch = useDispatch();
     dispatch(setBody(markdown));
-    const { title, body, thumbnailUrl, hashtagList, categoryId } = useSelector((state) => state.communityWrite);
+    const { title, body, hashtagList, categoryId } = useSelector((state) => state.communityWrite);
     const { type } = useSelector((state) => state.community);
     // 서버로 전달할 데이터
     const data = {
@@ -38,10 +38,9 @@ const CommunityWritePost = () => {
 
     const handleSubmit = async () => {
         try {
-            navigate("/community/post", { state: {data: data} }); 
             const result = await communityWriteAPI(data);
+            navigate("/community/post", { state: {data: data} }); 
             console.log(result);
-            console.log(type);
 
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
