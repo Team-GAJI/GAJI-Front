@@ -239,12 +239,13 @@ const InputWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width : 100%;
 `;
 
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
-    widht: 100%;
+    width: 90%;
     height: 3em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -258,14 +259,22 @@ const TitleInput = styled.input`
         color: #A2A3B2;
         font-weight: bold;
     }
+    @medai(max-width : 768px){
+        width: 80%;
+    }
 `;
 
 const TextLength = styled.div`
-    margin-right: 1em;
+    width : 10%;
+    
     font-size: 0.9em;
     font-weight: bold;
+    text-align : end;
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
+    @media(max-width : 768px){
+        width : 20%;
+    }
 `;
 
 const StyledTitleHr = styled.hr`

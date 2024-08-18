@@ -131,7 +131,7 @@ const OptionWrapper = styled.div`
     margin-top: 4.5em;
     padding: 1.5em 0;
     border-radius: 10px;
-    width: 40em;
+    width: 100%;
     background-color: rgba(22, 26, 63, 0.7);
     backdrop-filter: blur(3px);
     display: flex;
