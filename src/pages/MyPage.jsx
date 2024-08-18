@@ -17,8 +17,8 @@ const MyPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300);
     const [userInfo, setUserInfo] = useState(null);
-    const [ongoingStudyList, setOngoingStudyList] = useState([]);
-    const [endedStudyList, setEndedStudyList] = useState([]);
+    const [ongoingStudyList, setOngoingStudyList] = useState();
+    const [endedStudyList, setEndedStudyList] = useState();
 
     const handleScroll = (section) => {
         let ref;
@@ -81,14 +81,15 @@ const MyPage = () => {
                     console.error('Failed to fetch user info:', userInfoData.message);
                 }
 
-                if (ongoingStudyListData.success) {
-                    setOngoingStudyList(ongoingStudyListData.result);
+                if (ongoingStudyListData) {
+                    setOngoingStudyList(ongoingStudyListData);
+                    console.log(ongoingStudyList);
                 } else {
                     console.error('Failed to fetch ongoing study list:', ongoingStudyListData.message);
                 }
 
-                if (endedStudyListData.success) {
-                    setEndedStudyList(endedStudyListData.result);
+                if (endedStudyListData) {
+                    setEndedStudyList(endedStudyListData);
                 } else {
                     console.error('Failed to fetch ended study list:', endedStudyListData.message);
                 }
