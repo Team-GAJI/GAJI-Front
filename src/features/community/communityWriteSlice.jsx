@@ -6,7 +6,7 @@ const initialState = {
     thumbnailUrl: "",
     type: "",
     hashtagList: [],
-    categoryIdList: []
+    categoryId: 0
 };
 
 const communityWriteSlice = createSlice({
@@ -18,12 +18,12 @@ const communityWriteSlice = createSlice({
         setThumbnailUrl: (state, action) => { state.thumbnailUrl = action.payload; },
         setType: (state, action) => { state.type = action.payload; },
         setHashtagList: (state, action) => { state.hashtagList = action.payload; },
-        setCategoryIdList: (state, action) => { state.categoryIdList = action.payload; },
+        setCategoryId: (state, action) => { state.categoryId = action.payload; },
     },
 });
 
 export const {
-    setTitle, setBody, setThumbnailUrl, setType, setHashtagList, setCategoryIdList
+    setTitle, setBody, setThumbnailUrl, setType, setHashtagList, setCategoryId
 } = communityWriteSlice.actions;
 
 export default communityWriteSlice.reducer;

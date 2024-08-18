@@ -1,6 +1,6 @@
 import { api } from "../API";
 
-export const registerTroubleShootingAPI = async (roomId, title, body) => {
+export const registerTroubleShootingAPI = async (roomId, data) => {
   try {
     const response = await api.post(`study-rooms/trouble/${roomId}`, data);
     console.log("성공:", response.data);
