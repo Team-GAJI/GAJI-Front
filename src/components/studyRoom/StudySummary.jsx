@@ -20,12 +20,12 @@ const StudySummary = ({ studyInfo }) => {
                 <OpenButton>모집중 D-{studyInfo.daysLeftForRecruit}</OpenButton>
             </Container>
             <Container>
-                <CloudyText>{studyInfo.startDay}~{studyInfo.endDay}</CloudyText>
+                <CloudyText>{studyInfo.startDay} ~ {studyInfo.endDay}</CloudyText>
                 <CountText>{studyInfo.applicantCount}명 지원</CountText>
             </Container>
             
             <StudyDescription>
-                4주차 스터디 상세설명 입니다... {/* 설명을 간략하게 줄여서 표시 */}
+                스터디룸 상세설명 입니다... {/* 설명을 간략하게 줄여서 표시 */}
             </StudyDescription>
             <DescriptionDetail>자세히보기 &gt;</DescriptionDetail>
 
