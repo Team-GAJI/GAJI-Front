@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import  {CloudyText, MinorText } from '../../components/studyRoom/StudySummary';
+import { MinorText } from './StudySummary';
 
 const WeekCurriculum = () => {
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
@@ -137,6 +137,12 @@ const StudyCurriculumName = styled.div`
     font-weight: 600;
     font-size: 1.25em;
 `;
+
+const CloudyText = styled.div`
+color: #A2A3B2;
+font-size: 0.9375em; 
+font-weight: 700;`
+;
 
 const StudyCurriculumDescreption = styled.div`
     margin-top: 0.75em;

@@ -85,6 +85,7 @@ export default ManageWeekBasics;
 
 
 const Container = styled.div`
+width : 100%;
   display: flex;
   flex-direction: column; 
   gap: 0.625em; 
@@ -96,8 +97,6 @@ const RowContainer = styled.div`
     align-items: center;
     justify-content: space-between; 
     gap: 0.3125em;
-    margin-left : 2.5em;
-    margin-top : 2em;
 `;
 
 /* 스터디 기본정보 */
@@ -108,20 +107,19 @@ const Text2 = styled.p`
 `;
 
 const MainWrapper1 = styled.div`
-  background-color: #FBFAFF;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #8E59FF;
-  border-radius: 0.5em; 
-  width: 59.375em; 
-  height: 30.1875em;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #8E59FF;
+    border-radius: 0.5em; 
+    width: 100%; 
+    padding : 2.25em 3em;
+    box-sizing : border-box;
 `;
 
 const InputWrapper = styled.div`
     position: relative;
     width: 100%;
-    max-width: 25em;
-    margin: 3.125em 2.5em 0.625em 2.5em; 
+    
 `;
 
 const InputStudyName = styled.input`
@@ -129,6 +127,8 @@ const InputStudyName = styled.input`
     border: none;
     outline: none;
     font-size: 1em; 
+    font-family: 'NanumSquareNeo';
+    width : 100%;
     &::placeholder {
         color: #A2A3B2;
         font-size: 0.8125em; 
@@ -151,18 +151,19 @@ const CharCount = styled.span`
 const DivisionLine2 = styled.div`
     border-top: 1px solid #8E59FF;
     align-items: center;
-    margin: 0 2.5em; 
-    width: 92%;
+    margin-top : 1em;
+    width: 100%;
 `;
 
 const ExWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #A2A3B2;
-  border-radius: 0.5em; 
-  width: 54.3125em; 
-  height: 14.375em; 
-  margin-right: 2.5em; 
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #A2A3B2;
+    border-radius: 0.5em; 
+    width: 100%; 
+    height: 14.375em; 
+    padding : 1.5em;
+    box-sizing :border-box;
 `;
 
 const Text4 = styled.p`
@@ -175,12 +176,14 @@ const Text4 = styled.p`
 
 
 /* 스터디 설명 */
-const InputExStudy = styled.input`
+const InputExStudy = styled.textarea`
     background: none;
     border: none;
     outline: none;
-    margin: 1.25em 1.25em; 
+    resize : none;
     font-size: 1em;
+    width : 100%;
+      font-family: 'NanumSquareNeo';
     &::placeholder {
         color: #A2A3B2;
         font-size: 0.8125em;
@@ -202,7 +205,7 @@ const ToggleWrapper = styled.div`
     margin-top: 2em;
     display: flex;
     align-items: center;
-    margin-left :3em;
+
 `;
 
 const OnToggleText = styled.div`

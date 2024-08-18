@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
 import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
 import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
@@ -7,21 +9,64 @@ import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
+import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
+import { setTitle, setBody } from '../../features/community/communityWriteSlice';
 
-const StudyDetail = () => {
+const CommunityWritePost = () => {
     // 상태 관리
     const [markdown, setMarkdown] = useState('');
-    const [lengthCount, setLengthCount] = useState(0);
+    const [lengthCount, setLengthCount] = useState(markdown.length);
+    const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
+
+    // Redux 관리
+    const dispatch = useDispatch();
+    dispatch(setBody(markdown));
+    const { title, body, hashtagList, categoryId } = useSelector((state) => state.communityWrite);
+    const { type } = useSelector((state) => state.community);
+    // 서버로 전달할 데이터
+    const data = {
+        "title": title,
+        "body": body,
+        // "thumbnailUrl": thumbnailUrl,
+        "type": type,
+        "hashtagList": hashtagList,
+        "categoryId": categoryId
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const postId = await communityWriteAPI(data);
+            navigate("/community/post", { state: {data: postId} }); 
+            console.log(postId);
+
+        } catch (error) {
+            console.error('스터디 생성 중 오류 발생:', error);
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+        }
+    };
+
+    // 제목 입력
+    const handleTitleChange = (e) => {
+        dispatch(setTitle(e.target.value));
+    };
+
+    // 제목 하단바 색상 관리
+    const handlePurpleHr = () => {
+        setStyledHr(true);
+    };
+    const handleGrayHr = () => {
+        setStyledHr(false);
+    };
 
     // 제목 크기 적용 함수
     const applyFontSize = (e) => {
         const value = e.target.value;
         setFontSize(value);
         if (value === '0') return;
-        
+
         const headerSyntax = '#'.repeat(value) + ' ';
         const textarea = textareaRef.current;
         const { selectionStart, selectionEnd } = textarea;
@@ -76,27 +121,14 @@ const StudyDetail = () => {
         textarea.focus();
     };
 
-    // 이미지 추가 함수
-    // const addImage = () => {
-    //     const textarea = textareaRef.current;
-    //     const { selectionStart, selectionEnd } = textarea;
-    //     const before = markdown.substring(0, selectionStart);
-    //     const selected = markdown.substring(selectionStart, selectionEnd);
-    //     const after = markdown.substring(selectionEnd);
-
-    //     // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
-    //     const altText = selected.length > 0 ? selected : 'alt text';
-    //     const imageSyntax = `![${altText}](url)`;
-    //     setMarkdown(`${before}${imageSyntax}${after}`);
-    //     textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
-    //     textarea.focus();
-    // };
-
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
         setMarkdown(e.target.value);
         setLengthCount(e.target.value.length);
     };
+
+    // useNavigate
+    const navigate = useNavigate();
 
     // 모달 열고 닫기 함수
     const openModal = () => {
@@ -107,7 +139,18 @@ const StudyDetail = () => {
     };
 
     return (
-        <ComponentWrapper>
+        <Wrapper>
+            {/* 제목 */}
+            <TitleWrapper>
+                <TitleInput
+                    value={title}
+                    onChange={handleTitleChange}
+                    onFocus={handlePurpleHr}
+                    onBlur={handleGrayHr}
+                    placeholder='게시글의 제목을 입력해주세요'/>
+                <StyledTitleHr styledHr={styledHr}/>
+            </TitleWrapper>
+
             {/* 툴바 */}
             <ToolbarWrapper>
                 <StyledFontSizeSelect name="fontSize" value={fontSize} onChange={applyFontSize}>
@@ -124,11 +167,10 @@ const StudyDetail = () => {
                 <StyledItalicIcon onClick={() => applyFormatting('*')}/>
                 <StyledThroughIcon onClick={() => applyFormatting('~~')}/>
                 <StyledBar>|</StyledBar>
-                {/* <StyledImageIcon onClick={addImage}/> */}
-                <FileInputLabel htmlFor="contentImg">
+                <FileInputLabel htmlFor="thumbNail">
                     <StyledImageIcon/>
                 </FileInputLabel>
-                <ImageUploadInput type="file" id="contentImg" accept="image/*"/>
+                <ImageUploadInput type="file" id="thumbNail" accept="image/*"/>
                 <StyledLinkIcon onClick={addLink}/>
                 <StyledBar>|</StyledBar>
                 <StyledPreviewButton onClick={openModal}>
@@ -148,8 +190,14 @@ const StudyDetail = () => {
                 />
                 <TextareaBottom>
                     <TextLength lengthCount={lengthCount}>{lengthCount}/20000 자</TextLength>
+                    <StyledContentHr/>
                 </TextareaBottom>
             </TextareaWrapper>
+
+            {/* 업로드 버튼 */}
+            <SubmitButton onClick={()=>handleSubmit()}>
+                게시글 업로드
+            </SubmitButton>
 
             {/* 모달 */}
             {isModalOpen && (
@@ -160,40 +208,73 @@ const StudyDetail = () => {
                     </ModalContent>
                 </ModalOverlay>
             )}
-        </ComponentWrapper>
+        </Wrapper>
     );
-};
+}
 
-export default StudyDetail;
+export default CommunityWritePost;
 
-/* CSS */
-const ComponentWrapper = styled.div`
-    border: 1px solid #8E59FF;
+const Wrapper = styled.div`
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+    width : 100%;
+    margin-bottom :1em;
+`
+const TitleWrapper = styled.div`
+    width : 100%;
+`;
+
+const TitleInput = styled.input`
+    border: none;
     border-radius: 10px;
-    width: 100%;
+    width : 100%;
+    
+    background-color: transparent;
+    font-size: 0.8125em;
+    font-family: 'NanumSquareNeo';
+    font-weight: bold;
+    &:focus{
+        outline: none;
+    }
+    transition: all 0.3s ease;
+    &::placeholder{
+        color: #A2A3B2;
+        font-weight: bold;
+    }
+`;
 
+const StyledTitleHr = styled.hr`
+    margin-bottom : 1em;
+    width : 100%;
+    border: none;
+    height: 1.5px;
+    background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
+    box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
+    transition: all 0.3s ease
 `;
 
 const ToolbarWrapper = styled.div`
-    margin: 1.5em 1.7em;
-    width: 96%;
+    margin-top : 0.6em;
+    width : 100%;
     height: 2em;
     display: flex;
     align-items: center;
     background-color: #FBFAFF;
     font-size: 0.9em;
+    overflow-x : scorll;
     position: sticky;
     top: 60px;
-    @media(max-width : 768px){
-       margin: 1.5em 1.5em; 
-    }
 `;
 
 const StyledFontSizeSelect = styled.select`
-    padding-left: 0.7em;
+    display : flex;
+    justify-content : center;
+    padding-left : 0.25em;
+    box-sizing : border-box;
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 7em;
+    width: 6em;
     height: 1.75em;
     background-color: transparent;
     color: #8E59FF;
@@ -202,6 +283,11 @@ const StyledFontSizeSelect = styled.select`
     cursor: pointer;
     &:focus{
         outline: none;
+    }
+
+    @media(max-width:768px){
+        font-size : 0.75em;
+
     }
 `;
 
@@ -216,6 +302,9 @@ const StyledBoldIcon = styled(BoldIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const StyledItalicIcon = styled(ItalicIcon)`
@@ -225,6 +314,9 @@ const StyledItalicIcon = styled(ItalicIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const StyledThroughIcon = styled(ThroughIcon)`
@@ -233,15 +325,22 @@ const StyledThroughIcon = styled(ThroughIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const FileInputLabel = styled.label`
     display: flex;
     align-items: center;
+    @media(max-width:768px){
+        width : 0.75em;
+    }
 `;
 
 const ImageUploadInput = styled.input`
     display: none;
+    
 `;
 
 const StyledImageIcon = styled(ImageIcon)`
@@ -249,6 +348,9 @@ const StyledImageIcon = styled(ImageIcon)`
     height: 1.2em;
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
+    }
+            @media(max-width:768px){
+        width : 0.75em;
     }
 `;
 
@@ -259,27 +361,34 @@ const StyledLinkIcon = styled(LinkIcon)`
     &:hover{
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-`;
-
-const TextareaWrapper = styled.div`
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.3s ease;
-
-    @media(max-width : 768px){
-        margin-left : 12em;
+    @media(max-width:768px){
+        width : 0.8125em;
+        margin-left:1em;
     }
 `;
 
+const TextareaWrapper = styled.div`
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+    padding : 1em;
+    padding-bottom : 0em;
+    margin-top : 0.8125em;
+    box-sizing : border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &:focus-within{
+        box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+`;
+
 const StyledTextarea = styled.textarea`
-    padding: 0 1.23em 0 1.23em;
+    padding: 1.23em 1.23em 0 1.23em;
     border: none;
-    margin-left : 2em;
-    width: 75em;
-    height: 25.5425em;
+    width: 100%;
+    height: 65.19em;
     line-height: 1.845em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -296,23 +405,34 @@ const StyledTextarea = styled.textarea`
 `;
 
 const TextareaBottom = styled.div`
-    margin: 1em 4em 2em 0;
-    width: 100%;
-    text-align: end;
+    width : 100%;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
 `;
 
 const TextLength = styled.div`
+    font-size : 0.8125em;
     margin-left: auto;
-    font-size: 0.9em;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
-    transition: all 0.3s ease;
+`;
+
+const StyledContentHr = styled.hr`
+    margin: 1em 0 2em 0;
+    border: none;
+    width : 100%;
+    height: 1.5px;
+    background-color: rgba(162, 163, 178, 0.4);
 `;
 
 const StyledPreviewButton = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
     width: 6em;
+    box-sizing : border-box;
+    padding-left : 0.25em;
+    padding-right : 0.25em;
     height: 1.75em;
     line-height: 1.75em;
     text-align: center;
@@ -321,6 +441,32 @@ const StyledPreviewButton = styled.div`
     font-size: 1em;
     font-weight: 800;
     cursor: pointer;
+    @media(max-width:768px){
+        font-size: 0.75em;
+    }
+`;
+
+const SubmitButton = styled.button`
+    border: none;
+    border-radius: 10px;
+    margin-top : 1em;
+    width: 9.1em;
+    height: 2.25em;
+    background-color: #8E59FF;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
+
+    @media(max-width : 768px){
+        width: 7em;
+        height: 2.25em;
+        font-size: 0.8125em;
+    }
 `;
 
 // 모달
@@ -334,7 +480,8 @@ const ModalOverlay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
+    z-index: 10;
+
 `;
 const ModalContent = styled.div`
     background-color: #fff;
@@ -345,6 +492,9 @@ const ModalContent = styled.div`
     font-size: 0.8125em;
     overflow-y: auto;
     position: relative;
+    @media(max-width:768px){
+        width : 80%;
+    }
 `;
 const CloseButton = styled.button`
     position: absolute;

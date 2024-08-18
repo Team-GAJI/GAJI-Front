@@ -1,25 +1,42 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BellIcon from '../../assets/icons/mypage/bellicon.svg?react';
 import SendIcon from '../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../style/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../style/Button';
-import userProfileUrl from '../../assets/images/mypage/userProfile.png';
+import defaultProfileImage from '../../assets/images/mypage/userProfile.png'; // 기본 프로필 이미지 경로
+import { nickNameAPI } from '../../utils/auth/nickNameAPI';
 
-const UserInfo = forwardRef((props, ref) => {
-    const [userName, setUserName] = useState('GAJI');
+const UserInfo = forwardRef(({ userInfo }, ref) => {
+    const [userName, setUserName] = useState(userInfo?.result?.nickname || 'Guest');
     const [isEditing, setIsEditing] = useState(false);
-
     const userGrade = 'Gold';
 
-    const handleNameEdit = () => {
-        if (isEditing) {
-            setIsEditing(false);
-        } else {
-            setIsEditing(true);
-        }
-    };
+    useEffect(() => {
+        setUserName(userInfo?.nickname || '');
+    }, [userInfo]);
 
+    const toggleEditingMode = async () => {
+        if (isEditing) {
+            if (userName.trim() === '') {
+                alert('닉네임을 입력해주세요.');
+                return;
+            }
+    
+            try {
+                // 닉네임 수정 API 호출
+                const response = await nickNameAPI(userName);
+                console.log(response.message);
+                
+                alert(response.message || '닉네임이 수정되었습니다!');
+            } catch (error) {
+                console.error('닉네임 수정 중 오류 발생:', error);
+                alert('닉네임 수정에 실패했습니다: ' + (error.response?.data?.message || error.message));
+                return;
+            }
+        }
+        setIsEditing(!isEditing);
+    };
     const handleNameChange = (event) => {
         setUserName(event.target.value);
     };
@@ -32,10 +49,12 @@ const UserInfo = forwardRef((props, ref) => {
         alert('준비중인 기능입니다.');
     };
 
+    const profileImage = userInfo?.result?.profileImagePth || defaultProfileImage;
+
     return (
         <UserWrapper ref={ref}>
             <RowWrapper2>
-                <UserImage />
+                <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
                 <ColumnWrapper>
                     {isEditing ? (
                         <UserNameInput
@@ -52,7 +71,7 @@ const UserInfo = forwardRef((props, ref) => {
                 </ColumnWrapper>
             </RowWrapper2>
             <ColumnWrapper>
-                <NameEditButton onClick={handleNameEdit}>
+                <NameEditButton onClick={toggleEditingMode}>
                     {isEditing ? '닉네임 수정완료' : '닉네임 수정하기'}
                 </NameEditButton>
                 <RowWrapper3>
@@ -96,7 +115,7 @@ const RowWrapper3 = styled.div`
     @media (max-width: 768px) {
         width: 100%;
         justify-content: space-between;
-        gap : 1em;
+        gap: 1em;
     }
 `;
 
@@ -120,7 +139,6 @@ const UserImage = styled.div`
     width: 138px;
     height: 138px;
     border-radius: 10px;
-    background-image: url(${userProfileUrl});
     background-size: cover;
 
     @media (max-width: 768px) {
@@ -141,8 +159,8 @@ const UserWrapper = styled.div`
     @media (max-width: 768px) {
         flex-direction: column;
         height: auto;
-        padding :1em;
-        box-sizing : border-box;
+        padding: 1em;
+        box-sizing: border-box;
     }
 `;
 
@@ -160,7 +178,7 @@ const UserGrade = styled(PuppleButton)`
     height: 1.5625em;
 
     @media (max-width: 768px) {
-        box-sizing : border-box;
+        box-sizing: border-box;
     }
 `;
 
@@ -170,7 +188,7 @@ const WelcomeText = styled.div`
     color: #A2A3B2;
 
     @media (max-width: 768px) {
-        margin-bottom : 1em;
+        margin-bottom: 1em;
     }
 `;
 
@@ -207,20 +225,22 @@ const GreyText = styled.div`
 `;
 
 const UserNameInput = styled.input`
-    color : #8E59FF;
+    color: #8E59FF;
     font-size: 1.25em;
     font-weight: 800;
-    // 아래 font-family추가
     font-family: 'NanumSquareNeo';
     border: none;
     outline: none;
-    background-color : transparent;
+    background-color: transparent;
     width: 100%;
-    & : focus {
+    
+
+    &:focus {
         outline: none;
     }
 
     @media (max-width: 768px) {
+        text-align : center;
         font-size: 1em;
     }
 `;

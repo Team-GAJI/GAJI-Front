@@ -28,7 +28,7 @@ const StudyCreateRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
         return (startDate && endDate && 
                 (currentDate.toDateString() === startDate.toDateString() || 
-                 currentDate.toDateString() === endDate.toDateString()));
+                currentDate.toDateString() === endDate.toDateString()));
     };
 
     const isInSelectionRange = (day) => {
@@ -137,15 +137,11 @@ const CalendarWrapper = styled.div`
     
     @media (max-width: 768px) {
         height : auto;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
+        width : 100%
     }
 `;
 
 const CalendarWrapper1 = styled.div`
-    padding: 3em 1em 1em 1em;
-    font-size: 0.8125em;
-    font-weight: bold;
     display : flex;
     flex-direction : column;
     justify-content :center;
@@ -153,9 +149,12 @@ const CalendarWrapper1 = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
+    padding : 2em;
+    padding-bottom : 1em;
     box-sizing: border-box;
 
     @media (max-width: 768px) {
+        width : 100%
         padding-right: 0;
         border-right: none;
         border-bottom: 1px solid #d0d1d9;
@@ -164,12 +163,12 @@ const CalendarWrapper1 = styled.div`
 `;
 
 const Header = styled.div`
-    margin-bottom: 1em;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2em;
+    margin-bottom: 1em;
 `;
 
 const StyledPrevMonth = styled(PrevMonth)`
@@ -188,21 +187,40 @@ const StyledNextMonth = styled(NextMonth)`
 `;
 
 const Grid = styled.div`
+    width : 100%;
     padding : 1em;
+    
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    grid-row-gap: 0.7em;
+    gap: 1em;
     font-size : 1em;
-    place-items: center;
+    place-items: center center;
+
+    @media (max-width: 768px) {
+        gap: 0.5em;
+    }
 `;
 
 const Day = styled.div`
     text-align: center;
     box-sizing: border-box;
+
 `;
 
 const Cell = styled.div`
+
+    @media(max-width : 1100px){
+        font-size : 0.8125em;
+    }
+    @media(max-width : 900px){
+        font-size : 0.75em;
+    }
+
+    @media(max-width : 768px){
+        font-size : 1em;
+    }
+    padding: 0.625em;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -226,6 +244,12 @@ const Cell = styled.div`
     box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
     position: relative; 
     // z-index: 10;
+
+    @media (max-width: 768px) {
+        height: 2em;
+        width: 2em;
+        padding: 0.4em;
+    }
 
     &:before {
         content: '';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import StudyCreateLinkEmbed from './StudyCreateLinkEmbed';
-import { setMaterialList } from '../../feautres/study/studyCreateSlice';
+import { setMaterialList } from '../../features/study/studyCreateSlice';
 import { useDispatch } from 'react-redux';
 
 const StudyData = () => {
@@ -72,7 +72,7 @@ const Title = styled.div`
 `;
 
 const StudyDataWrapper = styled.div`
-    width: 58em;
+    width: 100%;
     display: flex;
     flex-direction: column;
 `;

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
 import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
 import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
@@ -8,72 +7,15 @@ import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
-import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
-import { registerTroubleShootingAPI } from '../../utils/troubleShooting/troubleShootingInfoAPI';
 
-
-const WritePost = ({ link }) => {
+const StudyManageDetail = () => {
     // 상태 관리
-    const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(0);
-    const [styledHr, setStyledHr] = useState(false);
     const [fontSize, setFontSize] = useState('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
 
-    const data = {
-        "title": title,
-        "body": markdown,
-        "thumbnailUrl": "string",
-        "type": "스터디",
-        "hashtagList": [
-            "string"
-        ],
-            "categoryIdList": [
-            0
-        ]
-    };
-    const handleSubmit = async () => {
-        try {
-            // link에 따라 다른 API 함수를 선택
-            let apiCall;
-            switch (link) {
-                case 'community':
-                    //각 커뮤니티 리덕스
-                    apiCall = communityWriteAPI;
-                    break;
-                case 'studyroom':
-                    // apiCall = studyRoomWrite;
-                    break;
-                case 'troubleshooting':
-                    //트러블 슈팅 API
-                    apiCall = registerTroubleShootingAPI;
-                    // apiCall = troubleShootingWrite;
-                    break;
-                default:
-                    throw new Error('Invalid link type');
-            }
-
-            // API 호출 및 페이지 이동
-            const result = await apiCall(data);
-            console.log(result);
-            navigate(`/${link}/post`, { state: { data: data } });
-
-        } catch (error) {
-            console.error('포스트 생성 중 오류 발생:', error);
-            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
-        }
-    };
-
-    // 제목 하단바 색상 관리
-    const handlePurpleHr = () => {
-        setStyledHr(true);
-    };
-    const handleGrayHr = () => {
-        setStyledHr(false);
-    };
-    
     // 제목 크기 적용 함수
     const applyFontSize = (e) => {
         const value = e.target.value;
@@ -134,15 +76,27 @@ const WritePost = ({ link }) => {
         textarea.focus();
     };
 
+    // 이미지 추가 함수
+    // const addImage = () => {
+    //     const textarea = textareaRef.current;
+    //     const { selectionStart, selectionEnd } = textarea;
+    //     const before = markdown.substring(0, selectionStart);
+    //     const selected = markdown.substring(selectionStart, selectionEnd);
+    //     const after = markdown.substring(selectionEnd);
+
+    //     // 선택된 텍스트가 없으면 기본 텍스트 'alt text' 사용
+    //     const altText = selected.length > 0 ? selected : 'alt text';
+    //     const imageSyntax = `![${altText}](url)`;
+    //     setMarkdown(`${before}${imageSyntax}${after}`);
+    //     textarea.setSelectionRange(selectionStart + imageSyntax.length - 6, selectionEnd + imageSyntax.length - 6);
+    //     textarea.focus();
+    // };
 
     // 마크다운 내용, 글자 수 관리
     const handleMarkdownChange = (e) => {
         setMarkdown(e.target.value);
         setLengthCount(e.target.value.length);
     };
-
-    // useNavigate
-    const navigate = useNavigate();
 
     // 모달 열고 닫기 함수
     const openModal = () => {
@@ -153,18 +107,7 @@ const WritePost = ({ link }) => {
     };
 
     return (
-        <Wrapper>
-            {/* 제목 */}
-            <TitleWrapper>
-                <TitleInput
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onFocus={handlePurpleHr}
-                    onBlur={handleGrayHr}
-                    placeholder='게시글의 제목을 입력해주세요'/>
-                <StyledTitleHr styledHr={styledHr}/>
-            </TitleWrapper>
-
+        <ComponentWrapper>
             {/* 툴바 */}
             <ToolbarWrapper>
                 <StyledFontSizeSelect name="fontSize" value={fontSize} onChange={applyFontSize}>
@@ -182,10 +125,10 @@ const WritePost = ({ link }) => {
                 <StyledThroughIcon onClick={() => applyFormatting('~~')}/>
                 <StyledBar>|</StyledBar>
                 {/* <StyledImageIcon onClick={addImage}/> */}
-                <FileInputLabel htmlFor="thumbNail">
+                <FileInputLabel htmlFor="contentImg">
                     <StyledImageIcon/>
                 </FileInputLabel>
-                <ImageUploadInput type="file" id="thumbNail" accept="image/*"/>
+                <ImageUploadInput type="file" id="contentImg" accept="image/*"/>
                 <StyledLinkIcon onClick={addLink}/>
                 <StyledBar>|</StyledBar>
                 <StyledPreviewButton onClick={openModal}>
@@ -205,23 +148,8 @@ const WritePost = ({ link }) => {
                 />
                 <TextareaBottom>
                     <TextLength lengthCount={lengthCount}>{lengthCount}/20000 자</TextLength>
-                    <StyledContentHr/>
                 </TextareaBottom>
             </TextareaWrapper>
-
-            {/* 업로드 버튼 */}
-            {/* <SubmitButton onClick={() =>
-                {navigate("/community/post",{
-                    state: {
-                        title: title,
-                        content: markdown,
-                    },
-                });}}>
-                게시글 업로드
-            </SubmitButton> */}
-            <SubmitButton onClick={()=>handleSubmit()}>
-                게시글 업로드
-            </SubmitButton>
 
             {/* 모달 */}
             {isModalOpen && (
@@ -232,51 +160,20 @@ const WritePost = ({ link }) => {
                     </ModalContent>
                 </ModalOverlay>
             )}
-        </Wrapper>
+        </ComponentWrapper>
     );
-}
+};
 
-export default WritePost;
+export default StudyManageDetail;
 
-
-const Wrapper = styled.div`
-    display : flex;
-    flex-direction : column;
-    align-items : center;
-    width : 100%;
-    margin-bottom :1em;
-`
-const TitleWrapper = styled.div`
-    width : 100%;
-`;
-
-const TitleInput = styled.input`
-    border: none;
+/* CSS */
+const ComponentWrapper = styled.div`
+    padding : 1em;
+    box-sizing : border-box;
+    border: 1px solid #8E59FF;
     border-radius: 10px;
-    width : 100%;
-    
-    background-color: transparent;
-    font-size: 0.8125em;
-    font-family: 'NanumSquareNeo';
-    font-weight: bold;
-    &:focus{
-        outline: none;
-    }
-    transition: all 0.3s ease;
-    &::placeholder{
-        color: #A2A3B2;
-        font-weight: bold;
-    }
-`;
-
-const StyledTitleHr = styled.hr`
-    margin-bottom : 1em;
-    width : 100%;
-    border: none;
-    height: 1.5px;
-    background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
-    box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
-    transition: all 0.3s ease
+    width: 100%;
+    margin-bottom  : 2em;
 `;
 
 const ToolbarWrapper = styled.div`
@@ -341,6 +238,7 @@ const StyledItalicIcon = styled(ItalicIcon)`
     }
     @media(max-width:768px){
         width : 0.75em;
+        margin: 0 1em;
     }
 `;
 
@@ -413,7 +311,7 @@ const StyledTextarea = styled.textarea`
     padding: 1.23em 1.23em 0 1.23em;
     border: none;
     width: 100%;
-    height: 65.19em;
+    height: 30.19em;
     line-height: 1.845em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -443,13 +341,7 @@ const TextLength = styled.div`
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
 `;
 
-const StyledContentHr = styled.hr`
-    margin: 1em 0 2em 0;
-    border: none;
-    width : 100%;
-    height: 1.5px;
-    background-color: rgba(162, 163, 178, 0.4);
-`;
+
 
 const StyledPreviewButton = styled.div`
     border: 1px solid #8E59FF;
@@ -471,28 +363,7 @@ const StyledPreviewButton = styled.div`
     }
 `;
 
-const SubmitButton = styled.button`
-    border: none;
-    border-radius: 10px;
-    margin-top : 1em;
-    width: 9.1em;
-    height: 2.25em;
-    background-color: #8E59FF;
-    color: white;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
-    }
-    transition: all 0.3s ease;
 
-    @media(max-width : 768px){
-        width: 7em;
-        height: 2.25em;
-        font-size: 0.8125em;
-    }
-`;
 
 // 모달
 const ModalOverlay = styled.div`

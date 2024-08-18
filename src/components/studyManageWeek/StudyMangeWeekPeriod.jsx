@@ -154,7 +154,7 @@
 
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import StudyCreateCalendar from './StudyManageWeekCalendar';
+import StudyManageWeekCalendar from './StudyManageWeekCalendar';
 
 const StudyMangeWeekPeriod = ({selectedWeek}) => {
     // state 관리
@@ -181,9 +181,11 @@ const StudyMangeWeekPeriod = ({selectedWeek}) => {
     };
 
     return (
+        <>
+        <Title>스터디 기한</Title>
         <ComponentWrapper>
             {/* 캘린더 영역 */}
-            <StudyCreateCalendar
+            <StudyManageWeekCalendar
                 onStartDateChange={handleStartDateChange} 
                 onEndDateChange={handleEndDateChange}/>
             
@@ -191,7 +193,7 @@ const StudyMangeWeekPeriod = ({selectedWeek}) => {
             <RightWrapper>
 
                 {/* 스터디 진행기한 */}
-                <ContentWrapper>
+                <StyledContentWrapper>
                     <Title>{selectedWeek + 1}주차 스터디 진행 기한</Title>
                     <Button>입력하기</Button>
                     <PeriodWrapper>
@@ -200,9 +202,10 @@ const StudyMangeWeekPeriod = ({selectedWeek}) => {
                         <Text>끝</Text>
                         <Period>{endDate ? formatDate(endDate) : formatDate(today)}</Period>
                     </PeriodWrapper>
-                </ContentWrapper>
+                </StyledContentWrapper>
             </RightWrapper>
         </ComponentWrapper>
+        </>
     );
 };
 
@@ -212,42 +215,64 @@ export default StudyMangeWeekPeriod;
 const ComponentWrapper = styled.div`
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 81.5%;
+    width: 100%;
     display: flex;
     align-items: center;
-`;
 
-const RightWrapper = styled.div`
-    border-left: 1.2px solid #A2A3B2;
-    height: 17em;
-    display: flex;
-    flex-direction: column;
-`;
-
-const ContentWrapper = styled.div`
-    margin: 3.5em 0 3.5em 4em;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Title = styled.div`
-    color: #8E59FF;
-    font-weight: 800;
+    @media(max-width : 768px){
+        flex-direction : column;
+        gap : 1em;
+        padding-bottom  :1em;
+    }
 `;
 
 const Button = styled.div`
-    margin: 1.2em 0;
+     margin: 1.2em 0;
     border-radius: 10px;
     width: 11em;
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
-    background-color: #8E59FF;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
     color: white;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
+    &:hover{
+        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    }
+    transition: all 0.3s ease;
 `;
+
+
+const RightWrapper = styled.div`
+    border-left: 1.2px solid #A2A3B2;
+    width : 50%;
+    display: flex;
+    flex-direction: column;
+
+    @media(max-width : 768px){
+        margin-top : 2em;
+        align-items : center;
+        border : none;
+        width  :100%
+    }
+`;
+
+const StyledContentWrapper = styled.div`
+    margin: 0 0 3.5em 4em;
+    display: flex;
+    flex-direction: column;
+`;
+
+const Title = styled.div`
+    width : 100%;
+    margin : 1em 0em;
+    color: #8E59FF;
+    font-weight: 800;
+`;
+
+
 
 const PeriodWrapper = styled.div`
     display: flex;

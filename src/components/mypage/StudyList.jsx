@@ -4,33 +4,9 @@ import { Color } from '../style/Color';
 import studyProfileUrl from '../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
 import { studyInfoAPI } from '../../utils/mypage/studyInfoAPI';
+import { Scroll } from '../common/Scroll';
 
-const dummyStudyList = [
-    {
-        name: 'React 기본 스터디',
-        description: 'React의 기본 개념과 Hooks를 공부하는 스터디입니다.',
-    },
-    {
-        name: 'JavaScript 심화 스터디',
-        description: 'JavaScript의 심화 개념을 공부하고 프로젝트를 진행합니다.',
-    },
-    {
-        name: '알고리즘 문제 풀이',
-        description: '알고리즘 문제를 함께 풀고 토론하는 스터디입니다.',
-    },
-    {
-        name: '웹 디자인 스터디',
-        description: '웹 디자인의 기본 원리와 최신 트렌드를 공부합니다.',
-    },
-    {
-        name: '풀스택 개발 스터디',
-        description: '풀스택 개발의 전체 과정을 함께 배우고 프로젝트를 진행합니다.',
-    },
-];
-
-
-const StudyList = ({ isCurrent }) => {
-    
+const StudyList = ({ ongoingStudyList, endedStudyList }) => {
     const navigate = useNavigate();
 
     const handleStudyRoom = async (roomId) => {
@@ -41,25 +17,54 @@ const StudyList = ({ isCurrent }) => {
             console.log(error);
         }
     };
-    
+
     return (
         <StudyListWrapper>
-            <Wrapper>
+            <StudySection>
                 <RowWrapper>
-                    <ExtraBold>{isCurrent ? "현재 스터디룸" : "이전 스터디룸"}</ExtraBold>
+                    <SectionTitle>현재 스터디룸</SectionTitle>
                 </RowWrapper>
                 <ListWrapper>
-                    {dummyStudyList.map((study, index) => (
-                        <ListItem key={index}>
-                            <StudyProfile />
-                            <ColumnWrapper onClick={()=>handleStudyRoom(1)}>
-                                <StudyName>{study.name}</StudyName>
-                                <StudyText>{study.description}</StudyText>
-                            </ColumnWrapper>
-                        </ListItem>
-                    ))}
+                    {ongoingStudyList && ongoingStudyList.length > 0 ? (
+                        ongoingStudyList.map((study) => (
+                            <ListItem key={study.roomId} onClick={() => handleStudyRoom(study.roomId)}>
+                                <StudyProfile src={
+                                    study.thumbnail_url || 
+                                    studyProfileUrl} alt="Study Profile" />
+                                <ColumnWrapper>
+                                    <StudyName>{study.name}</StudyName>
+                                    <StudyText>{study.description}</StudyText>
+                                    <StudyDate>시작일: {study.studyStartDay}</StudyDate>
+                                </ColumnWrapper>
+                            </ListItem>
+                        ))
+                    ) : (
+                        <NoDataText>현재 진행 중인 스터디룸이 없습니다.</NoDataText>
+                    )}
                 </ListWrapper>
-            </Wrapper>
+            </StudySection>
+
+            <StudySection>
+                <RowWrapper>
+                    <SectionTitle>이전 스터디룸</SectionTitle>
+                </RowWrapper>
+                <ListWrapper>
+                    {endedStudyList && endedStudyList.length > 0 ? (
+                        endedStudyList.map((study) => (
+                            <ListItem key={study.roomId} onClick={() => handleStudyRoom(study.roomId)}>
+                                <StudyProfile src={study.thumbnail_url || studyProfileUrl} alt="Study Profile" />
+                                <ColumnWrapper>
+                                    <StudyName>{study.name}</StudyName>
+                                    <StudyText>{study.description}</StudyText>
+                                    <StudyDate>시작일: {study.studyStartDay}</StudyDate>
+                                </ColumnWrapper>
+                            </ListItem>
+                        ))
+                    ) : (
+                        <NoDataText>이전에 진행된 스터디룸이 없습니다.</NoDataText>
+                    )}
+                </ListWrapper>
+            </StudySection>
         </StudyListWrapper>
     );
 };
@@ -70,24 +75,22 @@ const StudyListWrapper = styled.div`
     width: 100%;
     display: flex;
     gap: 2em;
-
-    @media (max-width: 768px) {
+    @media(max-width : 768px){
         flex-direction: column;
-        gap: 1em;
     }
+    
 `;
 
-const Wrapper = styled.div`
+const StudySection = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 1em;
 `;
 
-const ListWrapper = styled.div`
+const ListWrapper = styled(Scroll)`
     box-sizing: border-box;
     height: 20em;
-    overflow-y: hidden;
     border: 1px solid #8E59FF;
     border-radius: 20px;
     padding: 2.5em;
@@ -110,6 +113,11 @@ const ListItem = styled.div`
     gap: 1em;
     border-bottom: 1px solid #8E59FF;
     padding-bottom: 1.25em;
+    cursor: pointer;
+
+    &:last-child {
+        border-bottom: none;
+    }
 
     @media (max-width: 768px) {
         flex-direction: column;
@@ -132,7 +140,7 @@ const ColumnWrapper = styled.div`
     gap: 0.5em;
 `;
 
-const ExtraBold = styled(Color)`
+const SectionTitle = styled(Color)`
     font-weight: 800;
     font-size: 1.25em;
 
@@ -147,20 +155,34 @@ const StudyName = styled.div`
 `;
 
 const StudyText = styled.div`
-    font-size: 1em;
-    font-weight: 700;
+    font-size: 0.875em;
+    font-weight: 500;
     color: #7E7D80;
 `;
 
-const StudyProfile = styled.div`
-    background-image: url(${studyProfileUrl});
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 20%;
+const StudyDate = styled.div`
+    font-size: 0.875em;
+    font-weight: 500;
+    color: #A2A3B2;
+`;
+
+const StudyProfile = styled.img`
+    width: 3em;
     height: 3em;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom : 0.5em;
 
     @media (max-width: 768px) {
-        width: 100%;
+        width : 5em;
         height: 5em;
     }
+`;
+
+const NoDataText = styled.div`
+    font-size: 1em;
+    font-weight: 700;
+    color: #7E7D80;
+    text-align: center;
+    margin-top: 1em;
 `;

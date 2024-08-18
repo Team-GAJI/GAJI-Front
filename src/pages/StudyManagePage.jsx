@@ -8,7 +8,7 @@ import ManageInfo from '../components/studyManage/ManageInfo';
 import ManagePeriod from '../components/studyManage/StudyManagePeriod';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
 import PageHeader from '../components/common/PageHeader';
-import { ContentWrapper } from '../components/common/MediaWrapper';
+import { ContentWrapper70 } from '../components/common/MediaWrapper';
 const StudyManagePage = () => {
     // n주차 버튼 기능
 
@@ -58,7 +58,6 @@ const StudyManagePage = () => {
 
     return (
     <>
-    <Wrapper>
       <PageHeader
           pageTitle="스터디 관리 페이지"
           subTitle = "스터디장에게만 보이는 메뉴에요"
@@ -70,15 +69,13 @@ const StudyManagePage = () => {
       />
 
       <RowWrapper>
-        
-        <ContentWrapper>
+        <ContentWrapper70>
             <ManageInfo/>
             <ManagePeriod/>
             <ManageDetailed/>
-        </ContentWrapper>
+        </ContentWrapper70>
 
-       
-          <Sidebar1 ref={sidebarRef}>
+        <Sidebar1 ref={sidebarRef}>
               {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
               <BasicInfoButton>
                   기본정보
@@ -108,10 +105,8 @@ const StudyManagePage = () => {
               <PlusButton onClick={handleAdd}>
                 <PlusIcons src={ManagePlus} alt="추가" />
               </PlusButton>
-
           </Sidebar1>
         </RowWrapper>
-    </Wrapper>
 
     </> 
     );
@@ -120,17 +115,12 @@ const StudyManagePage = () => {
 export default StudyManagePage;
 const RowWrapper = styled.div`
   display : flex;
+  @media(max-width : 768px){
+    flex-direction : column-reverse;
+  }
 
 `
-const Wrapper = styled.div`
-    z-index: 5;
-    background-color: #FBFAFF;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column; 
-    padding: 0 3.1em;
-    width: 100%;
-`;
+
 
 
 
@@ -151,31 +141,35 @@ const Sidebar1 = styled.aside`
   background-color: #FBFAFF;
   display: flex;
   flex-direction: column;
-  border: 1px solid #A2A3B2;
-
+  border: 1px solid #A2A3B2;  
   border-radius: 0.5em;
   max-height: 78.5vh;
+  width : 10%;
   width: 11.25em;
-  margin-left: 2em;
+  right : 3%;
+  padding : 0.2em;
   padding-bottom: 1em;
   overflow-x: hidden;
-  margin-top: 2.4em;
+
   // 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
   position: -webkit-sticky;
   position: sticky;
-  top: 2.4em;
+  top: 5em;
+  margin-top : 2.75em;
 
   @media (max-width: 768px) {
-    position: absolute;
-    top: 15em;
-    left: 50%;
-    transform: translateX(-50%);
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+    left : 0;
+    width : 100%;
+    margin-left: 0;
+    box-sizing : border-box;
+    border : none;
     flex-direction: row;
-    // width: 35em;
-    width : 80%; /* 맞는지 확인*/
     overflow-x: scroll; 
     overflow-y: hidden; 
-    margin: 1em 2em;
+
     z-index: 10;
     height: 3em; 
     max-height: 5em; 
@@ -198,7 +192,8 @@ const SidebarButton1 = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
   width: 100%;
-  margin: 0.5em 0;
+  margin: 0.5em 0em;
+
   box-sizing: border-box;
 
 
@@ -207,7 +202,7 @@ const SidebarButton1 = styled.div`
     width: auto;
     min-width: 8em; 
     padding: 0.5em 0.5em;
-    margin-top: 0em;
+    margin-top: 0.5em;
   }
 
   &:hover {

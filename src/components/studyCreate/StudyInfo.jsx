@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ThumbNailImg from '../../assets/images/studyDetail/thumbNailImg.png';
 import StudyData from './StudyData';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName, setPeopleMaximum, setThumbnailUrl, setPrivate } from '../../feautres/study/studyCreateSlice';
+import { setName, setPeopleMaximum, setThumbnailUrl, setPrivate } from '../../features/study/studyCreateSlice';
 import StudyCreateSelectBox from './StudyCreateSelectBox';
 
 const StudyInfo = () => {
@@ -158,9 +158,10 @@ export default StudyInfo;
 /* CSS */
 const ComponentWrapper = styled.div`
     padding: 3em 3em 2em 3em;
+    box-sizing: border-box;
     border: 1px solid #8E59FF;
     border-radius: 10px;
-    width: 59em;
+    width: 100%;
     display: flex;
     flex-direction: column;
 `;
@@ -170,6 +171,9 @@ const TopWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media(max-width : 768px){
+        gap : 1em;
+    }
 `;
 
 const TotalMembersWrapper = styled.div`
@@ -177,6 +181,7 @@ const TotalMembersWrapper = styled.div`
     flex-direction: column;
     align-items: end;
     position: relative;
+    width : 49%;
 `;
 
 const CounterWrapper = styled.div`
@@ -234,13 +239,13 @@ const InputWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width : 100%;
 `;
 
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
-    width: 65em;
-    widht: 100%;
+    width: 90%;
     height: 3em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -254,14 +259,22 @@ const TitleInput = styled.input`
         color: #A2A3B2;
         font-weight: bold;
     }
+    @medai(max-width : 768px){
+        width: 80%;
+    }
 `;
 
 const TextLength = styled.div`
-    margin-right: 1em;
+    width : 10%;
+    
     font-size: 0.9em;
     font-weight: bold;
+    text-align : end;
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
+    @media(max-width : 768px){
+        width : 20%;
+    }
 `;
 
 const StyledTitleHr = styled.hr`
@@ -274,6 +287,7 @@ const StyledTitleHr = styled.hr`
 `;
 
 const ThumbNailWrapper = styled.div`
+    width : 100%;
     margin-bottom: 1em;
     display: flex;
     flex-direction: column;
@@ -289,6 +303,10 @@ const UploadWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    @media(max-width : 768px){
+        flex-direction : column;
+        gap : 1em;
+    }
 `;
 
 const ImageWrapper = styled.div`
@@ -296,17 +314,19 @@ const ImageWrapper = styled.div`
     flex-direction: column;
     border: 1px solid #A2A3B2;
     border-radius: 10px; 
-    width: 35em; 
+    width: 50%; 
     height: 11.625em; 
     align-items: center;
     justify-content: center;
+    @media(max-width : 768px){
+        width : 100%;
+    }
 `;
 
 const FileInputLabel = styled.label`
     margin: 1em;
     border: 1.2px solid #8E59FF;
     border-radius: 10px;
-    width: 8.4615em;
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
@@ -314,6 +334,7 @@ const FileInputLabel = styled.label`
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
+    
 `;
 
 const ImageUploadInput = styled.input`
@@ -330,10 +351,13 @@ const ImageText = styled.div`
 const PreivewWrapper = styled.div`
     border: 1px solid #A2A3B2;
     border-radius: 10px; 
-    width: 19.8732em; 
+    width: 40%; 
     height: 11.625em; 
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
+    @media(max-width : 768px){
+        width : 100%;
+    }
 `;
 
 const ToggleWrapper = styled.div`

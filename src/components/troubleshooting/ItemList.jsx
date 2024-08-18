@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import UserIcon from "../../assets/icons/common/usericon.svg";
 import ItemImageSrc from "../../assets/images/common/Rectangle16.png";
 import CommentIconSrc from "../../assets/images/troubleshooting/comment.png";
@@ -208,10 +209,16 @@ const items = [
 ];
 
 const ItemList = () => {
+  const navigate = useNavigate();
+
+  const handleItemClick = (id) => {
+    navigate("/troubleshooting-detail");
+  };
+
   return (
     <ItemGrid>
       {items.map((item) => (
-        <Item key={item.id}>
+        <Item key={item.id} onClick={() => handleItemClick(item.id)}>
           <ItemImageWrapper>
             <ItemImage src={ItemImageSrc} alt={item.title} />
             <CommentInfo>

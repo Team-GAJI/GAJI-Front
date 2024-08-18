@@ -9,9 +9,19 @@ export const ContentWrapper = styled.div`
     
     @media(max-width: 768px) {
         width : 90%;
-        margin-top: 6em;
     }
 
+`
+
+export const ContentWrapperMain= styled.div`
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+    width : 80%;
+    margin : 0 auto;
+    
+    @media(max-width: 768px) {
+        width : 90%;
 `
 
 
@@ -20,6 +30,18 @@ export const ContentWrapper60 = styled.div`
     flex-direction : column;
     align-items : center;
     width : 60%;
+    margin : 0 auto;
+    
+    @media(max-width: 768px) {
+        width : 90%;
+    }
+
+`
+export const ContentWrapper70 = styled.div`
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+    width : 70%;
     margin : 0 auto;
     
     @media(max-width: 768px) {

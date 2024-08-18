@@ -8,6 +8,7 @@ import CommunityWritePage from "./pages/CommunityWritePage";
 import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
 import TroubleshootingRegistrationPage from "./pages/TroubleshootingRegistrationPage";
+import TroubleshootingDetailPage from "./pages/TroubleshootingDetailPage";
 import TroubleShootingPage from "./pages/TroubleShootingPage.jsx";
 import StudyMainPage from "./pages/StudyMainPage.jsx";
 import StudyCategoryPage from "./pages/StudyCategoryPage.jsx";
@@ -35,6 +36,9 @@ function App() {
         path="/login/oauth2/code/naver"
         element={<LoginRedirectPage />}
       />
+
+      <Route path="/redirect" element={<LoginRedirectPage />} />
+
       {/* 사용자가 로그인할 수 있는 페이지 */}
 
       {/* 메인 레이아웃이 적용되는 라우트 그룹 */}
@@ -107,6 +111,12 @@ function App() {
           element={<TroubleshootingRegistrationPage />}
         />
         {/* 사용자가 문제를 보고하는 트러블슈팅 등록 페이지 */}
+
+        <Route
+          path="/troubleshooting-detail"
+          element={<TroubleshootingDetailPage />}
+        />
+        {/* 트러블슈팅 글 등록 연결 페이지 */}
       </Route>
     </Routes>
   );

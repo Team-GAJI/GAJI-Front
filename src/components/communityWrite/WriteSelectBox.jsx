@@ -1,22 +1,49 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import DownArrowIcon from "../../assets/icons/communityWrite/purpleDownArrow.svg?react";
+import { setCategoryId } from '../../features/community/communityWriteSlice';
 
 const WriteSelectBox = () => {
     // 필터 상태 관리
     const [isCategoryVisible, setIsCategoryVisible] = useState(false);
     const [selectedCategoryOption, setSelectedCategoryOption] = useState("카테고리");
 
+    // Redux 상태 관리
+    const dispatch = useDispatch();
+
     // 필터 버튼 텍스트
     const toggleCategoryVisibility = () => {
         setIsCategoryVisible(!isCategoryVisible);
     };
 
-    // 필터 옵션 선택
+    // 카테고리 선택
     const handleCategorySelect = (option) => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
+        if (option === "개발") {
+            dispatch(setCategoryId(1));
+        } else if (option === "인공지능") {
+            dispatch(setCategoryId(2));
+        } else if (option === "하드웨어") {
+            dispatch(setCategoryId(3));
+        } else if (option === "보안") {
+            dispatch(setCategoryId(4));
+        } else if (option === "네트워크 - 클라우드") {
+            dispatch(setCategoryId(5));
+        } else if (option === "어학") {
+            dispatch(setCategoryId(6));
+        } else if (option === "디자인") {
+            dispatch(setCategoryId(7));
+        } else if (option === "비즈니스 (pm)") {
+            dispatch(setCategoryId(8));
+        } else if (option === "독서 모임") {
+            dispatch(setCategoryId(9));
+        } else if (option === "기타") {
+            dispatch(setCategoryId(10));
+        }
     };
+
 
     return (
         <SelectWrapper>
@@ -84,6 +111,7 @@ const SelectWrapper = styled.div`
     flex-direction: column;
     align-items: center;
 
+
 `;
 
 const StyledButton = styled.div`
@@ -123,7 +151,7 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
     height: 1em;
     transition: all 0.5s ease;
     transform: rotate(${(props) => (props.isVisible ? "-180deg" : "0deg")});
-     @media(max-width : 768px){
+    @media(max-width : 768px){
         width : 20%;
         margin-top:1em;
         height : 0.5em;

@@ -6,7 +6,6 @@ import { Color } from '../components/style/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { apiBase } from '../utils/API';
 
 const LoginPage = () => {
     const [register, setRegister] = useState(false);
@@ -15,28 +14,16 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const saveTokenToLocalStorage = (token) => {
-        localStorage.setItem('accessToken', token.accessToken);
-        localStorage.setItem('refreshToken', token.refreshToken);
-    };
-
     const handleGoogleLogin = async () => {
-        try {
-            const res = await apiBase.get(`oauth2/authorization/google`);
-            console.log(res);
-            const userToken = { accessToken: res.data.accessToken, refreshToken: res.data.refreshToken };
-            saveTokenToLocalStorage(userToken);
-            navigate('/'); // 로그인 후 메인 페이지로 이동
-        } catch (e) {
-            console.error(e);
-        }
+        const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
+        window.location.href = naverLoginUrl;
     };
 
     const handleNaverLogin = () => {
         const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
         window.location.href = naverLoginUrl;
     };
-
+    
     const handleGoogleRegister = () => {
         if (isAgreed) {
             console.log('로그인 시작');

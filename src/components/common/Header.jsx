@@ -11,6 +11,7 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('userId');
         setAccessToken(null);
     };
 
@@ -45,8 +46,8 @@ const Header = () => {
 };
 
 export default Header;
-
 const HeaderWrapper = styled.div`
+    box-sizing : border-box;
     z-index: 5;
     background-color: #fbfaff;
     position: fixed;
@@ -61,6 +62,14 @@ const HeaderWrapper = styled.div`
     align-items: center;
     padding-left: 3.1em;
     padding-right: 3.1em;
+    overflow-x : hidden;
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 60px;
+        justify-content: space-between;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
 `;
 
 const RowWrapper = styled.div`
@@ -80,19 +89,21 @@ const MenuWrapper = styled.div`
     transition:  visibility 0.3s ease, opacity 0.3s ease;
     display: flex;
     gap: 4.25em;
+    width: 100%;
 
     @media (max-width: 768px) {
         width : 5em;
         height : 100vh;
         flex-direction: column;
+        gap : 3em;
         transform: ${(props) => (props.$menuVisible ? 'translateX(0)' : 'translateX(-100%)')};
         transition: transform 0.3s ease, visibility 0.3s ease, opacity 0.3s ease;
-        align-items : center;
-        position: absolute;
+        align-items : start;
+        position: fixed;
         top: 60px;
         left: 0;
         background-color: #FBFAFF;
-        padding: 2.1em;
+        padding-left : 5%;
     }
 `;
 
@@ -106,7 +117,6 @@ const StyledMenuIcon = styled(MenuIcon)`
     @media (max-width: 768px) {
         width: 1em;
         height : 1em;
-        margin-left : 1em;
     }
 `;
 
@@ -117,7 +127,7 @@ const Text = styled.div`
     cursor: pointer;
 
     @media (max-width: 768px) {
-        padding: 0.5em 0;
+        padding-left: 5%;
     }
 `;
 
@@ -142,14 +152,13 @@ const MyPageButton = styled.div`
     width: 2.25em;
     height: 2.25em;
     border-radius: 100%;
-    margin-right: 2em;
+    margin-right: 1em;
     background-image: url(${userProfileUrl});
     background-size: cover;
     border: 5px solid #fbfaff 
 
     @media (max-width: 768px) {
-        width: 1.5em;
-        height: 1.5em;
-        margin-right: 1em;
+        width: 2.25em;
+        height: 2.25em;
     }
 `;

@@ -1,5 +1,5 @@
 import UserProfileImg from '../../assets/images/community/userProfile.png';
-import PostBackground from '../../assets/images/community/postBackground.png';
+import PostBackground from '../../assets/images/common/communityExampleImage.png';
 
 export const dummyBlogPosts = [
   {
