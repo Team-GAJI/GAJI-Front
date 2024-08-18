@@ -38,9 +38,9 @@ const CommunityWritePost = () => {
 
     const handleSubmit = async () => {
         try {
-            const result = await communityWriteAPI(data);
-            navigate("/community/post", { state: {data: data} }); 
-            console.log(result);
+            const postId = await communityWriteAPI(data);
+            navigate("/community/post", { state: {data: postId} }); 
+            console.log(postId);
 
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);

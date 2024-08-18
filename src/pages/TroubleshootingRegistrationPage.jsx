@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
-import WritePost from "../components/common/WritePost";
+// import WritePost from "../components/common/WritePost";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
 
 const TroubleshootingRegistrationPage = () => {
@@ -43,7 +43,7 @@ const TroubleshootingRegistrationPage = () => {
 
         <PostTitle>게시글 제목</PostTitle>
 
-        <WritePost link={"troubleshooting"} />
+        {/* <WritePost link={"troubleshooting"} /> */}
       </ContentWrapper60>
     </>
   );

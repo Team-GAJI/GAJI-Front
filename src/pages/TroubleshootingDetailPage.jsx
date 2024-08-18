@@ -14,12 +14,15 @@ import ReportModal from "../components/studyDetail/ReportModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-// 세자리마다 콤마 기능
+
+
+const TroubleshootingDetailPage = () => {
+
+  // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-const TroubleshootingDetailPage = () => {
   // state 관리
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
