@@ -1,9 +1,9 @@
-import { api } from "../API";
+import { apiJson } from "../API";
 
 export const userIdAPI = async () => {
     try {
-        const response = await api.put(`users`);
-        console.log(response);
+        const response = await apiJson.put('users/');
+        console.log(response.data);
 
         const userId = response.data.result.userId;
         
