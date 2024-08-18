@@ -92,7 +92,6 @@ const MenuWrapper = styled.div`
     width: 100%;
 
     @media (max-width: 768px) {
-        margin-top : 1em;
         width : 5em;
         height : 100vh;
         flex-direction: column;
