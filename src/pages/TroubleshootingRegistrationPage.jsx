@@ -4,9 +4,15 @@ import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import WritePost from "../components/common/WritePost";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
+import { registerTroubleShootingAPI } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
 const TroubleshootingRegistrationPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+
+  // API 연결
+  const [title, setTitle] = useState(""); // State for the post title
+  const [body, setBody] = useState(""); // State for the post body
+
   const navigate = useNavigate();
 
   const handleNavigate = (index) => {
@@ -24,6 +30,18 @@ const TroubleshootingRegistrationPage = () => {
     "채팅방",
   ];
 
+  // API 연결
+  const handleSubmit = async () => {
+    const roomId = 81;
+    try {
+      const result = await registerTroubleShootingAPI(roomId, title, body);
+      console.log("Post registered:", result);
+      navigate(`/troubleshooting-detail/${result.result.troublePostId}`);
+    } catch (error) {
+      console.error("Failed to register post", error);
+    }
+  };
+
   return (
     <>
       <PageHeader
@@ -40,9 +58,7 @@ const TroubleshootingRegistrationPage = () => {
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
         </PostOptionWrapper>
-
         <PostTitle>게시글 제목</PostTitle>
-
         <WritePost link={"troubleshooting"} />
       </ContentWrapper60>
     </>
