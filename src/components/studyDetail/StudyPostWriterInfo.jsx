@@ -17,7 +17,7 @@ const StudyPostWriterInfo = ( {nickName,userActive,userActiveColor} ) => {
                         Gold Member
                     </WriterGrade>
                     <Relativetime>
-                        {userActive} <Cricle userActiveColor={userActiveColor}/>
+                    <Cricle userActiveColor={userActiveColor}/> {userActive} 
                     </Relativetime>
                 </TextWrapper>
             </ProfileDetailWrapper>
