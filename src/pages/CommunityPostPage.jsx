@@ -253,8 +253,11 @@ const ReportNoticeWrapper = styled.div`
   width: 86.17em;
   display: flex;
   justify-content: center;
-  position: absolute;
-  top: 1em;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
   visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
   transition: all 0.3s ease;
