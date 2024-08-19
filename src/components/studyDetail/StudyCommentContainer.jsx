@@ -74,12 +74,12 @@ export default StudyCommentContainer;
 
 /* CSS */
 const CommentContainerWrapper = styled.div`
-    width: 82.355em;
+    width: 100%;
     font-size: 0.85em;
 `;
 
 const TitleWrapper = styled.div`
-    width: 75em;
+    width: 100%;
     display: flex;
     align-items: center;
 `;
