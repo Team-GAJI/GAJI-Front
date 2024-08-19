@@ -18,8 +18,13 @@ const StudyPeriod = () => {
     // Redux 관리
     const dispatch = useDispatch();
 
-    // 오늘 날짜 불러오기
-    const today = new Date();
+    // 날짜 형식 함수
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     // 모집 날짜 불러오기
     const handleRecruitStartDateChange = (date) => {
@@ -28,23 +33,18 @@ const StudyPeriod = () => {
         } else if (isStudyPeriodActive) {
             setStudyPeriodStartDate(date);
         }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
+        const formattedDate = formatDate(date);
         console.log("Start Date:", formattedDate);
         dispatch(setRecruitStartDay(formattedDate));
     };
+    
     const handleRecruitEndDateChange = (date) => {
         if (isRecruitmentActive) {
             setRecruitmentEndDate(date);
         } else if (isStudyPeriodActive) {
             setStudyPeriodEndDate(date);
         }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
+        const formattedDate = formatDate(date);
         console.log("End Date:", formattedDate);
         dispatch(setRecruitEndDay(formattedDate));
     };
@@ -56,31 +56,20 @@ const StudyPeriod = () => {
         } else if (isStudyPeriodActive) {
             setStudyPeriodStartDate(date);
         }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
+        const formattedDate = formatDate(date);
         console.log("Start Date:", formattedDate);
         dispatch(setStudyStartDay(formattedDate));
     };
+    
     const handleStudyEndDateChange = (date) => {
         if (isRecruitmentActive) {
             setRecruitmentEndDate(date);
         } else if (isStudyPeriodActive) {
             setStudyPeriodEndDate(date);
         }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
+        const formattedDate = formatDate(date);
         console.log("End Date:", formattedDate);
         dispatch(setStudyEndDay(formattedDate));
-    };
-
-    const formatDate = (date) => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return `${month}월 ${day}일`;
     };
 
     const handleRecruitmentButtonClick = () => {
@@ -123,11 +112,11 @@ const StudyPeriod = () => {
                     <PeriodWrapper>
                         <Text>시작</Text>
                         <Period>
-                            {recruitmentStartDate ? formatDate(recruitmentStartDate) : formatDate(today)}
+                            {recruitmentStartDate ? formatDate(recruitmentStartDate) : "--"}
                         </Period>
                         <Text>끝</Text>
                         <Period>
-                            {recruitmentEndDate ? formatDate(recruitmentEndDate) : formatDate(today)}
+                            {recruitmentEndDate ? formatDate(recruitmentEndDate) : "--"}
                         </Period>
                     </PeriodWrapper>
                 </StyledContentWrapper>
@@ -143,11 +132,11 @@ const StudyPeriod = () => {
                     <PeriodWrapper>
                         <Text>시작</Text>
                         <Period>
-                            {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)}
+                            {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : "--"}
                         </Period>
                         <Text>끝</Text>
                         <Period>
-                            {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
+                            {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : "--"}
                         </Period>
                     </PeriodWrapper>
                 </StyledContentWrapper>
@@ -253,6 +242,7 @@ const Text = styled.div`
 
 const Period = styled.div`
     margin: 0 4em 0 1em;
+    width: 8em;
     color: #161A3F;
     font-size: 0.8125em;
     font-weight: bold;

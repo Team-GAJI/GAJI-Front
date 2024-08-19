@@ -26,7 +26,7 @@ const StudyDetailPage = () => {
         {studyDetail && 
             <>
             {/* 페이지 헤더 */}
-            <StudyDetailHeader 
+            <StudyDetailHeader
                 title={studyDetail.studyTitle}
                 bookmarks={studyDetail.bookmarks}
                 views={studyDetail.views}
