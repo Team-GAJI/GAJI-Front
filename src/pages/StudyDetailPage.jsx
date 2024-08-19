@@ -10,7 +10,6 @@ import { useLocation } from "react-router-dom";
 import { ContentWrapper } from "../components/common/MediaWrapper";
 
 const StudyDetailPage = () => {
-    
     const location = useLocation();
     const { studyDetail } = location.state || {};
 
@@ -63,15 +62,19 @@ const StudyDetailPage = () => {
                 <StyledHr />
 
                 {/* 스터디 자료 */}
-                <StudyDataWrapper>
-                    <SubTitle>스터디 자료</SubTitle>
-                    <LinkEmbedWrapper>
-                    {studyDetail.materialList.map((material, index) => (
-                        <StudyLinkEmbed key={index} link={material} />
-                    ))}
-                    </LinkEmbedWrapper>
-                </StudyDataWrapper>
-                <StyledHr />
+                {studyDetail.materialList && studyDetail.materialList.length > 0 && (
+                    <>
+                    <StudyDataWrapper>
+                        <SubTitle>스터디 자료</SubTitle>
+                        <LinkEmbedWrapper>
+                        {studyDetail.materialList.map((material, index) => (
+                            <StudyLinkEmbed key={index} link={material} />
+                        ))}
+                        </LinkEmbedWrapper>
+                    </StudyDataWrapper>
+                    <StyledHr />
+                    </>
+                )}
 
                 {/* 게시글 본문 */}
                 <StyledContentWrapper>

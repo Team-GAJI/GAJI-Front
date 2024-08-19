@@ -3,24 +3,31 @@ import styled from 'styled-components';
 import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
 import StudyPreview from '../components/studyMain/StudyPreview';
-import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
 import MobileWriteButton from '../components/common/MobileWriteButton';
 import { ContentWrapper } from '../components/common/MediaWrapper';
+import { studyPostsPreviewAPI } from '../utils/studyMain/studyPostsPreviewAPI';
 
 const StudyCategoryPage = () => {
     // state 관리
     const [studies, setStudies] = useState([]);
-
-    // 카테고리 이름 가져오기
     const location = useLocation();
-    const {category} = location.state;
+    const { category } = location.state;
 
     // 스터디 불러오기
     useEffect(() => {
-        setStudies(dummyStudyPosts);
-    }, []);
+        const fetchStudiesByCategory = async () => {
+            try {
+                const response = await studyPostsPreviewAPI(category, null, 'recent', 10);
+                setStudies(response);
+            } catch (error) {
+                console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
+            }
+        };
+
+        fetchStudiesByCategory();
+    }, [category]);
 
     // useNavigate
     const navigate = useNavigate();
@@ -41,35 +48,35 @@ const StudyCategoryPage = () => {
             </Header>
             
             <ContentWrapper>
-            {/* 게시글 필터 */}
-            <SelectAndButtonWrapper>
-                <MainSelectBox/>
-                <CreatePostButton onClick={() => {navigate("/studycreate");}}>
-                + 스터디 만들기
-                </CreatePostButton>
-                <MobileWriteButton onClick={() => {navigate("/studycreate");}}/> 
-            </SelectAndButtonWrapper>
-            <StyledHr />
+                {/* 게시글 필터 */}
+                <SelectAndButtonWrapper>
+                    <MainSelectBox/>
+                    <CreatePostButton onClick={() => {navigate("/studycreate");}}>
+                    + 스터디 만들기
+                    </CreatePostButton>
+                    <MobileWriteButton onClick={() => {navigate("/studycreate");}}/> 
+                </SelectAndButtonWrapper>
+                <StyledHr />
 
-            {/* 스터디 영역 */}
-            <CategoryTitleWrapper>
-                <CategoryTitle># {category}</CategoryTitle>
-            </CategoryTitleWrapper>
-            <StudyPreviewWrapper>
-                {studies.map((post) => (
-                    <StudyPreview
-                        link="category"
-                        key={post.postId}
-                        title={post.postTitle}
-                        content={post.postContent}
-                        background={post.postBackgroundImg}
-                        ago={post.postAgo}
-                        dday={post.postDday}
-                        recruiter={post.postRecruiter}
-                        state={post.postState}
-                        applicant={post.postApplicant}/>
-                ))}
-            </StudyPreviewWrapper>
+                {/* 스터디 영역 */}
+                <CategoryTitleWrapper>
+                    <CategoryTitle># {category}</CategoryTitle>
+                </CategoryTitleWrapper>
+                <StudyPreviewWrapper>
+                    {studies.map((post) => (
+                        <StudyPreview
+                            key={post.roomId}
+                            roomId={post.roomId}
+                            title={post.name}
+                            content={post.description}
+                            background={post.imageUrl}
+                            ago={post.createdAt}
+                            dday={post.deadLine}
+                            recruiter={post.recruitMaxCount}
+                            state={post.recruitStatus}
+                            applicant={post.applicant}/>
+                    ))}
+                </StudyPreviewWrapper>
             </ContentWrapper>
         </PageWrapper>
     );
