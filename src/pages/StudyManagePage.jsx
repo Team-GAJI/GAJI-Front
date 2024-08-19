@@ -179,7 +179,6 @@ const Sidebar1 = styled.aside`
 const TextWrapper = styled.div`
   flex: 1;
   text-align: center;
-
 `;
 const SidebarButton1 = styled.div`
   display: flex;
