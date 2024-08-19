@@ -255,8 +255,8 @@ const ReportNoticeWrapper = styled.div`
   justify-content: center;
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 10%;
+  transform: translate(-50%, -10%);
 
   visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
