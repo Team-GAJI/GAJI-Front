@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const StudyPreview = ({key, title, content, background, ago, dday, recruiter, state, applicant}) => {
+const StudyPreview = ({key, title, content, background, ago, dday, recruiter, state, applicant, link}) => {
     // state 관리
     const [isDetailVisible, setIsDetailVisible] = useState(false);
     
@@ -18,7 +18,7 @@ const StudyPreview = ({key, title, content, background, ago, dday, recruiter, st
     const navigate = useNavigate();
     
     return (
-        <PostWrapper key={key} onClick={() => {navigate("/studydetail");}}
+        <PostWrapper link={link} key={key} onClick={() => {navigate("/studydetail");}}
             onMouseOver={() => showDetail()}
             onMouseOut={() => hiddenDetail()}>
             <BackgroundWrapper background={background} isVisible={isDetailVisible}>
@@ -49,6 +49,7 @@ const PostWrapper = styled.div`
     border-radius: 10px;
     margin: 1em 0.5em;
     width: 13.2425em;
+    min-width: 13.2425em;
     height: 16.8125em;
     display: flex;
     flex-direction: column;
@@ -57,6 +58,19 @@ const PostWrapper = styled.div`
     &:hover{
         transform: translateY(-0.8em);
         box-shadow: 0 0.625em 1.25em #C8C8C8;
+    }
+
+    @media (min-width: 1024px) {
+        width : ${({ link }) => (link === "category" ? "18%" : "100%")};
+    }
+
+
+    @media(max-width : 1024px){
+        width : ${({ link }) => (link === "category" ? "45%" : "100%")};
+            @media (max-width : 768px){
+        width : 100%;
+    }
+
     }
 `;
 
@@ -70,7 +84,8 @@ const BackgroundWrapper = styled.div`
     background-image: ${({background}) => `url(${background})`};
     background-size: cover;
     transition: all 0.3s ease;
-    width: 13.2425em;
+    width: 100%
+
 `;
 
 const TagWrapper = styled.div`
@@ -79,6 +94,9 @@ const TagWrapper = styled.div`
     bottom: 0;
     visibility: ${(props) => (props.isVisible ? "hidden" : "visibility")};
     transition-delay: 0.1s;
+        @media (max-width : 768px){
+        width : 100%;
+    }
 `;
 
 const Tag = styled.div`
@@ -104,8 +122,10 @@ const DetailsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
-    width: 13.2425em;
+    min-width: 13.2425em;
+    width : 100%;
 `;
+
 
 const TitleWrapper = styled.div`
     margin: 1.1em 1.2em 0.5em 1.2em;
@@ -114,12 +134,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 0.875;
+    font-size: 0.875em;
     font-weight: 800;
 `;
 
 const Dday = styled.div`
-    font-size: 0.875;
+    font-size: 0.875em;
     font-weight: 800;
 `;
 

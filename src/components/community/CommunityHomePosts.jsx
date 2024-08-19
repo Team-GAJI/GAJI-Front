@@ -12,7 +12,7 @@ import { dummyQuestionPosts } from './DummyQuestionPosts';
 import { dummyBlogPosts } from './DummyBlogPosts';
 import CommunitySelectBox from './CommunitySelectBox';
 import { ContentWrapper } from '../common/MediaWrapper';
-import { Scroll } from '../common/Scroll';
+import MobileWriteButton from '../common/MobileWriteButton';
 
 const CommunityHomePosts = () => {
   // state 관리
@@ -135,6 +135,7 @@ const CommunityHomePosts = () => {
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
           + {type} 작성하기
         </CreatePostButton>
+        <MobileWriteButton onClick={() => {navigate("/community/write");}}/>
       </SelectAndButtonWrapper>
       <StyledHr />
 
@@ -143,6 +144,7 @@ const CommunityHomePosts = () => {
         <BlogPreviewWrapper>
           {blogs.map((post) => (
             <BlogPreview
+              link={'community'}
               key={post.postId}
               title={post.postTitle}
               content={post.postContent}
@@ -261,6 +263,9 @@ const CreatePostButton = styled.button`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
   }
   transition: all 0.3s ease;
+  @media(max-width : 768px){
+    display : none;
+  }
 `;
 
 const StyledHr = styled.div`
@@ -275,11 +280,13 @@ const PostPreviewWrapper = styled.div`
   width: 100%;
 `;
 
-const BlogPreviewWrapper = styled(Scroll)`
-  margin-top: 1em;
+const BlogPreviewWrapper = styled.div`
+  margin-top : 1em;
+  margin-bottom : 1em;
+  padding-top: 1em;
+  box-sizing  :border-box;
   width: 100%;
   display: flex;
-  overflow-x : none;
   justify-content : center;
   gap : 2em;
   flex-wrap: wrap;
@@ -287,7 +294,7 @@ const BlogPreviewWrapper = styled(Scroll)`
     display : flex;
     align-items: center;
     flex-direction : column;
-    overflow-x : scroll;
+    overflow-y : scroll;
   }
 `;
 

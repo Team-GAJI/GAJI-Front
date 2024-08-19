@@ -48,7 +48,7 @@ const Header = () => {
 export default Header;
 const HeaderWrapper = styled.div`
     box-sizing : border-box;
-    z-index: 5;
+    z-index: 30;
     background-color: #fbfaff;
     position: fixed;
     box-sizing: border-box;

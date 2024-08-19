@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
 import { ContentWrapper } from '../components/common/MediaWrapper';
 import { Scroll } from '../components/common/Scroll';
+import MobileWriteButton from '../components/common/MobileWriteButton';
 
 const MainPage = () => {
     // state 관리
@@ -52,6 +53,7 @@ const MainPage = () => {
                 <CreatePostButton onClick={() => {navigate("/studycreate");}}>
                 + 스터디 만들기
                 </CreatePostButton>
+                <MobileWriteButton onClick={() => {navigate("/studycreate");}}/>
             </SelectAndButtonWrapper>
             <StyledHr />
 
@@ -291,6 +293,8 @@ const MainPage = () => {
 
 export default MainPage;
 
+
+
 const SubTitle = styled.div`
     color : #D0D1D9;
     font-weight : 700;
@@ -388,7 +392,12 @@ const CreatePostButton = styled.button`
             box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
+
+    @media( max-width : 768px ){
+        display : none
+    }
     `;
+
 
 const StyledHr = styled.hr`
     margin: 1.2em 0;
