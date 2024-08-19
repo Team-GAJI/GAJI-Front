@@ -12,6 +12,7 @@ import { dummyQuestionPosts } from './DummyQuestionPosts';
 import { dummyBlogPosts } from './DummyBlogPosts';
 import CommunitySelectBox from './CommunitySelectBox';
 import { ContentWrapper } from '../common/MediaWrapper';
+import MobileWriteButton from '../common/MobileWriteButton';
 
 const CommunityHomePosts = () => {
   // state 관리
@@ -134,6 +135,7 @@ const CommunityHomePosts = () => {
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
           + {type} 작성하기
         </CreatePostButton>
+        <MobileWriteButton onClick={() => {navigate("/community/write");}}/>
       </SelectAndButtonWrapper>
       <StyledHr />
 
@@ -261,6 +263,9 @@ const CreatePostButton = styled.button`
         box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
   }
   transition: all 0.3s ease;
+  @media(max-width : 768px){
+    display : none;
+  }
 `;
 
 const StyledHr = styled.div`
