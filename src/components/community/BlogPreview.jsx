@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import LikeIcon from '../../assets/icons/community/fillLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 
-const BlogPreview = ({key, title, content, background, userProfileImg, writer, ago, views, like}) => {
+const BlogPreview = ({key, title, content, background, userProfileImg, writer, ago, views, like, link}) => {
     // useNavigate
     const navigate = useNavigate();
 
     return (
-        <PostWrapper key={key} onClick={() => {navigate("/community/post");}}>
+        <PostWrapper key={key} onClick={() => {navigate("/community/post");}} link={link}>
             {/* 배경 */}
             <BackgroundWrapper background={background}>
                 <LikeWrapper>
@@ -39,11 +39,11 @@ const BlogPreview = ({key, title, content, background, userProfileImg, writer, a
 
 export default BlogPreview;
 
-/* CSS */
 const PostWrapper = styled.div`
     border-radius: 10px;
-    width: 21.6em;
-    height: 21.6em;
+    min-width: 21.6em;
+    width: ${({ link }) => link === 'community' ? '21.6em' : '100%'};
+    height: ${({ link }) => link === 'community' ? '21.6em' : '21.6em'};
     font-size: 0.7489em;
     display: flex;
     flex-direction: column;
@@ -51,9 +51,22 @@ const PostWrapper = styled.div`
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    &:hover{
+
+    &:hover {
         transform: translateY(-1.3em);
-        box-shadow: 0 0.625em 1.25em #C8C8C8;
+        box-shadow: 0 0.625em 1.25em #c8c8c8;
+    }
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        max-width: ${({ link }) => link === 'community' ? '35em' : '30em'};
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+        width: 100%;
+        max-height: 32em;
+        max-width: 35em;
+        max-width: ${({ link }) => link === 'community' ? '21.6em' : '35em'};
     }
 `;
 
@@ -96,6 +109,7 @@ const PostContentContainer = styled.div`
 const PostTitle = styled.div`
     margin: 1.2692em 1.2em 0.84615em 1.2em;
     width: 13.5em;
+    min-width  : 13.5em;
     font-size: 1.3em;
     font-weight: bold;
     // 말줄임 처리
@@ -103,6 +117,10 @@ const PostTitle = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     word-break: break-all;
+        @media(max-width: 1024px){
+        width : 100%;
+        max-width : 25em;
+    }
 `;
 
 const Content = styled.div`

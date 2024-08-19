@@ -111,7 +111,7 @@ const MainPage = () => {
             </ViewAllWrapper>
 
             <BlogPreviewWrapper2>
-                {blogs.slice(0, 8).map((post) => (
+                {blogs.slice(0, 4).map((post) => (
                     <BlogPreview
                         key={post.postId}
                         title={post.postTitle}
@@ -263,21 +263,17 @@ const BlogPreviewWrapper = styled(Scroll)`
     
 `;
 
-
 const BlogPreviewWrapper2 = styled(Scroll)`
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    place-items : center;
-    column-gap : 3em;
-    row-gap : 3em;
-    padding-top : 1.2em;
-    margin-bottom : 1.2em;
+    margin-bottom : 1em;
+    padding-top : 1em;
+    width : 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x : scroll;
+    overflow-y : hidden;
+    box-sizing : border-box;
+    gap : 1em;
     
-
-    @media(max-width: 768px) {
-        display: flex;
-        overflow-x: scroll; 
-        overflow-y: hidden;
-    }
 `;
+
+

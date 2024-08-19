@@ -49,6 +49,7 @@ const PostWrapper = styled.div`
     border-radius: 10px;
     margin: 1em 0.5em;
     width: 13.2425em;
+    min-width: 13.2425em;
     height: 16.8125em;
     display: flex;
     flex-direction: column;
@@ -57,6 +58,11 @@ const PostWrapper = styled.div`
     &:hover{
         transform: translateY(-0.8em);
         box-shadow: 0 0.625em 1.25em #C8C8C8;
+    }
+
+    @media (min-width: 1024px) {
+        width : 100%;
+        max-width: 25em;
     }
 `;
 
@@ -71,6 +77,12 @@ const BackgroundWrapper = styled.div`
     background-size: cover;
     transition: all 0.3s ease;
     width: 13.2425em;
+    min-width: 13.2425em;
+
+    @media (min-width: 1024px) {
+        width : 100%;
+        max-width: 25em;
+    }
 `;
 
 const TagWrapper = styled.div`
@@ -105,6 +117,11 @@ const DetailsWrapper = styled.div`
     flex-direction: column;
     transition: all 0.3s ease;
     width: 13.2425em;
+    min-width: 13.2425em;
+    @media (min-width: 1024px) {
+        width : 100%;
+        max-width: 25em;
+    }
 `;
 
 const TitleWrapper = styled.div`
@@ -114,12 +131,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 0.875;
+    font-size: 0.875em;
     font-weight: 800;
 `;
 
 const Dday = styled.div`
-    font-size: 0.875;
+    font-size: 0.875em;
     font-weight: 800;
 `;
 

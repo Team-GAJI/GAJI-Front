@@ -12,7 +12,6 @@ import { dummyQuestionPosts } from './DummyQuestionPosts';
 import { dummyBlogPosts } from './DummyBlogPosts';
 import CommunitySelectBox from './CommunitySelectBox';
 import { ContentWrapper } from '../common/MediaWrapper';
-import { Scroll } from '../common/Scroll';
 
 const CommunityHomePosts = () => {
   // state 관리
@@ -143,6 +142,7 @@ const CommunityHomePosts = () => {
         <BlogPreviewWrapper>
           {blogs.map((post) => (
             <BlogPreview
+              link={'community'}
               key={post.postId}
               title={post.postTitle}
               content={post.postContent}
@@ -275,11 +275,13 @@ const PostPreviewWrapper = styled.div`
   width: 100%;
 `;
 
-const BlogPreviewWrapper = styled(Scroll)`
-  margin-top: 1em;
+const BlogPreviewWrapper = styled.div`
+  margin-top : 1em;
+  margin-bottom : 1em;
+  padding-top: 1em;
+  box-sizing  :border-box;
   width: 100%;
   display: flex;
-  overflow-x : none;
   justify-content : center;
   gap : 2em;
   flex-wrap: wrap;
@@ -287,7 +289,7 @@ const BlogPreviewWrapper = styled(Scroll)`
     display : flex;
     align-items: center;
     flex-direction : column;
-    overflow-x : scroll;
+    overflow-y : scroll;
   }
 `;
 
