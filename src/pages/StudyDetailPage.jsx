@@ -36,7 +36,7 @@ const StudyDetailPage = () => {
                 likes={studyDetail.likes}
                 recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === "RECRUITING" ? "모집 중" : "모집 완료"}
                 userActive={studyDetail.userActive === "ACTIVE" ? "활동중" : "자리비움"}
-                userActiveColor={studyDetail.userActive === "ACTIVE" ? "green" : "grey"}
+                userActiveColor={studyDetail.userActive === "ACTIVE" ? "#A8FEA1" : "grey"}
 
             />
 

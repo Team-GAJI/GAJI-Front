@@ -47,7 +47,8 @@ const StudyCategoryPage = () => {
                 <CreatePostButton onClick={() => {navigate("/studycreate");}}>
                 + 스터디 만들기
                 </CreatePostButton>
-                <MobileWriteButton onClick={() => {navigate("/studycreate");}}/> 
+                <div onClick={() => {navigate("/studycreate");}}>
+                <MobileWriteButton/> </div>
             </SelectAndButtonWrapper>
             <StyledHr />
 

@@ -135,7 +135,8 @@ const CommunityHomePosts = () => {
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
           + {type} 작성하기
         </CreatePostButton>
-        <MobileWriteButton onClick={() => {navigate("/community/write");}}/>
+        <div onClick={() => {navigate("/community/write");}}>
+        <MobileWriteButton/></div>
       </SelectAndButtonWrapper>
       <StyledHr />
 
