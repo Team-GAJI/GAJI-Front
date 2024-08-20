@@ -15,12 +15,26 @@ import ReportModal from "../components/studyDetail/ReportModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import {
+  addBookmark,
+  removeBookmark,
+  addLike,
+  removeLike,
+} from "../utils/troubleShooting/troubleShootingInfoAPI";
+
 // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const TroubleshootingDetailPage = () => {
+  const location = useLocation();
+  const title = location.state?.title || "게시글 제목입니다";
+  const content = location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구";
+  const commentCount = location.state?.commentCount || 0; // 댓글수
+  const roomId = location.state?.roomId; // Assuming you have these in the state
+  const postId = location.state?.postId;
+
   const [bookMarkState, setBookMarkState] = useState(false);
   const [likeState, setLikeState] = useState(false);
   const [bookMarkCount, setBookMarkCount] = useState(300);
@@ -29,23 +43,37 @@ const TroubleshootingDetailPage = () => {
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-  // 북마크, 좋아요 기능
-  const handleBookMark = () => {
-    if (bookMarkState) {
-      setBookMarkState(false);
-      setBookMarkCount((prevCount) => prevCount - 1);
-    } else {
-      setBookMarkState(true);
-      setBookMarkCount((prevCount) => prevCount + 1);
+  // 북마크 기능
+  const handleBookMark = async () => {
+    try {
+      if (bookMarkState) {
+        await removeBookmark(roomId, postId); // Pass the roomId and postId
+        setBookMarkState(false);
+        setBookMarkCount((prevCount) => prevCount - 1);
+      } else {
+        await addBookmark(roomId, postId); // Pass the roomId and postId
+        setBookMarkState(true);
+        setBookMarkCount((prevCount) => prevCount + 1);
+      }
+    } catch (error) {
+      console.error("북마크 처리 중 오류 발생:", error);
     }
   };
-  const handleLike = () => {
-    if (likeState) {
-      setLikeState(false);
-      setLikeCount((prevCount) => prevCount - 1);
-    } else {
-      setLikeState(true);
-      setLikeCount((prevCount) => prevCount + 1);
+
+  // 좋아요 기능
+  const handleLike = async () => {
+    try {
+      if (likeState) {
+        await removeLike(roomId, postId); // Pass the roomId and postId
+        setLikeState(false);
+        setLikeCount((prevCount) => prevCount - 1);
+      } else {
+        await addLike(roomId, postId); // Pass the roomId and postId
+        setLikeState(true);
+        setLikeCount((prevCount) => prevCount + 1);
+      }
+    } catch (error) {
+      console.error("좋아요 처리 중 오류 발생:", error);
     }
   };
 
@@ -64,12 +92,6 @@ const TroubleshootingDetailPage = () => {
       setIsReportNoticeVisible(false);
     }, 2000);
   };
-
-  // 게시글 작성에서 정보 가져오기
-  const location = useLocation();
-  const title = location.state?.title || "게시글 제목입니다";
-  const content = location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구";
-  const commentCount = location.state?.commentCount || 0; // 댓글수
 
   return (
     <>
@@ -157,7 +179,7 @@ const TroubleshootingDetailPage = () => {
         </PostContent>
         <StyledHr />
         {/* 댓글 영역 */}
-        <CommentContainer />
+        <CommentContainer troublePostId={postId} />
       </PostContentWrapper>
     </>
   );

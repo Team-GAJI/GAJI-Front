@@ -9,6 +9,9 @@ const TroubleShootingPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
   const navigate = useNavigate();
 
+  // Replace this with the actual boardId you need for fetching the posts
+  const boardId = 81;
+
   const headerTitles = [
     "스터디 홈",
     "트러블 슈팅 게시판",
@@ -37,11 +40,11 @@ const TroubleShootingPage = () => {
       />
       <ContentWrapper>
         <Category />
-        <ItemList />
+        {/* Pass the boardId as a prop to ItemList */}
+        <ItemList boardId={boardId} />
       </ContentWrapper>
     </>
   );
 };
 
 export default TroubleShootingPage;
-

@@ -4,30 +4,41 @@ import ProfileImg from "../../assets/images/community/userProfileBig.png";
 import Comment from "./Comment";
 import { dummyComments } from "./DummyComments";
 import Loading from "../common/Loading";
+import {
+  addComment,
+  deleteComment,
+} from "../../utils/troubleShooting/troubleShootingInfoAPI";
 
-const CommentContainer = () => {
+const CommentContainer = ({ troublePostId }) => {
   const [commentPage, setCommentPage] = useState(1);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // 프로젝트 불러오기 기능
+  // Fetch comments function
   const getComments = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
-    setTimeout(() => {
-      const newPosts = dummyComments.slice(
-        (commentPage - 1) * 4,
-        commentPage * 4
-      ); // 페이지당 4개씩 로드
-      setComments((prevPosts) => [...prevPosts, ...newPosts]);
-      setCommentPage((prevPage) => prevPage + 1);
+    try {
+      setTimeout(() => {
+        const newPosts = dummyComments.slice(
+          (commentPage - 1) * 4,
+          commentPage * 4
+        ); // Load 4 comments per page
+        setComments((prevPosts) => [...prevPosts, ...newPosts]);
+        setCommentPage((prevPage) => prevPage + 1);
+        setIsLoading(false);
+      }, 1000); // Delay for 1 second before adding data
+    } catch (error) {
+      console.error("Error fetching comments:", error);
       setIsLoading(false);
-    }, 1000); // 1초 지연 후 데이터 추가
+    }
   }, [isLoading, commentPage]);
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [getComments]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,8 +54,38 @@ const CommentContainer = () => {
     };
   }, [getComments]);
 
-  // 댓글 총 개수
-  const count = dummyComments.length;
+  // Handle comment submission
+  const handleAddComment = async () => {
+    if (!newComment.trim() || isSubmitting) return; // Prevent empty submissions and duplicate submissions
+
+    setIsSubmitting(true);
+    try {
+      const addedComment = await addComment(troublePostId, {
+        content: newComment,
+      });
+      setComments([addedComment, ...comments]); // Add new comment to the top of the list
+      setNewComment(""); // Clear input field
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle comment deletion
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await deleteComment(commentId); // Call the deleteComment API
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.commentId !== commentId)
+      );
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  // Total number of comments
+  const count = comments.length;
 
   return (
     <CommentContainerWrapper>
@@ -54,10 +95,19 @@ const CommentContainer = () => {
       </TitleWrapper>
       <InputWrapper>
         <StyledProfileImg src={ProfileImg} alt="profile image" />
-        <StyledInput placeholder="댓글을 작성해주세요" />
+        <StyledInput
+          placeholder="댓글을 작성해주세요"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleAddComment()}
+          disabled={isSubmitting} // Disable input while submitting
+        />
+        <SubmitButton onClick={handleAddComment} disabled={isSubmitting}>
+          등록
+        </SubmitButton>
       </InputWrapper>
 
-      {/* 댓글 */}
+      {/* Comment list */}
       {comments.map((comment) => (
         <Comment
           key={comment.commentId}
@@ -65,6 +115,7 @@ const CommentContainer = () => {
           content={comment.commentContent}
           userProfileImg={comment.commentUserProfileImg}
           time={comment.commentTime}
+          onDelete={() => handleDeleteComment(comment.commentId)}
         />
       ))}
       {isLoading && <Loading />}
@@ -156,5 +207,26 @@ const StyledInput = styled.input`
     font-size: 0.85em;
     height: 2.5em;
     margin-left: 1em;
+  }
+`;
+
+const SubmitButton = styled.button`
+  margin-left: 1em;
+  padding: 0.5em 1em;
+  background-color: #8e59ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95em;
+  height: 3.0147em;
+
+  &:hover {
+    background-color: #6b42cc;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.85em;
+    height: 2.5em;
   }
 `;

@@ -1,218 +1,57 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import UserIcon from "../../assets/icons/common/usericon.svg";
 import ItemImageSrc from "../../assets/images/common/Rectangle16.png";
 import CommentIconSrc from "../../assets/images/troubleshooting/comment.png";
-
-const items = [
-  {
-    id: 1,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 2,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 3,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 4,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 5,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 6,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 7,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 8,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 9,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 10,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 11,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 12,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 13,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 14,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 15,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 16,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 17,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 18,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 19,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 20,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 21,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 22,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 23,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 24,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-  {
-    id: 25,
-    title: "트러블 슈팅 내용",
-    user: "user1023",
-    time: "1시간 전",
-    views: 50,
-    comments: 10,
-  },
-];
+import { fetchTroubleShootingPosts } from "../../utils/troubleShooting/troubleShootingInfoAPI";
 
 const ItemList = () => {
+  const [items, setItems] = useState([]);
+  const [lastPostId, setLastPostId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const boardId = 1; // Replace with actual board ID
+
+  const loadPosts = useCallback(async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    try {
+      const newItems = await fetchTroubleShootingPosts(boardId, lastPostId);
+      setItems((prevItems) => [...prevItems, ...newItems]);
+
+      if (newItems.length > 0) {
+        setLastPostId(newItems[newItems.length - 1].id);
+      }
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [lastPostId, isLoading]);
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop !==
+          document.documentElement.offsetHeight ||
+        isLoading
+      )
+        return;
+      loadPosts();
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loadPosts, isLoading]);
 
   const handleItemClick = (id) => {
-    navigate("/troubleshooting-detail");
+    navigate(`/troubleshooting-detail/${id}`);
   };
 
   return (
@@ -223,7 +62,7 @@ const ItemList = () => {
             <ItemImage src={ItemImageSrc} alt={item.title} />
             <CommentInfo>
               <CommentIcon src={CommentIconSrc} alt="comment icon" />
-              <CommentCount>{item.comments}</CommentCount>
+              <CommentCount>{item.commentCount}</CommentCount>
             </CommentInfo>
           </ItemImageWrapper>
 
@@ -232,10 +71,10 @@ const ItemList = () => {
             <ItemDetails>
               <ItemUser>
                 <UserIconImg src={UserIcon} alt="user icon" />
-                {item.user}
+                {item.nickname}
               </ItemUser>
-              <ItemTime>{item.time}</ItemTime>
-              <ItemViews>조회 {item.views}</ItemViews>
+              <ItemTime>{item.createdAt}</ItemTime>
+              <ItemViews>조회 {item.viewCount}</ItemViews>
             </ItemDetails>
           </ItemContent>
         </Item>

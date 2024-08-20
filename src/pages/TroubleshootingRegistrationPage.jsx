@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
-import TroubleshootingWritePost from "../components/trobleshooting/TroubleshootingWritePost";
+import TroubleshootingWritePost from "../components/troubleshooting/TroubleshootingWritePost";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
 import { registerTroubleShootingAPI } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
@@ -60,7 +60,7 @@ const TroubleshootingRegistrationPage = () => {
           <Label>스터디 이름</Label>
         </PostOptionWrapper>
         <PostTitle>게시글 제목</PostTitle>
-        <TroubleshootingWritePost link={"troubleshooting"} />
+        <TroubleshootingWritePost />
       </ContentWrapper60>
     </>
   );
