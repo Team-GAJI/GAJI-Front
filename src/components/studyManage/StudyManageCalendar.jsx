@@ -186,30 +186,25 @@ const StyledNextMonth = styled(NextMonth)`
     cursor: pointer;
 `;
 
+
 const Grid = styled.div`
-    width : 100%;
-    padding : 1em;
-    
+    row-gap: 0.7em;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    gap: 1em;
     font-size : 1em;
     place-items: center center;
 
     @media (max-width: 768px) {
-        gap: 0.5em;
     }
 `;
 
 const Day = styled.div`
     text-align: center;
     box-sizing: border-box;
-
 `;
 
 const Cell = styled.div`
-
     @media(max-width : 1100px){
         font-size : 0.8125em;
     }
@@ -220,7 +215,7 @@ const Cell = styled.div`
     @media(max-width : 768px){
         font-size : 1em;
     }
-    padding: 0.625em;
+    padding: 1em;
     box-sizing: border-box;
     display: flex;
     align-items: center;

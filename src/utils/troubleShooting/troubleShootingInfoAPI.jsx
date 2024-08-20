@@ -22,16 +22,13 @@ export const fetchTroubleShootingPosts = async (
   size = 10
 ) => {
   try {
-    const params = {
-      size: size,
-    };
+    const params = { size };
 
     if (lastPostId) {
       params.lastPostId = lastPostId;
     }
 
-    const response = await api.get(`study-rooms/${boardId}/trouble-posts`, {
-      //boardId -> roomId?
+    const response = await api.get(`study-rooms/${boardId}/trouble`, {
       params,
     });
     return response.data.result;
@@ -44,13 +41,28 @@ export const fetchTroubleShootingPosts = async (
   }
 };
 
+// Fetch a single troubleshooting post by its ID
+export const fetchTroubleShootingPost = async (postId) => {
+  try {
+    const response = await api.get(`study-rooms/trouble/posts/${postId}`);
+    console.log("Post fetched successfully:", response.data);
+    return response.data.result;
+  } catch (error) {
+    console.error(
+      "Error fetching post:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
+};
+
 // 스터디룸 트러블슈팅 게시물 북마크 추가
 export const addBookmark = async (roomId, postId) => {
   try {
     const response = await api.post(
-      `study-rooms/trouble/${roomId}/posts/${postId}/bookmark-add`
+      `study-rooms/trouble/${roomId}/${postId}/bookmark-add`
     );
-    console.log("북마크 추가 성공:", response.data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(

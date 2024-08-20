@@ -32,7 +32,6 @@ const TroubleshootingRegistrationPage = () => {
 
   // API 연결
   const handleSubmit = async () => {
-    const roomId = 81;
     try {
       const data = { title, content };
       const result = await registerTroubleShootingAPI(roomId, data);

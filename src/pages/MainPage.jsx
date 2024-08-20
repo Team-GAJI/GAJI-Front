@@ -9,30 +9,45 @@ import Banner2 from '../assets/images/mainPage/banner2.png';
 import Banner3 from '../assets/images/mainPage/banner3.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
 import StudyPreview from '../components/studyMain/StudyPreview';
-import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
 import BlogPreview from '../components/community/BlogPreview';
 import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
 import {  ContentWrapperMain } from '../components/common/MediaWrapper';
 import { Scroll } from '../components/common/Scroll';
+import { studyPostsPreviewAPI } from '../utils/studyMain/studyPostsPreviewAPI';
 
 
 const MainPage = () => {
     // state 관리
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
-    const [studies, setStudies] = useState([]);
-
-
+    const [popularStudies, setPopularStudies] = useState([]);
+    const [recentStudies, setRecentStudies] = useState([]);
 
     // 스터디, 커뮤니티 불러오기
     useEffect(() => {
-        setStudies(dummyStudyPosts);
         setBlogs(dummyBlogPosts);
     }, []);
 
+    // 스터디 불러오기
+    useEffect(() => {
+        const fetchStudies = async () => {
+            try {
+                const [popularResponse, recentResponse] = await Promise.all([
+                    studyPostsPreviewAPI(null, null, 'like', 5), // 인기 스터디
+                    studyPostsPreviewAPI(null, null, 'recent', 5) // 최신 스터디
+                ]);
+                setPopularStudies(popularResponse);
+                setRecentStudies(recentResponse);
+            } catch (error) {
+                console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
+            }
+        };
     
+        fetchStudies();
+    }, []);
+
     return (
         <PageWrapper>
              {/* 배너 */}
@@ -69,17 +84,18 @@ const MainPage = () => {
             </ViewAllWrapper>
 
             <BlogPreviewWrapper>
-                {studies.slice(0, 5).map((post) => (
+                {popularStudies.map((post) => (
                     <StudyPreview
-                        key={post.postId}
-                        title={post.postTitle}
-                        content={post.postContent}
-                        background={post.postBackgroundImg}
-                        ago={post.postAgo}
-                        dday={post.postDday}
-                        recruiter={post.postRecruiter}
-                        state={post.postState}
-                        applicant={post.postApplicant}/>
+                        key={post.roomId}
+                        roomId={post.roomId}
+                        title={post.name}
+                        content={post.description}
+                        background={post.imageUrl}
+                        ago={post.createdAt}
+                        dday={post.deadLine}
+                        recruiter={post.recruitMaxCount}
+                        state={post.recruitStatus}
+                        applicant={post.applicant}/>
                 ))}
             </BlogPreviewWrapper>
 
@@ -89,17 +105,18 @@ const MainPage = () => {
                 <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
             </ViewAllWrapper>
             <BlogPreviewWrapper>
-                {studies.slice(0, 5).map((post) => (
+                {recentStudies.map((post) => (
                     <StudyPreview
-                        key={post.postId}
-                        title={post.postTitle}
-                        content={post.postContent}
-                        background={post.postBackgroundImg}
-                        ago={post.postAgo}
-                        dday={post.postDday}
-                        recruiter={post.postRecruiter}
-                        state={post.postState}
-                        applicant={post.postApplicant}/>
+                        key={post.roomId}
+                        roomId={post.roomId}
+                        title={post.name}
+                        content={post.description}
+                        background={post.imageUrl}
+                        ago={post.createdAt}
+                        dday={post.deadLine}
+                        recruiter={post.recruitMaxCount}
+                        state={post.recruitStatus}
+                        applicant={post.applicant}/>
                 ))}
             </BlogPreviewWrapper>
             <StyledHr />
@@ -111,7 +128,7 @@ const MainPage = () => {
             </ViewAllWrapper>
 
             <BlogPreviewWrapper2>
-                {blogs.slice(0, 8).map((post) => (
+                {blogs.slice(0, 4).map((post) => (
                     <BlogPreview
                         key={post.postId}
                         title={post.postTitle}
@@ -263,21 +280,15 @@ const BlogPreviewWrapper = styled(Scroll)`
     
 `;
 
-
 const BlogPreviewWrapper2 = styled(Scroll)`
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    place-items : center;
-    column-gap : 3em;
-    row-gap : 3em;
-    padding-top : 1.2em;
-    margin-bottom : 1.2em;
+    margin-bottom : 1em;
+    padding-top : 1em;
+    width : 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x : scroll;
+    overflow-y : hidden;
+    box-sizing : border-box;
+    gap : 1em;
     
-
-    @media(max-width: 768px) {
-        display: flex;
-        overflow-x: scroll; 
-        overflow-y: hidden;
-    }
 `;

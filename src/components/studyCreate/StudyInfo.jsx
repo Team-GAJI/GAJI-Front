@@ -17,7 +17,7 @@ const StudyInfo = () => {
     // Redux 관리
     const dispatch = useDispatch();
     const { name, peopleMaximum } = useSelector((state) => state.studyCreate);
-
+    
     // 제목 입력
     const handleTitleChange = (e) => {
         dispatch(setName(e.target.value));
@@ -125,11 +125,11 @@ const StudyInfo = () => {
                         <FileInputLabel htmlFor="file">
                             이미지 업로드
                         </FileInputLabel>
-                        <ImageUploadInput type="file" id="file" accept=".png"
+                        <ImageUploadInput type="file" id="file" accept=".jpg, .png"
                             onChange={saveImgFile}
                             ref={imgRef} />
                         <ImageText>용량 제한: 232123mb</ImageText>
-                        <ImageText>파일 형식: png만 가능</ImageText>
+                        <ImageText>파일 형식: jpg, png</ImageText>
                     </ImageWrapper>
                     {/* 미리보기 */}
                     <PreivewWrapper isImgFile={imgFile}>
@@ -239,12 +239,13 @@ const InputWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width : 100%;
 `;
 
 const TitleInput = styled.input`
     border: none;
     border-radius: 10px;
-    widht: 100%;
+    width: 90%;
     height: 3em;
     background-color: transparent;
     font-size: 0.8125em;
@@ -258,14 +259,22 @@ const TitleInput = styled.input`
         color: #A2A3B2;
         font-weight: bold;
     }
+    @medai(max-width : 768px){
+        width: 80%;
+    }
 `;
 
 const TextLength = styled.div`
-    margin-right: 1em;
+    width : 10%;
+    
     font-size: 0.9em;
     font-weight: bold;
+    text-align : end;
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
+    @media(max-width : 768px){
+        width : 20%;
+    }
 `;
 
 const StyledTitleHr = styled.hr`
@@ -316,6 +325,7 @@ const ImageWrapper = styled.div`
 
 const FileInputLabel = styled.label`
     margin: 1em;
+    padding: 0 1em;
     border: 1.2px solid #8E59FF;
     border-radius: 10px;
     height: 2.2308em;

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react"; // <-- Ensure useEffect is imported here
+import { useLocation, useParams, useNavigate } from "react-router-dom"; // <-- Make sure to import useParams and useNavigateimport styled from "styled-components";
 import styled from "styled-components";
 import ReportCheck from "../assets/icons/studyDetail/reportCheck.svg?react";
 import BackgroundImage from "../assets/images/community/communityBackground.png";
@@ -20,6 +20,7 @@ import {
   removeBookmark,
   addLike,
   removeLike,
+  fetchTroubleShootingPost,
 } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
 // 세자리마다 콤마 기능
@@ -28,12 +29,18 @@ const formatNumberWithCommas = (number) => {
 };
 
 const TroubleshootingDetailPage = () => {
+  const { postId } = useParams();
   const location = useLocation();
-  const title = location.state?.title || "게시글 제목입니다";
-  const content = location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구";
-  const commentCount = location.state?.commentCount || 0; // 댓글수
-  const roomId = location.state?.roomId; // Assuming you have these in the state
-  const postId = location.state?.postId;
+  const navigate = useNavigate();
+
+  // Initialize state from location or set default values
+  const [postDetails, setPostDetails] = useState({
+    title: location.state?.title || "게시글 제목입니다",
+    content: location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구",
+    commentCount: location.state?.commentCount || 0,
+    roomId: location.state?.roomId,
+    postId: location.state?.postId,
+  });
 
   const [bookMarkState, setBookMarkState] = useState(false);
   const [likeState, setLikeState] = useState(false);
@@ -43,79 +50,81 @@ const TroubleshootingDetailPage = () => {
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-  // 북마크 기능
+  // Fetch post details if not available in location state
+  useEffect(() => {
+    if (!location.state) {
+      const fetchPostDetails = async () => {
+        try {
+          const fetchedData = await fetchTroubleShootingPost(postId);
+          setPostDetails(fetchedData);
+        } catch (error) {
+          console.error("Failed to fetch post details:", error);
+          navigate("/error"); // Redirect to an error page if needed
+        }
+      };
+      fetchPostDetails();
+    }
+  }, [location.state, postId, navigate]);
+
+  // Handle bookmark functionality
   const handleBookMark = async () => {
     try {
       if (bookMarkState) {
-        await removeBookmark(roomId, postId); // Pass the roomId and postId
+        await removeBookmark(postDetails.roomId, postDetails.postId);
         setBookMarkState(false);
         setBookMarkCount((prevCount) => prevCount - 1);
       } else {
-        await addBookmark(roomId, postId); // Pass the roomId and postId
+        await addBookmark(postDetails.roomId, postDetails.postId);
         setBookMarkState(true);
         setBookMarkCount((prevCount) => prevCount + 1);
       }
     } catch (error) {
-      console.error("북마크 처리 중 오류 발생:", error);
+      console.error("Error handling bookmark:", error);
     }
   };
 
-  // 좋아요 기능
+  // Handle like functionality
   const handleLike = async () => {
     try {
       if (likeState) {
-        await removeLike(roomId, postId); // Pass the roomId and postId
+        await removeLike(postDetails.roomId, postDetails.postId);
         setLikeState(false);
         setLikeCount((prevCount) => prevCount - 1);
       } else {
-        await addLike(roomId, postId); // Pass the roomId and postId
+        await addLike(postDetails.roomId, postDetails.postId);
         setLikeState(true);
         setLikeCount((prevCount) => prevCount + 1);
       }
     } catch (error) {
-      console.error("좋아요 처리 중 오류 발생:", error);
+      console.error("Error handling like:", error);
     }
   };
 
-  // 작성자 정보 모달 기능
-  const showWriterInfo = () => setIsWriterInfoVisible(true);
-  const hideWriterInfo = () => setIsWriterInfoVisible(false);
-
-  // 신고 모달 기능
-  const showReportModal = () => setIsReportModalVisible(true);
-  const hideReportModal = () => setIsReportModalVisible(false);
-
-  // 신고 확인 메시지
-  const showReportNotice = () => {
-    setIsReportNoticeVisible(true);
-    setTimeout(() => {
-      setIsReportNoticeVisible(false);
-    }, 2000);
-  };
+  if (!postDetails) {
+    return null; // Render nothing if postDetails is not yet loaded
+  }
 
   return (
     <>
-      {/* 헤더 */}
       <HeaderWrapper>
-        {/* 신고 알림 */}
         <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
           <ReportNotice>
             <StyledReportCheck />
             신고가 완료되었습니다
           </ReportNotice>
         </ReportNoticeWrapper>
-
-        {/* 제목 div */}
         <TitleWrapper>
-          {/* 게시글 상세정보 */}
           <TitleDetail>
             <StyledUserProfileImg
-              onMouseEnter={showWriterInfo}
-              onMouseLeave={hideWriterInfo}
+              onMouseEnter={() => setIsWriterInfoVisible(true)}
+              onMouseLeave={() => setIsWriterInfoVisible(false)}
               src={UserProfileImg}
               alt="user profile"
             />
-            <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
+            <Writer
+              onMouseEnter={() => setIsWriterInfoVisible(true)}
+              onMouseLeave={() => setIsWriterInfoVisible(false)}
+            >
               user1023
             </Writer>
             <StyledBar>|</StyledBar>
@@ -123,63 +132,53 @@ const TroubleshootingDetailPage = () => {
             <StyledBar>|</StyledBar>
             조회 300
             <StyledBar>|</StyledBar>
-            댓글 {commentCount}
+            댓글 {postDetails.commentCount}
           </TitleDetail>
-
-          {/* 작성자 정보 모달창 */}
           <PostWriterInfoWrapper
             isVisible={isWriterInfoVisible}
-            onMouseEnter={showWriterInfo}
-            onMouseLeave={hideWriterInfo}
+            onMouseEnter={() => setIsWriterInfoVisible(true)}
+            onMouseLeave={() => setIsWriterInfoVisible(false)}
           >
             <PostWriterInfo />
           </PostWriterInfoWrapper>
-
-          {/* 게시글 제목 */}
-          <Title>{title}</Title>
-
-          {/* 게시글 상호작용 */}
+          <Title>{postDetails.title}</Title>
           <InteractionWrapper>
             <BookMarkWrapper>
               <StyledBookMarkIcon
                 onClick={handleBookMark}
-                bookMarkState={bookMarkState}
+                active={bookMarkState}
               />
               <InteractionText>
                 {formatNumberWithCommas(bookMarkCount)}
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledLikeIcon onClick={handleLike} likeState={likeState} />
+              <StyledLikeIcon onClick={handleLike} active={likeState} />
               <InteractionText>
                 {formatNumberWithCommas(likeCount)}
               </InteractionText>
             </BookMarkWrapper>
             <BookMarkWrapper>
-              <StyledReportIcon onClick={showReportModal} />
+              <StyledReportIcon onClick={() => setIsReportModalVisible(true)} />
               <InteractionText>신고</InteractionText>
             </BookMarkWrapper>
-
-            {/* 신고 모달창 */}
             <ReportModal
               isVisible={isReportModalVisible}
-              onClose={hideReportModal}
-              onReport={showReportNotice}
-              title={title}
+              onClose={() => setIsReportModalVisible(false)}
+              onReport={() => setIsReportNoticeVisible(true)}
+              title={postDetails.title}
             />
           </InteractionWrapper>
         </TitleWrapper>
       </HeaderWrapper>
-
-      {/* 게시글 내용 */}
       <PostContentWrapper>
-        {/* 게시글 본문 */}
         <PostContent>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {postDetails.content}
+          </ReactMarkdown>
         </PostContent>
         <StyledHr />
-        {/* 댓글 영역 */}
-        <CommentContainer troublePostId={postId} />
+        <CommentContainer troublePostId={postDetails.postId} />
       </PostContentWrapper>
     </>
   );

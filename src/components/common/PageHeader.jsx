@@ -102,7 +102,6 @@ const StyledPuppleButton = styled(PuppleButton)`
     $changeColorOnClick && $isActive ? "#8E59FF" : "rgba(137, 87, 255, 0.6)"};
 
   &:hover {
-    background-color: #8e59ff;
     transform: translateY(-0.3em);
     box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
   }

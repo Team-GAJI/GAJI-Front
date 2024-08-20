@@ -1,20 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StudyLinkEmbed = () => {
+const StudyLinkEmbed = ({link}) => {
+    const handleLinkClick = () => {
+        window.open(link, '_blank');
+    };
+    
     return (
-        <PostWrapper>
+        <PostWrapper  onClick={handleLinkClick}>
             <LeftWrapper></LeftWrapper>
             <RightWrapper>
                 <TextWrapper>
                     <Title>
-                        제목
+                        {link}
                     </Title>
                     <Content>
-                        설명입니다. 어쩌면 좋아요
+                        {link}
                     </Content>
                 </TextWrapper>
-                {/* <StyledCloseButton onClick={postVisibility}/> */}
             </RightWrapper>
         </PostWrapper>
     )
