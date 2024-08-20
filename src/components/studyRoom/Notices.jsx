@@ -6,13 +6,14 @@ import FirstNoticeSquare from "./FirstNoticeSquare";
 const Notices = ({ notices, onMoveToTop, hoveredIndex, setHoveredIndex }) => {
   return (
     <NoticeSquareWrapper>
-      {notices.map((notice, index) => {
+      {notices && notices.map((notice, index) => {
         const NoticeComponent = index === 0 ? FirstNoticeSquare : NoticeSquare;
 
         return (
           <NoticeComponent
-            key={index}
-            notice={notice}
+            key={notice.id}          // 각 공지사항의 고유 id를 key로 사용
+            title={notice.title}      // title 속성 전달
+            content={notice.body}     // body 속성 전달
             isHovered={hoveredIndex === index}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -23,6 +24,7 @@ const Notices = ({ notices, onMoveToTop, hoveredIndex, setHoveredIndex }) => {
     </NoticeSquareWrapper>
   );
 };
+
 
 export default Notices;
 

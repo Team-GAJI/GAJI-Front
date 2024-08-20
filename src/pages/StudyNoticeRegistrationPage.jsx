@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
+import { studyNoticeRegisterAPI } from "../utils/studyRoom/studyNoticeRegisterAPI";
 
 const StudyNoticeRegistrationPage = () => {
   const navigate = useNavigate();
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  const [title, setTitle] = useState("");
+  const [body, setContent] = useState("");
+  const location = useLocation();    
+  const roomId = location.state?.roomId || {}; 
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const confirmed = window.confirm("등록하시겠습니까?");
-    if (confirmed) {
-      console.log("Form submitted!");
-    } else {
-      console.log("Form submission canceled.");
+    try {
+      const data = { title, body };
+      const result = await studyNoticeRegisterAPI(roomId, data);
+      console.log("Form submitted successfully:", result);
+      navigate(`/studynotice` , { state: { roomId: roomId } } ); // 성공 시 공지사항 목록 페이지로 이동
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      alert("공지사항 등록에 실패했습니다.");
     }
   };
 
@@ -25,17 +32,18 @@ const StudyNoticeRegistrationPage = () => {
     "정보나눔 게시판",
     "채팅방",
   ];
-  
+
   const handleHeaderButtonClick = (index) => {
-      setActiveButtonIndex(index);
-      if (index === 0) {
-        navigate('/studyroom');
+    setActiveButtonIndex(index);
+    if (index === 0) {
+      navigate('/studyroom');
     } else if (index === 1) {
       navigate('/troubleshooting');
     } else {
       navigate('/');
     }
   };
+
   return (
     <>
       <PageHeader
@@ -48,23 +56,32 @@ const StudyNoticeRegistrationPage = () => {
         changeColorOnHover={true}
       />
       <ContentWrapper60>
-            <FormField>
-              <Label>공지사항 제목</Label>
-              <Input placeholder="제목을 입력해주세요" />
-            </FormField>
-            <FormField>
-              <Textarea placeholder="공지 내용을 입력해주세요" />
-            </FormField>
-            <SubmitButtonWrapper>
-              <SubmitButton onClick={handleSubmit}>공지사항 등록</SubmitButton>
-            </SubmitButtonWrapper>
+        <FormField>
+          <Label>공지사항 제목</Label>
+          <Input 
+            placeholder="제목을 입력해주세요" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+          />
+        </FormField>
+        <FormField>
+          <Textarea 
+            placeholder="공지 내용을 입력해주세요" 
+            value={body} 
+            onChange={(e) => setContent(e.target.value)} 
+          />
+        </FormField>
+        <SubmitButtonWrapper>
+          <SubmitButton onClick={handleSubmit}>
+            공지사항 등록
+          </SubmitButton>
+        </SubmitButtonWrapper>
       </ContentWrapper60>
     </>
   );
 };
 
 export default StudyNoticeRegistrationPage;
-
 
 const FormField = styled.div`
   width: 100%;
@@ -88,7 +105,7 @@ const Input = styled.input`
   border: 1px solid #a2a3b2;
   border-radius: 0.5em;
   box-sizing: border-box;
-  background : none;
+  background: none;
 
   &::placeholder {
     font-size: 1em;
@@ -105,7 +122,8 @@ const Textarea = styled.textarea`
   box-sizing: border-box;
   height: 150px;
   resize: none;
-  background : none;
+  background: none;
+
   &::placeholder {
     font-size: 1em;
   }
@@ -118,7 +136,7 @@ const SubmitButtonWrapper = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  margin-bottom : 1em;
+  margin-bottom: 1em;
   font-family: "NanumSquareNeo";
   background-color: #8e59ff;
   border: 0.0625em solid #8e59ff;

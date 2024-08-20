@@ -4,10 +4,11 @@ import Book from '../../assets/images/studyRoom/Rectangle 34624913.png';
 import BellIcon from '../../assets/icons/studyRoom/bellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { studyDetailAPI } from '../../utils/studyDetail/studyDetailAPI';
+import { studyNoticeAPI } from '../../utils/studyRoom/studyNoticeAPI';
 
 const StudySummary = ({ studyInfo ,roomId}) => {
     const [description, setDescription] = useState('');
-    // const [ firstNotice, setFirstNotice] = useState('');
+    const [ firstNotice, setFirstNotice] = useState('');
     const alarmData = {
         1: 3, 
         2: 5,   
@@ -20,8 +21,8 @@ const StudySummary = ({ studyInfo ,roomId}) => {
             try {
                 const response = await studyDetailAPI(roomId);
                 setDescription(response.description);
-                // const notice = await studyNoticeAPI(roomId);
-                // setFirstNotice(notice);
+                const notice = await studyNoticeAPI(roomId);
+                setFirstNotice(notice[0]);
             } catch (error) {
                 console.error('Failed to fetch study details', error);
             }
@@ -48,11 +49,11 @@ const StudySummary = ({ studyInfo ,roomId}) => {
 
             <DivisionLine />
 
-            <NoticeWrapper onClick={() => navigate('/studynotice')}>
+            <NoticeWrapper onClick={() => navigate('/studynotice', { state: { roomId: roomId } })}>
                 <BellIcon />
                 <>공지사항</>
                 <DivisionLine3 />
-                <RecentNotice>여러분, 이건 꼭 알아야 합니다! 모르면 이 스터디 못해요~</RecentNotice>
+                <RecentNotice>{firstNotice}</RecentNotice>
                 <NoticeButton1>{alarmCount}</NoticeButton1>
             </NoticeWrapper>
             
