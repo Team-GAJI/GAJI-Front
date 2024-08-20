@@ -23,7 +23,7 @@ const StudyMainPage = () => {
         비즈니스: [],
         "독서 모임": []
     });
-    const [category, setCategory] = useState("");
+    const [, setCategory] = useState("");
 
     // 스터디 데이터를 API로부터 불러오는 useEffect
     useEffect(() => {
