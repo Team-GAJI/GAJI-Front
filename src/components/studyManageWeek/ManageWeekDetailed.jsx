@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Delete from '../../assets/icons/studyManageWeek/StudyManageWeekDelete.png';
+import { TaskAPI } from '../../utils/studyManageWeek/TaskAPI'; 
 
-const ManageWeekDetailed = ({ selectedWeek }) => {
+const ManageWeekDetailed = ({ selectedWeek, roomId }) => {
   const [inputs, setInputs] = useState(['']); 
   const maxInputs = 5;
 
@@ -29,9 +30,22 @@ const ManageWeekDetailed = ({ selectedWeek }) => {
     setInputs(newInputs);
   };
 
+  const handleSubmit = async () => {
+    // 서버로 전송할 데이터 준비
+    const tasks = inputs.filter(input => input.trim() !== ''); // 빈 입력 제거
+
+    try {
+      await TaskAPI(roomId, selectedWeek + 1, tasks); // API 호출
+      alert('과제가 성공적으로 등록되었습니다!'); // 성공 메시지
+    } catch (error) {
+      console.error('과제 등록 중 오류 발생:', error);
+      alert('과제 등록에 실패했습니다. 다시 시도해 주세요.'); // 실패 메시지
+    }
+  };
+
   return (
     <Container>
-        <Text2>{selectedWeek + 1}주차 과제 등록</Text2>
+      <Text2>{selectedWeek + 1}주차 과제 등록</Text2>
       <MainWrapper>
         {inputs.map((input, index) => (
           <InputWrapper key={index} isFirst={index === 0}>
@@ -52,11 +66,13 @@ const ManageWeekDetailed = ({ selectedWeek }) => {
           </InputWrapper>
         ))}
       </MainWrapper>
+      <SubmitButton onClick={handleSubmit}>등록</SubmitButton>
     </Container>
   );
 };
 
 export default ManageWeekDetailed;
+
 
 const MainWrapper = styled.div`
   background-color: #FBFAFF;
