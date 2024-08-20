@@ -3,7 +3,7 @@ import { api } from "../API";
 export const periodAPI = async (roomId, weeks) => {
     try {
         console.log(roomId);
-        const response = await api.post(`study-rooms/event/${roomId}/${weeks}/period`);
+        const response = await api.post(`/api/study-rooms/event/${roomId}/${weeks}/period`);
         console.log(response.data);
         return response.data.result;
     } catch (error) {

@@ -16,24 +16,23 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
     const dispatch = useDispatch();
     const today = new Date();
 
+    
     useEffect(() => {
-        if (selectedWeek < weekData.length) {
-            const newWeekData = weekData[selectedWeek] || {};
-            
-            const parseDate = (dateStr) => {
-                const [month, day] = dateStr.split('월').map(part => part.replace('일', '').trim());
-                const date = new Date();
-                date.setMonth(parseInt(month, 10) - 1);
-                date.setDate(parseInt(day, 10));
-                return date;
-            };
-
-            const startDate = newWeekData.studyPeriodStartDate ? parseDate(newWeekData.studyPeriodStartDate) : new Date();
-            const endDate = newWeekData.studyPeriodEndDate ? parseDate(newWeekData.studyPeriodEndDate) : new Date();
-
-            setStudyPeriodStartDate(startDate);
-            setStudyPeriodEndDate(endDate);
-        }
+            if (selectedWeek < weekData.length) {
+                const newWeekData = weekData[selectedWeek] || {};
+    
+                if (newWeekData.studyPeriodStartDate) {
+                    setStudyPeriodStartDate(new Date(newWeekData.studyPeriodStartDate));
+                } else {
+                    setStudyPeriodStartDate(new Date());
+                }
+    
+                if (newWeekData.studyPeriodEndDate) {
+                    setStudyPeriodEndDate(new Date(newWeekData.studyPeriodEndDate));
+                } else {
+                    setStudyPeriodEndDate(new Date());
+                }
+            }
     }, [selectedWeek, weekData]);
 
     const formatDate = (date) => {
@@ -122,11 +121,13 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
                         <PeriodWrapper>
                             <Text>시작</Text>
                             <Period>
-                                {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)}
+                                {formatDate(studyPeriodStartDate)}
+                                {/* {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)} */}
                             </Period>
                             <Text>끝</Text>
                             <Period>
-                                {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
+                                {formatDate(studyPeriodEndDate)}
+                                {/* {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)} */}
                             </Period>
                         </PeriodWrapper>
                     </ContentWrapper>

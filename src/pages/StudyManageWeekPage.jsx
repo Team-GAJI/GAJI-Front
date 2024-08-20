@@ -11,6 +11,7 @@ import PageHeader from '../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
 import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
+import { periodAPI } from '../utils/studyManageWeek/period.jsx';
 
 const StudyManageWeeKPage = () => {
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
@@ -29,21 +30,20 @@ const StudyManageWeeKPage = () => {
     if (roomId !== null) {
       try {
         console.log('roomId:', roomId, 'week:', selectedWeek);
+  
         const fetchedWeekData = await TaskAPI(roomId, selectedWeek);
-
+        const periodData = await periodAPI(roomId, selectedWeek);
+  
         const newWeekData = {
           basicInfo: {
             name: fetchedWeekData.title || '',
             description: fetchedWeekData.content || ''
           },
           tasks: [],
-          recruitmentStartDate: null,
-          recruitmentEndDate: null,
-          studyPeriodStartDate: null,
-          studyPeriodEndDate: null
+          studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : null,
+          studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : null
         };
-
-        // 상태 업데이트
+  
         setWeekData(prevWeekData => {
           const newWeekDataArray = [...prevWeekData];
           newWeekDataArray[selectedWeek] = newWeekData;
@@ -54,6 +54,7 @@ const StudyManageWeeKPage = () => {
       }
     }
   };
+  
 
   useEffect(() => {
     fetchSelectedWeekData();
@@ -65,16 +66,21 @@ const StudyManageWeeKPage = () => {
     if (index === 0) {
       try {
         console.log("저장 중...");
-        // 데이터 저장
         for (let i = 0; i < weeks.length; i++) {
           const week = weeks[i];
           const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
           console.log(`주차: ${week}, 정보:`, weekInfo);
+  
           await descriptionAPI(roomId, week, weekInfo);
+          const periodInfo = {
+            recruitmentStartDate: weekData[i]?.recruitmentStartDate,
+            recruitmentEndDate: weekData[i]?.recruitmentEndDate,
+            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate,
+            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate
+          };
+          await periodAPI(roomId, week, periodInfo);
         }
-
-        // 저장 후 데이터 다시 가져오기
-        // 여기에 주의: 상태 업데이트 후 다시 fetchSelectedWeekData를 호출하지 않도록 합니다.
+  
         console.log('입력한 값:', weekData);
         alert("저장되었습니다.");
       } catch (error) {
@@ -83,6 +89,7 @@ const StudyManageWeeKPage = () => {
       }
     }
   };
+
 
   const handleWeekDataChange = (newWeekData) => {
     setWeekData(newWeekData);
@@ -149,6 +156,7 @@ const StudyManageWeeKPage = () => {
             selectedWeek={selectedWeek}
             weekData={weekData}
             onWeekDataChange={handleWeekDataChange}
+            roomId={roomId}
           />
           <ManageWeekeDetailed
             selectedWeek={selectedWeek}
