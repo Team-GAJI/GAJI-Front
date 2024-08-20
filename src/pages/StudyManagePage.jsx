@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ManageDel from '../assets/icons/studyManage/StudyManageDel.svg';
 import ManagePlus from '../assets/icons/studyManage/StudyManagePlus.svg';
 // import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ManageInfo from '../components/studyManage/ManageInfo';
 import ManagePeriod from '../components/studyManage/StudyManagePeriod';
 import ManageDetailed from '../components/studyManage/ManageDetailed';
@@ -11,6 +11,9 @@ import PageHeader from '../components/common/PageHeader';
 import { ContentWrapper70 } from '../components/common/MediaWrapper';
 const StudyManagePage = () => {
     // n주차 버튼 기능
+
+  const location = useLocation();    
+  const roomId = location.state?.roomId || {}; 
 
   const [weeks, setWeeks] = useState([...Array(9).keys()]); 
   const sidebarRef = useRef(null);
@@ -24,6 +27,7 @@ const StudyManagePage = () => {
   };
 
   useEffect(() => {
+    console.log(roomId);
     if (sidebarRef.current) {
       sidebarRef.current.style.height = 'auto';
       const newHeight = sidebarRef.current.scrollHeight;
@@ -38,8 +42,8 @@ const StudyManagePage = () => {
     //studymanage 페이지로 이동
   const navigate = useNavigate();
 
-  const handleButtonClick = (navigate) => {
-      navigate('/studyweekmanage');
+  const handleButtonClick = () => {
+      navigate('/studyweekmanage' , { state: { roomId : roomId} });
       
   };
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
@@ -87,7 +91,7 @@ const StudyManagePage = () => {
                     bold={index === selectedWeek}
                     onClick={() => handleWeekSelect(index)}
                   >
-                    <TextWrapper onClick={() => handleButtonClick(navigate)}>
+                    <TextWrapper onClick={() => handleButtonClick(week + 1)}>
                       {week + 1}주차
                     </TextWrapper>
                     {index === weeks.length - 1 && (

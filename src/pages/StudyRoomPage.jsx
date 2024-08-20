@@ -11,9 +11,11 @@ const StudyRoomPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const location = useLocation();    
     const data = location.state?.data || {}; 
+    const roomId = location.state?.roomId || {}; 
     const studyInfo = data;
 
     const navigate = useNavigate();
+    
   
     const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
     const handleHeaderButtonClick = (index) => {
@@ -48,18 +50,18 @@ const StudyRoomPage = () => {
                       </React.Fragment>
                   ))}
                   </Sidebar>
-                  <SidebarManageButton onClick={()=>navigate('/studymanage')}>스터디 관리</SidebarManageButton>
+                  <SidebarManageButton onClick={()=>navigate('/studymanage', { state: { roomId : roomId } })}>스터디 관리</SidebarManageButton>
               </SidebarWrapper>
                   
               <MainContent>
-                    <StudySummary studyInfo={studyInfo} />  {/* StudySummary에 데이터 전달 */}
+                    <StudySummary studyInfo={studyInfo} roomId={roomId}/>  {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />
-                    <WeekCurriculum studyInfo={studyInfo}/>
+                    <WeekCurriculum studyInfo={studyInfo} roomId={roomId}/>
                     <DivisionLine2 />
-                    <StudyPostList comments={studyInfo?.comments} />  {/* StudyPostList에 댓글 데이터 전달 */}
+                    <StudyPostList comments={studyInfo?.comments} roomId={roomId} />  {/* StudyPostList에 댓글 데이터 전달 */}
                 </MainContent>
             </ContentWrapper>
-            <div onClick={()=>navigate('/studymanage')}>
+            <div onClick={()=>navigate('/studymanage', { state: { roomId : roomId } })}>
             <MobileManageButton /></div>
           </>
     );

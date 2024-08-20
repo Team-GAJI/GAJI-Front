@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import StudyManageWeekManageDel from '../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
 import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
 
@@ -13,15 +13,17 @@ import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 
 const StudyManageWeeKPage = () => {
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
-  const [selectedWeek, setSelectedWeek] = useState(0);
-  const [weekData, setWeekData] = useState(Array(9).fill(null).map(() => ({
-    basicInfo: { name: '', description: '' },
-    tasks: [],
-    recruitmentStartDate: null,
-    recruitmentEndDate: null,
-    studyPeriodStartDate: null,
-    studyPeriodEndDate: null
-  })));
+
+  const sidebarRef = useRef(null);
+
+  const location = useLocation();    
+  const roomId = location.state?.roomId || {}; 
+
+  const handleDelete = () => {
+    if (weeks.length > 0) {
+      setWeeks(weeks.slice(0, -1)); // 마지막 주차만 삭제
+    }
+  };
 
   const sidebarRef = useRef(null);
   const manageWeekDetailedRef = useRef(null);
@@ -29,6 +31,7 @@ const StudyManageWeeKPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
   useEffect(() => {
+    console.log(roomId)
     if (sidebarRef.current) {
       sidebarRef.current.style.height = "auto";
       const newHeight = sidebarRef.current.scrollHeight;
