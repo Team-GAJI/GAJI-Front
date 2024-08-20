@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import StudyCreateRecruitCalendar from './StudyManageRecruitCalendar';
 import StudyCreateCalendar from './StudyManageCalendar';
 import { useDispatch } from 'react-redux';
 import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
+import { useLocation } from "react-router-dom";
+import { studyManageDateAPI } from '../../utils/studyManage/studyManageDateAPI'; 
 
 const StudyManagePeriod = () => {
+    const location = useLocation();
+    const { roomId, Weeks, userId } = location.state || {}; 
+
     // state 관리
     const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
     const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
     const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
     const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
+
     // Button 활성화 상태 관리
     const [isRecruitmentActive, setIsRecruitmentActive] = useState(true);
     const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(false);
@@ -18,69 +24,63 @@ const StudyManagePeriod = () => {
     // Redux 관리
     const dispatch = useDispatch();
 
-    // 오늘 날짜 불러오기
-    const today = new Date();
-
-    // 모집 날짜 불러오기
-    const handleRecruitStartDateChange = (date) => {
-        if (isRecruitmentActive) {
-            setRecruitmentStartDate(date);
-        } else if (isStudyPeriodActive) {
-            setStudyPeriodStartDate(date);
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-        console.log("Start Date:", formattedDate);
-        dispatch(setRecruitStartDay(formattedDate));
-    };
-    const handleRecruitEndDateChange = (date) => {
-        if (isRecruitmentActive) {
-            setRecruitmentEndDate(date);
-        } else if (isStudyPeriodActive) {
-            setStudyPeriodEndDate(date);
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-        console.log("End Date:", formattedDate);
-        dispatch(setRecruitEndDay(formattedDate));
-    };
-
-    // 진행 날짜 불러오기
-    const handleStudyStartDateChange = (date) => {
-        if (isRecruitmentActive) {
-            setRecruitmentStartDate(date);
-        } else if (isStudyPeriodActive) {
-            setStudyPeriodStartDate(date);
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-        console.log("Start Date:", formattedDate);
-        dispatch(setStudyStartDay(formattedDate));
-    };
-    const handleStudyEndDateChange = (date) => {
-        if (isRecruitmentActive) {
-            setRecruitmentEndDate(date);
-        } else if (isStudyPeriodActive) {
-            setStudyPeriodEndDate(date);
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-        console.log("End Date:", formattedDate);
-        dispatch(setStudyEndDay(formattedDate));
-    };
-
-    const formatDate = (date) => {
-        const month = date.getMonth() + 1;
+    // 날짜 형식을 변환하는 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
         const day = date.getDate();
         return `${month}월 ${day}일`;
+    };
+
+    // API 호출
+    useEffect(() => {
+        const fetchManagePeriod = async () => {
+            try {
+                const managePeriod = await studyManageDateAPI(roomId, Weeks, userId);
+
+                // API에서 받은 데이터를 상태로 설정
+                setRecruitmentStartDate(managePeriod.recruitStartTime);
+                setRecruitmentEndDate(managePeriod.recruitEndTime);
+                setStudyPeriodStartDate(managePeriod.studyStartTime);
+                setStudyPeriodEndDate(managePeriod.studyEndTime);
+
+            } catch (error) {
+                console.error('오류 발생:', error);
+            }
+        };
+
+        if (roomId && Weeks && userId) {
+            fetchManagePeriod(); 
+        }
+    }, [roomId, Weeks, userId]);
+
+    // 모집 날짜 변경 함수
+    const handleRecruitStartDateChange = (date) => {
+        setRecruitmentStartDate(date);
+        dispatch(setRecruitStartDay(formatDateToISO(date)));
+    };
+
+    const handleRecruitEndDateChange = (date) => {
+        setRecruitmentEndDate(date);
+        dispatch(setRecruitEndDay(formatDateToISO(date)));
+    };
+
+    // 진행 날짜 변경 함수
+    const handleStudyStartDateChange = (date) => {
+        setStudyPeriodStartDate(date);
+        dispatch(setStudyStartDay(formatDateToISO(date)));
+    };
+
+    const handleStudyEndDateChange = (date) => {
+        setStudyPeriodEndDate(date);
+        dispatch(setStudyEndDay(formatDateToISO(date)));
+    };
+
+    const formatDateToISO = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     const handleRecruitmentButtonClick = () => {
@@ -95,72 +95,74 @@ const StudyManagePeriod = () => {
 
     return (
         <>
-        <Title>스터디 기한</Title>
+            <Title>스터디 기한</Title>
 
-        <ComponentWrapper>
-            {/* 캘린더 영역 */}
-            {isRecruitmentActive && (
-                <StudyCreateRecruitCalendar
-                    onStartDateChange={handleRecruitStartDateChange}
-                    onEndDateChange={handleRecruitEndDateChange}
-                />
-            )}
+            <ComponentWrapper>
+                {/* 캘린더 영역 */}
+                {isRecruitmentActive && (
+                    <StudyCreateRecruitCalendar
+                        onStartDateChange={handleRecruitStartDateChange}
+                        onEndDateChange={handleRecruitEndDateChange}
+                    />
+                )}
 
-            {isStudyPeriodActive && (
-                <StudyCreateCalendar
-                    onStartDateChange={handleStudyStartDateChange}
-                    onEndDateChange={handleStudyEndDateChange}
-                />
-            )}
+                {isStudyPeriodActive && (
+                    <StudyCreateCalendar
+                        onStartDateChange={handleStudyStartDateChange}
+                        onEndDateChange={handleStudyEndDateChange}
+                    />
+                )}
 
-            {/* 기한 영역 */}
-            <RightWrapper>
-                {/* 스터디 모집기한 */}
-                <StyledContentWrapper>
-                    <Title>스터디 모집 기한</Title>
-                    <RecruitButton
-                        onClick={handleRecruitmentButtonClick}
-                        isActive={isRecruitmentActive}>
-                        입력하기
-                    </RecruitButton>
-                    <PeriodWrapper>
-                        <Text>시작</Text>
-                        <Period>
-                            {recruitmentStartDate ? formatDate(recruitmentStartDate) : formatDate(today)}
-                        </Period>
-                        <Text>끝</Text>
-                        <Period>
-                            {recruitmentEndDate ? formatDate(recruitmentEndDate) : formatDate(today)}
-                        </Period>
-                    </PeriodWrapper>
-                </StyledContentWrapper>
+                {/* 기한 영역 */}
+                <RightWrapper>
+                    {/* 스터디 모집 기한 */}
+                    <StyledContentWrapper>
+                        <Title>스터디 모집 기한</Title>
+                        <RecruitButton
+                            onClick={handleRecruitmentButtonClick}
+                            isActive={isRecruitmentActive}>
+                            입력하기
+                        </RecruitButton>
+                        <PeriodWrapper>
+                            <Text>시작</Text>
+                            <Period>
+                                {recruitmentStartDate ? formatDate(recruitmentStartDate) : "--"}
+                            </Period>
+                            <Text>끝</Text>
+                            <Period>
+                                {recruitmentEndDate ? formatDate(recruitmentEndDate) : "--"}
+                            </Period>
+                        </PeriodWrapper>
+                    </StyledContentWrapper>
 
-                {/* 스터디 진행기한 */}
-                <StyledContentWrapper>
-                    <Title>스터디 진행 기한</Title>
-                    <StudyButton
-                        onClick={handleStudyPeriodButtonClick}
-                        isActive={isStudyPeriodActive}>
-                        입력하기
-                    </StudyButton>
-                    <PeriodWrapper>
-                        <Text>시작</Text>
-                        <Period>
-                            {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)}
-                        </Period>
-                        <Text>끝</Text>
-                        <Period>
-                            {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
-                        </Period>
-                    </PeriodWrapper>
-                </StyledContentWrapper>
-            </RightWrapper>
-        </ComponentWrapper>
+                    {/* 스터디 진행 기한 */}
+                    <StyledContentWrapper>
+                        <Title>스터디 진행 기한</Title>
+                        <StudyButton
+                            onClick={handleStudyPeriodButtonClick}
+                            isActive={isStudyPeriodActive}>
+                            입력하기
+                        </StudyButton>
+                        <PeriodWrapper>
+                            <Text>시작</Text>
+                            <Period>
+                                {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : "--"}
+                            </Period>
+                            <Text>끝</Text>
+                            <Period>
+                                {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : "--"}
+                            </Period>
+                        </PeriodWrapper>
+                    </StyledContentWrapper>
+                </RightWrapper>
+            </ComponentWrapper>
         </>
     );
 };
 
 export default StudyManagePeriod;
+
+
 
 /* CSS */
 const ComponentWrapper = styled.div`
