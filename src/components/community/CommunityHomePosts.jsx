@@ -20,9 +20,9 @@ const CommunityHomePosts = () => {
   const [projectPage, setProjectPage] = useState(1);
   const [questionPage, setQuestionPage] = useState(1);
   const [blogPage, setBlogPage] = useState(1);
-  const [projects, setProjects] = useState([]);
-  const [questions, setQuestions] = useState([]);
-  const [blogs, setBlogs] = useState([]);
+  const [, setProjects] = useState([]);
+  const [, setQuestions] = useState([]);
+  const [, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [projectPosts, setProjectPosts] = useState([]);
   const [questionPosts, setQuestionPosts] = useState([]);
