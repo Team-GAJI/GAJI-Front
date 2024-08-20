@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import LikeIcon from '../../assets/icons/community/fillLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
+import userProfileImg from '../../assets/images/community/userProfile.png';
 
-const BlogPreview = ({key, title, content, background, userProfileImg, writer, ago, views, like, link}) => {
+const BlogPreview = ({key, title, content, background, writer, ago, views, like, link}) => {
     // useNavigate
     const navigate = useNavigate();
 

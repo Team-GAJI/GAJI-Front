@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import LikeIcon from '../../assets/icons/community/emptyLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
+import userProfileImg from '../../assets/images/community/userProfile.png';
 
-const ProjectPreview = ({key, state, title, content, type, userProfileImg, writer, ago, views, like}) => {
+const ProjectPreview = ({key, state, title, content, writer, ago, views, like}) => {
     // useNavigate
     const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const ProjectPreview = ({key, state, title, content, type, userProfileImg, write
                 </Content>
             </ContentWrapper>
             <PostInfoWrapper>
-                <PostType>{type}</PostType><StyledBar>|</StyledBar>
+                <PostType>프로젝트</PostType><StyledBar>|</StyledBar>
                 <StyledUserProfileImg src={userProfileImg} alt='user profile'/>
                 <Writer>{writer}</Writer>
                 <Ago>{ago}</Ago>
