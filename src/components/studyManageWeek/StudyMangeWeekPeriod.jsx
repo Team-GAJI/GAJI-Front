@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import StudyCreateRecruitCalendar from './StudyManageWeekRecruitCalendar';
 import StudyCreateCalendar from './StudyManageWeekCalendar';
@@ -6,58 +6,77 @@ import { useDispatch } from 'react-redux';
 import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
 const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => {
-    // 초기 상태 설정
-    const [recruitmentStartDate, setRecruitmentStartDate] = useState(weekData[selectedWeek]?.recruitmentStartDate || null);
-    const [recruitmentEndDate, setRecruitmentEndDate] = useState(weekData[selectedWeek]?.recruitmentEndDate || null);
-    const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(weekData[selectedWeek]?.studyPeriodStartDate || null);
-    const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(weekData[selectedWeek]?.studyPeriodEndDate || null);
-    const [isRecruitmentActive, setIsRecruitmentActive] = useState(false); // 초기값을 false로 설정
-    const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);  // 초기값을 true로 설정
+    const [recruitmentStartDate, setRecruitmentStartDate] = useState(null);
+    const [recruitmentEndDate, setRecruitmentEndDate] = useState(null);
+    const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
+    const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
+    const [isRecruitmentActive, setIsRecruitmentActive] = useState(false);
+    const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);
 
     const dispatch = useDispatch();
-
     const today = new Date();
+
+    useEffect(() => {
+        if (selectedWeek < weekData.length) {
+            const newWeekData = weekData[selectedWeek] || {};
+            
+            const parseDate = (dateStr) => {
+                const [month, day] = dateStr.split('월').map(part => part.replace('일', '').trim());
+                const date = new Date();
+                date.setMonth(parseInt(month, 10) - 1);
+                date.setDate(parseInt(day, 10));
+                return date;
+            };
+
+            const startDate = newWeekData.studyPeriodStartDate ? parseDate(newWeekData.studyPeriodStartDate) : new Date();
+            const endDate = newWeekData.studyPeriodEndDate ? parseDate(newWeekData.studyPeriodEndDate) : new Date();
+
+            setStudyPeriodStartDate(startDate);
+            setStudyPeriodEndDate(endDate);
+        }
+    }, [selectedWeek, weekData]);
+
+    const formatDate = (date) => {
+        if (!(date instanceof Date) || isNaN(date.getTime())) {
+            date = new Date();
+        }
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${month}월 ${day}일`;
+    };
 
     const handleRecruitStartDateChange = (date) => {
         setRecruitmentStartDate(date);
         const formattedDate = formatDate(date);
         dispatch(setRecruitStartDay(formattedDate));
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], recruitmentStartDate: formattedDate };
-        onWeekDataChange(newWeekData);
+        updateWeekData({ recruitmentStartDate: formattedDate });
     };
 
     const handleRecruitEndDateChange = (date) => {
         setRecruitmentEndDate(date);
         const formattedDate = formatDate(date);
         dispatch(setRecruitEndDay(formattedDate));
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], recruitmentEndDate: formattedDate };
-        onWeekDataChange(newWeekData);
+        updateWeekData({ recruitmentEndDate: formattedDate });
     };
 
     const handleStudyStartDateChange = (date) => {
         setStudyPeriodStartDate(date);
         const formattedDate = formatDate(date);
         dispatch(setStudyStartDay(formattedDate));
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], studyPeriodStartDate: formattedDate };
-        onWeekDataChange(newWeekData);
+        updateWeekData({ studyPeriodStartDate: formattedDate });
     };
 
     const handleStudyEndDateChange = (date) => {
         setStudyPeriodEndDate(date);
         const formattedDate = formatDate(date);
         dispatch(setStudyEndDay(formattedDate));
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], studyPeriodEndDate: formattedDate };
-        onWeekDataChange(newWeekData);
+        updateWeekData({ studyPeriodEndDate: formattedDate });
     };
 
-    const formatDate = (date) => {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return `${month}월 ${day}일`;
+    const updateWeekData = (updates) => {
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], ...updates };
+        onWeekDataChange(newWeekData);
     };
 
     const handleRecruitmentButtonClick = () => {
@@ -118,6 +137,8 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
 };
 
 export default StudyManageWeekPeriod;
+
+
 
 
 /* CSS */

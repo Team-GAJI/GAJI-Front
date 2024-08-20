@@ -38,13 +38,19 @@ const StudyManageWeeKPage = () => {
 
   const handleDelete = () => {
     if (weeks.length > 0) {
-      setWeeks(weeks.slice(0, -1));
-      setWeekData(weekData.slice(0, -1));
+      const newWeeks = weeks.slice(0, -1);
+      const newWeekData = weekData.slice(0, -1);
+      setWeeks(newWeeks);
+      setWeekData(newWeekData);
+      if (selectedWeek >= newWeeks.length) {
+        setSelectedWeek(newWeeks.length - 1);
+      }
     }
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length]);
+    const newWeekIndex = weeks.length;
+    setWeeks([...weeks, newWeekIndex]);
     setWeekData([...weekData, {
       basicInfo: { name: '', description: '' },
       tasks: [],
@@ -53,6 +59,7 @@ const StudyManageWeeKPage = () => {
       studyPeriodStartDate: null,
       studyPeriodEndDate: null
     }]);
+    setSelectedWeek(newWeekIndex);
   };
 
   const handleWeekSelect = (index) => {
