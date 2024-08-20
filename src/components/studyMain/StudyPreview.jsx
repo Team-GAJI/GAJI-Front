@@ -77,7 +77,7 @@ export default StudyPreview;
 const PostWrapper = styled.div`
     border-radius: 10px;
     margin: 1em 0.5em;
-    width: 13.2425em;
+    width: 100%;
     min-width: 13.2425em;
     height: 16.8125em;
     display: flex;

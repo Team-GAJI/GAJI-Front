@@ -12,7 +12,7 @@ const StudyList = ({ ongoingStudyList, endedStudyList }) => {
     const handleStudyRoom = async (roomId) => {
         try {
             const response = await studyInfoAPI(roomId);
-            navigate('/studyroom', { state: { data: response } });
+            navigate('/studyroom', { state: { data: response, roomId : roomId } });
         } catch (error) {
             console.log(error);
         }

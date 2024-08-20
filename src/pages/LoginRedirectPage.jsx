@@ -14,10 +14,24 @@ const LoginRedirectPage = () => {
     const [nickName, setNickName] = useState(''); 
     const navigate = useNavigate()
 
+    function handleRedirect() {
+        // 서버에서 설정한 헤더에서 토큰 추출
+        const authHeader = document.cookie.split('; ').find(row => row.startsWith('Authorization='));
+        if (authHeader) {
+            const accessToken = authHeader.split('=')[1];
+            // 토큰을 안전한 저장소에 저장 (예: localStorage)
+            localStorage.setItem('accessToken', accessToken);
+            // 헤더 쿠키 삭제 (선택적)
+            document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+    }
+
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);    
     const token = queryParams.get('access_token');
+
+
 
     const submitNickname = async (nickName) => {
         try {
@@ -39,6 +53,7 @@ const LoginRedirectPage = () => {
     };
 
     useEffect(() => {
+        handleRedirect();
         const fetchUserId = async () => {
             if (token) {
                 saveTokenToLocalStorage(token);

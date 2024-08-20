@@ -1,66 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Notices from "../components/studyRoom/Notices";
 import PageHeader from "../components/common/PageHeader";
-import {  ContentWrapper60 } from "../components/common/MediaWrapper";
+import { ContentWrapper60 } from "../components/common/MediaWrapper";
+import { studyNoticeAPI } from "../utils/studyRoom/studyNoticeAPI"; // API 모듈에서 함수 임포트
+import MobileWriteButton from "../components/common/MobileWriteButton";
 
 const StudyNoticePage = () => {
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [notices, setNotices] = useState([
-    {
-      text1: "여러분 이건 꼭 아셔야합니다? ! 모르면 이 스터디 못함 ~",
-      text2:
-        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
-      user: "user1023",
-      time: "1시간",
-      checks: 7,
-    },
-    {
-      text1: "예전 공지인데 이제 아무도 안보겠쮜....",
-      text2:
-        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
-      user: "user2045",
-      time: "2시간",
-      checks: 5,
-    },
-    {
-      text1: "이누공 이제 누가 공지해주냐",
-      text2:
-        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
-      user: "user3098",
-      time: "3시간",
-      checks: 10,
-    },
-    {
-      text1: "예전 공지인데 이제 아무도 안보겠쮜....",
-      text2:
-        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
-      user: "user4567",
-      time: "4시간",
-      checks: 8,
-    },
-    {
-      text1: "이누공 이제 누가 공지해주냐",
-      text2:
-        "우리 스터디에는 규칙이 있습니다 ! 첫째, 뭐게요 ~ 둘째, 뭐게요 ~ 셋째, 회식갈까요? 배고파요 헝헝헝 본문내용이 이래서 죄송 근데 진짜 배고파요 뭐 먹지 ? 연어 초밥 ? 아까 우동먹었는데 가성비 미쳤더라고요 여러분도 우동 많이 드세요 ~ 초코파이 땡긴다",
-      user: "user5678",
-      time: "5시간",
-      checks: 6,
-    },
-  ]);
+  const [notices, setNotices] = useState([]);
+  const location = useLocation();    
+  const roomId = location.state?.roomId || {}; 
 
   const handleNavigateToRegister = () => {
-    navigate("/studynotice-register");
+    console.log('트러블슈팅 글쓰기로 이동')
+    navigate("/studynotice-register", { state: { roomId: roomId } } );
   };
 
   const handleNavigateToTroubleshooting = () => {
-    navigate("/troubleshooting");
+    navigate("/troubleshooting", { state: { roomId: roomId } } );
   };
 
   const handleNavigateToStudyRoom = () => {
-    navigate("/studyroom");
+    navigate("/studyroom" ,{ state: { roomId: roomId } } );
   };
 
   const moveToTop = (index) => {
@@ -77,6 +41,21 @@ const StudyNoticePage = () => {
     "채팅방",
   ];
 
+  useEffect(() => {
+    console.log(roomId)
+    const fetchNotices = async () => {
+      try {
+        const fetchedNotices = await studyNoticeAPI(roomId);
+        setNotices(fetchedNotices);
+        console.log(notices)
+      } catch (error) {
+        console.error("공지사항을 불러오는 중 오류가 발생했습니다:", error);
+      }
+    };
+
+    fetchNotices();
+  }, [roomId]);
+
   return (
     <>
       <PageHeader
@@ -92,25 +71,28 @@ const StudyNoticePage = () => {
         changeColorOnHover={true}
       />
       <ContentWrapper60>
-        <MainSection1>
           <ColumnWrapper>
             <Container>
               <Text>스터디명 공지사항</Text>
-              <WritingButton onClick={handleNavigateToRegister}>
+              <div onClick={()=>handleNavigateToRegister()}><MobileWriteButton/></div>
+              <WritingButton onClick={()=>handleNavigateToRegister()}>
                 + 공지사항 작성
               </WritingButton>
             </Container>
 
-            <NoticeSquareWrapper>
-              <Notices
-                notices={notices}
-                onMoveToTop={moveToTop}
-                hoveredIndex={hoveredIndex}
-                setHoveredIndex={setHoveredIndex}
-              />
-            </NoticeSquareWrapper>
+            {notices.length > 0 ? (
+              <NoticeSquareWrapper>
+                <Notices
+                  notices={notices}
+                  onMoveToTop={moveToTop}
+                  hoveredIndex={hoveredIndex}
+                  setHoveredIndex={setHoveredIndex}
+                />
+              </NoticeSquareWrapper>
+            ) : (
+              <NoNoticesText>공지사항이 없습니다.</NoNoticesText>
+            )}
           </ColumnWrapper>
-        </MainSection1>
       </ContentWrapper60>
     </>
   );
@@ -119,30 +101,13 @@ const StudyNoticePage = () => {
 export default StudyNoticePage;
 
 
-
-const MainSection1 = styled.section`
-  display: flex;
-  flex: 1;
-  padding-top: 30px;
-  gap: 0.625em;
-  justify-content: center;
-  align-items: center;
-  font-family: "NanumSquareNeo", sans-serif;
-
-  @media (max-width: 768px) {
-    padding-top: 20px;
-    gap: 0.5em;
-    align-items: flex-start;
-  }
-`;
-
 const Text = styled.p`
   font-size: 1.2em;
   font-weight: 800;
   color: #8e59ff;
   margin-top: 0.625em;
   font-family: "NanumSquareNeo", sans-serif;
-
+  width : 100%;
   @media (max-width: 768px) {
     font-size: 1em;
   }
@@ -180,9 +145,7 @@ const WritingButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    width: 9em;
-    height: 2em;
-    font-size: 0.9em;
+    display : none;
   }
 `;
 
@@ -206,11 +169,23 @@ const ColumnWrapper = styled.div`
   gap: 0.625em;
   margin-top: 0.625em;
   margin-left: 1.25em;
-  font-family: "NanumSquareNeo", sans-serif;
+  width : 100%;
 
   @media (max-width: 768px) {
     margin-top: 0.5em;
     margin-left: 0.5em;
     gap: 0.5em;
   }
+`;
+
+const NoNoticesText = styled.p`
+  width : 100%;
+  height : 100vh;
+  font-size: 1em;
+  color: #a2a3b2;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom : 2em;
+  font-family: "NanumSquareNeo", sans-serif;
 `;

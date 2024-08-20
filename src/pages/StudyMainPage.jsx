@@ -24,7 +24,7 @@ const StudyMainPage = () => {
         독서: [],
         기타: []
     });
-    const [category, setCategory] = useState("");
+    const [, setCategory] = useState("");
 
     // 스터디 데이터를 API로부터 불러오는 useEffect
     useEffect(() => {
@@ -83,10 +83,11 @@ const StudyMainPage = () => {
             {/* 게시글 필터 */}
             <SelectAndButtonWrapper>
                 <MainSelectBox/>
+                <div onClick={() => {navigate("/studycreate");}}>
+                <MobileWriteButton/></div>
                 <CreatePostButton onClick={() => {navigate("/studycreate");}}>
                 + 스터디 만들기
                 </CreatePostButton>
-                <MobileWriteButton onClick={() => {navigate("/studycreate");}}/>
             </SelectAndButtonWrapper>
             <StyledHr />
 
