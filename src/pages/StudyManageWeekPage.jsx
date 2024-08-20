@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import StudyManageWeekManageDel from '../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
 import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
 
@@ -15,7 +15,11 @@ import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 const StudyManageWeeKPage = () => {
   // n주차 버튼 기능 마지막 주차만 삭제, 추가 가능하도록 수정
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
+
   const sidebarRef = useRef(null);
+
+  const location = useLocation();    
+  const roomId = location.state?.roomId || {}; 
 
   const handleDelete = () => {
     if (weeks.length > 0) {
@@ -28,6 +32,7 @@ const StudyManageWeeKPage = () => {
   };
 
   useEffect(() => {
+    console.log(roomId)
     if (sidebarRef.current) {
       sidebarRef.current.style.height = "auto";
       const newHeight = sidebarRef.current.scrollHeight;
