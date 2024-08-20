@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import MobileManageButton from '../components/common/MobileManageButton';
 
 const StudyRoomPage = () => {
+    
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const location = useLocation();    
     const data = location.state?.data || {}; 
@@ -23,11 +24,13 @@ const StudyRoomPage = () => {
         if (index === 0) {
           navigate('/studyroom');
       } else if (index === 1) {
-        navigate('/troubleshooting');
+        navigate('/troubleshooting', {state : {roomId : roomId}});
       } else {
         navigate('/');
       }
     };
+
+    console.log(studyInfo.weeksCount)
 
     return (
         <>
@@ -44,7 +47,7 @@ const StudyRoomPage = () => {
               <SidebarWrapper>
                   <Sidebar>
                     {/* TODO 주차별 정보 불러와서 버튼만들기 추가 */}
-                  {[...Array(9)].map((_, index) => (
+                  {[...Array(studyInfo.weeksCount)].map((_, index) => (
                       <React.Fragment key={index}>
                       <SidebarButton bold={index === 0}>{index + 1}주차</SidebarButton>
                       {index < 8 }
@@ -57,7 +60,7 @@ const StudyRoomPage = () => {
               <MainContent>
                     <StudySummary studyInfo={studyInfo} roomId={roomId}/>  {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />
-                    <WeekCurriculum studyInfo={studyInfo} roomId={roomId}/>
+                    <WeekCurriculum studyInfo={studyInfo} roomId={roomId} week={studyInfo.weeksCount}/>
                     <DivisionLine2 />
                     <StudyPostList comments={studyInfo?.comments} roomId={roomId} />  {/* StudyPostList에 댓글 데이터 전달 */}
                 </MainContent>
@@ -103,7 +106,7 @@ const Sidebar = styled.div`
   flex-direction: column;
   border: 0.0625em solid #A2A3B2; 
   border-radius: 0.5em; 
-  padding : 0em 0.5em 0.5em;
+  padding : 0.5em 0.5em;
   background-color : #FBFAFF;
   box-sizing: border-box;
 
