@@ -8,6 +8,7 @@ import { studyDetailAPI } from '../../utils/studyDetail/studyDetailAPI';
 
 const StudySummary = ({ studyInfo ,roomId}) => {
     const [description, setDescription] = useState('');
+    const [materialList, setMaterialList] = useState(null);
     // const [ firstNotice, setFirstNotice] = useState('');
     // const alarmData = {
     //     1: 3, 
@@ -21,6 +22,7 @@ const StudySummary = ({ studyInfo ,roomId}) => {
             try {
                 const response = await studyDetailAPI(roomId);
                 setDescription(response.description);
+                setMaterialList(response.materialList);
                 // const notice = await studyNoticeAPI(roomId);
                 // setFirstNotice(notice[0]);
             } catch (error) {
@@ -59,8 +61,8 @@ const StudySummary = ({ studyInfo ,roomId}) => {
             
             <StudyDocument>
                 <DataGridContainer>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                        <StudyData key={index}>
+                    {materialList && materialList.map((material) => (
+                        <StudyData key={material.index}>
                             <LeftSide />
                             <RightSide>
                                 <StudyText>제목</StudyText>
@@ -68,6 +70,9 @@ const StudySummary = ({ studyInfo ,roomId}) => {
                             </RightSide>
                         </StudyData>
                     ))}
+                    {materialList && materialList.length === 0 && 
+                            <BlankMaterialList>스터디 자료가 없습니다</BlankMaterialList>
+                    }
                 </DataGridContainer>
             </StudyDocument>
         </>
@@ -75,6 +80,15 @@ const StudySummary = ({ studyInfo ,roomId}) => {
 };
 
 export default StudySummary;
+
+const BlankMaterialList = styled.div`
+    width : 100%;
+    font-size: 0.8125em;
+    color: #a2a3b2;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom : 0.5em;
+`
 
 const StudyDocument = styled.div`
     margin-top : 2.625em;
