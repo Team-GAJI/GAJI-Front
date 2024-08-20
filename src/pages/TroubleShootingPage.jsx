@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import Category from "../components/troubleshooting/Category";
 import ItemList from "../components/troubleshooting/ItemList";
@@ -8,6 +8,10 @@ import { ContentWrapper } from "../components/common/MediaWrapper";
 const TroubleShootingPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
   const navigate = useNavigate();
+
+  const location = useLocation();    
+  const roomId = location.state?.roomId || {}; 
+  console.log(roomId)
 
   const headerTitles = [
     "스터디 홈",
