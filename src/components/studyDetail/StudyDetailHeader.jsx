@@ -12,9 +12,9 @@ import ReportModal from "./ReportModal";
 import { ContentWrapper } from "../common/MediaWrapper";
 
 // 세자리마다 콤마 기능
-const formatNumberWithCommas = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
+// const formatNumberWithCommas = (number) => {
+//     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// };
 
 const StudyDetailHeader = ({ 
     title, 
@@ -97,7 +97,7 @@ const StudyDetailHeader = ({
                     2024.03.01
                     <Wrapper>
                         <StyledBar>|</StyledBar>
-                        조회 {formatNumberWithCommas(views)}
+                        조회 {views}
                         <StyledBar>|</StyledBar>
                         댓글 3
                     </Wrapper>
@@ -121,13 +121,13 @@ const StudyDetailHeader = ({
                     <BookMarkWrapper>
                         <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState}/>
                         <InteractionText>
-                            {formatNumberWithCommas(bookMarkCount)}
+                            {bookMarkCount}
                         </InteractionText>
                     </BookMarkWrapper>
                     <BookMarkWrapper>
                         <StyledLikeIcon onClick={handleLike} likeState={likeState}/>
                         <InteractionText>
-                            {formatNumberWithCommas(likeCount)}
+                            {likeCount}
                         </InteractionText>
                     </BookMarkWrapper>
                     <BookMarkWrapper>

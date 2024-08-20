@@ -17,17 +17,18 @@ const StudyMainPage = () => {
         인공지능: [],
         하드웨어: [],
         보안: [],
-        "클라우드 네트워크": [],
+        "네트워크-클라우드": [],
         어학: [],
         디자인: [],
         비즈니스: [],
-        "독서 모임": []
+        독서: [],
+        기타: []
     });
     const [category, setCategory] = useState("");
 
     // 스터디 데이터를 API로부터 불러오는 useEffect
     useEffect(() => {
-        const categories = ["개발", "인공지능", "하드웨어", "보안", "클라우드 네트워크", "어학", "디자인", "비즈니스", "독서 모임"];
+        const categories = ["개발", "인공지능", "하드웨어", "보안", "네트워크-클라우드", "어학", "디자인", "비즈니스", "독서", "기타"];
         
         const fetchStudies = async () => {
             try {

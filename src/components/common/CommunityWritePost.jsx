@@ -25,7 +25,7 @@ const CommunityWritePost = () => {
     // Redux 관리
     const dispatch = useDispatch();
     dispatch(setBody(markdown));
-    const { title, body, thumbnailUrl, hashtagList, categoryId } = useSelector((state) => state.communityWrite);
+    const { title, body, thumbnailUrl, hashtagList, category } = useSelector((state) => state.communityWrite);
     const { type } = useSelector((state) => state.community);
     // 서버로 전달할 데이터
     const data = {
@@ -34,7 +34,7 @@ const CommunityWritePost = () => {
         "thumbnailUrl": thumbnailUrl,
         "type": type,
         "hashtagList": hashtagList,
-        "categoryId": categoryId
+        "category": category
     };
 
     const handleSubmit = async () => {
