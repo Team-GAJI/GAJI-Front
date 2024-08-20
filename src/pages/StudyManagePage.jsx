@@ -42,8 +42,8 @@ const StudyManagePage = () => {
     //studymanage 페이지로 이동
   const navigate = useNavigate();
 
-  const handleButtonClick = (navigate) => {
-      navigate('/studyweekmanage');
+  const handleButtonClick = () => {
+      navigate('/studyweekmanage' , { state: { roomId : roomId} });
       
   };
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
@@ -91,7 +91,7 @@ const StudyManagePage = () => {
                     bold={index === selectedWeek}
                     onClick={() => handleWeekSelect(index)}
                   >
-                    <TextWrapper onClick={() => handleButtonClick(navigate)}>
+                    <TextWrapper onClick={() => handleButtonClick(week + 1)}>
                       {week + 1}주차
                     </TextWrapper>
                     {index === weeks.length - 1 && (
