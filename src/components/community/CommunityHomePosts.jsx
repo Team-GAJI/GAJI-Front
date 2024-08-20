@@ -282,21 +282,27 @@ const PostPreviewWrapper = styled.div`
 `;
 
 const BlogPreviewWrapper = styled.div`
-  margin-top : 1em;
-  margin-bottom : 1em;
-  padding-top: 1em;
-  box-sizing  :border-box;
-  width: 100%;
-  display: flex;
-  justify-content : center;
-  gap : 2em;
-  flex-wrap: wrap;
-  @media(max-width:768px){
-    display : flex;
-    align-items: center;
-    flex-direction : column;
-    overflow-y : scroll;
-  }
+    display: grid;
+    padding-top : 2em;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(15.05em, 1fr));
+    gap: 1em;
+    
+
+    @media(max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr); /* 1024px 이하에서 2열 */
+        gap: 0.5em;
+    }
+
+    @media(max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr); /* 768px 이하에서 2열 */
+        gap: 0.5em;
+    }
+
+    @media(max-width: 480px) {
+        grid-template-columns: 1fr; /* 480px 이하에서 1열 */
+        gap: 0.5em;
+    }
 `;
 
 

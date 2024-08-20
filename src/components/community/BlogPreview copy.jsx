@@ -41,9 +41,9 @@ export default BlogPreview;
 
 const PostWrapper = styled.div`
     border-radius: 10px;
-    width: 100%;
-    height: auto;
-    min-height : 21.6em;
+    min-width: 21.6em;
+    width: ${({ link }) => link === 'community' ? '21.6em' : '100%'};
+    height: ${({ link }) => link === 'community' ? '21.6em' : '21.6em'};
     font-size: 0.7489em;
     display: flex;
     flex-direction: column;
@@ -57,29 +57,18 @@ const PostWrapper = styled.div`
         box-shadow: 0 0.625em 1.25em #c8c8c8;
     }
 
-    @media (min-width: 1024px) {
-        max-width: 21.6em;
-    }
-
     @media (max-width: 1024px) {
+        width: 100%;
+        max-width: ${({ link }) => link === 'community' ? '35em' : '30em'};
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+        width: 100%;
+        max-height: 32em;
         max-width: 35em;
-    }
-
-    @media (max-width: 768px) {
-        max-width: 100%;
-        height: auto;
-        margin-top: 1em;  /* 위 간격 추가 */
-        margin-bottom: 1em; /* 아래 간격 추가 */
-    }
-
-    @media (max-width: 480px) {
-        max-width: 100%;
-        height: auto;
-        margin-top: 1em;  /* 위 간격 추가 */
-        margin-bottom: 1em; /* 아래 간격 추가 */
+        max-width: ${({ link }) => link === 'community' ? '21.6em' : '35em'};
     }
 `;
-
 
 const BackgroundWrapper = styled.div`
     border: 1px solid #D0D1D9;
@@ -136,7 +125,7 @@ const PostTitle = styled.div`
 
 const Content = styled.div`
     margin: 0 1.92em 1em 1.92em;
-    height: 100%;
+    height: 4em;
     line-height: 1.4em;
     font-size: 0.8125em;
     // 말줄임 처리
