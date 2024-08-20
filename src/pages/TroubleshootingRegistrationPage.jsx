@@ -9,6 +9,10 @@ import { registerTroubleShootingAPI } from "../utils/troubleShooting/troubleShoo
 const TroubleshootingRegistrationPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
 
+  const location = useLocation();
+  const roomId = location.state?.roomId || {};
+  console.log(roomId);
+
   // API 연결
   const [title, setTitle] = useState(""); // State for the post title
   const [content, setContent] = useState(""); // State for the post content

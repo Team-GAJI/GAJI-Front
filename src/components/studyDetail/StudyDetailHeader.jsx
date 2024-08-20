@@ -13,7 +13,7 @@ import { ContentWrapper } from "../common/MediaWrapper";
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
-//   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+//     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 // };
 
 const StudyDetailHeader = ({
@@ -100,7 +100,7 @@ const StudyDetailHeader = ({
               2024.03.01
               <Wrapper>
                 <StyledBar>|</StyledBar>
-                조회
+                조회 {views}
                 <StyledBar>|</StyledBar>
                 댓글 3
               </Wrapper>
@@ -127,11 +127,11 @@ const StudyDetailHeader = ({
                   onClick={handleBookMark}
                   bookMarkState={bookMarkState}
                 />
-                <InteractionText></InteractionText>
+                <InteractionText>{bookMarkCount}</InteractionText>
               </BookMarkWrapper>
               <BookMarkWrapper>
                 <StyledLikeIcon onClick={handleLike} likeState={likeState} />
-                <InteractionText></InteractionText>
+                <InteractionText>{likeCount}</InteractionText>
               </BookMarkWrapper>
               <BookMarkWrapper>
                 <StyledReportIcon onClick={showReportModal} />

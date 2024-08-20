@@ -27,12 +27,12 @@ const StudyDetailPage = () => {
             {/* 페이지 헤더 */}
             <StudyDetailHeader
                 title={studyDetail.studyTitle}
-                bookmarks={studyDetail.bookmarks}
+                bookmarks={studyDetail.bookmarkCnt}
                 views={studyDetail.views}
                 nickName={studyDetail.userNickName}
                 category={studyDetail.studyCategory || "카테고리 없음"}
                 imageUrl={studyDetail.imageUrl}
-                likes={studyDetail.likes}
+                likes={studyDetail.likeCnt}
                 recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === "RECRUITING" ? "모집 중" : "모집 완료"}
                 userActive={studyDetail.userActive === "ACTIVE" ? "활동중" : "자리비움"}
                 userActiveColor={studyDetail.userActive === "ACTIVE" ? "#A8FEA1" : "grey"}

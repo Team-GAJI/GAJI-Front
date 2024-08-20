@@ -15,6 +15,7 @@ import {
 } from "../../features/community/communityWriteSlice";
 import { registerTroubleShootingAPI } from "../../utils/troubleShooting/troubleShootingInfoAPI";
 
+
 const TroubleshootingWritePost = () => {
   // 상태 관리
   const [markdown, setMarkdown] = useState("");

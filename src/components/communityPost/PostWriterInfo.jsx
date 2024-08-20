@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ProfileImg from '../../assets/images/community/writerProfile.png';
 import SendMessageIcon from '../../assets/icons/community/sendMessage.svg?react';
 
-const PostWriterInfo = () => {
+const PostWriterInfo = ( {nickName} ) => {
     return (
         <ProfileWrapper>
             {/* 프로필 */}
@@ -11,13 +11,14 @@ const PostWriterInfo = () => {
                 <StyledProfileImg src={ProfileImg} alt='writer profile'/>
                 <TextWrapper>
                     <WriterName>
-                        USER 1023
+                        {nickName}
                     </WriterName>
                     <WriterGrade>
                         Gold Member
                     </WriterGrade>
                     <Relativetime>
                         마지막활동 | 1시간 전
+                        {/* <Cricle userActiveColor={userActiveColor}/>{userActive}  */}
                     </Relativetime>
                 </TextWrapper>
             </ProfileDetailWrapper>
@@ -116,3 +117,10 @@ const SendMessageText = styled.div`
     font-size: 0.6875em;
     font-weight: bold;
 `;
+
+// const Cricle = styled.div`
+//     width : 0.75em;
+//     height : 0.75em;
+//     border-radius : 100%;
+//     background-color: ${(props) => props.userActiveColor};
+// `;

@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const Category = () => {
+const Category = (roomId) => {
   const navigate = useNavigate();
 
   const handleCreatePost = () => {
-    navigate("/troubleshooting-register");
+    navigate("/troubleshooting-register", { state: { roomId: roomId } });
   };
 
   return (

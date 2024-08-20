@@ -72,9 +72,9 @@ const MainSelectBox = () => {
                         isSelected={selectedCategoryOption === "보안"}
                     >보안</StyledOption>
                     <StyledOption
-                        onClick={() => handleCategorySelect("클라우드 네트워크")}
-                        isSelected={selectedCategoryOption === "클라우드 네트워크"}
-                    >클라우드</StyledOption>
+                        onClick={() => handleCategorySelect("네트워크-클라우드")}
+                        isSelected={selectedCategoryOption === "네트워크-클라우드"}
+                    >네트워크</StyledOption>
                     <StyledOption
                         onClick={() => handleCategorySelect("어학")}
                         isSelected={selectedCategoryOption === "어학"}
@@ -86,11 +86,15 @@ const MainSelectBox = () => {
                     <StyledOption
                         onClick={() => handleCategorySelect("비즈니스")}
                         isSelected={selectedCategoryOption === "비즈니스"}
-                    >비즈니스 &#40;pm&#41;</StyledOption>
+                    >비즈니스</StyledOption>
                     <StyledOption
-                        onClick={() => handleCategorySelect("독서 모임")}
-                        isSelected={selectedCategoryOption === "독서 모임"}
-                    >독서 모임</StyledOption>
+                        onClick={() => handleCategorySelect("독서")}
+                        isSelected={selectedCategoryOption === "독서"}
+                    >독서</StyledOption>
+                    <StyledOption
+                        onClick={() => handleCategorySelect("기타")}
+                        isSelected={selectedCategoryOption === "기타"}
+                    >기타</StyledOption>
                 </OptionWrapper>
             </ButtonWrapper>
 

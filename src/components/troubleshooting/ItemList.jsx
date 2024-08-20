@@ -11,7 +11,7 @@ const ItemList = () => {
   const [lastPostId, setLastPostId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const boardId = 1; // Replace with actual board ID
+  const boardId = 1; // 명세서에 boardId를 roomId로 바꿀수도?
 
   const loadPosts = useCallback(async () => {
     if (isLoading) return;
