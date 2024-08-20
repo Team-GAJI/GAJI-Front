@@ -42,15 +42,15 @@ const StudyNoticePage = () => {
   ];
 
   useEffect(() => {
-    console.log(roomId);
+    console.log(roomId)
     const fetchNotices = async () => {
-        try {
-            const fetchedNotices = await studyNoticeAPI(roomId);
-            setNotices(fetchedNotices);
-            console.log(fetchedNotices);
-        } catch (error) {
-            console.error("공지사항을 불러오는 중 오류가 발생했습니다:", error);
-        }
+      try {
+        const fetchedNotices = await studyNoticeAPI(roomId);
+        setNotices(fetchedNotices);
+        console.log(notices)
+      } catch (error) {
+        console.error("공지사항을 불러오는 중 오류가 발생했습니다:", error);
+      }
     };
 
     fetchNotices();
@@ -74,23 +74,21 @@ const StudyNoticePage = () => {
           <ColumnWrapper>
             <Container>
               <Text>스터디명 공지사항</Text>
-              <div onClick={handleNavigateToRegister}><MobileWriteButton/></div>
-              <WritingButton onClick={handleNavigateToRegister}>
+              <div onClick={()=>handleNavigateToRegister()}><MobileWriteButton/></div>
+              <WritingButton onClick={()=>handleNavigateToRegister()}>
                 + 공지사항 작성
               </WritingButton>
             </Container>
 
-            {notices && notices.length > 0 ? (
-              notices.map((notice, index) => (
-                <NoticeSquareWrapper key={index}>
-                  <Notices
-                    notices={notices} 
-                    onMoveToTop={() => moveToTop(index)}
-                    hoveredIndex={hoveredIndex}
-                    setHoveredIndex={setHoveredIndex}
-                  />
-                </NoticeSquareWrapper>
-              ))
+            {notices.length > 0 ? (
+              <NoticeSquareWrapper>
+                <Notices
+                  notices={notices}
+                  onMoveToTop={moveToTop}
+                  hoveredIndex={hoveredIndex}
+                  setHoveredIndex={setHoveredIndex}
+                />
+              </NoticeSquareWrapper>
             ) : (
               <NoNoticesText>공지사항이 없습니다.</NoNoticesText>
             )}
@@ -102,13 +100,14 @@ const StudyNoticePage = () => {
 
 export default StudyNoticePage;
 
+
 const Text = styled.p`
   font-size: 1.2em;
   font-weight: 800;
   color: #8e59ff;
   margin-top: 0.625em;
   font-family: "NanumSquareNeo", sans-serif;
-  width: 100%;
+  width : 100%;
   @media (max-width: 768px) {
     font-size: 1em;
   }
@@ -146,7 +145,7 @@ const WritingButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    display: none;
+    display : none;
   }
 `;
 
@@ -163,7 +162,6 @@ const NoticeSquareWrapper = styled.div`
   }
 `;
 
-
 const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -171,7 +169,7 @@ const ColumnWrapper = styled.div`
   gap: 0.625em;
   margin-top: 0.625em;
   margin-left: 1.25em;
-  width: 100%;
+  width : 100%;
 
   @media (max-width: 768px) {
     margin-top: 0.5em;
@@ -181,13 +179,13 @@ const ColumnWrapper = styled.div`
 `;
 
 const NoNoticesText = styled.p`
-  width: 100%;
-  height: 100vh;
+  width : 100%;
+  height : 100vh;
   font-size: 1em;
   color: #a2a3b2;
   font-weight: 700;
   text-align: center;
   margin-top: 2em;
-  margin-bottom: 2em;
+  margin-bottom : 2em;
   font-family: "NanumSquareNeo", sans-serif;
 `;

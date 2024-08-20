@@ -5,8 +5,7 @@ import userProfile from "../../assets/images/community/userProfile.png";
 import CheckTooltip from "./CheckTooltip";
 
 const NoticeSquare = ({
-  title,
-  content,
+  notice,
   isHovered,
   onMouseEnter,
   onMouseLeave,
@@ -36,19 +35,19 @@ const NoticeSquare = ({
             isHovered={isHovered}
             onClick={onMoveToTop}
           />
-          <Text1 isHovered={isHovered}>{title}</Text1>
+          <Text1 isHovered={isHovered}>{notice.text1}</Text1>
         </InputWrapper>
-        <Text2>{content}</Text2>
+        <Text2>{notice.text2}</Text2>
         <Container1>
           <User src={userProfile} alt="User Icon" />
-          <Text4></Text4>
-          <Text3></Text3>
+          <Text4>{notice.user}</Text4>
+          <Text3>{notice.time}</Text3>
           <CheckButton
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
             <span>확인</span>
-            <span></span>
+            <span>{notice.checks}</span>
             <CheckTooltip
               users={[
                 "user1023",
