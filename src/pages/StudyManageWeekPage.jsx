@@ -54,7 +54,6 @@ const StudyManageWeeKPage = () => {
       }
     }
   };
-  
 
   useEffect(() => {
     fetchSelectedWeekData();
@@ -70,6 +69,7 @@ const StudyManageWeeKPage = () => {
           const week = weeks[i];
           const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
           console.log(`주차: ${week}, 정보:`, weekInfo);
+
   
           await descriptionAPI(roomId, week, weekInfo);
           const periodInfo = {
@@ -203,168 +203,158 @@ const StudyManageWeeKPage = () => {
 export default StudyManageWeeKPage;
 
 const RowWrapper = styled.div`
-display : flex;
-@media(max-width : 768px){
-  flex-direction : column-reverse;
-}
+  display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const DelIconWrapper = styled.div`
-visibility: hidden;
-margin-left: 0em; 
-margin-bottom: -0.3em;
+  visibility: hidden;
+  margin-left: 0em; 
+  margin-bottom: -0.3em;
 `;
 
 const DelIcons = styled.img`
-width: 3em;
-height: auto;
+  width: 3em;
+  height: auto;
 `;
-
 
 const Sidebar1 = styled.aside`
-overflow-y: auto;
-background-color: #FBFAFF;
-display: flex;
-flex-direction: column;
-border: 1px solid #A2A3B2;  
-border-radius: 0.5em;
-max-height: 500px;
-width : 10%;
-width: 11.25em;
-right : 3%;
-padding : 0.2em;
-padding-bottom: 1em;
-overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #FBFAFF;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #A2A3B2;  
+  border-radius: 0.5em;
+  max-height: 500px;
+  width: 11.25em;
+  right: 3%;
+  padding: 0.2em;
+  padding-bottom: 1em;
+  overflow-x: hidden;
 
-// 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
-position: -webkit-sticky;
-position: sticky;
-top: 5em;
-margin-top : 2.75em;
-
-@media (max-width: 768px) {
   position: -webkit-sticky;
   position: sticky;
-  top: 60px;
-  left : 0;
-  width : 100%;
-  margin-left: 0;
-  box-sizing : border-box;
-  border : none;
-  flex-direction: row;
-  overflow-x: scroll; 
-  overflow-y: hidden; 
+  top: 5em;
+  margin-top: 2.75em;
 
-  z-index: 10;
-  height: 3em; 
-  max-height: 5em; 
-}
+  @media (max-width: 768px) {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    margin-left: 0;
+    box-sizing: border-box;
+    border: none;
+    flex-direction: row;
+    overflow-x: scroll; 
+    overflow-y: hidden; 
 
+    z-index: 10;
+    height: 3em; 
+    max-height: 5em; 
+  }
 `;
+
 const TextWrapper = styled.div`
-flex: 1;
-text-align: center;
-
+  flex: 1;
+  text-align: center;
 `;
+
 const SidebarButton1 = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: transparent;
-color: #A2A3B2;
-font-weight: ${(props) => (props.bold ? '800' : '400')};
-padding: 0.4em 0em;
-border: 1px solid transparent;
-cursor: pointer;
-width: 100%;
-margin: 0.5em 0em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #A2A3B2;
+  font-weight: ${(props) => (props.bold ? '800' : '400')};
+  padding: 0.4em 0em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  width: 100%;
+  margin: 0.5em 0em;
 
-box-sizing: border-box;
+  box-sizing: border-box;
 
+  @media (max-width: 768px) {
+    flex-direction: row;
+    width: auto;
+    min-width: 8em; 
+    padding: 0.5em 0.5em;
+    margin-top: 0.5em;
+  }
 
-@media (max-width: 768px) {
-  flex-direction: row;
-  width: auto;
-  min-width: 8em; 
-  padding: 0.5em 0.5em;
-  margin-top: 0.5em;
-}
+  &:hover {
+    border: 1px solid #8E59FF;
+    border-radius: 0.4em;
+    color: #8E59FF;
+    font-weight: 800;
+  }
+  
+  &.last-week {
+    margin-left: 1.5em;
+  }
 
-&:hover {
-  border: 1px solid #8E59FF;
-  border-radius: 0.4em;
-  color: #8E59FF;
-  font-weight: 800;
-}
-// 마지막 주차 글자 위치조정
-&.last-week {
+  &.last-week:hover {
+    margin-left: 0;
+    border: 1px solid #8E59FF;
+    border-radius: 0.4em;
+    color: #8E59FF;
+    font-weight: 800;
 
-  margin-left: 1.5em;
+    ${DelIconWrapper} {
+      margin-right: 1em;
+      visibility: visible;
 
-}
+      @media (max-width: 768px) {
+        margin-left: 0.1em;
+        margin-right: 0em;
+      }
+    }
 
-&.last-week:hover {
-  margin-left: 0;
-  border: 1px solid #8E59FF;
-  border-radius: 0.4em;
-  color: #8E59FF;
-  font-weight: 800;
-
-  ${DelIconWrapper} {
-    margin-right: 1em;
-    visibility: visible;
-    
-    @media(max-width: 768px) {
-    margin-left: 0.1em;
-    margin-right : 0em;
+    ${TextWrapper} {
+      text-align: center;
     }
   }
-
-  ${TextWrapper} {
-    text-align: center;
-  }
- 
-}
 `;
 
-
 const BasicInfoButton = styled(SidebarButton1)`
-font-size: 1em;
-font-weight: 1.125em;
-background-color: #8E59FF;
-border: none;
-background-color: transparent;
-color: #A2A3B2;
+  font-size: 1em;
+  font-weight: 1.125em;
+  background-color: #8E59FF;
+  border: none;
+  background-color: transparent;
+  color: #A2A3B2;
 
-@media(max-width: 768px) {
-  margin-left: 0.5em;
-}
+  @media (max-width: 768px) {
+    margin-left: 0.5em;
+  }
 `;
 
 const PlusButton = styled.button`
-font-size: 1em;
-font-weight: 1.125em;
-background-color: #8E59FF;
-border: none;
-background-color: transparent;
-color: #A2A3B2;
-padding: 0.6em 0.625em;
+  font-size: 1em;
+  font-weight: 1.125em;
+  background-color: #8E59FF;
+  border: none;
+  background-color: transparent;
+  color: #A2A3B2;
+  padding: 0.6em 0.625em;
 
-
-@media (max-width: 768px) {
-  padding: 0.5em 0.5em;
-  margin-top: 0em;
-  margin-right : 3em;
-}
+  @media (max-width: 768px) {
+    padding: 0.5em 0.5em;
+    margin-top: 0em;
+    margin-right: 3em;
+  }
 `;
 
 const PlusIcons = styled.img`
-width: 1em;
-height: auto;
-transition: filter 0.3s;
+  width: 1em;
+  height: auto;
+  transition: filter 0.3s;
 
-&:hover {
-  filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
-}
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7497%) hue-rotate(246deg) brightness(105%) contrast(103%);
+  }
 `;
-

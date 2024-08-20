@@ -2,19 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MinorText } from './StudySummary';
 
-const WeekCurriculum = () => {
+const WeekCurriculum = ( week ,roomId ) => {
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
 
     const [activeTasks, setActiveTasks] = useState({});
     const [hoveredNickname, setHoveredNickname] = useState(null);
-
-    const alarmData = {
-        1: 3, 
-        2: 5,   
-    };
-    
-    const id = 1;  
-    const alarmCount = alarmData[id]; 
 
 
     const toggleTask = (taskId) => {
@@ -32,7 +24,7 @@ const WeekCurriculum = () => {
     return (
         <>
             <WeekStudySummary>
-                <MainText>4주차</MainText>
+                <MainText>{week}주차</MainText>
                 <Date>2024. 03.19 - 03. 26</Date>
             </WeekStudySummary>
             <StudyCurriculumName>4주차 스터디 제목</StudyCurriculumName>
@@ -118,7 +110,7 @@ const WeekCurriculum = () => {
             <MoreWrapper>
                 <ButtonWrapper>
                     <MoreButton>스터디 단체 채팅방 입장하기</MoreButton>
-                    <NoticeButton2>{alarmCount}</NoticeButton2>
+                    {/* <NoticeButton2>{alarmCount}</NoticeButton2> */}
                 </ButtonWrapper>
             </MoreWrapper>        
         </>

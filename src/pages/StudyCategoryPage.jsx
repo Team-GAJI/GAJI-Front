@@ -19,7 +19,7 @@ const StudyCategoryPage = () => {
     useEffect(() => {
         const fetchStudiesByCategory = async () => {
             try {
-                const response = await studyPostsPreviewAPI(category, null, 'recent', 10);
+                const response = await studyPostsPreviewAPI(category, null, 'recent', null);
                 setStudies(response);
             } catch (error) {
                 console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
@@ -220,17 +220,23 @@ const CategoryTitle = styled.div`
 `;
 
 const StudyPreviewWrapper = styled.div`
+    display: grid;
     width: 100%;
-    display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fill, minmax(13.2425em, 1fr));
+    gap: 1em;
 
-    @media(max-width : 768px){
-        justify-content: center;
-        gap : 0em;
+    @media(max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr); /* 1024px 이하에서 2열 */
+        gap: 0.5em;
     }
-    @media(max-width : 1024px){
-        justify-content: center;
-        gap : 0em;
+
+    @media(max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr); /* 768px 이하에서 2열 */
+        gap: 0.5em;
+    }
+
+    @media(max-width: 480px) {
+        grid-template-columns: 1fr; /* 480px 이하에서 1열 */
+        gap: 0.5em;
     }
 `;

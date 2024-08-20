@@ -37,7 +37,9 @@ function App() {
         element={<LoginRedirectPage />}
       />
 
+
       <Route path="/nickname" element={<LoginRedirectPage />} />
+
 
       {/* 사용자가 로그인할 수 있는 페이지 */}
 
