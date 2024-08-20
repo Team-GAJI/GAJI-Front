@@ -17,7 +17,7 @@ const StudyPostWriterInfo = ( {nickName,userActive,userActiveColor} ) => {
                         Gold Member
                     </WriterGrade>
                     <Relativetime>
-                    <Cricle userActiveColor={userActiveColor}/> {userActive} 
+                        <Cricle userActiveColor={userActiveColor}/> {userActive} 
                     </Relativetime>
                 </TextWrapper>
             </ProfileDetailWrapper>
@@ -38,13 +38,6 @@ StudyPostWriterInfo.displayName = 'StudyPostWriterInfo';
 
 export default StudyPostWriterInfo;
 
-
-const Cricle = styled.div`
-    width : 0.75em;
-    height : 0.75em;
-    border-radius : 100%;
-    background-color: ${(props) => props.userActiveColor};
-`
 /* CSS */
 const ProfileWrapper = styled.div`
     border-radius: 10px;
@@ -126,3 +119,10 @@ const SendMessageText = styled.div`
     font-size: 0.6875em;
     font-weight: bold;
 `;
+
+const Cricle = styled.div`
+    width : 0.75em;
+    height : 0.75em;
+    border-radius : 100%;
+    background-color: ${(props) => props.userActiveColor};
+`

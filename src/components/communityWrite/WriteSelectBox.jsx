@@ -2,7 +2,7 @@ import React, {  useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import DownArrowIcon from "../../assets/icons/communityWrite/purpleDownArrow.svg?react";
-import { setCategoryId } from '../../features/community/communityWriteSlice';
+import { setCategory } from '../../features/community/communityWriteSlice';
 
 const WriteSelectBox = () => {
     // 필터 상태 관리
@@ -21,25 +21,7 @@ const WriteSelectBox = () => {
     const handleCategorySelect = (option) => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
-        if (option === "개발") {
-            dispatch(setCategoryId(1));
-        } else if (option === "인공지능") {
-            dispatch(setCategoryId(2));
-        } else if (option === "하드웨어") {
-            dispatch(setCategoryId(3));
-        } else if (option === "보안") {
-            dispatch(setCategoryId(4));
-        } else if (option === "클라우드 네트워크") {
-            dispatch(setCategoryId(5));
-        } else if (option === "어학") {
-            dispatch(setCategoryId(6));
-        } else if (option === "디자인") {
-            dispatch(setCategoryId(7));
-        } else if (option === "비즈니스") {
-            dispatch(setCategoryId(8));
-        } else if (option === "독서 모임") {
-            dispatch(setCategoryId(9));
-        }
+        dispatch(setCategory(option));
     };
 
 
@@ -69,9 +51,9 @@ const WriteSelectBox = () => {
                     isSelected={selectedCategoryOption === "보안"}
                 >보안</StyledOption>
                 <StyledOption
-                    onClick={() => handleCategorySelect("클라우드 네트워크")}
-                    isSelected={selectedCategoryOption === "클라우드 네트워크"}
-                >클라우드 - 네트워크</StyledOption>
+                    onClick={() => handleCategorySelect("네트워크-클라우드")}
+                    isSelected={selectedCategoryOption === "네트워크-클라우드"}
+                >네트워크-클라우드</StyledOption>
                 <StyledOption
                     onClick={() => handleCategorySelect("어학")}
                     isSelected={selectedCategoryOption === "어학"}
@@ -83,11 +65,15 @@ const WriteSelectBox = () => {
                 <StyledOption
                     onClick={() => handleCategorySelect("비즈니스")}
                     isSelected={selectedCategoryOption === "비즈니스"}
-                >비즈니스 &#40;pm&#41;</StyledOption>
+                >비즈니스</StyledOption>
                 <StyledOption
-                    onClick={() => handleCategorySelect("독서 모임")}
-                    isSelected={selectedCategoryOption === "독서 모임"}
-                >독서 모임</StyledOption>
+                    onClick={() => handleCategorySelect("독서")}
+                    isSelected={selectedCategoryOption === "독서"}
+                >독서</StyledOption>
+                <StyledOption
+                    onClick={() => handleCategorySelect("기타")}
+                    isSelected={selectedCategoryOption === "기타"}
+                >기타</StyledOption>
             </OptionWrapper>
         </SelectWrapper>
     )

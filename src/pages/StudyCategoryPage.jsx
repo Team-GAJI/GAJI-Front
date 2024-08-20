@@ -19,7 +19,7 @@ const StudyCategoryPage = () => {
     useEffect(() => {
         const fetchStudiesByCategory = async () => {
             try {
-                const response = await studyPostsPreviewAPI(category, null, 'recent', 10);
+                const response = await studyPostsPreviewAPI(category, null, 'recent', null);
                 setStudies(response);
             } catch (error) {
                 console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
