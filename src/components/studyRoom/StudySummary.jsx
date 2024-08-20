@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Book from '../../assets/images/studyRoom/Rectangle 34624913.png';
 import BellIcon from '../../assets/icons/studyRoom/bellIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { studyDetailAPI } from '../../utils/studyDetail/studyDetailAPI';
 
-const StudySummary = ({ studyInfo }) => {
+const StudySummary = ({ studyInfo ,roomId}) => {
+    const [description, setDescription] = useState('');
+    // const [ firstNotice, setFirstNotice] = useState('');
     const alarmData = {
         1: 3, 
         2: 5,   
@@ -12,6 +15,20 @@ const StudySummary = ({ studyInfo }) => {
     const navigate = useNavigate();
     const id = 1;  
     const alarmCount = alarmData[id] || 0; 
+    useEffect(() => {
+        const fetchStudyDetail = async () => {
+            try {
+                const response = await studyDetailAPI(roomId);
+                setDescription(response.description);
+                // const notice = await studyNoticeAPI(roomId);
+                // setFirstNotice(notice);
+            } catch (error) {
+                console.error('Failed to fetch study details', error);
+            }
+        };
+
+        fetchStudyDetail();
+    }, [roomId]);
 
     return (
         <>
@@ -25,7 +42,7 @@ const StudySummary = ({ studyInfo }) => {
             </Container>
             
             <StudyDescription>
-                스터디룸 상세설명 입니다... {/* 설명을 간략하게 줄여서 표시 */}
+                {description}
             </StudyDescription>
             <DescriptionDetail>자세히보기 &gt;</DescriptionDetail>
 
@@ -66,15 +83,13 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     width : 100%;
+    justify-content : space-between;
 `;
 
 const MainText = styled.h1`
     font-size: 1.25em;
     font-weight: 800;
     color: #8E59FF;
-    @media (max-width: 768px) {
-        font-size: 0.8125em;
-    }
 `;
 
 const OpenButton = styled.div`
@@ -93,7 +108,7 @@ const OpenButton = styled.div`
     margin-left: auto;
 `;
 
-export const CloudyText = styled.div`
+ const CloudyText = styled.div`
     color: #A2A3B2;
     font-size: 0.9375em; 
     font-weight: 700;
@@ -114,13 +129,10 @@ const StudyDescription = styled.div`
     line-height: 1.2em;   
 `;
 
-export const CountText = styled.p`
+const CountText = styled.p`
     color: #A2A3B2;
     font-size: 0.9375em;
     font-weight: 700;
-    margin-left: auto;
-    width: 6.25em;
-    margin-right: 1.25em; 
 `;
 
 const DescriptionDetail = styled.div`
@@ -143,13 +155,13 @@ const NoticeWrapper = styled.div`
     gap  : 0.75em;
     position : relative;
     color : #A2A3B2;
+    font-size : 0.8125em;
     font-weight : 800;
-    padding-left: 1.875em; 
+    box-sizing : border-box;
+    padding : 1em 1em;
     width: 100%;
-    height: 2.5em; 
     border-radius: 0.5em; 
     border: 0.0625em solid #8E59FF; 
-    box-sizing : border-box;
 `;
 
 const RecentNotice = styled.div`
