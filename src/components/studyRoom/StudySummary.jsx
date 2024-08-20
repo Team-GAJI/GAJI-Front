@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Book from '../../assets/images/studyRoom/Rectangle 34624913.png';
-import BellIcon from '../../assets/icons/studyRoom/bellIcon.svg?react';
-import { useNavigate } from 'react-router-dom';
+// import BellIcon from '../../assets/icons/studyRoom/bellIcon.svg?react';
+//import { useNavigate } from 'react-router-dom';
 import { studyDetailAPI } from '../../utils/studyDetail/studyDetailAPI';
+// import { studyNoticeAPI } from '../../utils/studyRoom/studyNoticeAPI';
 
 const StudySummary = ({ studyInfo ,roomId}) => {
     const [description, setDescription] = useState('');
+    const [materialList, setMaterialList] = useState(null);
     // const [ firstNotice, setFirstNotice] = useState('');
-    const alarmData = {
-        1: 3, 
-        2: 5,   
-    };
-    const navigate = useNavigate();
-    const id = 1;  
-    const alarmCount = alarmData[id] || 0; 
+    // const alarmData = {
+    //     1: 3, 
+    //     2: 5,   
+    // };
+    // const navigate = useNavigate();
+    // const id = 1;  
+    // const alarmCount = alarmData[id] || 0; 
     useEffect(() => {
         const fetchStudyDetail = async () => {
             try {
                 const response = await studyDetailAPI(roomId);
                 setDescription(response.description);
+                setMaterialList(response.materialList);
                 // const notice = await studyNoticeAPI(roomId);
-                // setFirstNotice(notice);
+                // setFirstNotice(notice[0]);
             } catch (error) {
                 console.error('Failed to fetch study details', error);
             }
@@ -48,18 +51,18 @@ const StudySummary = ({ studyInfo ,roomId}) => {
 
             <DivisionLine />
 
-            <NoticeWrapper onClick={() => navigate('/studynotice')}>
+            {/* <NoticeWrapper onClick={() => navigate('/studynotice', { state: { roomId: roomId } })}>
                 <BellIcon />
                 <>공지사항</>
                 <DivisionLine3 />
-                <RecentNotice>여러분, 이건 꼭 알아야 합니다! 모르면 이 스터디 못해요~</RecentNotice>
+                <RecentNotice>{firstNotice}</RecentNotice>
                 <NoticeButton1>{alarmCount}</NoticeButton1>
-            </NoticeWrapper>
+            </NoticeWrapper> */}
             
             <StudyDocument>
                 <DataGridContainer>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                        <StudyData key={index}>
+                    {materialList && materialList.map((material) => (
+                        <StudyData key={material.index}>
                             <LeftSide />
                             <RightSide>
                                 <StudyText>제목</StudyText>
@@ -67,6 +70,9 @@ const StudySummary = ({ studyInfo ,roomId}) => {
                             </RightSide>
                         </StudyData>
                     ))}
+                    {materialList && materialList.length === 0 && 
+                            <BlankMaterialList>스터디 자료가 없습니다</BlankMaterialList>
+                    }
                 </DataGridContainer>
             </StudyDocument>
         </>
@@ -74,6 +80,15 @@ const StudySummary = ({ studyInfo ,roomId}) => {
 };
 
 export default StudySummary;
+
+const BlankMaterialList = styled.div`
+    width : 100%;
+    font-size: 0.8125em;
+    color: #a2a3b2;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom : 0.5em;
+`
 
 const StudyDocument = styled.div`
     margin-top : 2.625em;
@@ -148,51 +163,51 @@ export const DivisionLine = styled.div`
     width: 100%;
 `;
 
-const NoticeWrapper = styled.div`
-    display : flex;
-    justify-content : flex-start;
-    align-items : center;
-    gap  : 0.75em;
-    position : relative;
-    color : #A2A3B2;
-    font-size : 0.8125em;
-    font-weight : 800;
-    box-sizing : border-box;
-    padding : 1em 1em;
-    width: 100%;
-    border-radius: 0.5em; 
-    border: 0.0625em solid #8E59FF; 
-`;
+// const NoticeWrapper = styled.div`
+//     display : flex;
+//     justify-content : flex-start;
+//     align-items : center;
+//     gap  : 0.75em;
+//     position : relative;
+//     color : #A2A3B2;
+//     font-size : 0.8125em;
+//     font-weight : 800;
+//     box-sizing : border-box;
+//     padding : 1em 1em;
+//     width: 100%;
+//     border-radius: 0.5em; 
+//     border: 0.0625em solid #8E59FF; 
+// `;
 
-const RecentNotice = styled.div`
-    font-weight : 700;
-    @media(max-width : 768px){
-        font-size : 0.8125em;
-    }
-`;
+// const RecentNotice = styled.div`
+//     font-weight : 700;
+//     @media(max-width : 768px){
+//         font-size : 0.8125em;
+//     }
+// `;
 
-const DivisionLine3 = styled.div`
-    height : 50%;
-    width  : 2px;
-    background-color : #A2A3B2;
-    box-sizing : border-box;
-`;
+// const DivisionLine3 = styled.div`
+//     height : 50%;
+//     width  : 2px;
+//     background-color : #A2A3B2;
+//     box-sizing : border-box;
+// `;
 
-const NoticeButton1 = styled.button`
-    border-radius: 50%;  
-    border: 0.0625em solid #FF0043;
-    width: 1.875em;
-    height: 1.875em; 
-    background-color: #FF0043;
-    color: white;
-    font-size: 0.8125em; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;  
-    top: -0.825em; 
-    right: 0.425em; 
-`;
+// const NoticeButton1 = styled.button`
+//     border-radius: 50%;  
+//     border: 0.0625em solid #FF0043;
+//     width: 1.875em;
+//     height: 1.875em; 
+//     background-color: #FF0043;
+//     color: white;
+//     font-size: 0.8125em; 
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     position: absolute;  
+//     top: -0.825em; 
+//     right: 0.425em; 
+// `;
 
 const DataGridContainer = styled.div`
     display: flex;

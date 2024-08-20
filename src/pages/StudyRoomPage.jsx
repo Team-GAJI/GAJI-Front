@@ -43,6 +43,7 @@ const StudyRoomPage = () => {
             <ContentWrapper>
               <SidebarWrapper>
                   <Sidebar>
+                    {/* TODO 주차별 정보 불러와서 버튼만들기 추가 */}
                   {[...Array(9)].map((_, index) => (
                       <React.Fragment key={index}>
                       <SidebarButton bold={index === 0}>{index + 1}주차</SidebarButton>
