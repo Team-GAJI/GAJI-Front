@@ -1,177 +1,57 @@
-// import React, {useState} from 'react';
-// import styled from 'styled-components';
-// import StudyCreateRecruitCalendar from './StudyCreateRecruitCalendar';
-// import StudyCreateCalendar from './StudyCreateCalendar';
-
-// const StudyPeriod = () => {
-//     // state 관리
-//     const [startDate, setStartDate] = useState(null);
-//     const [endDate, setEndDate] = useState(null);
-//     // Button 활성화 상태 관리
-//     const [isRecruitmentActive, setIsRecruitmentActive] = useState(true);
-//     const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(false);
-
-//     // 오늘 날짜 불러오기
-//     const today = new Date();
-
-//     // 날짜 불러오기
-//     const handleStartDateChange = (date) => {
-//         setStartDate(date);
-//         console.log("Start Date:", date.toDateString());
-//     };
-//     const handleEndDateChange = (date) => {
-//         setEndDate(date);
-//         console.log("End Date:", date.toDateString());
-//     };
-
-//     const formatDate = (date) => {
-//         const month = date.getMonth() + 1;
-//         const day = date.getDate();
-//         return `${month}월 ${day}일`;
-//     };
-
-//     const handleCalendarSwitch = () => {
-//         !setIsRecruitmentActive;
-//         !setIsStudyPeriodActive;
-//     };
-
-//     return (
-//         <ComponentWrapper>
-//             {/* 캘린더 영역 */}
-//             {(isRecruitmentActive) && (
-//                 <StudyCreateRecruitCalendar
-//                     onStartDateChange={handleStartDateChange} 
-//                     onEndDateChange={handleEndDateChange}/>
-//             )}
-
-//             {(isStudyPeriodActive) && (
-//                 <StudyCreateCalendar
-//                     onStartDateChange={handleStartDateChange} 
-//                     onEndDateChange={handleEndDateChange}/>
-//             )}
-
-//             {/* <StudyCreateCalendar
-//                 onStartDateChange={handleStartDateChange} 
-//                 onEndDateChange={handleEndDateChange}/> */}
-            
-//             {/* 기한 영역 */}
-//             <RightWrapper>
-                
-//                 {/* 스터디 모집기한 */}
-//                 <ContentWrapper>
-//                     <Title>스터디 모집 기한</Title>
-//                     <Button onClick={() => handleCalendarSwitch()}>입력하기</Button>
-//                     <PeriodWrapper>
-//                         <Text>시작</Text>
-//                         <Period>{startDate ? formatDate(startDate) : formatDate(today)}</Period>
-//                         <Text>끝</Text>
-//                         <Period>{endDate ? formatDate(endDate) : formatDate(today)}</Period>
-//                     </PeriodWrapper>
-//                 </ContentWrapper>
-
-//                 {/* 스터디 진행기한 */}
-//                 <ContentWrapper>
-//                     <Title>스터디 진행 기한</Title>
-//                     <Button onClick={() => handleCalendarSwitch()}>입력하기</Button>
-//                     <PeriodWrapper>
-//                         <Text>시작</Text>
-//                         <Period>{startDate ? formatDate(startDate) : formatDate(today)}</Period>
-//                         <Text>끝</Text>
-//                         <Period>{endDate ? formatDate(endDate) : formatDate(today)}</Period>
-//                     </PeriodWrapper>
-//                 </ContentWrapper>
-//             </RightWrapper>
-//         </ComponentWrapper>
-//     );
-// };
-
-// export default StudyPeriod;
-
-// /* CSS */
-// const ComponentWrapper = styled.div`
-//     border: 1px solid #8E59FF;
-//     border-radius: 10px;
-//     width: 100%;
-//     display: flex;
-//     align-items: center;
-// `;
-
-// const RightWrapper = styled.div`
-//     border-left: 1.2px solid #A2A3B2;
-//     height: 17em;
-//     display: flex;
-//     flex-direction: column;
-// `;
-
-// const ContentWrapper = styled.div`
-//     margin: 0 0 3.5em 4em;
-//     display: flex;
-//     flex-direction: column;
-// `;
-
-// const Title = styled.div`
-//     color: #8E59FF;
-//     font-weight: 800;
-// `;
-
-// const Button = styled.div`
-//     margin: 1.2em 0;
-//     border-radius: 10px;
-//     width: 11em;
-//     height: 2.2308em;
-//     line-height: 2.2308em;
-//     text-align: center;
-//     background-color: #8E59FF;
-//     color: white;
-//     font-size: 0.8125em;
-//     font-weight: bold;
-//     cursor: pointer;
-// `;
-
-// const PeriodWrapper = styled.div`
-//     display: flex;
-//     align-items: center;
-// `;
-
-// const Text = styled.div`
-//     border: 1px solid #8E59FF;
-//     border-radius: 10px;
-//     width: 5.0545em;
-//     height: 2.2054em;
-//     line-height: 2.2054em;
-//     text-align: center;
-//     color: #8E59FF;
-//     font-size: 0.8125em;
-//     font-weight: bold;
-// `;
-
-// const Period = styled.div`
-//     margin: 0 4em 0 1em;
-//     color: #161A3F;
-//     font-size: 0.8125em;
-//     font-weight: bold;
-// `;
-
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import StudyManageWeekCalendar from './StudyManageWeekCalendar';
+import StudyCreateRecruitCalendar from './StudyManageWeekRecruitCalendar';
+import StudyCreateCalendar from './StudyManageWeekCalendar';
+import { useDispatch } from 'react-redux';
+import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
-const StudyMangeWeekPeriod = ({selectedWeek}) => {
-    // state 관리
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => {
+    // 초기 상태 설정
+    const [recruitmentStartDate, setRecruitmentStartDate] = useState(weekData[selectedWeek]?.recruitmentStartDate || null);
+    const [recruitmentEndDate, setRecruitmentEndDate] = useState(weekData[selectedWeek]?.recruitmentEndDate || null);
+    const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(weekData[selectedWeek]?.studyPeriodStartDate || null);
+    const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(weekData[selectedWeek]?.studyPeriodEndDate || null);
+    const [isRecruitmentActive, setIsRecruitmentActive] = useState(false); // 초기값을 false로 설정
+    const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);  // 초기값을 true로 설정
 
-    // 오늘 날짜 불러오기
+    const dispatch = useDispatch();
+
     const today = new Date();
 
-    // 날짜 불러오기
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-        console.log("Start Date:", date.toDateString());
+    const handleRecruitStartDateChange = (date) => {
+        setRecruitmentStartDate(date);
+        const formattedDate = formatDate(date);
+        dispatch(setRecruitStartDay(formattedDate));
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], recruitmentStartDate: formattedDate };
+        onWeekDataChange(newWeekData);
     };
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-        console.log("End Date:", date.toDateString());
+
+    const handleRecruitEndDateChange = (date) => {
+        setRecruitmentEndDate(date);
+        const formattedDate = formatDate(date);
+        dispatch(setRecruitEndDay(formattedDate));
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], recruitmentEndDate: formattedDate };
+        onWeekDataChange(newWeekData);
+    };
+
+    const handleStudyStartDateChange = (date) => {
+        setStudyPeriodStartDate(date);
+        const formattedDate = formatDate(date);
+        dispatch(setStudyStartDay(formattedDate));
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], studyPeriodStartDate: formattedDate };
+        onWeekDataChange(newWeekData);
+    };
+
+    const handleStudyEndDateChange = (date) => {
+        setStudyPeriodEndDate(date);
+        const formattedDate = formatDate(date);
+        dispatch(setStudyEndDay(formattedDate));
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], studyPeriodEndDate: formattedDate };
+        onWeekDataChange(newWeekData);
     };
 
     const formatDate = (date) => {
@@ -180,36 +60,65 @@ const StudyMangeWeekPeriod = ({selectedWeek}) => {
         return `${month}월 ${day}일`;
     };
 
+    const handleRecruitmentButtonClick = () => {
+        setIsRecruitmentActive(true);
+        setIsStudyPeriodActive(false);
+    };
+
+    const handleStudyPeriodButtonClick = () => {
+        setIsRecruitmentActive(false);
+        setIsStudyPeriodActive(true);
+    };
+
     return (
         <>
-        <Title>스터디 기한</Title>
-        <ComponentWrapper>
-            {/* 캘린더 영역 */}
-            <StudyManageWeekCalendar
-                onStartDateChange={handleStartDateChange} 
-                onEndDateChange={handleEndDateChange}/>
-            
-            {/* 기한 영역 */}
-            <RightWrapper>
+            <Container>
+                <MainText>{selectedWeek + 1}주차 스터디 관리</MainText>
+            </Container>
+        
+            <ComponentWrapper>
+                {isRecruitmentActive && (
+                    <StudyCreateRecruitCalendar
+                        onStartDateChange={handleRecruitStartDateChange}
+                        onEndDateChange={handleRecruitEndDateChange}
+                    />
+                )}
 
-                {/* 스터디 진행기한 */}
-                <StyledContentWrapper>
-                    <Title>{selectedWeek + 1}주차 스터디 진행 기한</Title>
-                    <Button>입력하기</Button>
-                    <PeriodWrapper>
-                        <Text>시작</Text>
-                        <Period>{startDate ? formatDate(startDate) : formatDate(today)}</Period>
-                        <Text>끝</Text>
-                        <Period>{endDate ? formatDate(endDate) : formatDate(today)}</Period>
-                    </PeriodWrapper>
-                </StyledContentWrapper>
-            </RightWrapper>
-        </ComponentWrapper>
+                {isStudyPeriodActive && (
+                    <StudyCreateCalendar
+                        onStartDateChange={handleStudyStartDateChange}
+                        onEndDateChange={handleStudyEndDateChange}
+                    />
+                )}
+
+                <RightWrapper>
+                    <ContentWrapper>
+                        <Title>스터디 진행 기한</Title>
+                        <StudyButton
+                            onClick={handleStudyPeriodButtonClick}
+                            isActive={isStudyPeriodActive}
+                        >
+                            입력하기
+                        </StudyButton>
+                        <PeriodWrapper>
+                            <Text>시작</Text>
+                            <Period>
+                                {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : formatDate(today)}
+                            </Period>
+                            <Text>끝</Text>
+                            <Period>
+                                {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : formatDate(today)}
+                            </Period>
+                        </PeriodWrapper>
+                    </ContentWrapper>
+                </RightWrapper>
+            </ComponentWrapper>
         </>
     );
 };
 
-export default StudyMangeWeekPeriod;
+export default StudyManageWeekPeriod;
+
 
 /* CSS */
 const ComponentWrapper = styled.div`
@@ -219,20 +128,30 @@ const ComponentWrapper = styled.div`
     display: flex;
     align-items: center;
 
-    @media(max-width : 768px){
-        flex-direction : column;
-        gap : 1em;
-        padding-bottom  :1em;
-    }
 `;
 
-const Button = styled.div`
-     margin: 1.2em 0;
+const RightWrapper = styled.div`
+    border-left: 1.2px solid #A2A3B2;
+    height: 17em;
+    display: flex;
+    flex-direction: column;
+        padding : 2em;
+`;
+
+
+const Title = styled.div`
+    color: #8E59FF;
+    font-weight: 800;
+`;
+
+const StudyButton = styled.div`
+    margin: 1.2em 0;
     border-radius: 10px;
     width: 11em;
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
+    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
     background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
     color: white;
     font-size: 0.8125em;
@@ -243,36 +162,6 @@ const Button = styled.div`
     }
     transition: all 0.3s ease;
 `;
-
-
-const RightWrapper = styled.div`
-    border-left: 1.2px solid #A2A3B2;
-    width : 50%;
-    display: flex;
-    flex-direction: column;
-
-    @media(max-width : 768px){
-        margin-top : 2em;
-        align-items : center;
-        border : none;
-        width  :100%
-    }
-`;
-
-const StyledContentWrapper = styled.div`
-    margin: 0 0 3.5em 4em;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Title = styled.div`
-    width : 100%;
-    margin : 1em 0em;
-    color: #8E59FF;
-    font-weight: 800;
-`;
-
-
 
 const PeriodWrapper = styled.div`
     display: flex;
@@ -296,4 +185,33 @@ const Period = styled.div`
     color: #161A3F;
     font-size: 0.8125em;
     font-weight: bold;
+`;
+
+const MainText = styled.div`
+    color: #8E59FF;
+    font-size: 1.25em; 
+    font-weight: 800;
+    text-align: left;
+    margin-left: -22.5em; 
+    @media(max-width : 768px){
+        font-size: 1.1em; 
+        margin-left : -27em;
+
+    }
+`;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column; 
+  gap: 0.625em; 
+  margin: 1em 0;
+  @media(max-width : 786px){
+    align-items: center;
+    margin-left : 2em /* 이거 확인*/
+
+ }
+`;
+const ContentWrapper = styled.div`
+    margin: 3.5em 0 3.5em 0em;
+    display: flex;
+    flex-direction: column;
 `;

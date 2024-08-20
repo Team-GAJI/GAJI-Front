@@ -1,87 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const ManageWeekBasics = ({ selectedWeek }) => {
-
-    const [isOn, setIsOn] = useState(true)
+const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
+    const [studyName, setStudyName] = useState(weekData[selectedWeek]?.basicInfo?.name || '');
+    const [studyDescription, setStudyDescription] = useState(weekData[selectedWeek]?.basicInfo?.description || '');
+    const [isOn, setIsOn] = useState(true);
     const handleToggle = () => setIsOn(!isOn);
     const onToggle = () => setIsOn(true);
     const offToggle = () => setIsOn(false);
-    
-    const [studyName, setStudyName] = useState('');
-    const [studyDescription, setStudyDescription] = useState('');
-  
+
+    useEffect(() => {
+        setStudyName(weekData[selectedWeek]?.basicInfo?.name || '');
+        setStudyDescription(weekData[selectedWeek]?.basicInfo?.description || '');
+    }, [selectedWeek, weekData]);
+
     const handleStudyNameChange = (event) => {
-      setStudyName(event.target.value);
+        const value = event.target.value;
+        setStudyName(value);
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], basicInfo: { ...newWeekData[selectedWeek]?.basicInfo, name: value } };
+        onWeekDataChange(newWeekData);
     };
-  
+
     const handleStudyDescriptionChange = (event) => {
-      setStudyDescription(event.target.value);
+        const value = event.target.value;
+        setStudyDescription(value);
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], basicInfo: { ...newWeekData[selectedWeek]?.basicInfo, description: value } };
+        onWeekDataChange(newWeekData);
     };
 
-    // const handleSubmit = async () => {
-    //     try {
-    //         // const roomId = '...?'; 
-    //         const weeks = selectedWeek;
-    //         await descriptionAPI(roomId, weeks);
-    //         alert('성공');
-    //     } catch (error) {
-    //         alert('실패');
-    //     }
-    // };
-
-    return(
+    return (
         <Container>
-        {/* 선택한 N주차가 나오게 */}
-        <Text2>{selectedWeek + 1}주차 스터디 관리</Text2>
-        <MainWrapper1>
-            <InputWrapper>
-                <InputStudyName
-                    placeholder="스터디 이름 작성"
-                    value={studyName}
-                    onChange={handleStudyNameChange}
-                />
-                {!studyName && <CharCount>0자/20자</CharCount>}
-            </InputWrapper>
-            <DivisionLine2/>
-            <RowContainer>
-                <Container>
-                <Text4>스터디 설명</Text4>
-                <ExWrapper>
-                <InputExStudy
-                    placeholder="설명을 입력해주세요"
-                    value={studyDescription}
-                    onChange={handleStudyDescriptionChange}
-                />
-                {!studyDescription && <ExStudyCharCount>0자/800자</ExStudyCharCount>}
-                </ExWrapper>
-{/* 
-                <ExWrapper>
-                    <InputExStudy
-                        placeholder="설명을 입력해주세요"
-                        value={studyDescription}
-                        onChange={handleStudyDescriptionChange}
+            <Text2>{selectedWeek + 1}주차 스터디 관리</Text2>
+            <MainWrapper1>
+                <InputWrapper>
+                    <InputStudyName
+                        placeholder={`${selectedWeek + 1} 주차 제목을 입력해주세요.`}
+                        value={studyName}
+                        onChange={handleStudyNameChange}
                     />
-                </ExWrapper> */}
-
-                </Container>
-            </RowContainer>  
-            <Container>
-            <ToggleWrapper>
-                <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
-                <ToggleBox onClick={handleToggle}>
-                    <Toggle isOn={isOn}></Toggle>
-                </ToggleBox>
-                <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
-            </ToggleWrapper>
-
-            </Container>  
-        </MainWrapper1>  
+                    {!studyName && <CharCount>0자/20자</CharCount>}
+                </InputWrapper>
+                <DivisionLine2/>
+                <RowContainer>
+                    <Container>
+                        <Text4>스터디 설명</Text4>
+                        <ExWrapper>
+                            <InputExStudy
+                                placeholder="설명을 입력해주세요"
+                                value={studyDescription}
+                                onChange={handleStudyDescriptionChange}
+                            />
+                            {!studyDescription && <ExStudyCharCount>0자/800자</ExStudyCharCount>}
+                        </ExWrapper>
+                    </Container>
+                </RowContainer>  
+                <Container>
+                    <ToggleWrapper>
+                        <OnToggleText onClick={() => setIsOn(true)} isOn={isOn}>공개</OnToggleText>
+                        <ToggleBox onClick={() => setIsOn(!isOn)}>
+                            <Toggle isOn={isOn}></Toggle>
+                        </ToggleBox>
+                        <OffToggleText onClick={() => setIsOn(false)} isOn={isOn}>비공개</OffToggleText>
+                    </ToggleWrapper>
+                </Container> 
+            </MainWrapper1>  
         </Container>
     );
 };
 
+
 export default ManageWeekBasics;
+
 
 
 const Container = styled.div`
@@ -145,7 +136,7 @@ const CharCount = styled.span`
     font-size: 0.8125em; 
     font-weight: 700;
     text-align: right; 
-    right: -35em; 
+    right: 0em; 
 `;
 
 const DivisionLine2 = styled.div`
@@ -244,4 +235,19 @@ const Toggle = styled.div`
     position: absolute;
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
+`;
+
+const SaveButton = styled.button`
+    padding: 10px 20px;
+    background-color: #4CAF50; // Green background
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+
+    &:hover {
+        background-color: #45a049; // Darker green on hover
+    }
 `;
