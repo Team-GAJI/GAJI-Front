@@ -5,6 +5,7 @@ import StudySummary from '../components/studyRoom/StudySummary';
 import WeekCurriculum from '../components/studyRoom/WeekCurriculum';
 import StudyPostList from '../components/studyRoom/StudyPostList';
 import { useNavigate, useLocation } from 'react-router-dom';
+import MobileManageButton from '../components/common/MobileManageButton';
 
 const StudyRoomPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
@@ -56,8 +57,10 @@ const StudyRoomPage = () => {
                     <WeekCurriculum studyInfo={studyInfo}/>
                     <DivisionLine2 />
                     <StudyPostList comments={studyInfo?.comments} />  {/* StudyPostList에 댓글 데이터 전달 */}
-                </MainContent>     
+                </MainContent>
             </ContentWrapper>
+            <div onClick={()=>navigate('/studymanage')}>
+            <MobileManageButton /></div>
           </>
     );
 };
@@ -102,14 +105,12 @@ const Sidebar = styled.div`
   box-sizing: border-box;
 
   @media(max-width : 768px){
-    position : static;
-    flex-direction: row;
-    width: auto;
-    padding : 0.5em  0.5em;
-    overflow-x : scroll;
-    height : auto;
-    margin-top: 0em; 
-    
+    padding : 0em 0em;
+    font-size : 1em;
+    border:none;
+    flex-direction : row;
+    height : 5em;
+    width : 100%;
   }
 `;
 
@@ -123,15 +124,13 @@ const SidebarManageButton = styled.button`
   margin-top: 0.625em; 
   box-sizing : border-box;
   @media(max-width : 768px){
-    margin-top: 0em; 
-    
+    display : none;
   }
 `;
 
 const SidebarButton = styled.button`
   background-color: transparent;
   color: #A2A3B2;
-
   font-weight: 1.125em; 
   padding: 0.6em 0.625em; 
   text-align: center;
@@ -146,26 +145,38 @@ const SidebarButton = styled.button`
     margin-left: 0.4em; 
     margin-right : 0.4em;
   }
+
+  @media (max-width: 768px) {
+    height : 2em;
+    flex-direction: row;
+    width: auto;
+    min-width: 8em; 
+    padding: 0.5em 0.5em;
+    margin-top: 0.5em;
+    font-size : 1em;
+  }
 `;
 
 const SidebarWrapper = styled.div`
   width: 10%; 
-  position : fixed;
-  left : 3em;
   display: flex;
   flex-direction: column;
   gap: 1.25em; 
-
-  @media(max-width : 768px){
-    position : static;
-    flex-direction: row;
-    width: auto;
-    overflow-x : scroll;
-    height : auto;
-    
+  position: fixed;
+  left : 5%;
+  
+  
+  @media(max-width: 768px) {
+    position: sticky;
+    top: 3em;
+    width: 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    z-index: 10;
   }
 `;
-
 
 const MainContent = styled.div`
   flex: 1;

@@ -3,22 +3,31 @@ import styled from 'styled-components';
 import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
 import StudyPreview from '../components/studyMain/StudyPreview';
-import { dummyStudyPosts } from '../components/studyMain/DummyStudyPosts';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
+import MobileWriteButton from '../components/common/MobileWriteButton';
+import { ContentWrapper } from '../components/common/MediaWrapper';
+import { studyPostsPreviewAPI } from '../utils/studyMain/studyPostsPreviewAPI';
 
 const StudyCategoryPage = () => {
     // state 관리
     const [studies, setStudies] = useState([]);
-
-    // 카테고리 이름 가져오기
     const location = useLocation();
-    const {category} = location.state;
+    const { category } = location.state;
 
     // 스터디 불러오기
     useEffect(() => {
-        setStudies(dummyStudyPosts);
-    }, []);
+        const fetchStudiesByCategory = async () => {
+            try {
+                const response = await studyPostsPreviewAPI(category, null, 'recent', 10);
+                setStudies(response);
+            } catch (error) {
+                console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
+            }
+        };
+
+        fetchStudiesByCategory();
+    }, [category]);
 
     // useNavigate
     const navigate = useNavigate();
@@ -38,33 +47,37 @@ const StudyCategoryPage = () => {
                 </RowWrapper>
             </Header>
             
-            {/* 게시글 필터 */}
-            <SelectAndButtonWrapper>
-                <MainSelectBox/>
-                <CreatePostButton onClick={() => {navigate("/studycreate");}}>
-                + 스터디 만들기
-                </CreatePostButton>
-            </SelectAndButtonWrapper>
-            <StyledHr />
+            <ContentWrapper>
+                {/* 게시글 필터 */}
+                <SelectAndButtonWrapper>
+                    <MainSelectBox/>
+                    <CreatePostButton onClick={() => {navigate("/studycreate");}}>
+                    + 스터디 만들기
+                    </CreatePostButton>
+                    <MobileWriteButton onClick={() => {navigate("/studycreate");}}/> 
+                </SelectAndButtonWrapper>
+                <StyledHr />
 
-            {/* 스터디 영역 */}
-            <CategoryTitleWrapper>
-                <CategoryTitle># {category}</CategoryTitle>
-            </CategoryTitleWrapper>
-            <StudyPreviewWrapper>
-                {studies.map((post) => (
-                    <StudyPreview
-                        key={post.postId}
-                        title={post.postTitle}
-                        content={post.postContent}
-                        background={post.postBackgroundImg}
-                        ago={post.postAgo}
-                        dday={post.postDday}
-                        recruiter={post.postRecruiter}
-                        state={post.postState}
-                        applicant={post.postApplicant}/>
-                ))}
-            </StudyPreviewWrapper>
+                {/* 스터디 영역 */}
+                <CategoryTitleWrapper>
+                    <CategoryTitle># {category}</CategoryTitle>
+                </CategoryTitleWrapper>
+                <StudyPreviewWrapper>
+                    {studies.map((post) => (
+                        <StudyPreview
+                            key={post.roomId}
+                            roomId={post.roomId}
+                            title={post.name}
+                            content={post.description}
+                            background={post.imageUrl}
+                            ago={post.createdAt}
+                            dday={post.deadLine}
+                            recruiter={post.recruitMaxCount}
+                            state={post.recruitStatus}
+                            applicant={post.applicant}/>
+                    ))}
+                </StudyPreviewWrapper>
+            </ContentWrapper>
         </PageWrapper>
     );
 };
@@ -112,6 +125,7 @@ const PageHeaderTitle = styled.div`
 `;
 
 const RowWrapper = styled.div`
+    width: 100%;
     display: flex;
     gap: 1em;
     justify-content: center;
@@ -120,7 +134,12 @@ const RowWrapper = styled.div`
 const SearchInputWrapper = styled.div`
     border: 1px solid #D0D1D9;
     border-radius: 10px;
-    width: 38.75em;
+    width: 50%;
+    min-width :273px;
+
+    @media(max-width : 768px){
+        width : 80%;
+    }
     height: 2.5em;
     background-color: white;
     display: flex;
@@ -150,9 +169,8 @@ const StyledSearchInput = styled.input`
 
 const SelectAndButtonWrapper = styled.div`
     margin-top: 2em;
-    width: 70em;
+    width: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
 `;
 
@@ -175,14 +193,14 @@ const CreatePostButton = styled.button`
 const StyledHr = styled.hr`
     margin: 1.2em 0;
     border: none;
-    width: 70em;
+    width: 100%;
     height: 1.5px;
     background-color: #D0D1D9;
 `;
 
 const CategoryTitleWrapper = styled.div`
     margin: 1.2em 0 0.8em 0;
-    width: 70em;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -202,8 +220,17 @@ const CategoryTitle = styled.div`
 `;
 
 const StudyPreviewWrapper = styled.div`
-    margin-left: 1.2em;
-    width: 72.4em;
+    width: 100%;
     display: flex;
+    justify-content: start;
     flex-wrap: wrap;
+
+    @media(max-width : 768px){
+        justify-content: center;
+        gap : 0em;
+    }
+    @media(max-width : 1024px){
+        justify-content: center;
+        gap : 0em;
+    }
 `;

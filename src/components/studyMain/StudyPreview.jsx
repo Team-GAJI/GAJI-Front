@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import PostBackground from '../../assets/images/common/studyExampleImage.png'; // 기본 썸네일 이미지
+import { studyDetailAPI } from '../../utils/studyDetail/studyDetailAPI';
 
-const StudyPreview = ({key, title, content, background, ago, dday, recruiter, state, applicant}) => {
+const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recruiter, state, applicant, link }) => {
     // state 관리
     const [isDetailVisible, setIsDetailVisible] = useState(false);
-    
+
     // 상세정보 보기 기능
     const showDetail = () => {
         setIsDetailVisible(true);
@@ -16,21 +18,48 @@ const StudyPreview = ({key, title, content, background, ago, dday, recruiter, st
 
     // useNavigate
     const navigate = useNavigate();
+
+    const handleSubmit = async () => {
+        try {
+            const studyDetail = await studyDetailAPI(roomId);
+            console.log(studyDetail)
+            navigate("/studydetail", { state: 
+                {
+                    studyDetail: studyDetail
+                } 
+            }); 
+
+
+        } catch (error) {
+            console.error('스터디 생성 중 오류 발생:', error);
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+        }
+    };
     
+    // 모집중, 모집완료 변환 기능
+    const recruitmentState = state === "RECRUITING" ? "모집중" : "모집완료";
+
+    // D-day 변환 기능
+    const displayDday = dday === 0 ? "Day" : dday < 0 ? 0 : dday;
+
+    // 기본 썸네일 기능
+    const backgroundImage = background || PostBackground;
+
     return (
-        <PostWrapper key={key} onClick={() => {navigate("/studydetail");}}
+        <PostWrapper link={link} key={key} onClick={()=>handleSubmit()}
+        // <PostWrapper link={link} key={key} onClick={() => { navigate("/studydetail", { state: { studyDetail: roomId } }); }}
             onMouseOver={() => showDetail()}
             onMouseOut={() => hiddenDetail()}>
-            <BackgroundWrapper background={background} isVisible={isDetailVisible}>
+            <BackgroundWrapper background={backgroundImage} isVisible={isDetailVisible}>
                 <TagWrapper isVisible={isDetailVisible}>
-                    <Tag>{state}</Tag>
+                    <Tag>{recruitmentState}</Tag>
                     <Tag>{applicant}명 지원</Tag>
                 </TagWrapper>
             </BackgroundWrapper>
             <DetailsWrapper isVisible={isDetailVisible}>
                 <TitleWrapper>
                     <Title>{title}</Title>
-                    <Dday>D-{dday}</Dday>
+                    <Dday>D-{displayDday}</Dday>
                 </TitleWrapper>
                 <Content isVisible={isDetailVisible}>{content}</Content>
                 <BottomWrapper>
@@ -49,6 +78,7 @@ const PostWrapper = styled.div`
     border-radius: 10px;
     margin: 1em 0.5em;
     width: 13.2425em;
+    min-width: 13.2425em;
     height: 16.8125em;
     display: flex;
     flex-direction: column;
@@ -57,6 +87,19 @@ const PostWrapper = styled.div`
     &:hover{
         transform: translateY(-0.8em);
         box-shadow: 0 0.625em 1.25em #C8C8C8;
+    }
+
+    @media (min-width: 1024px) {
+        width : ${({ link }) => (link === "category" ? "18%" : "100%")};
+    }
+
+
+    @media(max-width : 1024px){
+        width : ${({ link }) => (link === "category" ? "45%" : "100%")};
+            @media (max-width : 768px){
+        width : 100%;
+    }
+
     }
 `;
 
@@ -67,10 +110,10 @@ const BackgroundWrapper = styled.div`
     height: ${(props) => (props.isVisible ? "0%" : "50%")};
     display: flex;
     position: relative;
-    background-image: ${({background}) => `url(${background})`};
+    background-image: ${({ background }) => `url(${background})`};
     background-size: cover;
     transition: all 0.3s ease;
-    width: 13.2425em;
+    width: 100%;
 `;
 
 const TagWrapper = styled.div`
@@ -79,6 +122,9 @@ const TagWrapper = styled.div`
     bottom: 0;
     visibility: ${(props) => (props.isVisible ? "hidden" : "visibility")};
     transition-delay: 0.1s;
+    @media (max-width : 768px){
+        width : 100%;
+    }
 `;
 
 const Tag = styled.div`
@@ -104,7 +150,8 @@ const DetailsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
-    width: 13.2425em;
+    min-width: 13.2425em;
+    width: 100%;
 `;
 
 const TitleWrapper = styled.div`
@@ -114,17 +161,31 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 0.875;
+    font-size: 0.875em;
     font-weight: 800;
+
+    width  : 74%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 `;
 
 const Dday = styled.div`
-    font-size: 0.875;
+    font-size: 0.875em;
     font-weight: 800;
+    text-align: end;
+
+    width  : 26%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 `;
 
 const Content = styled.div`
     margin: 0 1.4769em;
+    height: 100%;
     font-size: 0.8125em;
     line-height: 1.4em;
     // 말줄임 처리
@@ -137,7 +198,7 @@ const Content = styled.div`
 `;
 
 const BottomWrapper = styled.div`
-    margin: 0.5em 1.2em 0 1.2em;
+    margin: 0.5em 1.2em 1.1em 1.2em;
     display: flex;
     justify-content: space-between;
 `;

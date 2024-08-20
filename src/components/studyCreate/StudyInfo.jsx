@@ -17,7 +17,7 @@ const StudyInfo = () => {
     // Redux 관리
     const dispatch = useDispatch();
     const { name, peopleMaximum } = useSelector((state) => state.studyCreate);
-
+    
     // 제목 입력
     const handleTitleChange = (e) => {
         dispatch(setName(e.target.value));
@@ -125,11 +125,11 @@ const StudyInfo = () => {
                         <FileInputLabel htmlFor="file">
                             이미지 업로드
                         </FileInputLabel>
-                        <ImageUploadInput type="file" id="file" accept=".png"
+                        <ImageUploadInput type="file" id="file" accept=".jpg, .png"
                             onChange={saveImgFile}
                             ref={imgRef} />
                         <ImageText>용량 제한: 232123mb</ImageText>
-                        <ImageText>파일 형식: png만 가능</ImageText>
+                        <ImageText>파일 형식: jpg, png</ImageText>
                     </ImageWrapper>
                     {/* 미리보기 */}
                     <PreivewWrapper isImgFile={imgFile}>
@@ -325,6 +325,7 @@ const ImageWrapper = styled.div`
 
 const FileInputLabel = styled.label`
     margin: 1em;
+    padding: 0 1em;
     border: 1.2px solid #8E59FF;
     border-radius: 10px;
     height: 2.2308em;
