@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-
+import styled from 'styled-components'; 
 const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
     const [studyName, setStudyName] = useState(weekData[selectedWeek]?.basicInfo?.name || '');
     const [studyDescription, setStudyDescription] = useState(weekData[selectedWeek]?.basicInfo?.description || '');
-    const [isOn, setIsOn] = useState(true);
-    const handleToggle = () => setIsOn(!isOn);
-    const onToggle = () => setIsOn(true);
-    const offToggle = () => setIsOn(false);
 
     useEffect(() => {
         setStudyName(weekData[selectedWeek]?.basicInfo?.name || '');
@@ -18,7 +13,13 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
         const value = event.target.value;
         setStudyName(value);
         const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], basicInfo: { ...newWeekData[selectedWeek]?.basicInfo, name: value } };
+        newWeekData[selectedWeek] = {
+            ...newWeekData[selectedWeek],
+            basicInfo: {
+                ...newWeekData[selectedWeek]?.basicInfo,
+                name: value
+            }
+        };
         onWeekDataChange(newWeekData);
     };
 
@@ -26,7 +27,13 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
         const value = event.target.value;
         setStudyDescription(value);
         const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], basicInfo: { ...newWeekData[selectedWeek]?.basicInfo, description: value } };
+        newWeekData[selectedWeek] = {
+            ...newWeekData[selectedWeek],
+            basicInfo: {
+                ...newWeekData[selectedWeek]?.basicInfo,
+                description: value
+            }
+        };
         onWeekDataChange(newWeekData);
     };
 
@@ -40,9 +47,9 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
                         value={studyName}
                         onChange={handleStudyNameChange}
                     />
-                    {!studyName && <CharCount>0자/20자</CharCount>}
+                    <CharCount>{studyName.length}/30</CharCount>
                 </InputWrapper>
-                <DivisionLine2/>
+                <DivisionLine2 />
                 <RowContainer>
                     <Container>
                         <Text4>스터디 설명</Text4>
@@ -52,27 +59,16 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
                                 value={studyDescription}
                                 onChange={handleStudyDescriptionChange}
                             />
-                            {!studyDescription && <ExStudyCharCount>0자/800자</ExStudyCharCount>}
+                            <ExStudyCharCount>{studyDescription.length}/200</ExStudyCharCount>
                         </ExWrapper>
                     </Container>
-                </RowContainer>  
-                <Container>
-                    <ToggleWrapper>
-                        <OnToggleText onClick={() => setIsOn(true)} isOn={isOn}>공개</OnToggleText>
-                        <ToggleBox onClick={() => setIsOn(!isOn)}>
-                            <Toggle isOn={isOn}></Toggle>
-                        </ToggleBox>
-                        <OffToggleText onClick={() => setIsOn(false)} isOn={isOn}>비공개</OffToggleText>
-                    </ToggleWrapper>
-                </Container> 
-            </MainWrapper1>  
+                </RowContainer>
+            </MainWrapper1>
         </Container>
     );
 };
 
-
 export default ManageWeekBasics;
-
 
 
 const Container = styled.div`

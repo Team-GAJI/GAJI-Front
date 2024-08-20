@@ -4,40 +4,89 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import StudyManageWeekManageDel from '../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
 import StudyManageWeekManageManagePlus from '../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
 
-
 import ManageWeekBasics from '../components/studyManageWeek/ManageWeekBasics.jsx';
-import StudyMangeWeekPeriod from  '../components/studyManageWeek/StudyMangeWeekPeriod.jsx';
+import StudyMangeWeekPeriod from '../components/studyManageWeek/StudyMangeWeekPeriod.jsx';
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
+import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
+import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
 
 const StudyManageWeeKPage = () => {
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
-
-  const sidebarRef = useRef(null);
-
-  const location = useLocation();    
-  const roomId = location.state?.roomId || {}; 
-
-  const handleDelete = () => {
-    if (weeks.length > 0) {
-      setWeeks(weeks.slice(0, -1)); // 마지막 주차만 삭제
-    }
-  };
+  const [weekData, setWeekData] = useState([]);
+  const [selectedWeek, setSelectedWeek] = useState(0);
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
   const sidebarRef = useRef(null);
   const manageWeekDetailedRef = useRef(null);
   const navigate = useNavigate();
-  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  const location = useLocation();
+  const roomId = location.state?.roomId || null;
+
+  // 주차 데이터 가져오기
+  const fetchSelectedWeekData = async () => {
+    if (roomId !== null) {
+      try {
+        console.log('roomId:', roomId, 'week:', selectedWeek);
+        const fetchedWeekData = await TaskAPI(roomId, selectedWeek);
+
+        const newWeekData = {
+          basicInfo: {
+            name: fetchedWeekData.title || '',
+            description: fetchedWeekData.content || ''
+          },
+          tasks: [],
+          recruitmentStartDate: null,
+          recruitmentEndDate: null,
+          studyPeriodStartDate: null,
+          studyPeriodEndDate: null
+        };
+
+        // 상태 업데이트
+        setWeekData(prevWeekData => {
+          const newWeekDataArray = [...prevWeekData];
+          newWeekDataArray[selectedWeek] = newWeekData;
+          return newWeekDataArray;
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+  };
 
   useEffect(() => {
-    console.log(roomId)
-    if (sidebarRef.current) {
-      sidebarRef.current.style.height = "auto";
-      const newHeight = sidebarRef.current.scrollHeight;
-      sidebarRef.current.style.height = `${newHeight}px`;
+    fetchSelectedWeekData();
+  }, [roomId, selectedWeek]);
+
+  // 저장하기 버튼 클릭 핸들러
+  const handleHeaderButtonClick = async (index) => {
+    setActiveButtonIndex(index);
+    if (index === 0) {
+      try {
+        console.log("저장 중...");
+        // 데이터 저장
+        for (let i = 0; i < weeks.length; i++) {
+          const week = weeks[i];
+          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
+          console.log(`주차: ${week}, 정보:`, weekInfo);
+          await descriptionAPI(roomId, week, weekInfo);
+        }
+
+        // 저장 후 데이터 다시 가져오기
+        // 여기에 주의: 상태 업데이트 후 다시 fetchSelectedWeekData를 호출하지 않도록 합니다.
+        console.log('입력한 값:', weekData);
+        alert("저장되었습니다.");
+      } catch (error) {
+        console.error("저장 중 오류 발생:", error);
+        alert("저장 중 오류가 발생했습니다.");
+      }
     }
-  }, [weeks]);
+  };
+
+  const handleWeekDataChange = (newWeekData) => {
+    setWeekData(newWeekData);
+  };
 
   const handleDelete = () => {
     if (weeks.length > 0) {
@@ -54,14 +103,17 @@ const StudyManageWeeKPage = () => {
   const handleAdd = () => {
     const newWeekIndex = weeks.length;
     setWeeks([...weeks, newWeekIndex]);
-    setWeekData([...weekData, {
-      basicInfo: { name: '', description: '' },
-      tasks: [],
-      recruitmentStartDate: null,
-      recruitmentEndDate: null,
-      studyPeriodStartDate: null,
-      studyPeriodEndDate: null
-    }]);
+    setWeekData([
+      ...weekData,
+      {
+        basicInfo: { name: '', description: '' },
+        tasks: [],
+        recruitmentStartDate: null,
+        recruitmentEndDate: null,
+        studyPeriodStartDate: null,
+        studyPeriodEndDate: null
+      }
+    ]);
     setSelectedWeek(newWeekIndex);
   };
 
@@ -71,17 +123,6 @@ const StudyManageWeeKPage = () => {
 
   const handleButtonClick = () => {
     navigate("/studymanage");
-  };
-
-  const handleHeaderButtonClick = (index) => {
-    setActiveButtonIndex(index);
-    if (index === 0 && manageWeekDetailedRef.current) {
-      manageWeekDetailedRef.current.handleSubmit();
-    }
-  };
-
-  const handleWeekDataChange = (newWeekData) => {
-    setWeekData(newWeekData);
   };
 
   return (
@@ -95,13 +136,14 @@ const StudyManageWeeKPage = () => {
         changeColorOnClick={true}
         changeColorOnHover={true}
       />
-    
+
       <RowWrapper>
         <ContentWrapper70>
           <ManageWeekBasics
             selectedWeek={selectedWeek}
             weekData={weekData}
             onWeekDataChange={handleWeekDataChange}
+            roomId={roomId}
           />
           <StudyMangeWeekPeriod
             selectedWeek={selectedWeek}
@@ -112,7 +154,7 @@ const StudyManageWeeKPage = () => {
             selectedWeek={selectedWeek}
             weekData={weekData}
             onWeekDataChange={handleWeekDataChange}
-            roomId="roomId"
+            roomId={roomId}
             ref={manageWeekDetailedRef}
           />
         </ContentWrapper70>
