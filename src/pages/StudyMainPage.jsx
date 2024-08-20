@@ -50,10 +50,11 @@ const MainPage = () => {
             {/* 게시글 필터 */}
             <SelectAndButtonWrapper>
                 <MainSelectBox/>
+                <div onClick={() => {navigate("/studycreate");}}>
+                <MobileWriteButton/></div>
                 <CreatePostButton onClick={() => {navigate("/studycreate");}}>
                 + 스터디 만들기
                 </CreatePostButton>
-                <MobileWriteButton onClick={() => {navigate("/studycreate");}}/>
             </SelectAndButtonWrapper>
             <StyledHr />
 
