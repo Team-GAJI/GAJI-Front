@@ -132,11 +132,11 @@ const CommunityHomePosts = () => {
         {/* 셀렉트 박스 */}
         <CommunitySelectBox/>
         {/* 게시글 버튼 */}
+        <div onClick={() => {navigate("/community/write");}}>
+        <MobileWriteButton/></div>
         <CreatePostButton onClick={() => {navigate("/community/write");}}>
           + {type} 작성하기
         </CreatePostButton>
-        <div onClick={() => {navigate("/community/write");}}>
-        <MobileWriteButton/></div>
       </SelectAndButtonWrapper>
       <StyledHr />
 
