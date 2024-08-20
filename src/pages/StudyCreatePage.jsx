@@ -8,6 +8,7 @@ import StudyDetail from '../components/studyCreate/StudyDetail';
 import { studyCreateAPI } from '../utils/studyCreate/studyCreateAPI';
 import { useSelector } from 'react-redux';
 import { ContentWrapper } from '../components/common/MediaWrapper';
+import { studyDetailAPI } from '../utils/studyDetail/studyDetailAPI';
 
 
 const StudyCreatePage = () => {
@@ -15,7 +16,7 @@ const StudyCreatePage = () => {
     const navigate = useNavigate();
 
     // Redux 관리
-    const { name, peopleMaximum, thumbnailUrl, categoryList, privateCheck,
+    const { name, peopleMaximum, thumbnailUrl, category, privateCheck,
         recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description, materialList } = useSelector((state) => state.studyCreate);
 
     // 서버로 전달할 데이터
@@ -30,15 +31,22 @@ const StudyCreatePage = () => {
         "studyEndDay": studyEndDay,
         "peopleLimited": true,
         "peopleMaximum": peopleMaximum,
-        "categoryList": categoryList,
+        "category": category,
         "private": privateCheck
-    }
+    };
 
     const handleSubmit = async () => {
         try {
-            navigate("/studydetail", { state: {data: data} }); 
-            const result = await studyCreateAPI(data);
-            console.log(result)
+            const response = await studyCreateAPI(data);
+            console.log(response.result.roomId);
+            const studyDetail = await studyDetailAPI(response.result.roomId);
+
+            navigate("/studydetail", { state: 
+                {
+                    studyDetail: studyDetail
+                } 
+            }); 
+
 
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
@@ -81,7 +89,6 @@ const StudyCreatePage = () => {
                 </StudyContentWrapper>
 
                 {/* 제출 버튼 */}
-
                 <SubmitButton onClick={()=>handleSubmit()}>
                 스터디 만들기
             </SubmitButton>

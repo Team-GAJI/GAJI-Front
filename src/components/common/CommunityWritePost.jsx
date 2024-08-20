@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
 import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
@@ -9,11 +10,10 @@ import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
-import { registerTroubleShootingAPI } from '../../utils/troubleShooting/troubleShootingInfoAPI';
+import { setTitle, setBody } from '../../features/community/communityWriteSlice';
 
-const WritePost = ({ link }) => {
+const CommunityWritePost = () => {
     // 상태 관리
-    const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(markdown.length);
     const [styledHr, setStyledHr] = useState(false);
@@ -21,37 +21,36 @@ const WritePost = ({ link }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const textareaRef = useRef(null);
 
+    // Redux 관리
+    const dispatch = useDispatch();
+    dispatch(setBody(markdown));
+    const { title, body, hashtagList, categoryId } = useSelector((state) => state.communityWrite);
+    const { type } = useSelector((state) => state.community);
+    // 서버로 전달할 데이터
+    const data = {
+        "title": title,
+        "body": body,
+        // "thumbnailUrl": thumbnailUrl,
+        "type": type,
+        "hashtagList": hashtagList,
+        "categoryId": categoryId
+    };
+
     const handleSubmit = async () => {
         try {
-            // 기본 data 구조를 props에서 받아 설정
-            let data = {
-                title: title,
-                body: markdown,
-                // ...additionalData // 추가 데이터는 props에서 직접 받아옴
-            };
-
-            // API 호출 함수 선택
-            let apiCall;
-            if (link === 'community') {
-                apiCall = communityWriteAPI;
-            } else if (link === 'studyroom') {
-                // apiCall = studyRoomWriteAPI; // studyRoomWriteAPI를 사용한다고 가정
-            } else if (link === 'troubleshooting') {
-                apiCall = registerTroubleShootingAPI;
-            } else {
-                throw new Error('Invalid link type');
-            }
-
-            // API 호출 및 페이지 이동
-            const result = await apiCall(data);
-            console.log(result);
-            navigate(`/${link}/post`, { state: { data: data } });
+            const postId = await communityWriteAPI(data);
+            navigate("/community/post", { state: {data: postId} }); 
+            console.log(postId);
 
         } catch (error) {
-            //임시 추가
-            navigate(`/${link}/post`)
-            console.error('포스트 생성 중 오류 발생:', error);
+            console.error('스터디 생성 중 오류 발생:', error);
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
         }
+    };
+
+    // 제목 입력
+    const handleTitleChange = (e) => {
+        dispatch(setTitle(e.target.value));
     };
 
     // 제목 하단바 색상 관리
@@ -145,7 +144,7 @@ const WritePost = ({ link }) => {
             <TitleWrapper>
                 <TitleInput
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={handleTitleChange}
                     onFocus={handlePurpleHr}
                     onBlur={handleGrayHr}
                     placeholder='게시글의 제목을 입력해주세요'/>
@@ -196,7 +195,7 @@ const WritePost = ({ link }) => {
             </TextareaWrapper>
 
             {/* 업로드 버튼 */}
-            <SubmitButton onClick={handleSubmit}>
+            <SubmitButton onClick={()=>handleSubmit()}>
                 게시글 업로드
             </SubmitButton>
 
@@ -213,7 +212,7 @@ const WritePost = ({ link }) => {
     );
 }
 
-export default WritePost;
+export default CommunityWritePost;
 
 const Wrapper = styled.div`
     display : flex;

@@ -46,7 +46,6 @@ const Header = () => {
 };
 
 export default Header;
-
 const HeaderWrapper = styled.div`
     box-sizing : border-box;
     z-index: 5;
@@ -96,14 +95,15 @@ const MenuWrapper = styled.div`
         width : 5em;
         height : 100vh;
         flex-direction: column;
+        gap : 3em;
         transform: ${(props) => (props.$menuVisible ? 'translateX(0)' : 'translateX(-100%)')};
         transition: transform 0.3s ease, visibility 0.3s ease, opacity 0.3s ease;
         align-items : start;
-        position: absolute;
+        position: fixed;
         top: 60px;
         left: 0;
         background-color: #FBFAFF;
-        padding: 2.1em;
+        padding-left : 5%;
     }
 `;
 

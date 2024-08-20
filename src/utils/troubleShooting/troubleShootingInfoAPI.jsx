@@ -2,7 +2,7 @@ import { api } from "../API";
 
 export const registerTroubleShootingAPI = async (roomId, title, body) => {
   try {
-    const response = await api.post(`study-rooms/assignments/${roomId}`, {
+    const response = await api.post(`/study-rooms/assignments/${roomId}`, {
       title,
       body,
     });

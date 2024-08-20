@@ -14,12 +14,15 @@ import ReportModal from "../components/studyDetail/ReportModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-// 세자리마다 콤마 기능
+
+
+const TroubleshootingDetailPage = () => {
+
+  // 세자리마다 콤마 기능
 const formatNumberWithCommas = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-const TroubleshootingDetailPage = () => {
   // state 관리
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
@@ -73,8 +76,6 @@ const TroubleshootingDetailPage = () => {
               user1023
             </Writer>
             <StyledBar>|</StyledBar>
-            프로젝트 &gt; 보안
-            <StyledBar>|</StyledBar>
             2024.03.01
             <StyledBar>|</StyledBar>
             조회 300
@@ -104,7 +105,7 @@ const TroubleshootingDetailPage = () => {
             </CommentWrapper>
             <ReportWrapper>
               <StyledReportIcon onClick={showReportModal} />
-              <InteractionText>신고</InteractionText>
+              <InteractionText className="report-text">신고</InteractionText>
             </ReportWrapper>
 
             {/* 신고 모달창 */}
@@ -146,16 +147,16 @@ const HeaderWrapper = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    padding: 0 2em; /* 좌우 패딩을 줄여서 모바일 화면에 맞춤 */
-    height: 10em; /* 높이를 줄여서 모바일 화면에 맞춤 */
-    font-size: 0.7em; /* 폰트 크기를 줄여서 모바일 화면에 맞춤 */
-    background-position: center; /* 배경 이미지의 중심을 맞춤 */
+    padding: 0 2em;
+    height: 10em;
+    font-size: 0.7em;
+    background-position: center;
   }
 
   @media (max-width: 480px) {
-    padding: 0 1em; /* 더 작은 모바일 화면에 맞게 패딩 추가 조정 */
-    height: 8em; /* 더 작은 모바일 화면에 맞게 높이 조정 */
-    font-size: 0.6em; /* 더 작은 폰트 크기 조정 */
+    padding: 0 1em;
+    height: 8em;
+    font-size: 0.6em;
   }
 `;
 
@@ -241,36 +242,49 @@ const InteractionWrapper = styled.div`
 `;
 
 const CommentWrapper = styled.div`
-  margin: 1em 1em 0 0;
-  width: 2.2em;
-  font-size: 1.2em;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin: 1em 0 0 0;
+  width: auto;
+  font-size: 1.2em;
 `;
 
 const StyledCommentIcon = styled.img`
-  margin-right: 0.3em;
+  margin-bottom: 0.35em;
+  margin-right: 0.9em;
   width: 1.2em;
   height: 1.2em;
   cursor: pointer;
 `;
 
 const ReportWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 1em 1em 0 0;
   width: 2.2em;
   font-size: 1.2em;
 `;
 
 const StyledReportIcon = styled(ReportIcon)`
-  margin-bottom: 0.1em;
+  margin-bottom: 0.4em;
   width: 1.5em;
   height: 1.25em;
   cursor: pointer;
 `;
 
 const InteractionText = styled.div`
-  color: #d0d1d9;
+  color: #ddd1d9;
   font-size: 0.6875em;
+  text-align: center;
+  white-space: nowrap;
+  margin-right: 1em;
+
+  &.report-text {
+    margin-left: 1em;
+  }
 `;
 
 const PostContentWrapper = styled.div`
@@ -285,6 +299,18 @@ const PostContent = styled.div`
   width: 68em;
   min-height: 22em;
   color: #161a3f;
+  font-size: 1em;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    font-size: 0.9em;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    margin: 1em 0;
+    font-size: 0.8em;
+  }
 `;
 
 const StyledHr = styled.hr`
@@ -294,4 +320,15 @@ const StyledHr = styled.hr`
   height: 1.5px;
   font-size: 0.85em;
   background-color: rgba(162, 163, 178, 0.4);
+
+  @media (max-width: 768px) {
+    width: 95%;
+    font-size: 0.75em;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    margin: 1em 0;
+    font-size: 0.7em;
+  }
 `;

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import ProfileImg from "../../assets/images/community/userProfile.png";
+import ProfileImg from "../../assets/images/community/userProfileBig.png";
 import Comment from "./Comment";
 import { dummyComments } from "./DummyComments";
 import Loading from "../common/Loading";
 
 const CommentContainer = () => {
-  // state 관리
   const [commentPage, setCommentPage] = useState(1);
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,12 +74,12 @@ const CommentContainer = () => {
 
 export default CommentContainer;
 
-/* CSS */ const CommentContainerWrapper = styled.div`
+const CommentContainerWrapper = styled.div`
   width: 84.5588em;
   font-size: 0.85em;
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: 90%;
     padding: 0 1em;
   }
 `;

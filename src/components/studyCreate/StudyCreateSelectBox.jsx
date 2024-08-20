@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import DownArrowIcon from "../../assets/icons/communityWrite/purpleDownArrow.svg?react";
-import { setCategoryList } from '../../features/study/studyCreateSlice';
+import { setCategory } from '../../features/study/studyCreateSlice';
 
 const StudyCreateSelectBox = () => {
     // Redux 관리
@@ -21,7 +21,7 @@ const StudyCreateSelectBox = () => {
     const handleCategorySelect = (option) => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
-        dispatch(setCategoryList(option));
+        dispatch(setCategory(option));
     };
 
     return (
@@ -131,7 +131,7 @@ const OptionWrapper = styled.div`
     margin-top: 4.5em;
     padding: 1.5em 0;
     border-radius: 10px;
-    width: 40em;
+    width: 100%;
     background-color: rgba(22, 26, 63, 0.7);
     backdrop-filter: blur(3px);
     display: flex;
