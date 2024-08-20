@@ -1,64 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { descriptionAPI/*, saveDescriptionAPI*/ } from '../../utils/studyManageWeek/descriptionAPI'; 
-import { useLocation } from 'react-router-dom';
-// API 설명
-// 1. N주차에 스터디 이름 및 상세 설명을 작성한다.
-// 2. 저장하기 버튼을 클릭하면 그 주차에 작성한 내용을 저장한다.
-// 3. 저장한 후에 어디로...? (스웨거) 
-// ? roomId는 studyroom에서 받아온다
 
-const ManageWeekBasics = ({ selectedWeek }) => {
+const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
+    const [studyName, setStudyName] = useState(weekData[selectedWeek]?.basicInfo?.name || '');
+    const [studyDescription, setStudyDescription] = useState(weekData[selectedWeek]?.basicInfo?.description || '');
     const [isOn, setIsOn] = useState(true);
     const handleToggle = () => setIsOn(!isOn);
     const onToggle = () => setIsOn(true);
     const offToggle = () => setIsOn(false);
-    
-    const [studyName, setStudyName] = useState('');
-    const [studyDescription, setStudyDescription] = useState('');
-    const location = useLocation();
-    const { roomId } = location.state || {};
 
     useEffect(() => {
-        if (!roomId || selectedWeek === undefined) {
-            console.warn('roomId 또는 selectedWeek가 설정되지 않았습니다.');
-            return;
-        }
-
-        const fetchDescription = async () => {
-            try {
-                const response = await descriptionAPI(roomId, selectedWeek);
-                if (response) {
-                    setStudyDescription(response.description);
-                }
-            } catch (error) {
-                console.error('API 오류:', error);
-            }
-        };
-
-        fetchDescription();
-    }, [roomId, selectedWeek]);
+        setStudyName(weekData[selectedWeek]?.basicInfo?.name || '');
+        setStudyDescription(weekData[selectedWeek]?.basicInfo?.description || '');
+    }, [selectedWeek, weekData]);
 
     const handleStudyNameChange = (event) => {
-        setStudyName(event.target.value);
+        const value = event.target.value;
+        setStudyName(value);
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], basicInfo: { ...newWeekData[selectedWeek]?.basicInfo, name: value } };
+        onWeekDataChange(newWeekData);
     };
 
     const handleStudyDescriptionChange = (event) => {
-        setStudyDescription(event.target.value);
+        const value = event.target.value;
+        setStudyDescription(value);
+        const newWeekData = [...weekData];
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], basicInfo: { ...newWeekData[selectedWeek]?.basicInfo, description: value } };
+        onWeekDataChange(newWeekData);
     };
-    // 이거 나중에 삭제
-    // const handleSave = async () => {
-    //     if (!roomId || selectedWeek === undefined) {
-    //         console.warn('roomId 또는 selectedWeek가 설정되지 않았습니다.');
-    //         return;
-    //     }
-    //     try {
-    //         await saveDescriptionAPI(roomId, selectedWeek, studyDescription);
-    //         alert('저장 완료!');
-    //     } catch (error) {
-    //         console.error('저장 오류:', error);
-    //     }
-    // };
 
     return (
         <Container>
@@ -67,6 +37,7 @@ const ManageWeekBasics = ({ selectedWeek }) => {
                 <InputWrapper>
                     <InputStudyName
                         placeholder={`${selectedWeek + 1} 주차 제목을 입력해주세요.`}
+                        value={studyName}
                         onChange={handleStudyNameChange}
                     />
                     {!studyName && <CharCount>0자/20자</CharCount>}
@@ -87,18 +58,18 @@ const ManageWeekBasics = ({ selectedWeek }) => {
                 </RowContainer>  
                 <Container>
                     <ToggleWrapper>
-                        <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
-                        <ToggleBox onClick={handleToggle}>
+                        <OnToggleText onClick={() => setIsOn(true)} isOn={isOn}>공개</OnToggleText>
+                        <ToggleBox onClick={() => setIsOn(!isOn)}>
                             <Toggle isOn={isOn}></Toggle>
                         </ToggleBox>
-                        <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
+                        <OffToggleText onClick={() => setIsOn(false)} isOn={isOn}>비공개</OffToggleText>
                     </ToggleWrapper>
-                </Container>
-                {/* <SaveButton onClick={handleSave}>저장하기</SaveButton>  */}
+                </Container> 
             </MainWrapper1>  
         </Container>
     );
 };
+
 
 export default ManageWeekBasics;
 

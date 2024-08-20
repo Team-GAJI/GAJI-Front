@@ -11,21 +11,22 @@ import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetaile
 import PageHeader from '../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 
-
 const StudyManageWeeKPage = () => {
-  // n주차 버튼 기능 마지막 주차만 삭제, 추가 가능하도록 수정
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
+  const [selectedWeek, setSelectedWeek] = useState(0);
+  const [weekData, setWeekData] = useState(Array(9).fill(null).map(() => ({
+    basicInfo: { name: '', description: '' },
+    tasks: [],
+    recruitmentStartDate: null,
+    recruitmentEndDate: null,
+    studyPeriodStartDate: null,
+    studyPeriodEndDate: null
+  })));
+
   const sidebarRef = useRef(null);
-
-  const handleDelete = () => {
-    if (weeks.length > 0) {
-      setWeeks(weeks.slice(0, -1)); // 마지막 주차만 삭제
-    }
-  };
-
-  const handleAdd = () => {
-    setWeeks([...weeks, weeks.length]);
-  };
+  const manageWeekDetailedRef = useRef(null);
+  const navigate = useNavigate();
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
   useEffect(() => {
     if (sidebarRef.current) {
@@ -35,83 +36,108 @@ const StudyManageWeeKPage = () => {
     }
   }, [weeks]);
 
-  // 주차 선택
-  const [selectedWeek, setSelectedWeek] = useState(0);
+  const handleDelete = () => {
+    if (weeks.length > 0) {
+      setWeeks(weeks.slice(0, -1));
+      setWeekData(weekData.slice(0, -1));
+    }
+  };
+
+  const handleAdd = () => {
+    setWeeks([...weeks, weeks.length]);
+    setWeekData([...weekData, {
+      basicInfo: { name: '', description: '' },
+      tasks: [],
+      recruitmentStartDate: null,
+      recruitmentEndDate: null,
+      studyPeriodStartDate: null,
+      studyPeriodEndDate: null
+    }]);
+  };
 
   const handleWeekSelect = (index) => {
     setSelectedWeek(index);
   };
-  //studymanage 페이지로 이동
-  const navigate = useNavigate();
-  const handleButtonClick = (navigate) => {
+
+  const handleButtonClick = () => {
     navigate("/studymanage");
   };
 
-  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-
-  //헤더 함수
-  const headerTitles = ["저장하기"];
   const handleHeaderButtonClick = (index) => {
     setActiveButtonIndex(index);
-    if (index == 0) {
-      // dispatch(setActiveButton("저장하기"));
+    if (index === 0 && manageWeekDetailedRef.current) {
+      manageWeekDetailedRef.current.handleSubmit();
     }
+  };
+
+  const handleWeekDataChange = (newWeekData) => {
+    setWeekData(newWeekData);
   };
 
   return (
     <>
-        {/* 헤더 */}
-        <PageHeader
-          pageTitle="스터디 관리 페이지"
-          subTitle="스터디장에게만 보이는 메뉴에요"
-          headerTitles={headerTitles}
-          activeButtonIndex={activeButtonIndex}
-          onButtonClick={handleHeaderButtonClick}
-          changeColorOnClick={true}
-          changeColorOnHover={true}
-        />
-        <RowWrapper>
+      <PageHeader
+        pageTitle="스터디 관리 페이지"
+        subTitle="스터디장에게만 보이는 메뉴에요"
+        headerTitles={["저장하기"]}
+        activeButtonIndex={activeButtonIndex}
+        onButtonClick={handleHeaderButtonClick}
+        changeColorOnClick={true}
+        changeColorOnHover={true}
+      />
+    
+      <RowWrapper>
+        <ContentWrapper70>
+          <ManageWeekBasics
+            selectedWeek={selectedWeek}
+            weekData={weekData}
+            onWeekDataChange={handleWeekDataChange}
+          />
+          <StudyMangeWeekPeriod
+            selectedWeek={selectedWeek}
+            weekData={weekData}
+            onWeekDataChange={handleWeekDataChange}
+          />
+          <ManageWeekeDetailed
+            selectedWeek={selectedWeek}
+            weekData={weekData}
+            onWeekDataChange={handleWeekDataChange}
+            roomId="roomId"
+            ref={manageWeekDetailedRef}
+          />
+        </ContentWrapper70>
 
-          <ContentWrapper70>
-            <ManageWeekBasics selectedWeek={selectedWeek}/>
-            <StudyMangeWeekPeriod selectedWeek={selectedWeek}/>
-            <ManageWeekeDetailed selectedWeek={selectedWeek} />
-          </ContentWrapper70>
-
-            <Sidebar1 ref={sidebarRef}>
-              {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
-              <BasicInfoButton onClick={() => handleButtonClick(navigate)}>
-                기본정보
-              </BasicInfoButton>
-              {weeks.map((week, index) => (
-                <React.Fragment key={week}>
-                  <SidebarButton1
-                    className={index === weeks.length - 1 ? "last-week" : ""}
-                    bold={index === selectedWeek}
-                    onClick={() => handleWeekSelect(index)}
-                  >
-                    <TextWrapper>{week + 1}주차</TextWrapper>
-                    {index === weeks.length - 1 && (
-                      <DelIconWrapper>
-                        <DelIcons
-                          src={StudyManageWeekManageDel}
-                          alt="삭제"
-                          onClick={handleDelete}
-                        />
-                      </DelIconWrapper>
-                    )}
-                  </SidebarButton1>
-                </React.Fragment>
-              ))}
-              <PlusButton onClick={handleAdd}>
-                <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
-              </PlusButton>
-            </Sidebar1>
-
+        <Sidebar1 ref={sidebarRef}>
+          <BasicInfoButton onClick={handleButtonClick}>
+            기본정보
+          </BasicInfoButton>
+          {weeks.map((week, index) => (
+            <React.Fragment key={week}>
+              <SidebarButton1
+                className={index === weeks.length - 1 ? "last-week" : ""}
+                bold={index === selectedWeek}
+                onClick={() => handleWeekSelect(index)}
+              >
+                <TextWrapper>{week + 1}주차</TextWrapper>
+                {index === weeks.length - 1 && (
+                  <DelIconWrapper>
+                    <DelIcons
+                      src={StudyManageWeekManageDel}
+                      alt="삭제"
+                      onClick={handleDelete}
+                    />
+                  </DelIconWrapper>
+                )}
+              </SidebarButton1>
+            </React.Fragment>
+          ))}
+          <PlusButton onClick={handleAdd}>
+            <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
+          </PlusButton>
+        </Sidebar1>
       </RowWrapper>
-
     </>
-    );
+  );
 };
 
 export default StudyManageWeeKPage;
@@ -121,11 +147,7 @@ display : flex;
 @media(max-width : 768px){
   flex-direction : column-reverse;
 }
-
-`
-
-
-
+`;
 
 const DelIconWrapper = styled.div`
 visibility: hidden;
@@ -146,7 +168,7 @@ display: flex;
 flex-direction: column;
 border: 1px solid #A2A3B2;  
 border-radius: 0.5em;
-max-height: 550px;
+max-height: 500px;
 width : 10%;
 width: 11.25em;
 right : 3%;
@@ -267,7 +289,7 @@ border: none;
 background-color: transparent;
 color: #A2A3B2;
 padding: 0.6em 0.625em;
-margin-top: auto;
+
 
 @media (max-width: 768px) {
   padding: 0.5em 0.5em;
