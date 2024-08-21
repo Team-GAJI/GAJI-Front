@@ -22,10 +22,12 @@ import StudyCreatePage from "./pages/StudyCreatePage.jsx";
 import LoginRedirectPage from "./pages/LoginRedirectPage.jsx";
 import StudyRoomWritePage from "./pages/StudyRoomWritePage.jsx";
 import StudyRoomPostPage from "./pages/StudyRoomPostPage.jsx";
+import CharacterVotePage from "./pages/CharacterVotePage.jsx";
 
 function App() {
   return (
     <Routes>
+      <Route exact path="/character/vote" element={<CharacterVotePage/>}/>
       {/* 로그인 페이지 라우트 */}
       <Route exact path="/login" element={<LoginPage />} />
       <Route
