@@ -1,13 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom';
+import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
 
-const HotPostPreview = ({ key, title, background, tags }) => {
+const HotPostPreview = ({ key, postId, title, background, tags }) => {
   // useNavigate
   const navigate = useNavigate();
 
+  // 게시글 상세보기 버튼
+  const handleSubmit = async () => {
+    try {
+        const postDetail = await communityPostAPI(postId);
+        console.log(postDetail)
+        navigate("/community/post", { state: 
+            {
+                postId: postDetail
+            } 
+        });
+    } catch (error) {
+        console.error('스터디 생성 중 오류 발생:', error);
+        // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+    }
+};
+
   return (
-    <PostWrapper key={key} onClick={() => {navigate("/community/post");}}>
+    <PostWrapper key={key} onClick={()=>handleSubmit()}>
         <Background background={background}></Background>
         <ContentWrapper>
           <Title>{title}</Title>

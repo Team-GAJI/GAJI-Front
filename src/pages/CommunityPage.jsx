@@ -11,13 +11,12 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import HotPostPreview from '../components/community/HotPostPreview';
-import { dummyHotPosts } from '../components/community/DummyHotPosts';
-
+import { communityPostsPreviewAPI } from '../utils/communityMain/communityPostsPreviewAPI';
 
 const CommunityPage = () => {
     // state 관리
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-    const [posts, setPosts] = useState([]);
+    const [hotPosts, setHotPosts] = useState([]);
 
     // Redux 상태 관리
     const dispatch = useDispatch();
@@ -37,7 +36,17 @@ const CommunityPage = () => {
 
     // HOT 게시물 불러오기
     useEffect(() => {
-        setPosts(dummyHotPosts);
+        const fetchStudies = async () => {
+            try {
+                const [hotPostResponse] = await Promise.all([
+                communityPostsPreviewAPI(null, null, 'hot', null, 10) // 핫게시물
+                ]);
+                setHotPosts(hotPostResponse);
+            } catch (error) {
+                console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
+            }
+        };
+        fetchStudies();
     }, []);
 
     return (
@@ -73,13 +82,14 @@ const CommunityPage = () => {
                         pagination={false}
                         modules={[EffectCoverflow, Pagination]}
                     >
-                        {posts.map((post) => (
+                        {hotPosts.map((post) => (
                             <StyledSwiperSlide key={post.postId}>
                                 <HotPostPreview
                                     key={post.postId}
-                                    title={post.postTitle}
-                                    background={post.postBackgroundImg}
-                                    tags={post.postTag} />
+                                    postId={post.postId}
+                                    title={post.title}
+                                    background={post.thumbnailUrl}
+                                    tags={post.hashtagList} />
                             </StyledSwiperSlide>
                         ))}
                     </StyledSwiper>
