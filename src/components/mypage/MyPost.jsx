@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { PuppleButton } from '../style/Button';
 import Loading from '../common/Loading';
 import { postAPI } from '../../utils/mypage/postAPI';
-
 const MyPost = () => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -14,13 +13,17 @@ const MyPost = () => {
     const getPosts = useCallback(async () => {
         if (isLoading || !hasNext) return;
         setIsLoading(true);
-    
+
+        const userId = localStorage.getItem('userId');
+        const types = ['질문하기', '프로젝트 모집', '블로그', '스터디 모집'];
+        const currentType = types[category];
+
         try {
-            const response = await postAPI();
+            const response = await postAPI(userId, currentType);
             console.log('API 응답:', response); 
-    
+
             const { postList, hasNext: newHasNext } = response;
-    
+
             if (!postList || postList.length === 0) {
                 console.log('게시글 데이터가 없습니다.');
                 setHasNext(false); 
@@ -34,17 +37,19 @@ const MyPost = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [isLoading, hasNext]);
-    
+    }, [isLoading, hasNext, category]);
 
     useEffect(() => {
+        setPosts([]);
+        setPage(1);
+        setHasNext(true);
         getPosts();
-    }, [getPosts]);
+    }, [category]);
 
     useEffect(() => {
         const handleScroll = () => {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-            if (scrollTop + clientHeight >= scrollHeight - 100) { 
+            if (scrollTop + clientHeight >= scrollHeight - 100) {
                 getPosts();
             }
         };
@@ -83,6 +88,7 @@ const MyPost = () => {
 };
 
 export default MyPost;
+
 
 const MyPostWrapper = styled.div`
     width: 100%;
