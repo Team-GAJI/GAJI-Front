@@ -1,39 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Plus from '../../assets/icons/studyRoom/Plus.png';
 import { MinorText } from './StudySummary';
 import styled from 'styled-components';
 import BlogPreview from '../community/BlogPreview';
+import { useNavigate } from 'react-router-dom';
+import {  studyRoomPostPreviewAPI }from '../../utils/studyRoom/studyRoomPostPreviewAPI';
 
-const StudyPostList = () => {
-    const cardData = Array.from({ length: 5 }, (_, index) => ({
-        id: index,
-        title: `제목 ${index + 1}`,
-        daysLeft: `D-${index + 1}`,
-        description: `설명입니다. ${index + 1}`,
-        imageUrl: `https://via.placeholder.com/250x150?text=Image${index + 1}`
-    }));
+const StudyPostList = ({roomId}) => {
+    console.log(roomId)
+    const navigate = useNavigate();
+    const [cardData,setCardData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await studyRoomPostPreviewAPI(roomId);
+                console.log(response);
+                setCardData(response);
+                console.log(cardData)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, [roomId]);
 
     return (
         <>
             <StudyPostWrapper>
                 <ButtonWrapper>
                     <MinorText>게시글</MinorText>
-                    <PostButton>
+                    <PostButton onClick={()=>navigate('/studyweekwrite', {state : {roomId : roomId}})}>
                         <Icons src={Plus} alt="플러스" style={{ width: '10px', height:'10px' }} />
                         게시글 작성하기
                     </PostButton>
                 </ButtonWrapper>
-                <GridRow>
-                    {cardData.map(item => (
+                <Row>
+                    {cardData && cardData.map(item => (
                         <BlogPreview
+                            link={'community'}
                             key={item.id}
+                            postId={item.id}
                             title={item.title}
-                            daysLeft={item.daysLeft}
-                            description={item.description}
+                            daysLeft={item.createdAt}
+                            description={item.body}
                             imageUrl={item.imageUrl}
+                            apiType={'studyRoom'}
                         />
                     ))}
-                </GridRow>
+                </Row>
             </StudyPostWrapper>
         </>
     );
@@ -70,13 +86,17 @@ const StudyPostWrapper = styled.div`
     display: flex;
     flex-direction : column;
     gap: 1.25em;
+    width : 100%;
 `;
 
-const GridRow = styled.div`
-    display: grid;
-    gap: 1.25em;
-    grid-template-columns: 1fr 1fr 1fr;
-
+const Row = styled.div`
+    display: flex;
+    justify-content : center;
+    width : 100%;
+    overflow-x: auto; 
+    box-sizing : border-box;
+    padding-top :1em;
+    gap : 2em;
     @media (max-width: 768px) {
         display : flex;
         overflow-x: auto; 

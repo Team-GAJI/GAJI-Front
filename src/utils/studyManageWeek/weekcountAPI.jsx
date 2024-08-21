@@ -1,6 +1,6 @@
 import { api } from "../API";
 // 스터디 주차 
-export const TaskAPI = async (roomId) => {
+export const weekcountAPI = async (roomId) => {
     try {
         const response = await api.get(`/api/study-rooms/home/{roomId}`);
         console.log(roomId);

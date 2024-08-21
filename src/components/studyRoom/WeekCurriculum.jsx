@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MinorText } from './StudySummary';
+import { weekTaskProgressAPI } from '../../utils/studyRoom/weekTaskProgressAPI';
 
-const WeekCurriculum = ( week ,roomId ) => {
+const WeekCurriculum = ( {roomId, week} ) => {
     const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
 
     const [activeTasks, setActiveTasks] = useState({});
     const [hoveredNickname, setHoveredNickname] = useState(null);
-    console.log(roomId);
 
     const toggleTask = (taskId) => {
         setActiveTasks((prev) => ({
@@ -20,7 +20,15 @@ const WeekCurriculum = ( week ,roomId ) => {
         return nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname;
     };
 
-
+    useEffect(() => {
+        console.log(roomId, week)
+            try {
+                const response = weekTaskProgressAPI(roomId, week);
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
+    }, [roomId, week]); 
     return (
         <>
             <WeekStudySummary>
