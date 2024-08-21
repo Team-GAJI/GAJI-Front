@@ -26,7 +26,8 @@ const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recr
             console.log(studyDetail)
             navigate("/studydetail", { state: 
                 {
-                    studyDetail: studyDetail
+                    studyDetail: studyDetail,
+                    roomId: roomId
                 } 
             });
         } catch (error) {
