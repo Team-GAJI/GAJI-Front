@@ -239,8 +239,7 @@ const CommunityPostPage = () => {
       </PostContentWrapper>
       </ContentWrapper> 
       </>
-    }
-
+      )}
     </>
   );
 };
