@@ -8,12 +8,12 @@ import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 import DownArrowIcon from "../assets/icons/communityPost/whiteDownArrow.svg?react";
-import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ReportModal from "../components/studyDetail/ReportModal";
 import { ContentWrapper } from "../components/common/MediaWrapper";
+import StudyCommentContainer from "../components/studyDetail/StudyCommentContainer";
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -23,7 +23,12 @@ import { ContentWrapper } from "../components/common/MediaWrapper";
 const CommunityPostPage = () => {
   // 게시글 작성에서 정보 가져오기
   const location = useLocation();
-  const postId = location.state?.postId || {}; // `postId`가 존재하지 않으면 빈 객체로 초기화
+
+  //const postId = location.state?.postId || {}; // `postId`가 존재하지 않으면 빈 객체로 초기화
+  const { postId } = location.state || {};
+  const { postId2 } = location.state || {};
+ 
+
 
   // state 관리
   const [bookMarkState, setBookMarkState] = useState(false);
@@ -227,13 +232,15 @@ const CommunityPostPage = () => {
           <ExtraPostPreview />
         </ExtraPostsWrapper> */}
 
-              <StyledHr />
-              {/* 댓글 영역 */}
-              <CommentContainer />
-            </PostContentWrapper>
-          </ContentWrapper>
-        </>
-      )}
+        <StyledHr />
+        {/* 댓글 영역 */}
+        {/* <CommentContainer /> */}
+        <StudyCommentContainer postId={postId2} type="community"/>
+      </PostContentWrapper>
+      </ContentWrapper> 
+      </>
+    }
+
     </>
   );
 };

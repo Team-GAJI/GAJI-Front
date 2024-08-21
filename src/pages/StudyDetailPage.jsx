@@ -21,7 +21,7 @@ const StudyDetailPage = () => {
         const day = date.getDate();
         return `${month}월 ${day}일`;
     };
-    
+
     return (
         <>
         {studyDetail && 
@@ -90,7 +90,7 @@ const StudyDetailPage = () => {
 
                 <StyledHr />
                 {/* 댓글 영역 */}
-                <StudyCommentContainer />
+                <StudyCommentContainer roomId={roomId} type="study"/>
             </ContentWrapper>
             </>
         }

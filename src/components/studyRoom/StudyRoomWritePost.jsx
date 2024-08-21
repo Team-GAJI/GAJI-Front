@@ -9,11 +9,11 @@ import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
-import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
+import { studyRoomWriteAPI } from '../../utils/studyRoom/studyRoomWriteAPI';
 import { setTitle, setBody } from '../../features/community/communityWriteSlice';
-import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
+import { studyRoomPostDetailAPI } from '../../utils/studyRoom/studyRoomPostDetailAPI';
 
-const CommunityWritePost = () => {
+const StudyRoomWritePost = ({roomId}) => {
     // 상태 관리
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(markdown.length);
@@ -25,30 +25,24 @@ const CommunityWritePost = () => {
     // Redux 관리
     const dispatch = useDispatch();
     dispatch(setBody(markdown));
-    const { title, body, thumbnailUrl, hashtagList, category } = useSelector((state) => state.communityWrite);
-    const { type } = useSelector((state) => state.community);
+    const { title, body} = useSelector((state) => state.communityWrite);
     // 서버로 전달할 데이터
     const data = {
         "title": title,
         "body": body,
-        "thumbnailUrl": thumbnailUrl,
-        "type": type,
-        "hashtagList": hashtagList,
-        "category": category
     };
 
     const handleSubmit = async () => {
         try {
-            const response = await communityWriteAPI(data);
-            console.log(response);
+            const response = await studyRoomWriteAPI(roomId,data);
+            console.log(response.result.roomPostId);
             //전역상태초기화 함수
-            const postId = await communityPostAPI(response);
-            console.log(postId)
-            navigate("/community/post", { state: 
+            const postData = await studyRoomPostDetailAPI(response.result.roomPostId);
+            console.log(postData)
+            navigate("/studyroom/post", { state: 
                 {
-                    postId: postId,
-                    //추후 수정
-                    postId2 : response
+                    roomId: roomId,
+                    postData: postData
                 } 
             }); 
 
@@ -223,7 +217,7 @@ const CommunityWritePost = () => {
     );
 }
 
-export default CommunityWritePost;
+export default StudyRoomWritePost;
 
 const Wrapper = styled.div`
     display : flex;

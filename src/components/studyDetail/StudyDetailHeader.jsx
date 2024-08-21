@@ -31,85 +31,102 @@ const StudyDetailHeader = ({
   userActive,
   userActiveColor,
 }) => {
-  const [bookMarkState, setBookMarkState] = useState(false);
-  const [likeState, setLikeState] = useState(false);
-  const [bookMarkCount, setBookMarkCount] = useState(bookmarks);
-  const [likeCount, setLikeCount] = useState(likes);
-  const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
-  const [isReportModalVisible, setIsReportModalVisible] = useState(false);
-  const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-  // 북마크 기능
-  const handleBookMark = () => {
-    if (bookMarkState) {
-      setBookMarkState(false);
-      setBookMarkCount((prevCount) => prevCount - 1);
-    } else {
-      setBookMarkState(true);
-      setBookMarkCount((prevCount) => prevCount + 1);
-    }
-  };
+    const [bookMarkState, setBookMarkState] = useState(false);
+    const [likeState, setLikeState] = useState(false);
+    const [bookMarkCount, setBookMarkCount] = useState(bookmarks);
+    const [likeCount, setLikeCount] = useState(likes);
+    const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
+    const [isReportModalVisible, setIsReportModalVisible] = useState(false);
+    const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-  // 좋아요 기능
-  const handleLike = () => {
-    if (likeState) {
-      setLikeState(false);
-      setLikeCount((prevCount) => prevCount - 1);
-    } else {
-      setLikeState(true);
-      setLikeCount((prevCount) => prevCount + 1);
-    }
-  };
+    // 북마크 기능
+    const handleBookMark = () => {
+        if (bookMarkState) {
+            setBookMarkState(false);
+            setBookMarkCount(prevCount => prevCount - 1);
+        } else {
+            setBookMarkState(true);
+            setBookMarkCount(prevCount => prevCount + 1);
+        }
+    };
 
-  const showWriterInfo = () => setIsWriterInfoVisible(true);
-  const hideWriterInfo = () => setIsWriterInfoVisible(false);
+    // 좋아요 기능
+    const handleLike = () => {
+        if (likeState) {
+            setLikeState(false);
+            setLikeCount(prevCount => prevCount - 1);
+        } else {
+            setLikeState(true);
+            setLikeCount(prevCount => prevCount + 1);
+        }
+    };
 
-  const showReportModal = () => setIsReportModalVisible(true);
-  const hideReportModal = () => setIsReportModalVisible(false);
+    const showWriterInfo = () => setIsWriterInfoVisible(true);
+    const hideWriterInfo = () => setIsWriterInfoVisible(false);
 
-  const showReportNotice = () => {
-    setIsReportNoticeVisible(true);
-    setTimeout(() => {
-      setIsReportNoticeVisible(false);
-    }, 2000);
-  };
+    const showReportModal = () => setIsReportModalVisible(true);
+    const hideReportModal = () => setIsReportModalVisible(false);
 
-  const navigate = useNavigate();
-  // 스터디 가지기 기능
-  const handleRecruit = async () => {
-    try {
-      const result = await studyRecruitAPI(roomId);
-      console.log(result);
-      navigate("/mypage");
-    } catch (error) {
-      console.error("스터디 생성 중 오류 발생:", error);
-      // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
-    }
-  };
+    const showReportNotice = () => {
+        setIsReportNoticeVisible(true);
+        setTimeout(() => {
+            setIsReportNoticeVisible(false);
+        }, 2000);
+    };
 
-  return (
-    <HeaderWrapper>
-      <ContentWrapper>
-        <RowWrapper>
-          <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
-            <ReportNotice>
-              <StyledReportCheck />
-              신고가 완료되었습니다
-            </ReportNotice>
-          </ReportNoticeWrapper>
+    const navigate = useNavigate();
+    // 스터디 가지기 기능
+    const handleRecruit = async () => {
+        try {
+            const result = await studyRecruitAPI(roomId);
+            console.log(result);
+            navigate('/mypage');
+        } catch (error) {
+            console.error('스터디 생성 중 오류 발생:', error);
+            alert(error.response.data.message)
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+        }
+    };
+    
+    return (
+        <HeaderWrapper>
+            <ContentWrapper>
+            <RowWrapper>
+            <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
+                <ReportNotice>
+                    <StyledReportCheck/>
+                    신고가 완료되었습니다
+                </ReportNotice>
+            </ReportNoticeWrapper>
+            
+            <TitleWrapper>
+                <TitleDetail>
+                    <Wrapper>
+                        <StyledUserProfileImg
+                            onMouseEnter={showWriterInfo}
+                            onMouseLeave={hideWriterInfo}
+                            src={UserProfileImg}
+                            alt="user profile"
+                        />
+                        <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
+                            {nickName}
+                        </Writer>
+                    </Wrapper>
+                    <StyledBar>|</StyledBar>
+                    2024.03.01
+                    <Wrapper>
+                        <StyledBar>|</StyledBar>
+                        조회 {views}
+                        <StyledBar>|</StyledBar>
+                        댓글 3
+                    </Wrapper>
+                </TitleDetail>
 
-          <TitleWrapper>
-            <TitleDetail>
-              <Wrapper>
-                <StyledUserProfileImg
-                  onMouseEnter={showWriterInfo}
-                  onMouseLeave={hideWriterInfo}
-                  src={UserProfileImg}
-                  alt="user profile"
-                />
-                <Writer
-                  onMouseEnter={showWriterInfo}
-                  onMouseLeave={hideWriterInfo}
+                <PostWriterInfoWrapper
+                    isVisible={isWriterInfoVisible}
+                    onMouseEnter={showWriterInfo}
+                    onMouseLeave={hideWriterInfo}
                 >
                   {nickName}
                 </Writer>

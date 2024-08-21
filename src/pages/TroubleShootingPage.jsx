@@ -22,7 +22,7 @@ const TroubleShootingPage = () => {
 
   const handleHeaderButtonClick = (index) => {
     if (index === 0) {
-      navigate("/studyroom");
+      navigate("/studyroom",{state : {roomId : roomId}});
     } else {
       setActiveButtonIndex(index);
     }

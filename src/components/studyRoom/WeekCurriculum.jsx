@@ -1,139 +1,130 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { MinorText } from "./StudySummary";
 
-const WeekCurriculum = (week, roomId) => {
-  const nicknames = [
-    "닉네임1",
-    "닉네임2",
-    "닉네임3",
-    "닉네임4",
-    "닉네임5",
-    "닉네임6",
-    "닉네임7",
-    "닉네임8",
-  ];
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { MinorText } from './StudySummary';
+import { weekTaskProgressAPI } from '../../utils/studyRoom/weekTaskProgressAPI';
 
-  const [activeTasks, setActiveTasks] = useState({});
-  const [hoveredNickname, setHoveredNickname] = useState(null);
-  console.log(roomId);
+const WeekCurriculum = ( {roomId, week} ) => {
+    const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
 
-  const toggleTask = (taskId) => {
-    setActiveTasks((prev) => ({
-      ...prev,
-      [taskId]: !prev[taskId],
-    }));
-  };
+    const [activeTasks, setActiveTasks] = useState({});
+    const [hoveredNickname, setHoveredNickname] = useState(null);
 
-  const truncateNickname = (nickname) => {
-    return nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname;
-  };
+    const toggleTask = (taskId) => {
+        setActiveTasks((prev) => ({
+            ...prev,
+            [taskId]: !prev[taskId],
+        }));
+    };
 
-  return (
-    <>
-      <WeekStudySummary>
-        <MainText>4주차</MainText>
-        <Date>2024. 03.19 - 03. 26</Date>
-      </WeekStudySummary>
-      <StudyCurriculumName>4주차 스터디 제목</StudyCurriculumName>
-      <StudyCurriculumDescreption>
-        4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디
-        상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명
-        입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차
-        스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디
-        상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명
-        입니다
-      </StudyCurriculumDescreption>
+    const truncateNickname = (nickname) => {
+        return nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname;
+    };
 
-      <DivisionLine />
+    useEffect(() => {
+        console.log(roomId, week)
+            try {
+                const response = weekTaskProgressAPI(roomId, week);
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
+    }, [roomId, week]); 
+    return (
+        <>
+            <WeekStudySummary>
+                <MainText>4주차</MainText>
+                <Date>2024. 03.19 - 03. 26</Date>
+            </WeekStudySummary>
+            <StudyCurriculumName>4주차 스터디 제목</StudyCurriculumName>
+            <StudyCurriculumDescreption>
+                4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다 4주차 스터디 상세설명 입니다
+            </StudyCurriculumDescreption>
+            
+            <DivisionLine/> 
 
-      <TaskContainer>
-        <CurrentWeek>
-          <MinorText>이번주 과제</MinorText>
-          <TaskSquare>
-            <TaskList>
-              <TaskItem
-                isActive={activeTasks["task-1"]}
-                onClick={() => toggleTask("task-1")}
-              >
-                과제 1
-              </TaskItem>
-              <TaskItem
-                isActive={activeTasks["task-2"]}
-                onClick={() => toggleTask("task-2")}
-              >
-                과제 2
-              </TaskItem>
-              <TaskItem
-                isActive={activeTasks["task-3"]}
-                onClick={() => toggleTask("task-3")}
-              >
-                과제 3
-              </TaskItem>
-            </TaskList>
-          </TaskSquare>
-        </CurrentWeek>
+            <TaskContainer>
+                <CurrentWeek>
+                    <MinorText>이번주 과제</MinorText>
+                    <TaskSquare>
+                        <TaskList>
+                            <TaskItem
+                                isActive={activeTasks['task-1']}
+                                onClick={() => toggleTask('task-1')}
+                            >
+                                과제 1
+                            </TaskItem>
+                            <TaskItem
+                                isActive={activeTasks['task-2']}
+                                onClick={() => toggleTask('task-2')}
+                            >
+                                과제 2
+                            </TaskItem>
+                            <TaskItem
+                                isActive={activeTasks['task-3']}
+                                onClick={() => toggleTask('task-3')}
+                            >
+                                과제 3
+                            </TaskItem>
+                        </TaskList>
+                    </TaskSquare>
+                </CurrentWeek>
 
-        <MyTask>
-          <MinorText>내 과제</MinorText>
-          <MyStudyData>
-            <MyLeftSide>
-              <Column>
-                <TaskText>남은 과제</TaskText>
-                <CountTaskText>1개</CountTaskText>
-              </Column>
-              <Column>
-                <TaskText>마감 기한</TaskText>
-                <Row>
-                  <DayText>3월1일</DayText>
-                  <DDayText>D - 5</DDayText>
-                </Row>
-              </Column>
-            </MyLeftSide>
+                <MyTask>
+                    <MinorText>내 과제</MinorText>
+                    <MyStudyData>
+                        <MyLeftSide>
+                            <Column>
+                                <TaskText>남은 과제</TaskText>
+                                <CountTaskText>1개</CountTaskText>
+                            </Column>
+                            <Column>
+                                <TaskText>마감 기한</TaskText>
+                                <Row>
+                                    <DayText>3월1일</DayText>
+                                    <DDayText>D - 5</DDayText>
+                                </Row>
+                            </Column>
+                        </MyLeftSide>
 
-            <MyRightSide>66%</MyRightSide>
-          </MyStudyData>
-        </MyTask>
-      </TaskContainer>
+                        <MyRightSide>
+                            66%
+                        </MyRightSide>
+                    </MyStudyData>
+                </MyTask>
+            </TaskContainer>
 
-      <MinorText>스터디원 달성도</MinorText>
-      <CircleContainer>
-        <NinckNameList>
-          {nicknames.map((nickname, index) => (
-            <Circle
-              key={index}
-              onMouseEnter={() => setHoveredNickname(nickname)}
-              onMouseLeave={() => setHoveredNickname(null)}
-            >
-              <NickName className="default-text">
-                {truncateNickname(nickname)}
-              </NickName>
-              {hoveredNickname === nickname && (
-                <CloudyText>{nickname}</CloudyText>
-              )}
-            </Circle>
-          ))}
-        </NinckNameList>
-        <TaskWrapper>
-          <Row>
-            <Task100 />
-            <CloudyText>100%</CloudyText>
-          </Row>
-          <Row>
-            <Task50 />
-            <CloudyText>50%</CloudyText>
-          </Row>
-        </TaskWrapper>
-      </CircleContainer>
+            <MinorText>스터디원 달성도</MinorText>
+            <CircleContainer>
+                <NinckNameList>
+                    {nicknames.map((nickname, index) => (
+                        <Circle 
+                            key={index}
+                            onMouseEnter={() => setHoveredNickname(nickname)}
+                            onMouseLeave={() => setHoveredNickname(null)}
+                        >
+                            <NickName className="default-text">{truncateNickname(nickname)}</NickName>
+                            {hoveredNickname === nickname && (
+                                <CloudyText>{nickname}</CloudyText>
+                            )}
+                        </Circle>
+                    ))}
+                </NinckNameList>
+                <TaskWrapper>
+                    <Row><Task100/><CloudyText>100%</CloudyText></Row>
+                    <Row><Task50/><CloudyText>50%</CloudyText></Row>
+                </TaskWrapper>
+            </CircleContainer>
 
-      <MoreWrapper>
-        <ButtonWrapper>
-          <MoreButton>스터디 단체 채팅방 입장하기</MoreButton>
-          {/* <NoticeButton2>{alarmCount}</NoticeButton2> */}
-        </ButtonWrapper>
-      </MoreWrapper>
-    </>
-  );
+            <MoreWrapper>
+                <ButtonWrapper>
+                    <MoreButton>스터디 단체 채팅방 입장하기</MoreButton>
+                    {/* <NoticeButton2>{alarmCount}</NoticeButton2> */}
+                </ButtonWrapper>
+            </MoreWrapper>        
+        </>
+    );
+
 };
 
 export default WeekCurriculum;
