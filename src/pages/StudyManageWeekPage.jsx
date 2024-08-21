@@ -73,63 +73,50 @@ const StudyManageWeeKPage = () => {
     }
   }, [selectedWeek, weekData]);
 
-  // 과제 데이터를 저장하는 함수
-  const saveAssignments = async (week, assignments) => {
+// 모든 데이터를 저장하는 통합된 함수
+const handleHeaderButtonClick = async (index) => {
+  setActiveButtonIndex(index);
+
+  if (index === 0) {
     try {
-      console.log("과제 저장 중...");
-      console.log("저장할 과제 데이터:", assignments); // 과제 데이터 확인
-      await assignmentsAPI(roomId, week, { assignments });
+      console.log("저장 중...");
+
+      for (let i = 0; i < weeks.length; i++) {
+        const week = weeks[i];
+
+        // 현재 주차의 데이터 가져오기
+        const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
+        const periodInfo = {
+          studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
+          studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
+        };
+        const assignments = i === selectedWeek 
+          ? (manageWeekDetailedRef.current?.getAssignments() || []) 
+          : (weekData[i]?.assignments || []);
+
+        // 이름과 설명 저장
+        await descriptionAPI(roomId, week, weekInfo);
+
+        // 기간 저장
+        await periodAPI(roomId, week, periodInfo);
+
+        // 과제 저장
+        await assignmentsAPI(roomId, week, { assignments });
+
+        console.log(`주차: ${week}`);
+        console.log(`정보:`, weekInfo);
+        console.log(`기간:`, periodInfo);
+        console.log(`과제:`, assignments);
+      }
+
+      alert("저장되었습니다.");
     } catch (error) {
       console.error("저장 중 오류 발생:", error);
       alert("저장 중 오류가 발생했습니다.");
     }
-  };
+  }
+};
 
-  // 저장하기 버튼 클릭 핸들러
-  const handleHeaderButtonClick = async (index) => {
-    setActiveButtonIndex(index);
-    if (index === 0) {
-      try {
-        console.log("저장 중...");
-        const savedWeeks = [];
-        const currentWeekAssignments = manageWeekDetailedRef.current?.getAssignments() || [];
-
-        for (let i = 0; i < weeks.length; i++) {
-          const week = weeks[i];
-          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-          await descriptionAPI(roomId, week, weekInfo);
-
-          const periodInfo = {
-            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
-            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
-          };
-          await periodAPI(roomId, week, periodInfo);
-
-          savedWeeks.push({
-            week,
-            weekInfo,
-            periodInfo,
-            currentWeekAssignments: i === selectedWeek ? currentWeekAssignments : []
-          });
-        }
-
-        savedWeeks.forEach(({ week, weekInfo, periodInfo, currentWeekAssignments }) => {
-          console.log(`주차: ${week}`);
-          console.log(`정보:`, weekInfo);
-          console.log(`기간:`, periodInfo);
-          console.log(`과제:`, currentWeekAssignments);
-        });
-
-        // 현재 주차의 과제 저장
-        await saveAssignments(selectedWeek, currentWeekAssignments);
-
-        alert("저장되었습니다.");
-      } catch (error) {
-        console.error("저장 중 오류 발생:", error);
-        alert("저장 중 오류가 발생했습니다.");
-      }
-    }
-  };
 
   const handleWeekDataChange = (newWeekData) => {
     setWeekData(prevWeekData => {
