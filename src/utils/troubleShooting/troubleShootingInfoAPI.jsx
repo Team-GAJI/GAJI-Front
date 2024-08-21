@@ -17,7 +17,7 @@ export const registerTroubleShootingAPI = async (roomId, data) => {
 
 // 트러블 슈팅 게시글 무한 스크롤 방식으로 조회
 export const fetchTroubleShootingPosts = async (
-  boardId,
+  roomId,
   lastPostId = null,
   size = 10
 ) => {
@@ -28,10 +28,22 @@ export const fetchTroubleShootingPosts = async (
       params.lastPostId = lastPostId;
     }
 
-    const response = await api.get(`study-rooms/${boardId}/trouble`, {
+    const response = await api.get(`study-rooms/${roomId}/trouble`, {
       params,
     });
-    return response.data.result;
+
+    // 응답 데이터 확인을 위해 콘솔 출력 추가
+    console.log("API response data:", response.data);
+
+    // result가 존재하고 배열일 경우에만 반환
+    const result = response.data.result;
+    if (Array.isArray(result)) {
+      return result;
+    } else {
+      // result가 배열이 아니면 빈 배열 반환
+      console.warn("Expected an array but got:", result);
+      return [];
+    }
   } catch (error) {
     console.error(
       "API 요청 중 오류 발생:",

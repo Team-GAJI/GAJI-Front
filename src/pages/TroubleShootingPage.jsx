@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import PageHeader from "../components/common/PageHeader";
-import Category from "../components/troubleshooting/Category";
 import ItemList from "../components/troubleshooting/ItemList";
 import { ContentWrapper } from "../components/common/MediaWrapper";
 
@@ -10,7 +10,7 @@ const TroubleShootingPage = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const roomId = location.state?.roomId || {};
+  const roomId = location.state?.roomId || {}; // roomId가 올바르게 받아와졌는지 확인
   console.log(roomId);
 
   const headerTitles = [
@@ -28,6 +28,10 @@ const TroubleShootingPage = () => {
     }
   };
 
+  const handleCreatePost = () => {
+    navigate("/troubleshooting-register", { state: { roomId: roomId } });
+  };
+
   return (
     <>
       <PageHeader
@@ -40,12 +44,48 @@ const TroubleShootingPage = () => {
         changeColorOnHover={true}
       />
       <ContentWrapper>
-        <Category roomId={roomId} />
-        {/* Pass the boardId as a prop to ItemList */}
-        <ItemList boardId={boardId} />
+        <CategoryWrapper>
+          <CategoryContainer>
+            <CreatePostButton onClick={handleCreatePost}>
+              + 트러블 슈팅 등록
+            </CreatePostButton>
+          </CategoryContainer>
+        </CategoryWrapper>
+
+        {/* ItemList 컴포넌트에 roomId를 전달합니다 */}
+        <ItemList roomId={roomId} />
       </ContentWrapper>
     </>
   );
 };
 
 export default TroubleShootingPage;
+
+const CategoryWrapper = styled.div`
+  width: 100%;
+  border-bottom: 1px solid #d0d1d9;
+  margin-bottom: 20px;
+`;
+
+const CategoryContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 0px;
+`;
+
+const CreatePostButton = styled.button`
+  background-color: #8e59ff;
+  border: 0.0625em solid #8e59ff;
+  color: #fff;
+  border-radius: 0.7em;
+  font-weight: 700;
+  width: 11.75em;
+  height: 2.5em;
+  margin-right: 0;
+  font-family: "NanumSquareNeo", sans-serif;
+
+  &:hover {
+    background-color: #5548c8;
+  }
+`;

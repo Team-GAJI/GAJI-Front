@@ -11,14 +11,20 @@ const ItemList = () => {
   const [lastPostId, setLastPostId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const boardId = 1; // 명세서에 boardId를 roomId로 바꿀수도?
+  const roomId = 1; // boardId를 roomId로 변경
 
   const loadPosts = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
 
     try {
-      const newItems = await fetchTroubleShootingPosts(boardId, lastPostId);
+      const newItems = await fetchTroubleShootingPosts(roomId, lastPostId); // 여기서도 roomId를 사용
+
+      // newItems가 배열인지 확인하고, 배열이 아닐 경우 빈 배열로 초기화
+      if (!Array.isArray(newItems)) {
+        throw new Error("Fetched items are not an array");
+      }
+
       setItems((prevItems) => [...prevItems, ...newItems]);
 
       if (newItems.length > 0) {
