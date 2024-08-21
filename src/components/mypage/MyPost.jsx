@@ -3,23 +3,25 @@ import styled from 'styled-components';
 import { PuppleButton } from '../style/Button';
 import Loading from '../common/Loading';
 import { postAPI } from '../../utils/mypage/postAPI';
+
 const MyPost = () => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const [hasNext, setHasNext] = useState(true); 
     const [category, setCategory] = useState(0);
+    const [cursorDate, setCursorDate] = useState('');
 
     const getPosts = useCallback(async () => {
         if (isLoading || !hasNext) return;
         setIsLoading(true);
 
         const userId = localStorage.getItem('userId');
-        const types = ['질문하기', '프로젝트 모집', '블로그', '스터디 모집'];
+        const types = ['질문', '프로젝트', '블로그', '스터디'];
         const currentType = types[category];
 
         try {
-            const response = await postAPI(userId, currentType);
+            const response = await postAPI(userId, currentType, cursorDate);
             console.log('API 응답:', response); 
 
             const { postList, hasNext: newHasNext } = response;
@@ -31,18 +33,24 @@ const MyPost = () => {
                 setPosts((prevPosts) => [...prevPosts, ...postList]);
                 setPage((prevPage) => prevPage + 1);
                 setHasNext(newHasNext);
+                // 설정된 cursorDate 업데이트
+                if (postList.length > 0) {
+                    setCursorDate(postList[postList.length - 1].createdAt);
+                }
             }
         } catch (error) {
-            console.error('게시글을 가져오는 데 실패했습니다:', error);
+            console.error('게시글을 가져오는 데 실패했습니다:', error.message);
+            setHasNext(false); // 오류 발생 시 hasNext를 false로 설정
         } finally {
             setIsLoading(false);
         }
-    }, [isLoading, hasNext, category]);
+    }, [isLoading, hasNext, category, cursorDate]);
 
     useEffect(() => {
         setPosts([]);
         setPage(1);
         setHasNext(true);
+        setCursorDate(''); // 페이지 변경 시 커서 날짜 초기화
         getPosts();
     }, [category]);
 
@@ -219,7 +227,7 @@ const PostInfo = styled.div`
     }
 `;
 
-// 기존 코드
+// 기존 코드 
 // import React, { useCallback, useEffect, useState } from 'react';
 // import styled from 'styled-components';
 // import { PuppleButton } from '../style/Button';
