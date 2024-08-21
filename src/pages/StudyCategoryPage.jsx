@@ -169,9 +169,14 @@ const StyledSearchInput = styled.input`
 
 const SelectAndButtonWrapper = styled.div`
     margin-top: 2em;
+    padding-bottom: 0.6em;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background-color: #FBFAFF;
+    position: sticky;
+    top: 60px;
+    z-index: 10;
 `;
 
 const CreatePostButton = styled.button`
@@ -191,7 +196,7 @@ const CreatePostButton = styled.button`
     `;
 
 const StyledHr = styled.hr`
-    margin: 1.2em 0;
+    margin-bottom: 1.2em;
     border: none;
     width: 100%;
     height: 1.5px;
