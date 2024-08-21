@@ -11,6 +11,7 @@ import ReportIcon from "../../assets/icons/communityPost/postReport.svg?react";
 import ReportModal from "./ReportModal";
 import { ContentWrapper } from "../common/MediaWrapper";
 import { studyRecruitAPI } from "../../utils/studyDetail/studyRecruitAPI";
+import { useNavigate } from "react-router-dom";
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -73,12 +74,13 @@ const StudyDetailHeader = ({
         }, 2000);
     };
 
+    const navigate = useNavigate();
     // 스터디 가지기 기능
     const handleRecruit = async () => {
         try {
             const result = await studyRecruitAPI(roomId);
-            console.log(result)
-
+            console.log(result);
+            navigate('/mypage');
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
