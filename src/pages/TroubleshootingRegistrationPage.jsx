@@ -41,21 +41,6 @@ const TroubleshootingRegistrationPage = () => {
     "채팅방",
   ];
 
-  const handleSubmit = async () => {
-    try {
-      if (!roomId) {
-        throw new Error("roomId가 올바르지 않습니다.");
-      }
-
-      const data = { title, content };
-      const result = await registerTroubleShootingAPI(roomId, data);
-      console.log("Post registered:", result);
-      navigate(`/troubleshooting-detail/${result.result.troublePostId}`);
-    } catch (error) {
-      console.error("Failed to register post", error);
-    }
-  };
-
   return (
     <>
       <PageHeader
@@ -73,7 +58,7 @@ const TroubleshootingRegistrationPage = () => {
           <Label>스터디 이름</Label>
         </PostOptionWrapper>
         <PostTitle>게시글 제목</PostTitle>
-        <TroubleshootingWritePost onSubmit={handleSubmit} />
+        <TroubleshootingWritePost />
       </ContentWrapper60>
     </>
   );

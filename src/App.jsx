@@ -112,7 +112,7 @@ function App() {
         {/* 사용자가 문제를 보고하는 트러블슈팅 등록 페이지 */}
 
         <Route
-          path="/troubleshooting-detail/:postId" // Add :postId to make the route dynamic
+          path="/troubleshooting-detail" // Add :postId to make the route dynamic
           element={<TroubleshootingDetailPage />}
         />
         {/* 트러블슈팅 글 상세보기 페이지 */}

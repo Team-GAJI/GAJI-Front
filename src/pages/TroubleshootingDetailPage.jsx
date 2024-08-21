@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReportCheck from "../assets/icons/studyDetail/reportCheck.svg?react";
 import BackgroundImage from "../assets/images/community/communityBackground.png";
 import UserProfileImg from "../assets/images/community/userProfile.png";
-import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
-import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
-import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
+import ReportIcon from "../assets/icons/troubleShooting/postReport.svg?react";
+import BookMarkIcon from "../assets/icons/troubleShooting/postBookMark.svg?react";
+import LikeIcon from "../assets/icons/troubleShooting/postLike.svg?react";
 
 import PostWriterInfo from "../components/troubleshooting/PostWriterInfo";
 import CommentContainer from "../components/troubleshooting/CommentContainer";
@@ -14,6 +14,7 @@ import ReportModal from "../components/studyDetail/ReportModal";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import StudyPostWriterInfo from "../components/studyDetail/StudyPostWriterInfo";
 
 import {
   addBookmark,
@@ -24,142 +25,147 @@ import {
 } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
 // 세 자리마다 콤마 추가 함수
-const formatNumberWithCommas = (number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
+const formatNumberWithCommas = (number) =>
+  number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 const TroubleshootingDetailPage = () => {
-  const { postId: paramPostId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const roomId = location.state?.roomId || {};
+  const postId = location.state?.postId || {};
 
   const [postDetails, setPostDetails] = useState({
-    title: location.state?.title || "게시글 제목입니다",
-    content: location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구",
-    commentCount: location.state?.commentCount || 0,
-    roomId: location.state?.roomId,
-    postId: location.state?.postId || paramPostId,
+    title: "",
+    content: "",
+    bookMarkState: false,
+    likeState: false,
+    bookMarkCount: 0,
+    likeCount: 0,
+    authorName: "",
+    createdAt: "",
+    viewCount: 0,
+    commentCount: 0,
   });
 
-  const [bookMarkState, setBookMarkState] = useState(false);
-  const [likeState, setLikeState] = useState(false);
-  const [bookMarkCount, setBookMarkCount] = useState(300);
-  const [likeCount, setLikeCount] = useState(6000);
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
   useEffect(() => {
-    if (!location.state) {
-      const fetchPostDetails = async () => {
-        try {
-          const fetchedData = await fetchTroubleShootingPost(paramPostId);
-          setPostDetails(fetchedData.result || {});
-        } catch (error) {
-          console.error("Failed to fetch post details:", error);
-          navigate("/error");
+    const fetchPostDetails = async () => {
+      try {
+        const { result } = await fetchTroubleShootingPost(postId);
+        setPostDetails({
+          title: result.title,
+          content: result.body,
+          bookMarkState: result.bookmarked || false,
+          likeState: result.liked || false,
+          bookMarkCount: result.bookmarkCount || 0,
+          likeCount: result.likeCount || 0,
+          authorName: result.authorName,
+          createdAt: result.createdAt,
+          viewCount: result.viewCount || 0,
+          commentCount: result.commentCount,
+        });
+      } catch (error) {
+        console.error("Failed to fetch post details:", error);
+      }
+    };
+    fetchPostDetails();
+  }, [postId]);
+
+  const handleInteraction = async (interactionType) => {
+    try {
+      const { bookMarkState, likeState } = postDetails;
+      if (!roomId || !postId) {
+        throw new Error("Invalid roomId or postId");
+      }
+
+      if (interactionType === "bookmark") {
+        if (bookMarkState) {
+          await removeBookmark(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            bookMarkState: false,
+            bookMarkCount: Math.max(prevState.bookMarkCount - 1, 0),
+          }));
+          console.log(bookMarkState);
+        } else {
+          await addBookmark(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            bookMarkState: true,
+            bookMarkCount: prevState.bookMarkCount + 1,
+          }));
+          console.log(bookMarkState);
         }
-      };
-      fetchPostDetails();
-    }
-  }, [location.state, paramPostId, navigate]);
-
-  const handleBookMark = async () => {
-    try {
-      if (bookMarkState) {
-        await removeBookmark(postDetails.roomId, postDetails.postId);
-        setBookMarkState(false);
-        setBookMarkCount((prevCount) => prevCount - 1);
-      } else {
-        await addBookmark(postDetails.roomId, postDetails.postId);
-        setBookMarkState(true);
-        setBookMarkCount((prevCount) => prevCount + 1);
+      } else if (interactionType === "like") {
+        if (likeState) {
+          await removeLike(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            likeState: false,
+            likeCount: Math.max(prevState.likeCount - 1, 0),
+          }));
+        } else {
+          await addLike(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            likeState: true,
+            likeCount: prevState.likeCount + 1,
+          }));
+        }
       }
     } catch (error) {
-      console.error("Error handling bookmark:", error);
+      console.error(`Error handling ${interactionType}:`, error);
     }
   };
-
-  const handleLike = async () => {
-    try {
-      if (likeState) {
-        await removeLike(postDetails.roomId, postDetails.postId);
-        setLikeState(false);
-        setLikeCount((prevCount) => prevCount - 1);
-      } else {
-        await addLike(postDetails.roomId, postDetails.postId);
-        setLikeState(true);
-        setLikeCount((prevCount) => prevCount + 1);
-      }
-    } catch (error) {
-      console.error("Error handling like:", error);
-    }
-  };
-
-  if (!postDetails) {
-    return null;
-  }
 
   return (
     <>
       <HeaderWrapper>
-        <ReportNoticeWrapper isvisible={isReportNoticeVisible ? 1 : 0}>
+        <ReportNoticeWrapper isVisible={isReportNoticeVisible ? 1 : 0}>
           <ReportNotice>
             <StyledReportCheck />
             신고가 완료되었습니다
           </ReportNotice>
         </ReportNoticeWrapper>
         <TitleWrapper>
-          <TitleDetail>
-            <StyledUserProfileImg
-              onMouseEnter={() => setIsWriterInfoVisible(true)}
-              onMouseLeave={() => setIsWriterInfoVisible(false)}
-              src={UserProfileImg}
-              alt="user profile"
-            />
-            <Writer
-              onMouseEnter={() => setIsWriterInfoVisible(true)}
-              onMouseLeave={() => setIsWriterInfoVisible(false)}
-            >
-              user1023
-            </Writer>
-            <StyledBar>|</StyledBar>
-            2024.03.01
-            <StyledBar>|</StyledBar>
-            조회 300
-            <StyledBar>|</StyledBar>
-            댓글 {postDetails.commentCount}
-          </TitleDetail>
+          <TitleDetail
+            authorName={postDetails.authorName}
+            createdAt={postDetails.createdAt}
+            viewCount={postDetails.viewCount}
+            commentCount={postDetails.commentCount}
+            setIsWriterInfoVisible={setIsWriterInfoVisible}
+          />
           <PostWriterInfoWrapper
-            isvisible={isWriterInfoVisible ? 1 : 0}
-            onMouseEnter={() => setIsWriterInfoVisible(true)}
-            onMouseLeave={() => setIsWriterInfoVisible(false)}
+            isVisible={isWriterInfoVisible ? 1 : 0}
+            setIsWriterInfoVisible={setIsWriterInfoVisible}
           >
-            <PostWriterInfo />
+            <StudyPostWriterInfo nickName={postDetails.authorName} />
           </PostWriterInfoWrapper>
+
           <Title>{postDetails.title}</Title>
           <InteractionWrapper>
-            <BookMarkWrapper>
-              <StyledBookMarkIcon
-                onClick={handleBookMark}
-                active={bookMarkState}
-              />
-              <InteractionText>
-                {formatNumberWithCommas(bookMarkCount)}
-              </InteractionText>
-            </BookMarkWrapper>
-            <BookMarkWrapper>
-              <StyledLikeIcon onClick={handleLike} active={likeState} />
-              <InteractionText>
-                {formatNumberWithCommas(likeCount)}
-              </InteractionText>
-            </BookMarkWrapper>
-            <BookMarkWrapper>
-              <StyledReportIcon onClick={() => setIsReportModalVisible(true)} />
-              <InteractionText>신고</InteractionText>
-            </BookMarkWrapper>
+            <InteractionItem
+              Icon={StyledBookMarkIcon}
+              count={postDetails.bookMarkCount}
+              active={postDetails.bookMarkState}
+              onClick={() => handleInteraction("bookmark")}
+            />
+            <InteractionItem
+              Icon={StyledLikeIcon}
+              count={postDetails.likeCount}
+              active={postDetails.likeState}
+              onClick={() => handleInteraction("like")}
+            />
+            <InteractionItem
+              Icon={StyledReportIcon}
+              count="신고"
+              onClick={() => setIsReportModalVisible(true)}
+            />
             <ReportModal
-              isvisible={isReportModalVisible ? 1 : 0}
+              isVisible={isReportModalVisible ? 1 : 0}
               onClose={() => setIsReportModalVisible(false)}
               onReport={() => setIsReportNoticeVisible(true)}
               title={postDetails.title}
@@ -181,6 +187,46 @@ const TroubleshootingDetailPage = () => {
 };
 
 export default TroubleshootingDetailPage;
+
+// InteractionItem 컴포넌트 분리
+const InteractionItem = ({ Icon, count, active, onClick }) => (
+  <BookMarkWrapper onClick={onClick}>
+    <Icon active={active} />
+    <InteractionText>{formatNumberWithCommas(count)}</InteractionText>
+  </BookMarkWrapper>
+);
+
+// TitleDetail 컴포넌트 분리
+const TitleDetail = ({
+  authorName,
+  createdAt,
+  viewCount,
+  commentCount,
+  setIsWriterInfoVisible,
+}) => (
+  <>
+    <TitleDetailWrapper>
+      <StyledUserProfileImg
+        onMouseEnter={() => setIsWriterInfoVisible(true)}
+        onMouseLeave={() => setIsWriterInfoVisible(false)}
+        src={UserProfileImg}
+        alt="user profile"
+      />
+      <Writer
+        onMouseEnter={() => setIsWriterInfoVisible(true)}
+        onMouseLeave={() => setIsWriterInfoVisible(false)}
+      >
+        {authorName}
+      </Writer>
+      <StyledBar>|</StyledBar>
+      {createdAt ? new Date(createdAt).toLocaleDateString() : "현재날짜"}
+      <StyledBar>|</StyledBar>
+      조회 {formatNumberWithCommas(viewCount)}
+      <StyledBar>|</StyledBar>
+      댓글 {commentCount}
+    </TitleDetailWrapper>
+  </>
+);
 
 const HeaderWrapper = styled.div`
   padding: 0 13em;
@@ -241,7 +287,7 @@ const TitleWrapper = styled.div`
   position: relative;
 `;
 
-const TitleDetail = styled.div`
+const TitleDetailWrapper = styled.div`
   display: flex;
   color: #d0d1d9;
   font-size: 0.8125em;
@@ -288,15 +334,17 @@ const StyledBookMarkIcon = styled(BookMarkIcon)`
   width: 1em;
   height: 1.3125em;
   cursor: pointer;
-  fill: ${(props) => (props.bookMarkState ? "#8E59FF" : "none")};
+  fill: ${(props) => (props.active ? "#8E59FF" : "none")};
 `;
+
 const StyledLikeIcon = styled(LikeIcon)`
   margin-bottom: 0.1em;
   width: 1.375em;
   height: 1.25em;
   cursor: pointer;
-  fill: ${(props) => (props.likeState ? "#8E59FF" : "none")};
+  fill: ${(props) => (props.active ? "#8E59FF" : "none")};
 `;
+
 const StyledReportIcon = styled(ReportIcon)`
   margin-bottom: 0.1em;
   width: 1.5em;

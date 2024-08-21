@@ -47,31 +47,18 @@ const TroubleshootingWritePost = () => {
   const data = {
     title: title,
     body: markdown,
-    type: type,
-    hashtagList: hashtagList,
-    categoryId: categoryId,
   };
 
   const handleSubmit = async () => {
     try {
-      const result = await registerTroubleShootingAPI(roomId, data);
-      console.log("API 응답 결과:", result);
-
-      const troublePostId = result?.result?.troublePostId;
-
-      if (!troublePostId) {
-        throw new Error("troublePostId를 가져오는 데 실패했습니다.");
-      }
-
-      navigate(`/troubleshooting-detail/${troublePostId}`, {
-        state: {
-          postId: troublePostId,
-          title: data.title,
-          content: data.body,
-        },
+      const data = { title, body: markdown };
+      const response = await registerTroubleShootingAPI(roomId, data);
+      console.log(response.result.troublePostId);
+      navigate(`/troubleshooting-detail`, {
+        state: { roomId: roomId, postId: response.result.troublePostId },
       });
     } catch (error) {
-      console.error("스터디 생성 중 오류 발생:", error);
+      console.error("Failed to register post", error);
     }
   };
 
@@ -218,7 +205,7 @@ const TroubleshootingWritePost = () => {
         </TextareaBottom>
       </TextareaWrapper>
 
-      <SubmitButton onClick={handleSubmit}>게시글 업로드</SubmitButton>
+      <SubmitButton onClick={() => handleSubmit()}>게시글 업로드</SubmitButton>
 
       {isModalOpen && (
         <ModalOverlay onClick={() => setIsModalOpen(false)}>
