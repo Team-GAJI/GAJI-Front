@@ -9,7 +9,7 @@ export const registerTroubleShootingAPI = async (roomId, data, token) => {
     }
 
     const response = await api.post(
-      `study-rooms/post/${roomId}`, // 명세서에 따른 URL 구조
+      `study-rooms/trouble/${roomId}`, // 명세서에 따른 URL 구조
       data,
       {
         headers: {

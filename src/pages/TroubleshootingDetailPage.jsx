@@ -54,7 +54,7 @@ const TroubleshootingDetailPage = () => {
       const fetchPostDetails = async () => {
         try {
           const fetchedData = await fetchTroubleShootingPost(paramPostId);
-          setPostDetails(fetchedData);
+          setPostDetails(fetchedData.result || {}); // Ensure the correct data structure
         } catch (error) {
           console.error("Failed to fetch post details:", error);
           navigate("/error"); // Redirect to error page if needed
@@ -103,7 +103,7 @@ const TroubleshootingDetailPage = () => {
   return (
     <>
       <HeaderWrapper>
-        <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
+        <ReportNoticeWrapper isvisible={isReportNoticeVisible}>
           <ReportNotice>
             <StyledReportCheck />
             신고가 완료되었습니다
@@ -131,7 +131,7 @@ const TroubleshootingDetailPage = () => {
             댓글 {postDetails.commentCount}
           </TitleDetail>
           <PostWriterInfoWrapper
-            isVisible={isWriterInfoVisible}
+            isvisible={isWriterInfoVisible}
             onMouseEnter={() => setIsWriterInfoVisible(true)}
             onMouseLeave={() => setIsWriterInfoVisible(false)}
           >
@@ -159,7 +159,7 @@ const TroubleshootingDetailPage = () => {
               <InteractionText>신고</InteractionText>
             </BookMarkWrapper>
             <ReportModal
-              isVisible={isReportModalVisible}
+              isvisible={isReportModalVisible}
               onClose={() => setIsReportModalVisible(false)}
               onReport={() => setIsReportNoticeVisible(true)}
               title={postDetails.title}

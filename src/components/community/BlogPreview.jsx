@@ -4,6 +4,7 @@ import LikeIcon from '../../assets/icons/community/fillLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import userProfileImg from '../../assets/images/community/userProfile.png';
 import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
+import PostBackground from '../../assets/images/common/communityExampleImage.png'; // 기본 썸네일 이미지
 
 const BlogPreview = ({key, postId, title, content, background, writer, ago, views, like, link}) => {
     // useNavigate
@@ -25,10 +26,13 @@ const BlogPreview = ({key, postId, title, content, background, writer, ago, view
         }
     };
 
+    // 기본 썸네일 기능
+    const backgroundImage = background || PostBackground;
+
     return (
         <PostWrapper key={key} onClick={()=>handleSubmit()} link={link}>
             {/* 배경 */}
-            <BackgroundWrapper background={background}>
+            <BackgroundWrapper background={backgroundImage}>
                 <LikeWrapper>
                     <StyledLikeIcon /><Like>{like}</Like>
                 </LikeWrapper>

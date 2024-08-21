@@ -10,25 +10,19 @@ import Banner3 from '../assets/images/mainPage/banner3.png';
 import LogoIcon from '../assets/logos//logo.svg?react';
 import StudyPreview from '../components/studyMain/StudyPreview';
 import BlogPreview from '../components/community/BlogPreview';
-import { dummyBlogPosts } from '../components/community/DummyBlogPosts';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from '../components/main/MainSelectBox';
 import {  ContentWrapperMain } from '../components/common/MediaWrapper';
 import { Scroll } from '../components/common/Scroll';
 import { studyPostsPreviewAPI } from '../utils/studyMain/studyPostsPreviewAPI';
-
+import { communityPostsPreviewAPI } from '../utils/communityMain/communityPostsPreviewAPI';
 
 const MainPage = () => {
     // state 관리
     const navigate = useNavigate();
-    const [blogs, setBlogs] = useState([]);
     const [popularStudies, setPopularStudies] = useState([]);
     const [recentStudies, setRecentStudies] = useState([]);
-
-    // 스터디, 커뮤니티 불러오기
-    useEffect(() => {
-        setBlogs(dummyBlogPosts);
-    }, []);
+    const [communityPosts, setCommunityPosts] = useState([]);
 
     // 스터디 불러오기
     useEffect(() => {
@@ -44,7 +38,21 @@ const MainPage = () => {
                 console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
             }
         };
-    
+        fetchStudies();
+    }, []);
+
+    // 커뮤니티 게시물 불러오기
+    useEffect(() => {
+        const fetchStudies = async () => {
+            try {
+                const [communityResponse] = await Promise.all([
+                communityPostsPreviewAPI(null, null, 'recent', null, 4) // 커뮤니티 게시물
+                ]);
+                setCommunityPosts(communityResponse);
+            } catch (error) {
+                console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
+            }
+        };
         fetchStudies();
     }, []);
 
@@ -128,17 +136,17 @@ const MainPage = () => {
             </ViewAllWrapper>
 
             <BlogPreviewWrapper2>
-                {blogs.slice(0, 4).map((post) => (
+                {communityPosts.map((post) => (
                     <BlogPreview
                         key={post.postId}
-                        title={post.postTitle}
-                        content={post.postContent}
-                        background={post.postBackgroundImg}
-                        userProfileImg={post.postUserProfileImg}
-                        writer={post.postWriter}
-                        ago={post.postAgo}
-                        views={post.postViews}
-                        like={post.postLike} />
+                        postId={post.postId}
+                        title={post.title}
+                        content={post.body}
+                        background={post.thumbnailUrl}
+                        writer={post.userNickname}
+                        ago={post.uploadTime}
+                        views={post.hit}
+                        like={post.likeCnt} />
                 ))}
             </BlogPreviewWrapper2>
         </ContentWrapperMain>

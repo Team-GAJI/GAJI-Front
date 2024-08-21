@@ -44,7 +44,8 @@ const StudyCreatePage = () => {
             console.log(studyDetail)
             navigate("/studydetail", { state: 
                 {
-                    studyDetail: studyDetail
+                    studyDetail: studyDetail,
+                    roomId: response.result.roomId
                 } 
             }); 
 

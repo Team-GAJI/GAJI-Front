@@ -10,6 +10,8 @@ import ReportIcon from "../../assets/icons/communityPost/postReport.svg?react";
 // import ThumbNailImg from "../../assets/images/studyDetail/thumbNailImg.png";
 import ReportModal from "./ReportModal";
 import { ContentWrapper } from "../common/MediaWrapper";
+import { studyRecruitAPI } from "../../utils/studyDetail/studyRecruitAPI";
+import { useNavigate } from "react-router-dom";
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -17,6 +19,7 @@ import { ContentWrapper } from "../common/MediaWrapper";
 // };
 
 const StudyDetailHeader = ({
+  roomId,
   title,
   bookmarks,
   views,
@@ -36,6 +39,7 @@ const StudyDetailHeader = ({
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
+  // 북마크 기능
   const handleBookMark = () => {
     if (bookMarkState) {
       setBookMarkState(false);
@@ -46,6 +50,7 @@ const StudyDetailHeader = ({
     }
   };
 
+  // 좋아요 기능
   const handleLike = () => {
     if (likeState) {
       setLikeState(false);
@@ -67,6 +72,19 @@ const StudyDetailHeader = ({
     setTimeout(() => {
       setIsReportNoticeVisible(false);
     }, 2000);
+  };
+
+  const navigate = useNavigate();
+  // 스터디 가지기 기능
+  const handleRecruit = async () => {
+    try {
+      const result = await studyRecruitAPI(roomId);
+      console.log(result);
+      navigate("/mypage");
+    } catch (error) {
+      console.error("스터디 생성 중 오류 발생:", error);
+      // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+    }
   };
 
   return (
@@ -121,7 +139,9 @@ const StudyDetailHeader = ({
             <Title>{title}</Title>
             <Category>{category}</Category>
             <InteractionWrapper>
-              <JoinButton>스터디 가지기</JoinButton>
+              <JoinButton onClick={() => handleRecruit()}>
+                스터디 가지기
+              </JoinButton>
               <BookMarkWrapper>
                 <StyledBookMarkIcon
                   onClick={handleBookMark}

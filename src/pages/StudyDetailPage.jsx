@@ -12,6 +12,7 @@ import { ContentWrapper } from "../components/common/MediaWrapper";
 const StudyDetailPage = () => {
     const location = useLocation();
     const { studyDetail } = location.state || {};
+    const { roomId } = location.state;
 
     // 날짜 형식을 변환하는 함수
     const formatDate = (dateString) => {
@@ -20,12 +21,14 @@ const StudyDetailPage = () => {
         const day = date.getDate();
         return `${month}월 ${day}일`;
     };
+    
     return (
         <>
         {studyDetail && 
             <>
             {/* 페이지 헤더 */}
             <StudyDetailHeader
+                roomId={roomId}
                 title={studyDetail.studyTitle}
                 bookmarks={studyDetail.bookmarkCnt}
                 views={studyDetail.views}
@@ -36,7 +39,6 @@ const StudyDetailPage = () => {
                 recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === "RECRUITING" ? "모집 중" : "모집 완료"}
                 userActive={studyDetail.userActive === "ACTIVE" ? "활동중" : "자리비움"}
                 userActiveColor={studyDetail.userActive === "ACTIVE" ? "#A8FEA1" : "grey"}
-
             />
 
             {/* 게시글 정보 */}

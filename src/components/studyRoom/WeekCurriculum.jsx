@@ -16,6 +16,7 @@ const WeekCurriculum = (week, roomId) => {
 
   const [activeTasks, setActiveTasks] = useState({});
   const [hoveredNickname, setHoveredNickname] = useState(null);
+  console.log(roomId);
 
   const toggleTask = (taskId) => {
     setActiveTasks((prev) => ({
@@ -395,21 +396,21 @@ const MoreWrapper = styled.div`
   margin-bottom: 1.875em;
 `;
 
-const NoticeButton2 = styled.button`
-  border-radius: 50%;
-  border: 0.0625em solid #ff0043;
-  width: 1.875em;
-  height: 1.875em;
-  background-color: #ff0043;
-  color: white;
-  font-size: 0.8125em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: -1em;
-  left: 95%;
-`;
+// const NoticeButton2 = styled.button`
+//     border-radius: 50%;
+//     border: 0.0625em solid #FF0043;
+//     width: 1.875em;
+//     height: 1.875em;
+//     background-color: #FF0043;
+//     color: white;
+//     font-size: 0.8125em;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     position: absolute;
+//     top: -1em;
+//     left: 95%;
+// `;
 
 const MoreButton = styled.div`
   background-color: #8e59ff;

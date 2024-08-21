@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom"; // <-- useLocation 추가
+import { useNavigate, useLocation } from "react-router-dom";
 import BoldIcon from "../../assets/icons/communityWrite/bold.svg?react";
 import ItalicIcon from "../../assets/icons/communityWrite/italic.svg?react";
 import ThroughIcon from "../../assets/icons/communityWrite/through.svg?react";
@@ -18,7 +18,7 @@ import { registerTroubleShootingAPI } from "../../utils/troubleShooting/troubleS
 const TroubleshootingWritePost = () => {
   const [markdown, setMarkdown] = useState("");
   const [lengthCount, setLengthCount] = useState(markdown.length);
-  const [styledHr, setStyledHr] = useState(false);
+  const [isPurpleHr, setIsPurpleHr] = useState(false);
   const [fontSize, setFontSize] = useState("0");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const textareaRef = useRef(null);
@@ -55,7 +55,9 @@ const TroubleshootingWritePost = () => {
   const handleSubmit = async () => {
     try {
       const result = await registerTroubleShootingAPI(roomId, data);
-      const troublePostId = result.result.troublePostId; // 제대로 된 postId를 받아옵니다.
+      console.log("API 응답 결과:", result);
+
+      const troublePostId = result?.result?.troublePostId;
 
       if (!troublePostId) {
         throw new Error("troublePostId를 가져오는 데 실패했습니다.");
@@ -78,10 +80,11 @@ const TroubleshootingWritePost = () => {
   };
 
   const handlePurpleHr = () => {
-    setStyledHr(true);
+    setIsPurpleHr(true);
   };
+
   const handleGrayHr = () => {
-    setStyledHr(false);
+    setIsPurpleHr(false);
   };
 
   const applyFontSize = (e) => {
@@ -164,7 +167,7 @@ const TroubleshootingWritePost = () => {
           onBlur={handleGrayHr}
           placeholder="게시글의 제목을 입력해주세요"
         />
-        <StyledTitleHr styledHr={styledHr} />
+        <StyledTitleHr isPurpleHr={isPurpleHr} />
       </TitleWrapper>
 
       <ToolbarWrapper>
@@ -208,7 +211,7 @@ const TroubleshootingWritePost = () => {
           maxLength="20000"
         />
         <TextareaBottom>
-          <TextLength lengthCount={lengthCount}>
+          <TextLength isOverLimit={lengthCount >= 20000}>
             {lengthCount}/20000 자
           </TextLength>
           <StyledContentHr />
