@@ -219,6 +219,7 @@ const CommunityHomePosts = () => {
             <QuestionPreview
               key={post.postId}
               postId={post.postId}
+              state={post.status}
               title={post.title}
               content={post.body}
               writer={post.userNickname}
@@ -236,6 +237,7 @@ const CommunityHomePosts = () => {
             <ProjectPreview
               key={post.postId}
               postId={post.postId}
+              state={post.status}
               title={post.title}
               content={post.body}
               writer={post.userNickname}
