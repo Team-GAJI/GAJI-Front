@@ -32,34 +32,32 @@ const StudyManageWeeKPage = () => {
   // 주차 데이터 가져오기
   const fetchSelectedWeekData = async () => {
     if (roomId !== null) {
-        try {
-            console.log('roomId:', roomId, 'week:', selectedWeek);
+      try {
+        const taskData = await TaskAPI(roomId, selectedWeek);
+        const periodData = await periodAPI(roomId, selectedWeek);
+        const assignments = await assignmentsAPI(roomId, selectedWeek);
 
-            const taskData = await TaskAPI(roomId, selectedWeek);
-            const periodData = await periodAPI(roomId, selectedWeek);
-            const assignments = await assignmentsAPI(roomId, selectedWeek);
+        setWeekData(prevWeekData => {
+          const newWeekDataArray = [...prevWeekData];
+          const existingWeekData = newWeekDataArray[selectedWeek] || {};
 
-            setWeekData(prevWeekData => {
-                const newWeekDataArray = [...prevWeekData];
-                const existingWeekData = newWeekDataArray[selectedWeek] || {};
+          newWeekDataArray[selectedWeek] = {
+            ...existingWeekData,  // 기존 데이터 유지
+            basicInfo: {
+              name: taskData?.title || existingWeekData.basicInfo?.name || '',
+              description: taskData?.content || existingWeekData.basicInfo?.description || ''
+            },
+            tasks: taskData?.tasks || existingWeekData.tasks || [],
+            studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : existingWeekData.studyPeriodStartDate,
+            studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : existingWeekData.studyPeriodEndDate,
+            assignments: assignments || [] // 과제 데이터를 배열로 저장
+          };
 
-                newWeekDataArray[selectedWeek] = {
-                    ...existingWeekData,  // 기존 데이터 유지
-                    basicInfo: {
-                        name: taskData?.title || existingWeekData.basicInfo?.name || '',
-                        description: taskData?.content || existingWeekData.basicInfo?.description || ''
-                    },
-                    tasks: taskData?.tasks || existingWeekData.tasks || [],
-                    studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : existingWeekData.studyPeriodStartDate,
-                    studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : existingWeekData.studyPeriodEndDate,
-                    assignments: assignments || [] // 과제 데이터를 배열로 저장
-                };
-
-                return newWeekDataArray;
-            });
-        } catch (error) {
-            console.error('데이터 가져오기 오류:', error);
-        }
+          return newWeekDataArray;
+        });
+      } catch (error) {
+        console.error('데이터 가져오기 오류:', error);
+      }
     }
   };
 
@@ -76,11 +74,11 @@ const StudyManageWeeKPage = () => {
   }, [selectedWeek, weekData]);
 
   // 과제 데이터를 저장하는 함수
-  const saveAssignments = async (assignments) => {
+  const saveAssignments = async (week, assignments) => {
     try {
       console.log("과제 저장 중...");
       console.log("저장할 과제 데이터:", assignments); // 과제 데이터 확인
-      await assignmentsAPI(roomId, selectedWeek, { assignments });
+      await assignmentsAPI(roomId, week, { assignments });
     } catch (error) {
       console.error("저장 중 오류 발생:", error);
       alert("저장 중 오류가 발생했습니다.");
@@ -94,44 +92,37 @@ const StudyManageWeeKPage = () => {
       try {
         console.log("저장 중...");
         const savedWeeks = [];
-        const assignments = manageWeekDetailedRef.current?.getAssignments() || [];
-        console.log("전체 과제 데이터:", assignments); // 전체 과제 데이터 확인
-        const currentWeekAssignments = assignments; // 현재 주차의 과제를 필터링할 필요 없음 (현재 주차의 과제만 반환)
-    
+        const currentWeekAssignments = manageWeekDetailedRef.current?.getAssignments() || [];
+
         for (let i = 0; i < weeks.length; i++) {
           const week = weeks[i];
           const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-    
           await descriptionAPI(roomId, week, weekInfo);
-    
+
           const periodInfo = {
             studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
             studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
           };
-          // console.log('전송되는 기간 정보:', periodInfo);
-    
           await periodAPI(roomId, week, periodInfo);
-    
+
           savedWeeks.push({
             week,
             weekInfo,
             periodInfo,
-            currentWeekAssignments
+            currentWeekAssignments: i === selectedWeek ? currentWeekAssignments : []
           });
         }
-    
-        // 저장된 주차 정보만 콘솔에 출력
-        savedWeeks.forEach(({ week, weekInfo, periodInfo,currentWeekAssignments }) => {
+
+        savedWeeks.forEach(({ week, weekInfo, periodInfo, currentWeekAssignments }) => {
           console.log(`주차: ${week}`);
           console.log(`정보:`, weekInfo);
           console.log(`기간:`, periodInfo);
           console.log(`과제:`, currentWeekAssignments);
         });
-  
+
         // 현재 주차의 과제 저장
-        await saveAssignments(currentWeekAssignments);
-    
-        // console.log('입력한 값:', weekData);
+        await saveAssignments(selectedWeek, currentWeekAssignments);
+
         alert("저장되었습니다.");
       } catch (error) {
         console.error("저장 중 오류 발생:", error);
@@ -139,23 +130,20 @@ const StudyManageWeeKPage = () => {
       }
     }
   };
-  
-  
 
   const handleWeekDataChange = (newWeekData) => {
     setWeekData(prevWeekData => {
-        return prevWeekData.map((week, index) => {
-            if (index === selectedWeek) {
-                return {
-                    ...week, // 기존 데이터 유지
-                    ...newWeekData[index] // 새로운 데이터 업데이트
-                };
-            }
-            return week;
-        });
+      return prevWeekData.map((week, index) => {
+        if (index === selectedWeek) {
+          return {
+            ...week, // 기존 데이터 유지
+            ...newWeekData[index] // 새로운 데이터 업데이트
+          };
+        }
+        return week;
+      });
     });
   };
-
 
 
   const handleDelete = () => {
@@ -221,15 +209,18 @@ const StudyManageWeeKPage = () => {
             onWeekDataChange={handleWeekDataChange}
             roomId={roomId}
           />
-          <ManageWeekeDetailed
-            selectedWeek={selectedWeek}
-            weekData={weekData}
-            onWeekDataChange={handleWeekDataChange}
-            roomId={roomId}
-            ref={manageWeekDetailedRef}
-            onAssignmentsChange={handleWeekDataChange}
-            
-          />
+              <ManageWeekeDetailed
+                ref={manageWeekDetailedRef}
+                selectedWeek={selectedWeek}
+                onAssignmentsChange={(assignments) => {
+                  handleWeekDataChange({
+                    [selectedWeek]: {
+                      ...weekData[selectedWeek],
+                      assignments
+                    }
+                  });
+                }}
+              />
         </ContentWrapper70>
 
         <Sidebar1 ref={sidebarRef}>
