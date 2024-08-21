@@ -1,11 +1,15 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import Delete from '../../assets/icons/studyManageWeek/StudyManageWeekDelete.png';
-import { TaskAPI } from '../../utils/studyManageWeek/TaskAPI'; 
 
-const ManageWeekDetailed = forwardRef(({ selectedWeek, roomId }, ref) => {
-  const [inputs, setInputs] = useState(['']); 
+
+const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, ref) => {
+  const [inputs, setInputs] = useState(['']);
   const maxInputs = 5;
+
+  useImperativeHandle(ref, () => ({
+    getAssignments: () => inputs
+  }));
 
   const handleKeyPress = (index, event) => {
     if (event.key === 'Enter' && inputs.length < maxInputs) {
@@ -13,40 +17,26 @@ const ManageWeekDetailed = forwardRef(({ selectedWeek, roomId }, ref) => {
       const newInputs = [...inputs];
       const firstInputValue = newInputs[0];
       
-      newInputs.push(firstInputValue);  
-      newInputs[0] = ''; 
+      newInputs.push(firstInputValue);
+      newInputs[0] = '';
 
       setInputs(newInputs);
+      onAssignmentsChange(newInputs); // 과제 변경 시 부모에게 전달
     }
   };
 
   const handleDeleteInput = (index) => {
-    setInputs(inputs.filter((_, i) => i !== index));
+    const newInputs = inputs.filter((_, i) => i !== index);
+    setInputs(newInputs);
+    onAssignmentsChange(newInputs); // 과제 삭제 시 부모에게 전달
   };
 
   const handleChange = (index, value) => {
     const newInputs = [...inputs];
     newInputs[index] = value;
     setInputs(newInputs);
+    onAssignmentsChange(newInputs); // 과제 내용 변경 시 부모에게 전달
   };
-
-  const handleSubmit = async () => {
-    // 서버로 전송할 데이터 준비
-    const tasks = inputs.filter(input => input.trim() !== ''); 
-
-    try {
-      await TaskAPI(roomId, selectedWeek + 1, tasks); 
-      console.log(roomId)
-      alert('과제가 성공적으로 등록되었습니다!'); 
-    } catch (error) {
-      console.error('과제 등록 중 오류 발생:', error);
-      alert('과제 등록에 실패했습니다. 다시 시도해 주세요.'); 
-    }
-  };
-
-  useImperativeHandle(ref, () => ({
-    handleSubmit
-  }));
 
   return (
     <Container>
@@ -76,7 +66,6 @@ const ManageWeekDetailed = forwardRef(({ selectedWeek, roomId }, ref) => {
 });
 
 export default ManageWeekDetailed;
-
 
 
 
