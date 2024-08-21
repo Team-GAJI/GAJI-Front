@@ -1,6 +1,6 @@
 import { api } from "../API";
 
-export const studyRoomPostAPI = async (postId) => {
+export const communityPostAPI = async (postId) => {
     try {
         console.log(postId)
         const response = await api.get(`community-posts/${postId}`);

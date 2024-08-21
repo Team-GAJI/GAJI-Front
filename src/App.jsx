@@ -21,6 +21,7 @@ import StudyDetailPage from "./pages/StudyDetailPage.jsx";
 import StudyCreatePage from "./pages/StudyCreatePage.jsx";
 import LoginRedirectPage from "./pages/LoginRedirectPage.jsx";
 import StudyRoomWritePage from "./pages/StudyRoomWritePage.jsx";
+import StudyRoomPostPage from "./pages/StudyRoomPostPage.jsx";
 
 function App() {
   return (
@@ -91,6 +92,8 @@ function App() {
 
         <Route exact path="/studyweekwrite" element={<StudyRoomWritePage/>}/>
         {/* 참여한 스터디룸 주차별 게시글 작성 페이지 */}
+
+        <Route exact path="/studyroom/post" element={<StudyRoomPostPage/>}/>
 
         <Route exact path="/studycreate" element={<StudyCreatePage />} />
         {/* 새로운 스터디를 생성하는 페이지 */}

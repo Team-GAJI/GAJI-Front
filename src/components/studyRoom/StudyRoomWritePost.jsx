@@ -11,9 +11,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { studyRoomWriteAPI } from '../../utils/studyRoom/studyRoomWriteAPI';
 import { setTitle, setBody } from '../../features/community/communityWriteSlice';
-import { studyRoomPostAPI } from '../../utils/studyRoom/studyRoomPostAPI';
+import { studyRoomPostAPI } from '../../utils/studyRoom/studyRoomPostDetailAPI';
 
-const StudyRoomWritePost = () => {
+const StudyRoomWritePost = ({roomId}) => {
     // 상태 관리
     const [markdown, setMarkdown] = useState('');
     const [lengthCount, setLengthCount] = useState(markdown.length);
@@ -25,28 +25,23 @@ const StudyRoomWritePost = () => {
     // Redux 관리
     const dispatch = useDispatch();
     dispatch(setBody(markdown));
-    const { title, body, thumbnailUrl, hashtagList, category } = useSelector((state) => state.communityWrite);
-    const { type } = useSelector((state) => state.community);
+    const { title, body} = useSelector((state) => state.communityWrite);
     // 서버로 전달할 데이터
     const data = {
         "title": title,
         "body": body,
-        "thumbnailUrl": thumbnailUrl,
-        "type": type,
-        "hashtagList": hashtagList,
-        "category": category
     };
 
     const handleSubmit = async () => {
         try {
-            const response = await studyRoomWriteAPI(data);
-            console.log(response);
+            const response = await studyRoomWriteAPI(roomId,data);
+            console.log(response.result.roomPostId);
             //전역상태초기화 함수
-            const postId = await studyRoomPostAPI(response);
-            console.log(postId)
-            navigate("/community/post", { state: 
+            const postData = await studyRoomPostAPI(response.result.roomPostId);
+            console.log(postData)
+            navigate("/studyroom/post", { state: 
                 {
-                    postId: postId
+                    postData: postData
                 } 
             }); 
 

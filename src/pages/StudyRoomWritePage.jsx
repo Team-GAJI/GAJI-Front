@@ -51,7 +51,7 @@ const StudyRoomWritePage = () => {
 
                 <PostTitle>게시글 제목</PostTitle>
                 {/* 작성 공간 */}
-                <StudyRoomWritePost/>
+                <StudyRoomWritePost roomId={roomId}/>
         
         </ContentWrapper60>
     );
