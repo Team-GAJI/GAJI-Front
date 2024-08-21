@@ -90,7 +90,7 @@ const StudyDetailPage = () => {
 
                 <StyledHr />
                 {/* 댓글 영역 */}
-                <StudyCommentContainer roomId={roomId}/>
+                <StudyCommentContainer roomId={roomId} type="study"/>
             </ContentWrapper>
             </>
         }
