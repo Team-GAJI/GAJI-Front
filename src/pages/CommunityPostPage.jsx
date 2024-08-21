@@ -26,6 +26,7 @@ const CommunityPostPage = () => {
   // 게시글 작성에서 정보 가져오기
   const location = useLocation();
   const { postId } = location.state || {};
+  const { postId2 } = location.state || {};
   
   // const userId = localStorage.getItem('userId');
 
@@ -230,7 +231,7 @@ const CommunityPostPage = () => {
         <StyledHr />
         {/* 댓글 영역 */}
         {/* <CommentContainer /> */}
-        <StudyCommentContainer postId={postId} type="community"/>
+        <StudyCommentContainer postId={postId2} type="community"/>
       </PostContentWrapper>
       </ContentWrapper> 
       </>

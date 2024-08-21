@@ -46,7 +46,9 @@ const CommunityWritePost = () => {
             console.log(postId)
             navigate("/community/post", { state: 
                 {
-                    postId: postId
+                    postId: postId,
+                    //추후 수정
+                    postId2 : response
                 } 
             }); 
 
