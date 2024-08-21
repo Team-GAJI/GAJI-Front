@@ -3,15 +3,32 @@ import styled from 'styled-components';
 import LikeIcon from '../../assets/icons/community/emptyLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import userProfileImg from '../../assets/images/community/userProfile.png';
+import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
 
-const QuestionPreview = ({key, state, title, content, writer, ago, views, like}) => {
+const QuestionPreview = ({key, postId, state, title, content, writer, ago, views, like}) => {
     // useNavigate
     const navigate = useNavigate();
+
+    // 게시글 상세보기 버튼
+    const handleSubmit = async () => {
+        try {
+            const postDetail = await communityPostAPI(postId);
+            console.log(postDetail)
+            navigate("/community/post", { state: 
+                {
+                    postId: postDetail
+                } 
+            });
+        } catch (error) {
+            console.error('스터디 생성 중 오류 발생:', error);
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+        }
+    };
 
     return (
         <PageWrapper key={key}>
             <PostState state={state}>{state}</PostState>
-            <ContentWrapper onClick={() => {navigate("/community/post");}}>
+            <ContentWrapper onClick={()=>handleSubmit()}>
                 <Title>{title}</Title>
                 <Content>
                     {content}
