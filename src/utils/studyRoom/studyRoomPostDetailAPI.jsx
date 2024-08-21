@@ -1,6 +1,6 @@
 import { api } from "../API";
 
-export const studyRoomPostAPI = async (postId) => {
+export const studyRoomPostDetailAPI = async (postId) => {
     try {
         console.log(postId)
         const response = await api.get(`study-rooms/post/${postId}detail`);
@@ -12,3 +12,4 @@ export const studyRoomPostAPI = async (postId) => {
         throw error; 
     }
 };
+

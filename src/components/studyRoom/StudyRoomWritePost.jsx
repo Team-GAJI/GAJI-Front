@@ -11,7 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { studyRoomWriteAPI } from '../../utils/studyRoom/studyRoomWriteAPI';
 import { setTitle, setBody } from '../../features/community/communityWriteSlice';
-import { studyRoomPostAPI } from '../../utils/studyRoom/studyRoomPostDetailAPI';
+import { studyRoomPostDetailAPI } from '../../utils/studyRoom/studyRoomPostDetailAPI';
 
 const StudyRoomWritePost = ({roomId}) => {
     // 상태 관리
@@ -37,10 +37,11 @@ const StudyRoomWritePost = ({roomId}) => {
             const response = await studyRoomWriteAPI(roomId,data);
             console.log(response.result.roomPostId);
             //전역상태초기화 함수
-            const postData = await studyRoomPostAPI(response.result.roomPostId);
+            const postData = await studyRoomPostDetailAPI(response.result.roomPostId);
             console.log(postData)
             navigate("/studyroom/post", { state: 
                 {
+                    roomId: roomId,
                     postData: postData
                 } 
             }); 

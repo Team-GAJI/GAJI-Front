@@ -9,11 +9,12 @@ import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 // import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
 import CommentContainer from "../components/communityPost/CommentContainer";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ReportModal from "../components/studyDetail/ReportModal";
 import { ContentWrapper } from "../components/common/MediaWrapper";
+import PageHeader from "../components/common/PageHeader";
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -24,7 +25,11 @@ const StudyRoomPostPage = () => {
     // 게시글 작성에서 정보 가져오기
     const location = useLocation();
     const { postData } = location.state || {};
+    const { roomId } = location.state || {};
     
+    const navigate = useNavigate();
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+
 
     // state 관리
     const [bookMarkState, setBookMarkState] = useState(false);
@@ -72,10 +77,36 @@ const StudyRoomPostPage = () => {
         }, 2000);
     };
 
+    
+
+    const headerTitles = ["스터디 홈", "트러블 슈팅 게시판", "정보나눔 게시판", "채팅방"];
+    const handleHeaderButtonClick = (index) => {
+        setActiveButtonIndex(index);
+        if (index === 0) {
+            navigate('/studyroom' ,{state : {roomId : roomId}});
+        } else if (index === 1) {
+            navigate('/troubleshooting', {state : {roomId : roomId}});
+        } else {
+        navigate('/');
+    }
+    };
+
+
     return (
         <>
         {postData && 
         <>
+        <PageHeader
+                large={true}
+                pageTitle="스터디룸"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleHeaderButtonClick}
+                changeColorOnClick={true}
+                changeColorOnHover={true}
+        />
+
+
         {/* 헤더 */}
         <HeaderWrapper>
             {/* 신고 알림 */}
