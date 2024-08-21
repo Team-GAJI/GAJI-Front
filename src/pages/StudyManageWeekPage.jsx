@@ -12,45 +12,68 @@ import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
 import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
 import { periodAPI } from '../utils/studyManageWeek/period.jsx';
+import { assignmentsAPI } from '../utils/studyManageWeek/assignmentsAPI.jsx';
+import { weekcountAPI } from '../utils/studyManageWeek/weekcountAPI.jsx';
 
 const StudyManageWeeKPage = () => {
-  const [weeks, setWeeks] = useState([...Array(9).keys()]);
+  const [weeks, setWeeks] = useState([0]);
   const [weekData, setWeekData] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-
+  const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
+  const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
+  
   const sidebarRef = useRef(null);
   const manageWeekDetailedRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const roomId = location.state?.roomId || null;
 
+  // 주차 수 만큼! 사이드 창 버튼 만들기
+  const fetchWeekCount = async () => {
+    if (roomId) {
+      try {
+        const response = await weekcountAPI(roomId);
+        const weekCount = response.result.weekCount; 
+        setWeeks([...Array(weekCount).keys()]); 
+      } catch (error) {
+        console.error("API 요청 중 오류 발생:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchWeekCount();
+  }, [roomId]);
+
   // 주차 데이터 가져오기
   const fetchSelectedWeekData = async () => {
     if (roomId !== null) {
       try {
-        console.log('roomId:', roomId, 'week:', selectedWeek);
-  
-        const fetchedWeekData = await TaskAPI(roomId, selectedWeek);
+        const taskData = await TaskAPI(roomId, selectedWeek);
         const periodData = await periodAPI(roomId, selectedWeek);
-  
-        const newWeekData = {
-          basicInfo: {
-            name: fetchedWeekData.title || '',
-            description: fetchedWeekData.content || ''
-          },
-          tasks: [],
-          studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : null,
-          studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : null
-        };
-  
+        const assignments = await assignmentsAPI(roomId, selectedWeek);
+
         setWeekData(prevWeekData => {
           const newWeekDataArray = [...prevWeekData];
-          newWeekDataArray[selectedWeek] = newWeekData;
+          const existingWeekData = newWeekDataArray[selectedWeek] || {};
+
+          newWeekDataArray[selectedWeek] = {
+            ...existingWeekData,  // 기존 데이터 유지
+            basicInfo: {
+              name: taskData?.title || existingWeekData.basicInfo?.name || '',
+              description: taskData?.content || existingWeekData.basicInfo?.description || ''
+            },
+            tasks: taskData?.tasks || existingWeekData.tasks || [], // 이거 나중에 확인하고 삭제 
+            studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : existingWeekData.studyPeriodStartDate,
+            studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : existingWeekData.studyPeriodEndDate,
+            assignments: assignments || [] // 과제 데이터를 배열로 저장 -> 근데 안 나온다...
+          };
+
           return newWeekDataArray;
         });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('데이터 가져오기 오류:', error);
       }
     }
   };
@@ -59,29 +82,43 @@ const StudyManageWeeKPage = () => {
     fetchSelectedWeekData();
   }, [roomId, selectedWeek]);
 
-  // 저장하기 버튼 클릭 핸들러
+  useEffect(() => {
+    if (selectedWeek < weekData.length) {
+      const newWeekData = weekData[selectedWeek] || {};
+      setStudyPeriodStartDate(newWeekData.studyPeriodStartDate || new Date());
+      setStudyPeriodEndDate(newWeekData.studyPeriodEndDate || new Date());
+    }
+  }, [selectedWeek, weekData]);
+
   const handleHeaderButtonClick = async (index) => {
     setActiveButtonIndex(index);
+
     if (index === 0) {
       try {
         console.log("저장 중...");
+
         for (let i = 0; i < weeks.length; i++) {
           const week = weeks[i];
-          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-          console.log(`주차: ${week}, 정보:`, weekInfo);
 
-  
-          await descriptionAPI(roomId, week, weekInfo);
+          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
           const periodInfo = {
-            recruitmentStartDate: weekData[i]?.recruitmentStartDate,
-            recruitmentEndDate: weekData[i]?.recruitmentEndDate,
-            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate,
-            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate
+            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
+            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
           };
+          const assignments = i === selectedWeek 
+            ? (manageWeekDetailedRef.current?.getAssignments() || []) 
+            : (weekData[i]?.assignments || []);
+
+          await descriptionAPI(roomId, week, weekInfo);
           await periodAPI(roomId, week, periodInfo);
+          await assignmentsAPI(roomId, week, { assignments });
+
+          console.log(`주차: ${week}`);
+          console.log(`정보:`, weekInfo);
+          console.log(`기간:`, periodInfo);
+          console.log(`과제:`, assignments);
         }
-  
-        console.log('입력한 값:', weekData);
+
         alert("저장되었습니다.");
       } catch (error) {
         console.error("저장 중 오류 발생:", error);
@@ -90,9 +127,18 @@ const StudyManageWeeKPage = () => {
     }
   };
 
-
   const handleWeekDataChange = (newWeekData) => {
-    setWeekData(newWeekData);
+    setWeekData(prevWeekData => {
+      return prevWeekData.map((week, index) => {
+        if (index === selectedWeek) {
+          return {
+            ...week,
+            ...newWeekData[index]
+          };
+        }
+        return week;
+      });
+    });
   };
 
   const handleDelete = () => {
@@ -159,11 +205,16 @@ const StudyManageWeeKPage = () => {
             roomId={roomId}
           />
           <ManageWeekeDetailed
-            selectedWeek={selectedWeek}
-            weekData={weekData}
-            onWeekDataChange={handleWeekDataChange}
-            roomId={roomId}
-            ref={manageWeekDetailedRef}
+                ref={manageWeekDetailedRef}
+                selectedWeek={selectedWeek}
+                onAssignmentsChange={(assignments) => {
+                  handleWeekDataChange({
+                    [selectedWeek]: {
+                      ...weekData[selectedWeek],
+                      assignments
+                    }
+                  });
+                }}
           />
         </ContentWrapper70>
 
@@ -194,13 +245,17 @@ const StudyManageWeeKPage = () => {
           <PlusButton onClick={handleAdd}>
             <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
           </PlusButton>
-        </Sidebar1>
+      </Sidebar1>
       </RowWrapper>
     </>
   );
 };
 
 export default StudyManageWeeKPage;
+
+
+
+
 
 const RowWrapper = styled.div`
   display: flex;
@@ -227,7 +282,7 @@ const Sidebar1 = styled.aside`
   flex-direction: column;
   border: 1px solid #A2A3B2;  
   border-radius: 0.5em;
-  max-height: 500px;
+  max-height: 200px;
   width: 11.25em;
   right: 3%;
   padding: 0.2em;
