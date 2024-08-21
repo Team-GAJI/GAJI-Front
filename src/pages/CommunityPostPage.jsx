@@ -9,12 +9,13 @@ import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 import DownArrowIcon from "../assets/icons/communityPost/whiteDownArrow.svg?react";
 // import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
-import CommentContainer from "../components/communityPost/CommentContainer";
+// import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ReportModal from "../components/studyDetail/ReportModal";
 import { ContentWrapper } from "../components/common/MediaWrapper";
+import StudyCommentContainer from "../components/studyDetail/StudyCommentContainer";
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -25,6 +26,7 @@ const CommunityPostPage = () => {
   // 게시글 작성에서 정보 가져오기
   const location = useLocation();
   const { postId } = location.state || {};
+  const { postId2 } = location.state || {};
   
   // const userId = localStorage.getItem('userId');
 
@@ -228,7 +230,8 @@ const CommunityPostPage = () => {
 
         <StyledHr />
         {/* 댓글 영역 */}
-        <CommentContainer />
+        {/* <CommentContainer /> */}
+        <StudyCommentContainer postId={postId2} type="community"/>
       </PostContentWrapper>
       </ContentWrapper> 
       </>

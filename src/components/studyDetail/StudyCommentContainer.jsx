@@ -1,51 +1,53 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileImg from '../../assets/images/community/userProfile.png';
 import StudyComment from './StudyComment';
-import { dummyStudyComments } from './DummyStudyComments';
-import Loading from '../common/Loading';
-import { studyWriteCommentAPI } from '../../utils/studyDetail/studyCommentAPI';
-import { studyViewCommentAPI } from '../../utils/studyDetail/studyCommentAPI';
+// import { dummyStudyComments } from './DummyStudyComments';
+// import Loading from '../common/Loading';
+import { studyWriteCommentAPI } from '../../utils/auth/commentAPI';
+import { studyViewCommentAPI } from '../../utils/auth/commentAPI';
+import { communityWriteCommentAPI } from '../../utils/auth/commentAPI';
+import { communityViewCommentAPI } from '../../utils/auth/commentAPI';
 
-const StudyCommentContainer = ({roomId}) => {
+const StudyCommentContainer = ({roomId, postId, type}) => {
     // state 관리
-    const [commentPage, setCommentPage] = useState(1);
-    const [, setComments] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [commentPage, setCommentPage] = useState(1);
+    // const [, setComments] = useState([]);
+    // const [isLoading, setIsLoading] = useState(false);
     const [commentBody, setCommentBody] = useState(''); // 작성 중인 댓글 저장
     const [commentsList, setCommentsList] = useState([]); // 댓글 리스트
 
     // 프로젝트 불러오기 기능
-    const getComments = useCallback(async () => {
-        if (isLoading) return;
-        setIsLoading(true);
-        setTimeout(() => {
-            const newPosts = dummyStudyComments.slice((commentPage - 1) * 4, commentPage * 4); // 페이지당 4개씩 로드
-            setComments((prevPosts) => [...prevPosts, ...newPosts]);
-            setCommentPage((prevPage) => prevPage + 1);
-            setIsLoading(false);
-        }, 1000); // 1초 지연 후 데이터 추가
-    }, [isLoading, commentPage]);
+    // const getComments = useCallback(async () => {
+    //     if (isLoading) return;
+    //     setIsLoading(true);
+    //     setTimeout(() => {
+    //         const newPosts = dummyStudyComments.slice((commentPage - 1) * 4, commentPage * 4); // 페이지당 4개씩 로드
+    //         setComments((prevPosts) => [...prevPosts, ...newPosts]);
+    //         setCommentPage((prevPage) => prevPage + 1);
+    //         setIsLoading(false);
+    //     }, 1000); // 1초 지연 후 데이터 추가
+    // }, [isLoading, commentPage]);
 
-    useEffect(() => {
-        getComments();
-    }, []);
+    // useEffect(() => {
+    //     getComments();
+    // }, []);
 
-    useEffect(() => {
-        const handleScroll = () => {
-        const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-        if (scrollTop + clientHeight >= scrollHeight - 20) {
-            getComments();
-        }
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-        window.removeEventListener("scroll", handleScroll);
-        };
-    }, [getComments]);
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    //     if (scrollTop + clientHeight >= scrollHeight - 20) {
+    //         getComments();
+    //     }
+    //     };
+    //     window.addEventListener("scroll", handleScroll);
+    //     return () => {
+    //     window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, [getComments]);
 
     // 댓글 총 개수
-    const count = dummyStudyComments.length;
+    const count = commentsList.length;
 
     // 댓글 작성 기능
     const handleKeyPress = (e) => {
@@ -62,8 +64,16 @@ const StudyCommentContainer = ({roomId}) => {
             const body = {
                 body: commentBody // 입력된 댓글을 body에 저장
             };
-            const result = await studyWriteCommentAPI(roomId, body); // API 호출 시 body 전달
-            console.log(result);
+            // type마다 API 호출
+            if (type === "study") {
+                const result = await studyWriteCommentAPI(roomId, body);
+                console.log(result);
+            } else if (type === "community") {
+                const result = await communityWriteCommentAPI(postId, body);
+                console.log(result);
+            } else {
+                console.log('존재하지 않는 type입니다');
+            }
             setCommentBody(''); // 댓글 작성 후 입력 필드 초기화
             location.reload()
         } catch (error) {
@@ -76,8 +86,16 @@ const StudyCommentContainer = ({roomId}) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const commentsResponse = await studyViewCommentAPI(roomId);
-                setCommentsList(commentsResponse);
+                // type마다 API 호출
+                if (type === "study") {
+                    const commentsResponse = await studyViewCommentAPI(roomId);
+                    setCommentsList(commentsResponse);
+                } else if (type === "community") {
+                    const commentsResponse = await communityViewCommentAPI(postId);
+                    setCommentsList(commentsResponse);
+                } else {
+                    console.log('존재하지 않는 type입니다');
+                }
             } catch (error) {
                 console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
             }
@@ -107,12 +125,12 @@ const StudyCommentContainer = ({roomId}) => {
                     key={comment.commentId}
                     writer={comment.userNickName}
                     content={comment.commentBody}
-                    userProfileImg={comment.userImage}
+                    userProfileImg={comment.profileImageUrl}
                     time={comment.commentWriteDate} />
             ))}
-            {isLoading && (
+            {/* {isLoading && (
                 <Loading />
-            )}
+            )} */}
         </CommentContainerWrapper>
     )
 }
