@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveButton } from '../features/community/communitySlice';
 import CommunityHomePosts from '../components/community/CommunityHomePosts';
 import PageHeader from '../components/common/PageHeader';
@@ -21,6 +21,9 @@ const CommunityPage = () => {
     // Redux 상태 관리
     const dispatch = useDispatch();
 
+    // Redux로 type 상태 가져오기
+    const { type } = useSelector((state) => state.community);
+
     // 헤더 함수
     const headerTitles = ["프로젝트", "질문", "블로그"];
     const handleHeaderButtonClick = (index) => {
@@ -39,7 +42,7 @@ const CommunityPage = () => {
         const fetchStudies = async () => {
             try {
                 const [hotPostResponse] = await Promise.all([
-                communityPostsPreviewAPI(null, null, 'hot', null, 10) // 핫게시물
+                communityPostsPreviewAPI(type, null, 'hot', null, 10) // 핫게시물
                 ]);
                 setHotPosts(hotPostResponse);
             } catch (error) {
@@ -47,7 +50,7 @@ const CommunityPage = () => {
             }
         };
         fetchStudies();
-    }, []);
+    });
 
     return (
         <>
