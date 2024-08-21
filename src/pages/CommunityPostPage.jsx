@@ -8,8 +8,6 @@ import BookMarkIcon from "../assets/icons/communityPost/postBookMark.svg?react";
 import LikeIcon from "../assets/icons/communityPost/postLike.svg?react";
 import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
 import DownArrowIcon from "../assets/icons/communityPost/whiteDownArrow.svg?react";
-// import ExtraPostPreview from "../components/communityPost/ExtraPostPreview";
-// import CommentContainer from "../components/communityPost/CommentContainer";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -25,16 +23,18 @@ import StudyCommentContainer from "../components/studyDetail/StudyCommentContain
 const CommunityPostPage = () => {
   // 게시글 작성에서 정보 가져오기
   const location = useLocation();
+
+  //const postId = location.state?.postId || {}; // `postId`가 존재하지 않으면 빈 객체로 초기화
   const { postId } = location.state || {};
   const { postId2 } = location.state || {};
-  
-  // const userId = localStorage.getItem('userId');
+ 
+
 
   // state 관리
   const [bookMarkState, setBookMarkState] = useState(false);
   const [likeState, setLikeState] = useState(false);
-  const [bookMarkCount, setBookMarkCount] = useState(postId.bookmarkCnt);
-  const [likeCount, setLikeCount] = useState(postId.likeCnt);
+  const [bookMarkCount, setBookMarkCount] = useState(postId.bookmarkCnt || 0);
+  const [likeCount, setLikeCount] = useState(postId.likeCnt || 0);
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isOptionVisible, setIsOptionVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("모집 중");
@@ -43,22 +43,22 @@ const CommunityPostPage = () => {
 
   // 북마크, 좋아요 기능
   const handleBookMark = () => {
-      if (bookMarkState) {
-          setBookMarkState(false);
-          setBookMarkCount(prevCount => prevCount - 1);
-      } else {
-          setBookMarkState(true);
-          setBookMarkCount(prevCount => prevCount + 1);
-      }
+    if (bookMarkState) {
+      setBookMarkState(false);
+      setBookMarkCount((prevCount) => prevCount - 1);
+    } else {
+      setBookMarkState(true);
+      setBookMarkCount((prevCount) => prevCount + 1);
+    }
   };
   const handleLike = () => {
-      if (likeState) {
-          setLikeState(false);
-          setLikeCount(prevCount => prevCount - 1);
-      } else {
-          setLikeState(true);
-          setLikeCount(prevCount => prevCount + 1);
-      }
+    if (likeState) {
+      setLikeState(false);
+      setLikeCount((prevCount) => prevCount - 1);
+    } else {
+      setLikeState(true);
+      setLikeCount((prevCount) => prevCount + 1);
+    }
   };
 
   // 게시글 상태 버튼 텍스트
@@ -82,148 +82,152 @@ const CommunityPostPage = () => {
 
   // 신고 확인 메시지
   const showReportNotice = () => {
-      setIsReportNoticeVisible(true);
-      setTimeout(() => {
-          setIsReportNoticeVisible(false);
-      }, 2000);
+    setIsReportNoticeVisible(true);
+    setTimeout(() => {
+      setIsReportNoticeVisible(false);
+    }, 2000);
   };
 
   return (
     <>
-    {postId && 
-      <>
-      {/* 헤더 */}
-      <HeaderWrapper>
-        {/* 신고 알림 */}
-        <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
-          <ReportNotice>
-            <StyledReportCheck/>
-            신고가 완료되었습니다
-          </ReportNotice>
-        </ReportNoticeWrapper>
+      {postId && (
+        <>
+          {/* 헤더 */}
+          <HeaderWrapper>
+            {/* 신고 알림 */}
+            <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
+              <ReportNotice>
+                <StyledReportCheck />
+                신고가 완료되었습니다
+              </ReportNotice>
+            </ReportNoticeWrapper>
 
-        {/* 제목 div */}
-        <TitleWrapper>
-          {/* 게시글 상세정보 */}
-          <TitleDetail>
-            <StyledUserProfileImg
-              onMouseEnter={showWriterInfo}
-              onMouseLeave={hideWriterInfo}
-              src={UserProfileImg}
-              alt="user profile"
-            />
-            <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
-              {postId.userNickname}
-            </Writer>
-            <StyledBar>|</StyledBar>
-            {postId.type} &gt; {postId.category}
-            <StyledBar>|</StyledBar>
-            {postId.createdAt}
-            <StyledBar>|</StyledBar>
-            조회 {postId.hit}
-            <StyledBar>|</StyledBar>
-            댓글 {postId.commentCnt}
-          </TitleDetail>
+            {/* 제목 div */}
+            <TitleWrapper>
+              {/* 게시글 상세정보 */}
+              <TitleDetail>
+                <StyledUserProfileImg
+                  onMouseEnter={showWriterInfo}
+                  onMouseLeave={hideWriterInfo}
+                  src={UserProfileImg}
+                  alt="user profile"
+                />
+                <Writer
+                  onMouseEnter={showWriterInfo}
+                  onMouseLeave={hideWriterInfo}
+                >
+                  {postId.userNickname}
+                </Writer>
+                <StyledBar>|</StyledBar>
+                {postId.type} &gt; {postId.category}
+                <StyledBar>|</StyledBar>
+                {postId.createdAt}
+                <StyledBar>|</StyledBar>
+                조회 {postId.hit}
+                <StyledBar>|</StyledBar>
+                댓글 {postId.commentCnt}
+              </TitleDetail>
 
-          {/* 작성자 정보 모달창 */}
-          <PostWriterInfoWrapper
-            isVisible={isWriterInfoVisible}
-            onMouseEnter={showWriterInfo}
-            onMouseLeave={hideWriterInfo}
-          >
-            <PostWriterInfo nickName={postId.userNickname}/>
-          </PostWriterInfoWrapper>
+              {/* 작성자 정보 모달창 */}
+              <PostWriterInfoWrapper
+                isVisible={isWriterInfoVisible}
+                onMouseEnter={showWriterInfo}
+                onMouseLeave={hideWriterInfo}
+              >
+                <PostWriterInfo nickName={postId.userNickname} />
+              </PostWriterInfoWrapper>
 
-          {/* 게시글 제목 */}
-          <Title>{postId.title}</Title>
+              {/* 게시글 제목 */}
+              <Title>{postId.title}</Title>
 
-          {/* 게시글 해시태그 */}
-          {postId.hashtagList && postId.hashtagList.length > 0 && (
-            <>
-              <HashtagWrapper>
-                {postId.hashtagList.map((hashtag, index) => (
-                  <Hashtag key={index}>#{hashtag.hashtagName}</Hashtag>
-                ))}
-              </HashtagWrapper>
-            </>
-          )}
+              {/* 게시글 해시태그 */}
+              {postId.hashtagList && postId.hashtagList.length > 0 && (
+                <>
+                  <HashtagWrapper>
+                    {postId.hashtagList.map((hashtag, index) => (
+                      <Hashtag key={index}>#{hashtag.hashtagName}</Hashtag>
+                    ))}
+                  </HashtagWrapper>
+                </>
+              )}
 
-          {/* 게시글 상호작용 */}
-          <InteractionWrapper>
-            <BookMarkWrapper>
-              <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState}/>
-              <InteractionText>
-                {bookMarkCount}
-              </InteractionText>
-            </BookMarkWrapper>
-            <BookMarkWrapper>
-              <StyledLikeIcon onClick={handleLike} likeState={likeState}/>
-              <InteractionText>
-                {likeCount}
-              </InteractionText>
-            </BookMarkWrapper>
-            <BookMarkWrapper>
-              <StyledReportIcon onClick={showReportModal}/>
-              <InteractionText>신고</InteractionText>
-            </BookMarkWrapper>
+              {/* 게시글 상호작용 */}
+              <InteractionWrapper>
+                <BookMarkWrapper>
+                  <StyledBookMarkIcon
+                    onClick={handleBookMark}
+                    bookMarkState={bookMarkState}
+                  />
+                  <InteractionText>{bookMarkCount}</InteractionText>
+                </BookMarkWrapper>
+                <BookMarkWrapper>
+                  <StyledLikeIcon onClick={handleLike} likeState={likeState} />
+                  <InteractionText>{likeCount}</InteractionText>
+                </BookMarkWrapper>
+                <BookMarkWrapper>
+                  <StyledReportIcon onClick={showReportModal} />
+                  <InteractionText>신고</InteractionText>
+                </BookMarkWrapper>
 
-            {/* 신고 모달창 */}
-            <ReportModal
-              isVisible={isReportModalVisible}
-              onClose={hideReportModal}
-              onReport={showReportNotice}
-              title={postId.title}
-            />
-          </InteractionWrapper>
-        </TitleWrapper>
+                {/* 신고 모달창 */}
+                <ReportModal
+                  isVisible={isReportModalVisible}
+                  onClose={hideReportModal}
+                  onReport={showReportNotice}
+                  title={postId.title}
+                />
+              </InteractionWrapper>
+            </TitleWrapper>
 
-        {/* 게시글 상태 div */}
-        <PostStateWrapper>
-          {/* 상태 버튼 */}
-          <PostStateButton onClick={toggleOptionVisibility}>
-            {selectedOption}
-            <StyledDownArrowIcon isVisible={isOptionVisible} />
-          </PostStateButton>
-          {/* 상태 옵션 */}
-          <PostStateOptionWrapper isVisible={isOptionVisible}>
-            <PostStateOption
-              onClick={() => handleOptionSelect("모집 중")}
-              isSelected={selectedOption === "모집 중"}
-            >
-              모집 중
-            </PostStateOption>
-            <PostStateOption
-              onClick={() => handleOptionSelect("모집 완료")}
-              isSelected={selectedOption === "모집 완료"}
-            >
-              모집 완료
-            </PostStateOption>
-            <PostStateOption
-              onClick={() => handleOptionSelect("미완료 질문")}
-              isSelected={selectedOption === "미완료 질문"}
-            >
-              미완료 질문
-            </PostStateOption>
-            <PostStateOption
-              onClick={() => handleOptionSelect("완료 질문")}
-              isSelected={selectedOption === "완료 질문"}
-            >
-              완료 질문
-            </PostStateOption>
-          </PostStateOptionWrapper>
-        </PostStateWrapper>
-      </HeaderWrapper>
+            {/* 게시글 상태 div */}
+            <PostStateWrapper>
+              {/* 상태 버튼 */}
+              <PostStateButton onClick={toggleOptionVisibility}>
+                {selectedOption}
+                <StyledDownArrowIcon isVisible={isOptionVisible} />
+              </PostStateButton>
+              {/* 상태 옵션 */}
+              <PostStateOptionWrapper isVisible={isOptionVisible}>
+                <PostStateOption
+                  onClick={() => handleOptionSelect("모집 중")}
+                  isSelected={selectedOption === "모집 중"}
+                >
+                  모집 중
+                </PostStateOption>
+                <PostStateOption
+                  onClick={() => handleOptionSelect("모집 완료")}
+                  isSelected={selectedOption === "모집 완료"}
+                >
+                  모집 완료
+                </PostStateOption>
+                <PostStateOption
+                  onClick={() => handleOptionSelect("미완료 질문")}
+                  isSelected={selectedOption === "미완료 질문"}
+                >
+                  미완료 질문
+                </PostStateOption>
+                <PostStateOption
+                  onClick={() => handleOptionSelect("완료 질문")}
+                  isSelected={selectedOption === "완료 질문"}
+                >
+                  완료 질문
+                </PostStateOption>
+              </PostStateOptionWrapper>
+            </PostStateWrapper>
+          </HeaderWrapper>
 
-  <ContentWrapper>
-      {/* 게시글 내용 */}
-      <PostContentWrapper>
-        {/* 게시글 본문 */}
-        <PostContent>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{postId.body}</ReactMarkdown>
-        </PostContent>
+          <ContentWrapper>
+            {/* 게시글 내용 */}
+            <PostContentWrapper>
+              {/* 게시글 본문 */}
+              <PostContent>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {postId.body}
+                </ReactMarkdown>
+              </PostContent>
 
-        {/* 다음 게시물 div */}
-        {/* <ExtraPostsWrapper>
+              {/* 다음 게시물 div */}
+              {/* <ExtraPostsWrapper>
           <ExtraPostPreview />
           <ExtraPostPreview />
         </ExtraPostsWrapper> */}
@@ -236,6 +240,7 @@ const CommunityPostPage = () => {
       </ContentWrapper> 
       </>
     }
+
     </>
   );
 };
@@ -244,8 +249,8 @@ export default CommunityPostPage;
 
 /* CSS */
 const HeaderWrapper = styled.div`
-  padding-left : 10%;
-  padding-right : 10%;
+  padding-left: 10%;
+  padding-right: 10%;
   height: 16.1875em;
   background-image: url(${BackgroundImage});
   background-size: cover;
@@ -253,13 +258,13 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8125em;
-  box-sizing : border-box;
-  @media(max-width : 768px){
-    padding-left : 5%;
-    padding-right : 5%;
-    flex-direction : column;
-    gap : 1em;
-    align-items : flex-start;
+  box-sizing: border-box;
+  @media (max-width: 768px) {
+    padding-left: 5%;
+    padding-right: 5%;
+    flex-direction: column;
+    gap: 1em;
+    align-items: flex-start;
   }
 `;
 
@@ -282,12 +287,12 @@ const ReportNotice = styled.div`
   width: 14em;
   height: 2.3077em;
   background-color: white;
-  color: #8E59FF;
+  color: #8e59ff;
   font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+  box-shadow: 0 0.25em 1.25em rgba(22, 26, 63, 0.2);
 `;
 
 const StyledReportCheck = styled(ReportCheck)`
@@ -297,9 +302,9 @@ const StyledReportCheck = styled(ReportCheck)`
 `;
 
 const TitleWrapper = styled.div`
-  width : 80%;
-  @media(max-width : 768px){
-    width : 100%;
+  width: 80%;
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -355,7 +360,7 @@ const Hashtag = styled.div`
   border-radius: 15px;
   height: 1.8182em;
   line-height: 1.8182em;
-  background-color: #8E59FF;
+  background-color: #8e59ff;
   color: white;
   font-size: 0.6875em;
   font-weight: bold;
@@ -401,14 +406,14 @@ const InteractionText = styled.div`
 
 const PostStateWrapper = styled.div`
   color: white;
-  width : 100%;
+  width: 100%;
   font-size: 0.8125em;
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items : end;
-    @media(max-width : 768px){
-    align-items : start;
+  align-items: end;
+  @media (max-width: 768px) {
+    align-items: start;
   }
 `;
 
@@ -457,15 +462,15 @@ const PostStateOption = styled.div`
   cursor: pointer;
   text-align: center;
   color: ${(props) => (props.isSelected ? "white" : "#D0D1D9")};
-    font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
-    &:hover{
-        color: white;
-        font-weight: bold;
-    }
+  font-weight: ${(props) => (props.isSelected ? "bold" : "normal")};
+  &:hover {
+    color: white;
+    font-weight: bold;
+  }
 `;
 
 const PostContentWrapper = styled.div`
-  width : 100%;
+  width: 100%;
   margin-bottom: 2.5em;
   display: flex;
   flex-direction: column;
@@ -474,13 +479,13 @@ const PostContentWrapper = styled.div`
 
 const PostContent = styled.div`
   margin: 1.5em 0;
-  width : 100%;
-  padding : 1em;
+  width: 100%;
+  padding: 1em;
   min-height: 22em;
-  color: #161A3F;
-  @media(max-width : 768px){
-    padding-left : 5%;
-    padding-right : 5%;
+  color: #161a3f;
+  @media (max-width: 768px) {
+    padding-left: 5%;
+    padding-right: 5%;
   }
 `;
 

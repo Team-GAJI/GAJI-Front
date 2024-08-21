@@ -40,10 +40,7 @@ function App() {
         path="/login/oauth2/code/naver"
         element={<LoginRedirectPage />}
       />
-
-
       <Route path="/nickname" element={<LoginRedirectPage />} />
-
 
       {/* 사용자가 로그인할 수 있는 페이지 */}
 
@@ -124,10 +121,10 @@ function App() {
         {/* 사용자가 문제를 보고하는 트러블슈팅 등록 페이지 */}
 
         <Route
-          path="/troubleshooting-detail"
+          path="/troubleshooting-detail" // Add :postId to make the route dynamic
           element={<TroubleshootingDetailPage />}
         />
-        {/* 트러블슈팅 글 등록 연결 페이지 */}
+        {/* 트러블슈팅 글 상세보기 페이지 */}
       </Route>
     </Routes>
   );

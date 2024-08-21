@@ -2,26 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import ReplyIcon from "../../assets/icons/community/reply.svg?react";
 
-const Comment = ({ key, writer, content, userProfileImg, time }) => {
+const Comment = ({ writer, content, userProfileImg, time, onDelete }) => {
   return (
-    <CommentWrapper key={key}>
+    <CommentWrapper>
       <WriterWrapper>
         <StyledProfileImg src={userProfileImg} alt="profile image" />
         <UserName>{writer}</UserName>
         <RelativeTime>{time} 작성</RelativeTime>
       </WriterWrapper>
       <Content>{content}</Content>
-      <ReplyWrapper>
-        <StyledReplyIcon />
-        <ReplyText>답글달기</ReplyText>
-      </ReplyWrapper>
+      <ActionsWrapper>
+        <ReplyWrapper>
+          <StyledReplyIcon />
+          <ReplyText>답글달기</ReplyText>
+        </ReplyWrapper>
+        <DeleteButton onClick={onDelete}>삭제하기</DeleteButton>
+      </ActionsWrapper>
     </CommentWrapper>
   );
 };
 
 export default Comment;
 
-/* CSS */
 const CommentWrapper = styled.div`
   margin: 2.5em 0;
   width: 75em;
@@ -59,6 +61,12 @@ const Content = styled.div`
   font-weight: bold;
 `;
 
+const ActionsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+`;
+
 const ReplyWrapper = styled.div`
   width: 5em;
   display: flex;
@@ -76,4 +84,16 @@ const ReplyText = styled.div`
   color: #a2a3b2;
   font-size: 0.8125em;
   font-weight: bold;
+`;
+
+const DeleteButton = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #ff4d4d; /* Red color for delete button */
+  font-size: 0.8125em;
+  font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+  }
 `;

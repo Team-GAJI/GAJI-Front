@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReportCheck from "../assets/icons/studyDetail/reportCheck.svg?react";
 import BackgroundImage from "../assets/images/community/communityBackground.png";
 import UserProfileImg from "../assets/images/community/userProfile.png";
-import ReportIcon from "../assets/icons/communityPost/postReport.svg?react";
-import CommentIconSrc from "../assets/images/troubleshooting/troubleComment.png";
+import ReportIcon from "../assets/icons/troubleShooting/postReport.svg?react";
+import BookMarkIcon from "../assets/icons/troubleShooting/postBookMark.svg?react";
+import LikeIcon from "../assets/icons/troubleShooting/postLike.svg?react";
 
 import PostWriterInfo from "../components/troubleshooting/PostWriterInfo";
 import CommentContainer from "../components/troubleshooting/CommentContainer";
@@ -13,127 +14,219 @@ import ReportModal from "../components/studyDetail/ReportModal";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import StudyPostWriterInfo from "../components/studyDetail/StudyPostWriterInfo";
 
+import {
+  addBookmark,
+  removeBookmark,
+  addLike,
+  removeLike,
+  fetchTroubleShootingPost,
+} from "../utils/troubleShooting/troubleShootingInfoAPI";
 
+// 세 자리마다 콤마 추가 함수
+const formatNumberWithCommas = (number) =>
+  number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 const TroubleshootingDetailPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const roomId = location.state?.roomId || {};
+  const postId = location.state?.postId || {};
 
-  // 세자리마다 콤마 기능
-const formatNumberWithCommas = (number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
+  const [postDetails, setPostDetails] = useState({
+    title: "",
+    content: "",
+    bookMarkState: false,
+    likeState: false,
+    bookMarkCount: 0,
+    likeCount: 0,
+    authorName: "",
+    createdAt: "",
+    viewCount: 0,
+    commentCount: 0,
+  });
 
-  // state 관리
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-  // 작성자 정보 모달 기능
-  const showWriterInfo = () => setIsWriterInfoVisible(true);
-  const hideWriterInfo = () => setIsWriterInfoVisible(false);
+  useEffect(() => {
+    const fetchPostDetails = async () => {
+      try {
+        const { result } = await fetchTroubleShootingPost(postId);
+        setPostDetails({
+          title: result.title,
+          content: result.body,
+          bookMarkState: result.bookmarked || false,
+          likeState: result.liked || false,
+          bookMarkCount: result.bookmarkCount || 0,
+          likeCount: result.likeCount || 0,
+          authorName: result.authorName,
+          createdAt: result.createdAt,
+          viewCount: result.viewCount || 0,
+          commentCount: result.commentCount,
+        });
+      } catch (error) {
+        console.error("Failed to fetch post details:", error);
+      }
+    };
+    fetchPostDetails();
+  }, [postId]);
 
-  // 신고 모달 기능
-  const showReportModal = () => setIsReportModalVisible(true);
-  const hideReportModal = () => setIsReportModalVisible(false);
+  const handleInteraction = async (interactionType) => {
+    try {
+      const { bookMarkState, likeState } = postDetails;
+      if (!roomId || !postId) {
+        throw new Error("Invalid roomId or postId");
+      }
 
-  // 신고 확인 메시지
-  const showReportNotice = () => {
-    setIsReportNoticeVisible(true);
-    setTimeout(() => {
-      setIsReportNoticeVisible(false);
-    }, 2000);
+      if (interactionType === "bookmark") {
+        if (bookMarkState) {
+          await removeBookmark(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            bookMarkState: false,
+            bookMarkCount: Math.max(prevState.bookMarkCount - 1, 0),
+          }));
+          console.log(bookMarkState);
+        } else {
+          await addBookmark(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            bookMarkState: true,
+            bookMarkCount: prevState.bookMarkCount + 1,
+          }));
+          console.log(bookMarkState);
+        }
+      } else if (interactionType === "like") {
+        if (likeState) {
+          await removeLike(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            likeState: false,
+            likeCount: Math.max(prevState.likeCount - 1, 0),
+          }));
+        } else {
+          await addLike(roomId, postId);
+          setPostDetails((prevState) => ({
+            ...prevState,
+            likeState: true,
+            likeCount: prevState.likeCount + 1,
+          }));
+        }
+      }
+    } catch (error) {
+      console.error(`Error handling ${interactionType}:`, error);
+    }
   };
-
-  // 게시글 작성에서 정보 가져오기
-  const location = useLocation();
-  const title = location.state?.title || "게시글 제목입니다";
-  const content = location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구";
-  const commentCount = location.state?.commentCount || 0; // 댓글수
 
   return (
     <>
-      {/* 헤더 */}
       <HeaderWrapper>
-        {/* 신고 알림 */}
-        <ReportNoticeWrapper isVisible={isReportNoticeVisible}>
+        <ReportNoticeWrapper isVisible={isReportNoticeVisible ? 1 : 0}>
           <ReportNotice>
             <StyledReportCheck />
             신고가 완료되었습니다
           </ReportNotice>
         </ReportNoticeWrapper>
-
-        {/* 제목 div */}
         <TitleWrapper>
-          {/* 게시글 상세정보 */}
-          <TitleDetail>
-            <StyledUserProfileImg
-              onMouseEnter={showWriterInfo}
-              onMouseLeave={hideWriterInfo}
-              src={UserProfileImg}
-              alt="user profile"
-            />
-            <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
-              user1023
-            </Writer>
-            <StyledBar>|</StyledBar>
-            2024.03.01
-            <StyledBar>|</StyledBar>
-            조회 300
-            <StyledBar>|</StyledBar>
-            댓글 {commentCount}
-          </TitleDetail>
-
-          {/* 작성자 정보 모달창 */}
+          <TitleDetail
+            authorName={postDetails.authorName}
+            createdAt={postDetails.createdAt}
+            viewCount={postDetails.viewCount}
+            commentCount={postDetails.commentCount}
+            setIsWriterInfoVisible={setIsWriterInfoVisible}
+          />
           <PostWriterInfoWrapper
-            isVisible={isWriterInfoVisible}
-            onMouseEnter={showWriterInfo}
-            onMouseLeave={hideWriterInfo}
+            isVisible={isWriterInfoVisible ? 1 : 0}
+            setIsWriterInfoVisible={setIsWriterInfoVisible}
           >
-            <PostWriterInfo />
+            <StudyPostWriterInfo nickName={postDetails.authorName} />
           </PostWriterInfoWrapper>
 
-          {/* 게시글 제목 */}
-          <Title>{title}</Title>
-
-          {/* 게시글 상호작용 */}
+          <Title>{postDetails.title}</Title>
           <InteractionWrapper>
-            <CommentWrapper>
-              <StyledCommentIcon src={CommentIconSrc} alt="댓글 아이콘" />
-              <InteractionText>
-                {formatNumberWithCommas(commentCount)}
-              </InteractionText>
-            </CommentWrapper>
-            <ReportWrapper>
-              <StyledReportIcon onClick={showReportModal} />
-              <InteractionText className="report-text">신고</InteractionText>
-            </ReportWrapper>
-
-            {/* 신고 모달창 */}
+            <InteractionItem
+              Icon={StyledBookMarkIcon}
+              count={postDetails.bookMarkCount}
+              active={postDetails.bookMarkState}
+              onClick={() => handleInteraction("bookmark")}
+            />
+            <InteractionItem
+              Icon={StyledLikeIcon}
+              count={postDetails.likeCount}
+              active={postDetails.likeState}
+              onClick={() => handleInteraction("like")}
+            />
+            <InteractionItem
+              Icon={StyledReportIcon}
+              count="신고"
+              onClick={() => setIsReportModalVisible(true)}
+            />
             <ReportModal
-              isVisible={isReportModalVisible}
-              onClose={hideReportModal}
-              onReport={showReportNotice}
-              title={title}
+              isVisible={isReportModalVisible ? 1 : 0}
+              onClose={() => setIsReportModalVisible(false)}
+              onReport={() => setIsReportNoticeVisible(true)}
+              title={postDetails.title}
             />
           </InteractionWrapper>
         </TitleWrapper>
       </HeaderWrapper>
-
-      {/* 게시글 내용 */}
       <PostContentWrapper>
-        {/* 게시글 본문 */}
         <PostContent>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {postDetails.content}
+          </ReactMarkdown>
         </PostContent>
         <StyledHr />
-        {/* 댓글 영역 */}
-        <CommentContainer />
+        <CommentContainer troublePostId={postDetails.postId} />
       </PostContentWrapper>
     </>
   );
 };
 
 export default TroubleshootingDetailPage;
+
+// InteractionItem 컴포넌트 분리
+const InteractionItem = ({ Icon, count, active, onClick }) => (
+  <BookMarkWrapper onClick={onClick}>
+    <Icon active={active} />
+    <InteractionText>{formatNumberWithCommas(count)}</InteractionText>
+  </BookMarkWrapper>
+);
+
+// TitleDetail 컴포넌트 분리
+const TitleDetail = ({
+  authorName,
+  createdAt,
+  viewCount,
+  commentCount,
+  setIsWriterInfoVisible,
+}) => (
+  <>
+    <TitleDetailWrapper>
+      <StyledUserProfileImg
+        onMouseEnter={() => setIsWriterInfoVisible(true)}
+        onMouseLeave={() => setIsWriterInfoVisible(false)}
+        src={UserProfileImg}
+        alt="user profile"
+      />
+      <Writer
+        onMouseEnter={() => setIsWriterInfoVisible(true)}
+        onMouseLeave={() => setIsWriterInfoVisible(false)}
+      >
+        {authorName}
+      </Writer>
+      <StyledBar>|</StyledBar>
+      {createdAt ? new Date(createdAt).toLocaleDateString() : "현재날짜"}
+      <StyledBar>|</StyledBar>
+      조회 {formatNumberWithCommas(viewCount)}
+      <StyledBar>|</StyledBar>
+      댓글 {commentCount}
+    </TitleDetailWrapper>
+  </>
+);
 
 const HeaderWrapper = styled.div`
   padding: 0 13em;
@@ -194,7 +287,7 @@ const TitleWrapper = styled.div`
   position: relative;
 `;
 
-const TitleDetail = styled.div`
+const TitleDetailWrapper = styled.div`
   display: flex;
   color: #d0d1d9;
   font-size: 0.8125em;
@@ -236,40 +329,24 @@ const Title = styled.div`
   word-wrap: break-word;
 `;
 
-const InteractionWrapper = styled.div`
-  display: flex;
-  text-align: center;
-`;
-
-const CommentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1em 0 0 0;
-  width: auto;
-  font-size: 1.2em;
-`;
-
-const StyledCommentIcon = styled.img`
-  margin-bottom: 0.35em;
-  margin-right: 0.9em;
-  width: 1.2em;
-  height: 1.2em;
+const StyledBookMarkIcon = styled(BookMarkIcon)`
+  margin-bottom: 0.1em;
+  width: 1em;
+  height: 1.3125em;
   cursor: pointer;
+  fill: ${(props) => (props.active ? "#8E59FF" : "none")};
 `;
 
-const ReportWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 1em 1em 0 0;
-  width: 2.2em;
-  font-size: 1.2em;
+const StyledLikeIcon = styled(LikeIcon)`
+  margin-bottom: 0.1em;
+  width: 1.375em;
+  height: 1.25em;
+  cursor: pointer;
+  fill: ${(props) => (props.active ? "#8E59FF" : "none")};
 `;
 
 const StyledReportIcon = styled(ReportIcon)`
-  margin-bottom: 0.4em;
+  margin-bottom: 0.1em;
   width: 1.5em;
   height: 1.25em;
   cursor: pointer;
@@ -280,11 +357,22 @@ const InteractionText = styled.div`
   font-size: 0.6875em;
   text-align: center;
   white-space: nowrap;
-  margin-right: 1em;
+`;
 
-  &.report-text {
-    margin-left: 1em;
-  }
+const InteractionWrapper = styled.div`
+  display: flex;
+  text-align: center;
+  gap: 2em;
+  text-align: center;
+`;
+
+const BookMarkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  font-size: 1.2em;
 `;
 
 const PostContentWrapper = styled.div`

@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
-// import WritePost from "../components/common/WritePost";
+import TroubleshootingWritePost from "../components/troubleshooting/TroubleshootingWritePost";
 import { ContentWrapper60 } from "../components/common/MediaWrapper";
+import { registerTroubleShootingAPI } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
 const TroubleshootingRegistrationPage = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+
+  const location = useLocation();
+  let roomId = location.state?.roomId;
+
+  // roomId가 유효하지 않은 경우 처리
+  if (typeof roomId !== "string" && typeof roomId !== "number") {
+    console.error("roomId가 잘못된 형식입니다:", roomId);
+    roomId = ""; // 기본값으로 빈 문자열 설정
+  }
+
+  console.log("roomId:", roomId);
+
+  // API 연결
+  const [title, setTitle] = useState(""); // 게시글 제목을 위한 state
+  const [content, setContent] = useState(""); // 게시글 내용을 위한 state
+
   const navigate = useNavigate();
 
   const handleNavigate = (index) => {
@@ -27,7 +44,7 @@ const TroubleshootingRegistrationPage = () => {
   return (
     <>
       <PageHeader
-        large={true}
+        large="true" // large prop을 문자열로 변환하여 전달
         pageTitle="트러블슈팅 게시판 글쓰기"
         headerTitles={headerTitles}
         activeButtonIndex={activeButtonIndex}
@@ -40,10 +57,8 @@ const TroubleshootingRegistrationPage = () => {
         <PostOptionWrapper>
           <Label>스터디 이름</Label>
         </PostOptionWrapper>
-
         <PostTitle>게시글 제목</PostTitle>
-
-        {/* <WritePost link={"troubleshooting"} /> */}
+        <TroubleshootingWritePost />
       </ContentWrapper60>
     </>
   );
