@@ -7,7 +7,7 @@ const WeekCurriculum = ( week ,roomId ) => {
 
     const [activeTasks, setActiveTasks] = useState({});
     const [hoveredNickname, setHoveredNickname] = useState(null);
-
+    console.log(roomId);
 
     const toggleTask = (taskId) => {
         setActiveTasks((prev) => ({
@@ -20,11 +20,11 @@ const WeekCurriculum = ( week ,roomId ) => {
         return nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname;
     };
 
-  
+
     return (
         <>
             <WeekStudySummary>
-                <MainText>{week}주차</MainText>
+                <MainText>4주차</MainText>
                 <Date>2024. 03.19 - 03. 26</Date>
             </WeekStudySummary>
             <StudyCurriculumName>4주차 스터디 제목</StudyCurriculumName>
@@ -377,21 +377,21 @@ const MoreWrapper = styled.div`
     margin-bottom: 1.875em; 
 `;
 
-const NoticeButton2 = styled.button`
-    border-radius: 50%;  
-    border: 0.0625em solid #FF0043; 
-    width: 1.875em; 
-    height: 1.875em; 
-    background-color: #FF0043;
-    color: white;
-    font-size: 0.8125em; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;  
-    top: -1em; 
-    left: 95%; 
-`;
+// const NoticeButton2 = styled.button`
+//     border-radius: 50%;  
+//     border: 0.0625em solid #FF0043; 
+//     width: 1.875em; 
+//     height: 1.875em; 
+//     background-color: #FF0043;
+//     color: white;
+//     font-size: 0.8125em; 
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     position: absolute;  
+//     top: -1em; 
+//     left: 95%; 
+// `;
 
 const MoreButton = styled.div`
     background-color: #8E59FF;
