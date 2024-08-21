@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import StudyCreateRecruitCalendar from './StudyManageWeekRecruitCalendar';
 import StudyCreateCalendar from './StudyManageWeekCalendar';
 import { useDispatch } from 'react-redux';
-import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
+// import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
 const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => {
     const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);

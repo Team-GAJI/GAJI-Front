@@ -15,8 +15,10 @@ const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, re
     if (event.key === 'Enter' && inputs.length < maxInputs) {
       event.preventDefault();
       const newInputs = [...inputs];
-      const firstInputValue = newInputs[0];
+      newInputs[index] = inputs[index];  // 배열로 저장되게!!!
       
+      const firstInputValue = newInputs[0];
+    
       newInputs.push(firstInputValue);
       newInputs[0] = '';
 
