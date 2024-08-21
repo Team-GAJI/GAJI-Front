@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PageHeader from '../components/common/PageHeader';
 import StudySummary from '../components/studyRoom/StudySummary';
@@ -6,6 +6,7 @@ import WeekCurriculum from '../components/studyRoom/WeekCurriculum';
 import StudyPostList from '../components/studyRoom/StudyPostList';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MobileManageButton from '../components/common/MobileManageButton';
+import { studyDetailAPI } from '../utils/studyDetail/studyDetailAPI';
 
 const StudyRoomPage = () => {
     
@@ -23,6 +24,7 @@ const StudyRoomPage = () => {
         setActiveButtonIndex(index);
         if (index === 0) {
           navigate('/studyroom' ,{state : {roomId : roomId}});
+          console.log(studyInfo.weeksCount)
       } else if (index === 1) {
         navigate('/troubleshooting', {state : {roomId : roomId}});
       } else {
@@ -30,7 +32,20 @@ const StudyRoomPage = () => {
       }
     };
 
-    console.log(studyInfo.weeksCount)
+    useEffect(() => {
+      // API 호출을 포함한 비동기 함수 선언
+      const fetchStudyDetail = async () => {
+        try {
+          const response = await studyDetailAPI(roomId);
+          console.log(response); // API 응답 처리
+        } catch (error) {
+          console.error('Error fetching study details:', error);
+        }
+      };
+  
+      // 비동기 함수 호출
+      fetchStudyDetail();
+    }, [roomId]); // roomId가 변경될 때마다 useEffect 실행
 
     return (
         <>
@@ -60,7 +75,10 @@ const StudyRoomPage = () => {
               <MainContent>
                     <StudySummary studyInfo={studyInfo} roomId={roomId}/>  {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />
-                    <WeekCurriculum studyInfo={studyInfo} roomId={roomId} week={studyInfo.weeksCount}/>
+                    <WeekCurriculum studyInfo={studyInfo} roomId={roomId} 
+                      // week={studyInfo.weeksCount}/>
+                      // 임시로 1주차로 설정
+                        week={0}/>
                     <DivisionLine2 />
                     <StudyPostList comments={studyInfo?.comments} roomId={roomId} />  {/* StudyPostList에 댓글 데이터 전달 */}
                 </MainContent>
@@ -117,6 +135,7 @@ const Sidebar = styled.div`
     flex-direction : row;
     height : 5em;
     width : 100%;
+    justify-content : center;
   }
 `;
 
