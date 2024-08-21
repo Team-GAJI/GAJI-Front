@@ -16,12 +16,14 @@ export const fetchTroubleShootingPosts = async (
   size = 10
 ) => {
   try {
+    // Query parameters 설정
     const params = { size };
 
     if (lastPostId) {
       params.lastPostId = lastPostId;
     }
 
+    // API 요청
     const response = await api.get(`study-rooms/${roomId}/trouble`, {
       params,
     });

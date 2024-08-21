@@ -6,21 +6,19 @@ import ItemImageSrc from "../../assets/images/common/Rectangle16.png";
 import CommentIconSrc from "../../assets/images/troubleshooting/comment.png";
 import { fetchTroubleShootingPosts } from "../../utils/troubleShooting/troubleShootingInfoAPI";
 
-const ItemList = () => {
+const ItemList = ({ roomId }) => {
   const [items, setItems] = useState([]);
   const [lastPostId, setLastPostId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const roomId = 1; // boardId를 roomId로 변경
 
   const loadPosts = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
 
     try {
-      const newItems = await fetchTroubleShootingPosts(roomId, lastPostId); // 여기서도 roomId를 사용
+      const newItems = await fetchTroubleShootingPosts(roomId, lastPostId);
 
-      // newItems가 배열인지 확인하고, 배열이 아닐 경우 빈 배열로 초기화
       if (!Array.isArray(newItems)) {
         throw new Error("Fetched items are not an array");
       }
@@ -35,11 +33,11 @@ const ItemList = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [lastPostId, isLoading]);
+  }, [roomId, lastPostId, isLoading]);
 
   useEffect(() => {
-    loadPosts();
-  }, []);
+    loadPosts(); // Load posts on component mount
+  }, [loadPosts]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,6 +47,7 @@ const ItemList = () => {
         isLoading
       )
         return;
+
       loadPosts();
     };
 
@@ -79,7 +78,9 @@ const ItemList = () => {
                 <UserIconImg src={UserIcon} alt="user icon" />
                 {item.nickname}
               </ItemUser>
-              <ItemTime>{item.createdAt}</ItemTime>
+              <ItemTime>
+                {new Date(item.createdAt).toLocaleDateString()}
+              </ItemTime>
               <ItemViews>조회 {item.viewCount}</ItemViews>
             </ItemDetails>
           </ItemContent>
