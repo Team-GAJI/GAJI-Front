@@ -13,21 +13,38 @@ import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
 import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
 import { periodAPI } from '../utils/studyManageWeek/period.jsx';
 import { assignmentsAPI } from '../utils/studyManageWeek/assignmentsAPI.jsx';
+import { weekcountAPI } from '../utils/studyManageWeek/weekcountAPI.jsx';
 
 const StudyManageWeeKPage = () => {
-  const [weeks, setWeeks] = useState([...Array(9).keys()]);
+  const [weeks, setWeeks] = useState([]);  // 초기 배열을 비움
   const [weekData, setWeekData] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-
   const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
   const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
-
+  
   const sidebarRef = useRef(null);
   const manageWeekDetailedRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const roomId = location.state?.roomId || null;
+
+  // 주차 수 만큼! 사이드 창 버튼 만들기
+  const fetchWeekCount = async () => {
+    if (roomId) {
+      try {
+        const response = await weekcountAPI(roomId);
+        const weekCount = response.result.weekCount; 
+        setWeeks([...Array(weekCount).keys()]); 
+      } catch (error) {
+        console.error("API 요청 중 오류 발생:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchWeekCount();
+  }, [roomId]);
 
   // 주차 데이터 가져오기
   const fetchSelectedWeekData = async () => {
@@ -47,10 +64,10 @@ const StudyManageWeeKPage = () => {
               name: taskData?.title || existingWeekData.basicInfo?.name || '',
               description: taskData?.content || existingWeekData.basicInfo?.description || ''
             },
-            tasks: taskData?.tasks || existingWeekData.tasks || [],
+            tasks: taskData?.tasks || existingWeekData.tasks || [], // 이거 나중에 확인하고 삭제 
             studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : existingWeekData.studyPeriodStartDate,
             studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : existingWeekData.studyPeriodEndDate,
-            assignments: assignments || [] // 과제 데이터를 배열로 저장
+            assignments: assignments || [] // 과제 데이터를 배열로 저장 -> 근데 안 나온다...
           };
 
           return newWeekDataArray;
@@ -73,65 +90,56 @@ const StudyManageWeeKPage = () => {
     }
   }, [selectedWeek, weekData]);
 
-// 모든 데이터를 저장하는 통합된 함수
-const handleHeaderButtonClick = async (index) => {
-  setActiveButtonIndex(index);
+  const handleHeaderButtonClick = async (index) => {
+    setActiveButtonIndex(index);
 
-  if (index === 0) {
-    try {
-      console.log("저장 중...");
+    if (index === 0) {
+      try {
+        console.log("저장 중...");
 
-      for (let i = 0; i < weeks.length; i++) {
-        const week = weeks[i];
+        for (let i = 0; i < weeks.length; i++) {
+          const week = weeks[i];
 
-        // 현재 주차의 데이터 가져오기
-        const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-        const periodInfo = {
-          studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
-          studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
-        };
-        const assignments = i === selectedWeek 
-          ? (manageWeekDetailedRef.current?.getAssignments() || []) 
-          : (weekData[i]?.assignments || []);
+          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
+          const periodInfo = {
+            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
+            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
+          };
+          const assignments = i === selectedWeek 
+            ? (manageWeekDetailedRef.current?.getAssignments() || []) 
+            : (weekData[i]?.assignments || []);
 
-        // 이름과 설명 저장
-        await descriptionAPI(roomId, week, weekInfo);
+          await descriptionAPI(roomId, week, weekInfo);
+          await periodAPI(roomId, week, periodInfo);
+          await assignmentsAPI(roomId, week, { assignments });
 
-        // 기간 저장
-        await periodAPI(roomId, week, periodInfo);
+          console.log(`주차: ${week}`);
+          console.log(`정보:`, weekInfo);
+          console.log(`기간:`, periodInfo);
+          console.log(`과제:`, assignments);
+        }
 
-        // 과제 저장
-        await assignmentsAPI(roomId, week, { assignments });
-
-        console.log(`주차: ${week}`);
-        console.log(`정보:`, weekInfo);
-        console.log(`기간:`, periodInfo);
-        console.log(`과제:`, assignments);
+        alert("저장되었습니다.");
+      } catch (error) {
+        console.error("저장 중 오류 발생:", error);
+        alert("저장 중 오류가 발생했습니다.");
       }
-
-      alert("저장되었습니다.");
-    } catch (error) {
-      console.error("저장 중 오류 발생:", error);
-      alert("저장 중 오류가 발생했습니다.");
     }
-  }
-};
-
+  };
 
   const handleWeekDataChange = (newWeekData) => {
     setWeekData(prevWeekData => {
       return prevWeekData.map((week, index) => {
         if (index === selectedWeek) {
           return {
-            ...week, // 기존 데이터 유지
-            ...newWeekData[index] // 새로운 데이터 업데이트
+            ...week,
+            ...newWeekData[index]
           };
         }
         return week;
       });
     });
   };
-
 
   const handleDelete = () => {
     if (weeks.length > 0) {
@@ -196,7 +204,7 @@ const handleHeaderButtonClick = async (index) => {
             onWeekDataChange={handleWeekDataChange}
             roomId={roomId}
           />
-              <ManageWeekeDetailed
+          <ManageWeekeDetailed
                 ref={manageWeekDetailedRef}
                 selectedWeek={selectedWeek}
                 onAssignmentsChange={(assignments) => {
@@ -207,7 +215,7 @@ const handleHeaderButtonClick = async (index) => {
                     }
                   });
                 }}
-              />
+          />
         </ContentWrapper70>
 
         <Sidebar1 ref={sidebarRef}>
@@ -237,14 +245,13 @@ const handleHeaderButtonClick = async (index) => {
           <PlusButton onClick={handleAdd}>
             <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
           </PlusButton>
-        </Sidebar1>
+      </Sidebar1>
       </RowWrapper>
     </>
   );
 };
 
 export default StudyManageWeeKPage;
-
 
 
 
@@ -275,7 +282,7 @@ const Sidebar1 = styled.aside`
   flex-direction: column;
   border: 1px solid #A2A3B2;  
   border-radius: 0.5em;
-  max-height: 500px;
+  max-height: 90px;
   width: 11.25em;
   right: 3%;
   padding: 0.2em;
