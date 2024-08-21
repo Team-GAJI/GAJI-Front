@@ -16,7 +16,7 @@ import { assignmentsAPI } from '../utils/studyManageWeek/assignmentsAPI.jsx';
 import { weekcountAPI } from '../utils/studyManageWeek/weekcountAPI.jsx';
 
 const StudyManageWeeKPage = () => {
-  const [weeks, setWeeks] = useState([]);  // 초기 배열을 비움
+  const [weeks, setWeeks] = useState([0]);
   const [weekData, setWeekData] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
@@ -282,7 +282,7 @@ const Sidebar1 = styled.aside`
   flex-direction: column;
   border: 1px solid #A2A3B2;  
   border-radius: 0.5em;
-  max-height: 90px;
+  max-height: 200px;
   width: 11.25em;
   right: 3%;
   padding: 0.2em;
