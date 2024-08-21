@@ -15,7 +15,7 @@ export const characterListAPI = async () => {
 
 export const characterRegisterAPI = async (data) => {
     try {
-        const response = await api2.post(`url`,data);
+        const response = await api2.post(`vote`,data);
         console.log(response)
         return response.data
     } catch (error) {
