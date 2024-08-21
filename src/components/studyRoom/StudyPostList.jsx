@@ -3,22 +3,19 @@ import Plus from '../../assets/icons/studyRoom/Plus.png';
 import { MinorText } from './StudySummary';
 import styled from 'styled-components';
 import BlogPreview from '../community/BlogPreview';
+import { useNavigate } from 'react-router-dom';
 
-const StudyPostList = () => {
-    const cardData = Array.from({ length: 5 }, (_, index) => ({
-        id: index,
-        title: `제목 ${index + 1}`,
-        daysLeft: `D-${index + 1}`,
-        description: `설명입니다. ${index + 1}`,
-        imageUrl: `https://via.placeholder.com/250x150?text=Image${index + 1}`
-    }));
+const StudyPostList = ({roomId}) => {
+    console.log(roomId)
+    const navigate = useNavigate();
+    const cardData = []
 
     return (
         <>
             <StudyPostWrapper>
                 <ButtonWrapper>
                     <MinorText>게시글</MinorText>
-                    <PostButton>
+                    <PostButton onClick={()=>navigate('/studyweekwrite', {state : {roomId : roomId}})}>
                         <Icons src={Plus} alt="플러스" style={{ width: '10px', height:'10px' }} />
                         게시글 작성하기
                     </PostButton>
@@ -26,6 +23,7 @@ const StudyPostList = () => {
                 <GridRow>
                     {cardData.map(item => (
                         <BlogPreview
+                            link={'community'}
                             key={item.id}
                             title={item.title}
                             daysLeft={item.daysLeft}

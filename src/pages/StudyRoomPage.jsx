@@ -75,12 +75,12 @@ const StudyRoomPage = () => {
               <MainContent>
                     <StudySummary studyInfo={studyInfo} roomId={roomId}/>  {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />
-                    <WeekCurriculum studyInfo={studyInfo} roomId={roomId} 
+                    <WeekCurriculum roomId={roomId} 
                       // week={studyInfo.weeksCount}/>
                       // 임시로 1주차로 설정
                         week={0}/>
                     <DivisionLine2 />
-                    <StudyPostList comments={studyInfo?.comments} roomId={roomId} />  {/* StudyPostList에 댓글 데이터 전달 */}
+                    <StudyPostList roomId={roomId} />  {/* StudyPostList에 댓글 데이터 전달 */}
                 </MainContent>
             </ContentWrapper>
             <div onClick={()=>navigate('/studymanage', { state: { roomId : roomId } })}>
