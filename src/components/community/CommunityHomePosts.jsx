@@ -219,6 +219,7 @@ const CommunityHomePosts = () => {
             <QuestionPreview
               key={post.postId}
               postId={post.postId}
+              state={post.status}
               title={post.title}
               content={post.body}
               writer={post.userNickname}
@@ -236,6 +237,7 @@ const CommunityHomePosts = () => {
             <ProjectPreview
               key={post.postId}
               postId={post.postId}
+              state={post.status}
               title={post.title}
               content={post.body}
               writer={post.userNickname}
@@ -293,10 +295,14 @@ const StyledSearchInput = styled.input`
 
 const SelectAndButtonWrapper = styled.div`
   margin-top: 2em;
+  padding-bottom: 1em;
   width : 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: #FBFAFF;
+  position: sticky;
+  top: 60px;
 `;
 
 const CreatePostButton = styled.button`
@@ -319,7 +325,6 @@ const CreatePostButton = styled.button`
 `;
 
 const StyledHr = styled.div`
-    margin-top: 1.2em;
     width: 100%;
     height: 1.5px;
     background-color: #D0D1D9;
