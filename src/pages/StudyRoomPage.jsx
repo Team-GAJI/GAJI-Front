@@ -22,7 +22,7 @@ const StudyRoomPage = () => {
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
         if (index === 0) {
-          navigate('/studyroom');
+          navigate('/studyroom' ,{state : {roomId : roomId}});
       } else if (index === 1) {
         navigate('/troubleshooting', {state : {roomId : roomId}});
       } else {
