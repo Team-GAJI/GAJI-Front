@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import DownArrowIcon from "../../assets/icons/communityPost/grayDownArrow.svg?react";
 import { useSelector } from 'react-redux';
 
-const CommunitySelectBox = () => {
+const CommunitySelectBox = ({onCategorySelect, onSortSelect, onFilterSelect}) => {
     // Redux 상태 가져오기
-    const { title } = useSelector((state) => state.community);
+    const { type } = useSelector((state) => state.community);
 
     // 필터 상태 관리
     const [isCategoryVisible, setIsCategoryVisible] = useState(false);
@@ -38,14 +38,19 @@ const CommunitySelectBox = () => {
     const handleCategorySelect = (option) => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
+        onCategorySelect(option); // 선택한 값을 상위 컴포넌트로 전달
     };
+    
     const handleSortSelect = (option) => {
         setSelectedSortOption(option);
         setIsSortVisible(false);
+        onSortSelect(option); // 선택한 값을 상위 컴포넌트로 전달
     };
+    
     const handleFilterSelect = (option) => {
         setSelectedFilterOption(option);
         setIsFilterVisible(false);
+        onFilterSelect(option); // 선택한 값을 상위 컴포넌트로 전달
     };
 
     return (
@@ -127,7 +132,7 @@ const CommunitySelectBox = () => {
             </ButtonWrapper>
 
             {/* 필터 */}
-            {title !== '블로그' && (
+            {type !== '블로그' && (
                 <ButtonWrapper>
                     {/* 버튼 */}
                     <StyledButton onClick={toggleFilterVisibility}>
@@ -136,7 +141,7 @@ const CommunitySelectBox = () => {
                     </StyledButton>
                     {/* 옵션 */}
                     <OptionWrapper isVisible={isFilterVisible}>
-                        {title === '프로젝트' && (
+                        {type === '프로젝트' && (
                             <>
                             <StyledOption
                                 onClick={() => handleFilterSelect("모집 중")}
@@ -148,7 +153,7 @@ const CommunitySelectBox = () => {
                             >모집 완료</StyledOption>
                             </>
                         )}
-                        {title === '질문' && (
+                        {type === '질문' && (
                             <>
                             <StyledOption
                                 onClick={() => handleFilterSelect("미완료 질문")}

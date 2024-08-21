@@ -27,15 +27,40 @@ const CommunityHomePosts = () => {
   const [projectPosts, setProjectPosts] = useState([]);
   const [questionPosts, setQuestionPosts] = useState([]);
   const [blogPosts, setBlogPosts] = useState([]);
+  // 셀렉트박스 state
+  const [categoryOption, setCategoryOption] = useState(null);
+  const [sortOption, setSortOption] = useState(null);
+  const [filterOption, setFilterOption] = useState(null);
+
+  // 셀렉트 박스 기능
+  const handleCategory = (option) => {
+    setCategoryOption(option);
+  };
+  const handleSort = (option) => {
+    if (option === "최신순") {
+      setSortOption("recent");
+    } else if (option === "좋아요수") {
+      setSortOption("like");
+    } else {
+      setSortOption("hit");
+    }
+  };
+  const handleFilter = (option) => {
+    if (option === "모집 중" || option === "미완료 질문") {
+      setFilterOption("모집중");
+    } else {
+      setFilterOption("모집완료");
+    }
+  };
 
   // 게시물 불러오기
   useEffect(() => {
     const fetchStudies = async () => {
         try {
             const [projectResponse, questionResponse, blogResponse] = await Promise.all([
-              communityPostsPreviewAPI('프로젝트', null, null, null, null), // 프로젝트
-              communityPostsPreviewAPI('질문', null, null, null, null), // 질문
-              communityPostsPreviewAPI('블로그', null, null, null, null) // 블로그
+              communityPostsPreviewAPI('프로젝트', categoryOption, sortOption, filterOption, null), // 프로젝트
+              communityPostsPreviewAPI('질문', categoryOption, sortOption, filterOption, null), // 질문
+              communityPostsPreviewAPI('블로그', categoryOption, sortOption, null, null) // 블로그
             ]);
             setProjectPosts(projectResponse);
             setQuestionPosts(questionResponse);
@@ -45,7 +70,7 @@ const CommunityHomePosts = () => {
         }
     };
     fetchStudies();
-  }, []);
+  }, [categoryOption, sortOption, filterOption]);
 
   // 프로젝트 불러오기 기능
   const getProjects = useCallback(async () => {
@@ -153,7 +178,11 @@ const CommunityHomePosts = () => {
       {/* 게시글 필터 */}
       <SelectAndButtonWrapper>
         {/* 셀렉트 박스 */}
-        <CommunitySelectBox/>
+        <CommunitySelectBox
+          onCategorySelect={handleCategory}
+          onSortSelect={handleSort}
+          onFilterSelect={handleFilter}
+          />
         {/* 게시글 버튼 */}
         <div onClick={() => {navigate("/community/write");}}>
         <MobileWriteButton/></div>
