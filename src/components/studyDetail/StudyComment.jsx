@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReplyIcon from '../../assets/icons/community/reply.svg?react';
+import normalProfileImg from '../../assets/images/community/userProfile.png';
 
 const StudyComment = ({key, writer, content, userProfileImg, time}) => {
+    const profileImg = userProfileImg || normalProfileImg;
+    
     return (
         <CommentWrapper key={key}>
             <WriterWrapper>
-                <StyledProfileImg src={userProfileImg} alt='profile image'/>
+                <StyledProfileImg src={profileImg} alt='profile image'/>
                 <UserName>{writer}</UserName>
-                <RelativeTime>{time} 작성</RelativeTime>
+                <RelativeTime>{time}</RelativeTime>
             </WriterWrapper>
             <Content>{content}</Content>
             <ReplyWrapper>
