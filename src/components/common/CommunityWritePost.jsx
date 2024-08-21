@@ -11,7 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
 import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
 import { setTitle, setBody } from '../../features/community/communityWriteSlice';
-import { communityPostAPI } from '../../utils/communityPost/commuityPostAPI';
+import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
 
 const CommunityWritePost = () => {
     // 상태 관리

@@ -3,15 +3,36 @@ import styled from 'styled-components';
 import LikeIcon from '../../assets/icons/community/fillLikeIcon.svg?react';
 import { useNavigate } from 'react-router-dom';
 import userProfileImg from '../../assets/images/community/userProfile.png';
+import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
+import PostBackground from '../../assets/images/common/communityExampleImage.png'; // 기본 썸네일 이미지
 
-const BlogPreview = ({key, title, content, background, writer, ago, views, like, link}) => {
+const BlogPreview = ({key, postId, title, content, background, writer, ago, views, like, link}) => {
     // useNavigate
     const navigate = useNavigate();
 
+    // 게시글 상세보기 버튼
+    const handleSubmit = async () => {
+        try {
+            const postDetail = await communityPostAPI(postId);
+            console.log(postDetail)
+            navigate("/community/post", { state: 
+                {
+                    postId: postDetail
+                } 
+            });
+        } catch (error) {
+            console.error('스터디 생성 중 오류 발생:', error);
+            // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
+        }
+    };
+
+    // 기본 썸네일 기능
+    const backgroundImage = background || PostBackground;
+
     return (
-        <PostWrapper key={key} onClick={() => {navigate("/community/post");}} link={link}>
+        <PostWrapper key={key} onClick={()=>handleSubmit()} link={link}>
             {/* 배경 */}
-            <BackgroundWrapper background={background}>
+            <BackgroundWrapper background={backgroundImage}>
                 <LikeWrapper>
                     <StyledLikeIcon /><Like>{like}</Like>
                 </LikeWrapper>
@@ -119,7 +140,7 @@ const PostContentContainer = styled.div`
 `;
 
 const PostTitle = styled.div`
-    margin: 1.2692em 1.2em 0.84615em 1.2em;
+    margin: 1.2692em 1.2em 0.5em 1.2em;
     width: 13.5em;
     min-width  : 13.5em;
     font-size: 1.3em;
@@ -137,7 +158,7 @@ const PostTitle = styled.div`
 
 const Content = styled.div`
     margin: 0 1.92em 1em 1.92em;
-    height: 100%;
+    height: 32%;
     line-height: 1.4em;
     font-size: 0.8125em;
     // 말줄임 처리

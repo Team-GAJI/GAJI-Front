@@ -19,17 +19,17 @@ const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recr
     // useNavigate
     const navigate = useNavigate();
 
+    // 스터디 상세보기 버튼
     const handleSubmit = async () => {
         try {
             const studyDetail = await studyDetailAPI(roomId);
             console.log(studyDetail)
             navigate("/studydetail", { state: 
                 {
-                    studyDetail: studyDetail
+                    studyDetail: studyDetail,
+                    roomId: roomId
                 } 
-            }); 
-
-
+            });
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
@@ -47,7 +47,6 @@ const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recr
 
     return (
         <PostWrapper link={link} key={key} onClick={()=>handleSubmit()}
-        // <PostWrapper link={link} key={key} onClick={() => { navigate("/studydetail", { state: { studyDetail: roomId } }); }}
             onMouseOver={() => showDetail()}
             onMouseOut={() => hiddenDetail()}>
             <BackgroundWrapper background={backgroundImage} isVisible={isDetailVisible}>

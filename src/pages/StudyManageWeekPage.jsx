@@ -9,54 +9,119 @@ import StudyMangeWeekPeriod from '../components/studyManageWeek/StudyMangeWeekPe
 import ManageWeekeDetailed from '../components/studyManageWeek/ManageWeekDetailed.jsx';
 import PageHeader from '../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
+import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
+import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
+import { periodAPI } from '../utils/studyManageWeek/period.jsx';
 
 const StudyManageWeeKPage = () => {
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
-  const [weekData, setWeekData] = useState(weeks.map(() => ({
-    basicInfo: { name: '', description: '' },
-    tasks: [],
-    recruitmentStartDate: null,
-    recruitmentEndDate: null,
-    studyPeriodStartDate: null,
-    studyPeriodEndDate: null
-  })));
+  const [weekData, setWeekData] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(0);
+  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
   const sidebarRef = useRef(null);
   const manageWeekDetailedRef = useRef(null);
-
-  const location = useLocation();
   const navigate = useNavigate();
-  const roomId = location.state?.roomId || {};
+  const location = useLocation();
+  const roomId = location.state?.roomId || null;
 
-  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  // 주차 데이터 가져오기
+  const fetchSelectedWeekData = async () => {
+    if (roomId !== null) {
+      try {
+        console.log('roomId:', roomId, 'week:', selectedWeek);
+  
+        const fetchedWeekData = await TaskAPI(roomId, selectedWeek);
+        const periodData = await periodAPI(roomId, selectedWeek);
+  
+        const newWeekData = {
+          basicInfo: {
+            name: fetchedWeekData.title || '',
+            description: fetchedWeekData.content || ''
+          },
+          tasks: [],
+          studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : null,
+          studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : null
+        };
+  
+        setWeekData(prevWeekData => {
+          const newWeekDataArray = [...prevWeekData];
+          newWeekDataArray[selectedWeek] = newWeekData;
+          return newWeekDataArray;
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+  };
 
   useEffect(() => {
-    console.log(roomId);
-    if (sidebarRef.current) {
-      sidebarRef.current.style.height = "auto";
-      const newHeight = sidebarRef.current.scrollHeight;
-      sidebarRef.current.style.height = `${newHeight}px`;
+    fetchSelectedWeekData();
+  }, [roomId, selectedWeek]);
+
+  // 저장하기 버튼 클릭 핸들러
+  const handleHeaderButtonClick = async (index) => {
+    setActiveButtonIndex(index);
+    if (index === 0) {
+      try {
+        console.log("저장 중...");
+        for (let i = 0; i < weeks.length; i++) {
+          const week = weeks[i];
+          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
+          console.log(`주차: ${week}, 정보:`, weekInfo);
+
+  
+          await descriptionAPI(roomId, week, weekInfo);
+          const periodInfo = {
+            recruitmentStartDate: weekData[i]?.recruitmentStartDate,
+            recruitmentEndDate: weekData[i]?.recruitmentEndDate,
+            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate,
+            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate
+          };
+          await periodAPI(roomId, week, periodInfo);
+        }
+  
+        console.log('입력한 값:', weekData);
+        alert("저장되었습니다.");
+      } catch (error) {
+        console.error("저장 중 오류 발생:", error);
+        alert("저장 중 오류가 발생했습니다.");
+      }
     }
-  }, [weeks]);
+  };
+
+
+  const handleWeekDataChange = (newWeekData) => {
+    setWeekData(newWeekData);
+  };
 
   const handleDelete = () => {
     if (weeks.length > 0) {
-      setWeeks(weeks.slice(0, -1));
-      setWeekData(weekData.slice(0, -1));
+      const newWeeks = weeks.slice(0, -1);
+      const newWeekData = weekData.slice(0, -1);
+      setWeeks(newWeeks);
+      setWeekData(newWeekData);
+      if (selectedWeek >= newWeeks.length) {
+        setSelectedWeek(newWeeks.length - 1);
+      }
     }
   };
 
   const handleAdd = () => {
-    setWeeks([...weeks, weeks.length]);
-    setWeekData([...weekData, {
-      basicInfo: { name: '', description: '' },
-      tasks: [],
-      recruitmentStartDate: null,
-      recruitmentEndDate: null,
-      studyPeriodStartDate: null,
-      studyPeriodEndDate: null
-    }]);
+    const newWeekIndex = weeks.length;
+    setWeeks([...weeks, newWeekIndex]);
+    setWeekData([
+      ...weekData,
+      {
+        basicInfo: { name: '', description: '' },
+        tasks: [],
+        recruitmentStartDate: null,
+        recruitmentEndDate: null,
+        studyPeriodStartDate: null,
+        studyPeriodEndDate: null
+      }
+    ]);
+    setSelectedWeek(newWeekIndex);
   };
 
   const handleWeekSelect = (index) => {
@@ -65,17 +130,6 @@ const StudyManageWeeKPage = () => {
 
   const handleButtonClick = () => {
     navigate("/studymanage");
-  };
-
-  const handleHeaderButtonClick = (index) => {
-    setActiveButtonIndex(index);
-    if (index === 0 && manageWeekDetailedRef.current) {
-      manageWeekDetailedRef.current.handleSubmit();
-    }
-  };
-
-  const handleWeekDataChange = (newWeekData) => {
-    setWeekData(newWeekData);
   };
 
   return (
@@ -96,11 +150,13 @@ const StudyManageWeeKPage = () => {
             selectedWeek={selectedWeek}
             weekData={weekData}
             onWeekDataChange={handleWeekDataChange}
+            roomId={roomId}
           />
           <StudyMangeWeekPeriod
             selectedWeek={selectedWeek}
             weekData={weekData}
             onWeekDataChange={handleWeekDataChange}
+            roomId={roomId}
           />
           <ManageWeekeDetailed
             selectedWeek={selectedWeek}
