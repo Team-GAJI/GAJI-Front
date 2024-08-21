@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // <-- useLocation 추가
 import BoldIcon from "../../assets/icons/communityWrite/bold.svg?react";
 import ItalicIcon from "../../assets/icons/communityWrite/italic.svg?react";
 import ThroughIcon from "../../assets/icons/communityWrite/through.svg?react";
@@ -15,9 +15,7 @@ import {
 } from "../../features/community/communityWriteSlice";
 import { registerTroubleShootingAPI } from "../../utils/troubleShooting/troubleShootingInfoAPI";
 
-
 const TroubleshootingWritePost = () => {
-  // 상태 관리
   const [markdown, setMarkdown] = useState("");
   const [lengthCount, setLengthCount] = useState(markdown.length);
   const [styledHr, setStyledHr] = useState(false);
@@ -25,18 +23,30 @@ const TroubleshootingWritePost = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const textareaRef = useRef(null);
 
-  // Redux 관리
   const dispatch = useDispatch();
-  dispatch(setBody(markdown));
-  const { title, body, hashtagList, categoryId } = useSelector(
+  const { title, hashtagList, categoryId } = useSelector(
     (state) => state.communityWrite
   );
   const { type } = useSelector((state) => state.community);
-  // 서버로 전달할 데이터
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const roomId = location.state?.roomId;
+
+  useEffect(() => {
+    if (!roomId || typeof roomId !== "number") {
+      console.error("유효하지 않은 roomId입니다:", roomId);
+      throw new Error("유효하지 않은 roomId입니다.");
+    }
+  }, [roomId]);
+
+  useEffect(() => {
+    dispatch(setBody(markdown));
+  }, [markdown, dispatch]);
+
   const data = {
     title: title,
-    body: body,
-    // "thumbnailUrl": thumbnailUrl,
+    body: markdown,
     type: type,
     hashtagList: hashtagList,
     categoryId: categoryId,
@@ -44,21 +54,29 @@ const TroubleshootingWritePost = () => {
 
   const handleSubmit = async () => {
     try {
-      const result = await registerTroubleShootingAPI(data);
-      navigate("/community/post", { state: { data: data } });
-      console.log(result);
+      const result = await registerTroubleShootingAPI(roomId, data);
+      const troublePostId = result.result.troublePostId; // 제대로 된 postId를 받아옵니다.
+
+      if (!troublePostId) {
+        throw new Error("troublePostId를 가져오는 데 실패했습니다.");
+      }
+
+      navigate(`/troubleshooting-detail/${troublePostId}`, {
+        state: {
+          postId: troublePostId,
+          title: data.title,
+          content: data.body,
+        },
+      });
     } catch (error) {
       console.error("스터디 생성 중 오류 발생:", error);
-      // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
     }
   };
 
-  // 제목 입력
   const handleTitleChange = (e) => {
     dispatch(setTitle(e.target.value));
   };
 
-  // 제목 하단바 색상 관리
   const handlePurpleHr = () => {
     setStyledHr(true);
   };
@@ -66,7 +84,6 @@ const TroubleshootingWritePost = () => {
     setStyledHr(false);
   };
 
-  // 제목 크기 적용 함수
   const applyFontSize = (e) => {
     const value = e.target.value;
     setFontSize(value);
@@ -86,14 +103,12 @@ const TroubleshootingWritePost = () => {
     textarea.focus();
   };
 
-  // 엔터 키 이벤트 핸들러
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       setFontSize("0");
     }
   };
 
-  // 포맷팅 적용 함수
   const applyFormatting = (syntax) => {
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
@@ -102,14 +117,12 @@ const TroubleshootingWritePost = () => {
     const after = markdown.substring(selectionEnd);
 
     if (selected.length > 0) {
-      // 선택된 텍스트에 포맷팅 적용
       setMarkdown(`${before}${syntax}${selected}${syntax}${after}`);
       textarea.setSelectionRange(
         selectionStart + syntax.length,
         selectionEnd + syntax.length
       );
     } else {
-      // 빈 공간에서 포맷팅 문법 추가
       setMarkdown(`${before}${syntax}${after}`);
       textarea.setSelectionRange(
         selectionStart + syntax.length,
@@ -119,7 +132,6 @@ const TroubleshootingWritePost = () => {
     textarea.focus();
   };
 
-  // 링크 추가 함수
   const addLink = () => {
     const textarea = textareaRef.current;
     const { selectionStart, selectionEnd } = textarea;
@@ -127,7 +139,6 @@ const TroubleshootingWritePost = () => {
     const selected = markdown.substring(selectionStart, selectionEnd);
     const after = markdown.substring(selectionEnd);
 
-    // 선택된 텍스트가 없으면 기본 텍스트 'text' 사용
     const linkText = selected.length > 0 ? selected : "text";
     const linkSyntax = `[${linkText}]()`;
     setMarkdown(`${before}${linkSyntax}${after}`);
@@ -138,26 +149,13 @@ const TroubleshootingWritePost = () => {
     textarea.focus();
   };
 
-  // 마크다운 내용, 글자 수 관리
   const handleMarkdownChange = (e) => {
     setMarkdown(e.target.value);
     setLengthCount(e.target.value.length);
   };
 
-  // useNavigate
-  const navigate = useNavigate();
-
-  // 모달 열고 닫기 함수
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <Wrapper>
-      {/* 제목 */}
       <TitleWrapper>
         <TitleInput
           value={title}
@@ -169,7 +167,6 @@ const TroubleshootingWritePost = () => {
         <StyledTitleHr styledHr={styledHr} />
       </TitleWrapper>
 
-      {/* 툴바 */}
       <ToolbarWrapper>
         <StyledFontSizeSelect
           name="fontSize"
@@ -184,6 +181,7 @@ const TroubleshootingWritePost = () => {
           <option value="5">5h</option>
           <option value="6">6h</option>
         </StyledFontSizeSelect>
+
         <StyledBar>|</StyledBar>
         <StyledBoldIcon onClick={() => applyFormatting("**")} />
         <StyledItalicIcon onClick={() => applyFormatting("*")} />
@@ -195,10 +193,11 @@ const TroubleshootingWritePost = () => {
         <ImageUploadInput type="file" id="thumbNail" accept="image/*" />
         <StyledLinkIcon onClick={addLink} />
         <StyledBar>|</StyledBar>
-        <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
+        <StyledPreviewButton onClick={() => setIsModalOpen(true)}>
+          미리보기
+        </StyledPreviewButton>
       </ToolbarWrapper>
 
-      {/* 내용 */}
       <TextareaWrapper>
         <StyledTextarea
           ref={textareaRef}
@@ -216,14 +215,12 @@ const TroubleshootingWritePost = () => {
         </TextareaBottom>
       </TextareaWrapper>
 
-      {/* 업로드 버튼 */}
-      <SubmitButton onClick={() => handleSubmit()}>게시글 업로드</SubmitButton>
+      <SubmitButton onClick={handleSubmit}>게시글 업로드</SubmitButton>
 
-      {/* 모달 */}
       {isModalOpen && (
-        <ModalOverlay onClick={closeModal}>
+        <ModalOverlay onClick={() => setIsModalOpen(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={closeModal}>x</CloseButton>
+            <CloseButton onClick={() => setIsModalOpen(false)}>x</CloseButton>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {markdown}
             </ReactMarkdown>

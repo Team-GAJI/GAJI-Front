@@ -1,9 +1,22 @@
 import { api } from "../API";
 
 // 스터디룸 트러블슈팅 게시글 등록
-export const registerTroubleShootingAPI = async (roomId, data) => {
+export const registerTroubleShootingAPI = async (roomId, data, token) => {
   try {
-    const response = await api.post(`study-rooms/trouble/${roomId}`, data);
+    // roomId가 숫자인지 확인
+    if (typeof roomId !== "number") {
+      throw new Error("roomId는 숫자여야 합니다.");
+    }
+
+    const response = await api.post(
+      `study-rooms/post/${roomId}`, // 명세서에 따른 URL 구조
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더 추가
+        },
+      }
+    );
     console.log("성공:", response.data);
     return response.data;
   } catch (error) {
@@ -14,6 +27,27 @@ export const registerTroubleShootingAPI = async (roomId, data) => {
     throw error;
   }
 };
+// export const registerTroubleShootingAPI = async (roomId, data) => {
+//   try {
+//     // roomId가 객체이거나 유효하지 않은지 확인하고, 오류를 던지도록 처리
+//     if (typeof roomId !== "string" && typeof roomId !== "number") {
+//       throw new Error("roomId는 문자열 또는 숫자여야 합니다.");
+//     }
+
+//     const response = await api.post(
+//       `study-rooms/trouble/${encodeURIComponent(roomId)}`,
+//       data
+//     );
+//     console.log("성공:", response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(
+//       "API 요청 중 오류 발생:",
+//       error.response ? error.response.data : error.message
+//     );
+//     throw error;
+//   }
+// };
 
 // 트러블 슈팅 게시글 무한 스크롤 방식으로 조회
 export const fetchTroubleShootingPosts = async (

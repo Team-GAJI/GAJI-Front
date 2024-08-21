@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"; // <-- Ensure useEffect is imported here
-import { useLocation, useParams, useNavigate } from "react-router-dom"; // <-- Make sure to import useParams and useNavigateimport styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReportCheck from "../assets/icons/studyDetail/reportCheck.svg?react";
 import BackgroundImage from "../assets/images/community/communityBackground.png";
@@ -23,23 +23,22 @@ import {
   fetchTroubleShootingPost,
 } from "../utils/troubleShooting/troubleShootingInfoAPI";
 
-// 세자리마다 콤마 기능
+// 세 자리마다 콤마 추가 함수
 const formatNumberWithCommas = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const TroubleshootingDetailPage = () => {
-  const { postId } = useParams();
+  const { postId: paramPostId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Initialize state from location or set default values
   const [postDetails, setPostDetails] = useState({
     title: location.state?.title || "게시글 제목입니다",
     content: location.state?.content || "게시글 내용입니다. 어쩌구 저쩌구",
     commentCount: location.state?.commentCount || 0,
     roomId: location.state?.roomId,
-    postId: location.state?.postId,
+    postId: location.state?.postId || paramPostId,
   });
 
   const [bookMarkState, setBookMarkState] = useState(false);
@@ -50,23 +49,21 @@ const TroubleshootingDetailPage = () => {
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
-  // Fetch post details if not available in location state
   useEffect(() => {
     if (!location.state) {
       const fetchPostDetails = async () => {
         try {
-          const fetchedData = await fetchTroubleShootingPost(postId);
+          const fetchedData = await fetchTroubleShootingPost(paramPostId);
           setPostDetails(fetchedData);
         } catch (error) {
           console.error("Failed to fetch post details:", error);
-          navigate("/error"); // Redirect to an error page if needed
+          navigate("/error"); // Redirect to error page if needed
         }
       };
       fetchPostDetails();
     }
-  }, [location.state, postId, navigate]);
+  }, [location.state, paramPostId, navigate]);
 
-  // Handle bookmark functionality
   const handleBookMark = async () => {
     try {
       if (bookMarkState) {
@@ -83,7 +80,6 @@ const TroubleshootingDetailPage = () => {
     }
   };
 
-  // Handle like functionality
   const handleLike = async () => {
     try {
       if (likeState) {
@@ -101,7 +97,7 @@ const TroubleshootingDetailPage = () => {
   };
 
   if (!postDetails) {
-    return null; // Render nothing if postDetails is not yet loaded
+    return null;
   }
 
   return (

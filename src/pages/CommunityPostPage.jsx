@@ -23,15 +23,13 @@ import { ContentWrapper } from "../components/common/MediaWrapper";
 const CommunityPostPage = () => {
   // 게시글 작성에서 정보 가져오기
   const location = useLocation();
-  const { postId } = location.state || {};
-
-  // const userId = localStorage.getItem('userId');
+  const postId = location.state?.postId || {}; // `postId`가 존재하지 않으면 빈 객체로 초기화
 
   // state 관리
   const [bookMarkState, setBookMarkState] = useState(false);
   const [likeState, setLikeState] = useState(false);
-  const [bookMarkCount, setBookMarkCount] = useState(postId.bookmarkCnt);
-  const [likeCount, setLikeCount] = useState(postId.likeCnt);
+  const [bookMarkCount, setBookMarkCount] = useState(postId.bookmarkCnt || 0);
+  const [likeCount, setLikeCount] = useState(postId.likeCnt || 0);
   const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
   const [isOptionVisible, setIsOptionVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("모집 중");
