@@ -50,7 +50,7 @@ const CommunityPage = () => {
             }
         };
         fetchStudies();
-    });
+    },[type]);
 
     return (
         <>

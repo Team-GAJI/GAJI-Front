@@ -6,7 +6,7 @@ export const communityPostsPreviewAPI = async (postType, category, sortType, fil
             params: {
                 postType: postType,
                 category: category,
-                sort: sortType,
+                sortType: sortType,
                 filter: filter,
                 size: size,
             },

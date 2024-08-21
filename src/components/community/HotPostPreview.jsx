@@ -72,6 +72,11 @@ const Title = styled.div`
   margin: 1.3em 1.2em 0.8em 1.2em;
   font-weight: 800;
   text-align: start;
+  // 말줄임표
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const TagWrapper = styled.div`
