@@ -129,8 +129,8 @@ const StudyDetailHeader = ({
                     onMouseLeave={hideWriterInfo}
                 >
                   {nickName}
-                </Writer>
-              </Wrapper>
+                </PostWriterInfoWrapper>
+
               <StyledBar>|</StyledBar>
               2024.03.01
               <Wrapper>
@@ -139,7 +139,7 @@ const StudyDetailHeader = ({
                 <StyledBar>|</StyledBar>
                 댓글 3
               </Wrapper>
-            </TitleDetail>
+  
 
             <PostWriterInfoWrapper
               isVisible={isWriterInfoVisible}
