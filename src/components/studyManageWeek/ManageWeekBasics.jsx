@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'; 
+
+
 const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
-    const [studyName, setStudyName] = useState(weekData[selectedWeek]?.basicInfo?.name || '');
-    const [studyDescription, setStudyDescription] = useState(weekData[selectedWeek]?.basicInfo?.description || '');
+    const [studyName, setStudyName] = useState('');
+    const [studyDescription, setStudyDescription] = useState('');
 
     useEffect(() => {
-        setStudyName(weekData[selectedWeek]?.basicInfo?.name || '');
-        setStudyDescription(weekData[selectedWeek]?.basicInfo?.description || '');
+        if (weekData[selectedWeek]) {
+            setStudyName(weekData[selectedWeek].basicInfo?.name || '');
+            setStudyDescription(weekData[selectedWeek].basicInfo?.description || '');
+        }
     }, [selectedWeek, weekData]);
 
     const handleStudyNameChange = (event) => {

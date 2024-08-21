@@ -13,37 +13,44 @@ import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
 import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
 import { periodAPI } from '../utils/studyManageWeek/period.jsx';
 
+
 const StudyManageWeeKPage = () => {
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
   const [weekData, setWeekData] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
+  const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
+  const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null); 
+
   const sidebarRef = useRef(null);
   const manageWeekDetailedRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const roomId = location.state?.roomId || null;
-
+  // const roomId = location.state?.roomId || null;
+  const roomId = 134;
   // 주차 데이터 가져오기
   const fetchSelectedWeekData = async () => {
     if (roomId !== null) {
       try {
         console.log('roomId:', roomId, 'week:', selectedWeek);
-  
-        const fetchedWeekData = await TaskAPI(roomId, selectedWeek);
+
+        // 특정 주차의 내용을 가져오는 API 
+        const taskData = await TaskAPI(roomId, selectedWeek);
+
+        // 스터디 기간 정보를 가져오는 API 
         const periodData = await periodAPI(roomId, selectedWeek);
-  
+
         const newWeekData = {
           basicInfo: {
-            name: fetchedWeekData.title || '',
-            description: fetchedWeekData.content || ''
+            name: taskData?.title || '',
+            description: taskData?.content || ''
           },
-          tasks: [],
+          tasks: taskData?.tasks || [], 
           studyPeriodStartDate: periodData?.studyPeriodStartDate ? new Date(periodData.studyPeriodStartDate) : null,
           studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : null
         };
-  
+
         setWeekData(prevWeekData => {
           const newWeekDataArray = [...prevWeekData];
           newWeekDataArray[selectedWeek] = newWeekData;
@@ -59,6 +66,14 @@ const StudyManageWeeKPage = () => {
     fetchSelectedWeekData();
   }, [roomId, selectedWeek]);
 
+  useEffect(() => {
+    if (selectedWeek < weekData.length) {
+      const newWeekData = weekData[selectedWeek] || {};
+      setStudyPeriodStartDate(newWeekData.studyPeriodStartDate || new Date());
+      setStudyPeriodEndDate(newWeekData.studyPeriodEndDate || new Date());
+    }
+  }, [selectedWeek, weekData]);
+
   // 저장하기 버튼 클릭 핸들러
   const handleHeaderButtonClick = async (index) => {
     setActiveButtonIndex(index);
@@ -70,26 +85,28 @@ const StudyManageWeeKPage = () => {
           const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
           console.log(`주차: ${week}, 정보:`, weekInfo);
 
-  
+          // 기본 정보 저장
           await descriptionAPI(roomId, week, weekInfo);
+
+          // 기간 정보 저장
           const periodInfo = {
-            recruitmentStartDate: weekData[i]?.recruitmentStartDate,
-            recruitmentEndDate: weekData[i]?.recruitmentEndDate,
             studyPeriodStartDate: weekData[i]?.studyPeriodStartDate,
             studyPeriodEndDate: weekData[i]?.studyPeriodEndDate
           };
           await periodAPI(roomId, week, periodInfo);
         }
-  
+
         console.log('입력한 값:', weekData);
         alert("저장되었습니다.");
+
+        await fetchSelectedWeekData();
+        
       } catch (error) {
         console.error("저장 중 오류 발생:", error);
         alert("저장 중 오류가 발생했습니다.");
       }
     }
   };
-
 
   const handleWeekDataChange = (newWeekData) => {
     setWeekData(newWeekData);
@@ -201,6 +218,11 @@ const StudyManageWeeKPage = () => {
 };
 
 export default StudyManageWeeKPage;
+
+
+
+
+
 
 const RowWrapper = styled.div`
   display: flex;
