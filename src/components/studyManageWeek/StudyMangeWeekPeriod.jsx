@@ -34,23 +34,21 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
 
     const handleStudyStartDateChange = (date) => {
         setStudyPeriodStartDate(date);
-        const formattedDate = formatDate(date);
-        dispatch(setStudyStartDay(formattedDate));
-        updateWeekData({ studyPeriodStartDate: date }); // 날짜 객체로 상태 업데이트
+        updateWeekData({ studyPeriodStartDate: date });
     };
-
+    
     const handleStudyEndDateChange = (date) => {
         setStudyPeriodEndDate(date);
-        const formattedDate = formatDate(date);
-        dispatch(setStudyEndDay(formattedDate));
-        updateWeekData({ studyPeriodEndDate: date }); // 날짜 객체로 상태 업데이트
+        updateWeekData({ studyPeriodEndDate: date });
     };
+    
 
     const updateWeekData = (updates) => {
         const newWeekData = [...weekData];
         newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], ...updates };
         onWeekDataChange(newWeekData);
     };
+    
 
     const handleStudyPeriodButtonClick = () => {
         setIsRecruitmentActive(false);

@@ -12,7 +12,7 @@ import { ContentWrapper70 } from '../components/common/MediaWrapper.jsx';
 import { TaskAPI } from '../utils/studyManageWeek/TaskAPI.jsx';
 import { descriptionAPI } from '../utils/studyManageWeek/descriptionAPI.jsx';
 import { periodAPI } from '../utils/studyManageWeek/period.jsx';
-
+import { assignmentsAPI } from '../utils/studyManageWeek/assignmentsAPI.jsx';
 
 const StudyManageWeeKPage = () => {
   const [weeks, setWeeks] = useState([...Array(9).keys()]);
@@ -29,6 +29,8 @@ const StudyManageWeeKPage = () => {
   const location = useLocation();
   // const roomId = location.state?.roomId || null;
   const roomId = 134;
+
+
   // 주차 데이터 가져오기
   const fetchSelectedWeekData = async () => {
     if (roomId !== null) {
@@ -38,9 +40,12 @@ const StudyManageWeeKPage = () => {
         // 특정 주차의 내용을 가져오는 API 
         const taskData = await TaskAPI(roomId, selectedWeek);
 
-        // 스터디 기간 정보를 가져오는 API 
+        // 스터디 기간 정보  API 
         const periodData = await periodAPI(roomId, selectedWeek);
 
+         // 스터디 과제 등록 API 
+        const assignments = await assignmentsAPI(roomId, selectedWeek);
+        
         const newWeekData = {
           basicInfo: {
             name: taskData?.title || '',
@@ -75,38 +80,54 @@ const StudyManageWeeKPage = () => {
   }, [selectedWeek, weekData]);
 
   // 저장하기 버튼 클릭 핸들러
-  const handleHeaderButtonClick = async (index) => {
+
+const handleHeaderButtonClick = async (index) => {
     setActiveButtonIndex(index);
     if (index === 0) {
-      try {
-        console.log("저장 중...");
-        for (let i = 0; i < weeks.length; i++) {
-          const week = weeks[i];
-          const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-          console.log(`주차: ${week}, 정보:`, weekInfo);
+        try {
+            console.log("저장 중...");
+            const savedWeeks = []; // 저장된 주차를 기록할 배열
 
-          // 기본 정보 저장
-          await descriptionAPI(roomId, week, weekInfo);
+            for (let i = 0; i < weeks.length; i++) {
+                const week = weeks[i];
+                const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
 
-          // 기간 정보 저장
-          const periodInfo = {
-            studyPeriodStartDate: weekData[i]?.studyPeriodStartDate,
-            studyPeriodEndDate: weekData[i]?.studyPeriodEndDate
-          };
-          await periodAPI(roomId, week, periodInfo);
+                // 기본 정보 저장 및 서버 전송
+                await descriptionAPI(roomId, week, weekInfo);
+
+                // 기간 정보 저장
+                const periodInfo = {
+                    studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(), 
+                    studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString()
+                };
+                console.log('전송되는 기간 정보:', periodInfo);
+
+                await periodAPI(roomId, week, periodInfo); // 기간 정보를 서버로 전송
+
+                savedWeeks.push({
+                    week,
+                    weekInfo,
+                    periodInfo
+                });
+            }
+
+            // 저장된 주차 정보만 콘솔에 출력
+            savedWeeks.forEach(({ week, weekInfo, periodInfo }) => {
+                console.log(`주차: ${week}`);
+                console.log(`정보:`, weekInfo);
+                console.log(`기간 정보:`, periodInfo);
+            });
+
+            console.log('입력한 값:', weekData);
+            alert("저장되었습니다.");
+        } catch (error) {
+            console.error("저장 중 오류 발생:", error);
+            alert("저장 중 오류가 발생했습니다.");
         }
-
-        console.log('입력한 값:', weekData);
-        alert("저장되었습니다.");
-
-        await fetchSelectedWeekData();
-        
-      } catch (error) {
-        console.error("저장 중 오류 발생:", error);
-        alert("저장 중 오류가 발생했습니다.");
-      }
     }
-  };
+};
+
+
 
   const handleWeekDataChange = (newWeekData) => {
     setWeekData(newWeekData);

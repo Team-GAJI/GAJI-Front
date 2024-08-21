@@ -1,9 +1,9 @@
 import { api } from "../API";
 // 스터디 기한 API
-export const periodAPI = async (roomId, weeks) => {
+export const periodAPI = async (roomId, week, periodInfo) => {
     try {
-        console.log(roomId);
-        const response = await api.post(`/api/study-rooms/event/${roomId}/${weeks}/period`);
+        console.log(roomId, week, periodInfo);
+        const response = await api.post(`/api/study-rooms/event/${roomId}/${week}/period`, periodInfo);
         console.log(response.data);
         return response.data.result;
     } catch (error) {
