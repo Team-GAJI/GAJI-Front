@@ -15,8 +15,8 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handleGoogleLogin = async () => {
-        const googleLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/google`;
-        window.location.href = googleLoginUrl;
+        const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
+        window.location.href = naverLoginUrl;
     };
 
     const handleNaverLogin = () => {
