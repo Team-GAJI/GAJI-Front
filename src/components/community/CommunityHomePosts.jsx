@@ -303,6 +303,7 @@ const SelectAndButtonWrapper = styled.div`
   background-color: #FBFAFF;
   position: sticky;
   top: 60px;
+  z-index: 50;
 `;
 
 const CreatePostButton = styled.button`

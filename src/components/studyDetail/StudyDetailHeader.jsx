@@ -123,24 +123,6 @@ const StudyDetailHeader = ({
                     </Wrapper>
                 </TitleDetail>
 
-                <PostWriterInfoWrapper
-                    isVisible={isWriterInfoVisible}
-                    onMouseEnter={showWriterInfo}
-                    onMouseLeave={hideWriterInfo}
-                >
-                  {nickName}
-                </PostWriterInfoWrapper>
-
-              <StyledBar>|</StyledBar>
-              2024.03.01
-              <Wrapper>
-                <StyledBar>|</StyledBar>
-                조회 {views}
-                <StyledBar>|</StyledBar>
-                댓글 3
-              </Wrapper>
-  
-
             <PostWriterInfoWrapper
               isVisible={isWriterInfoVisible}
               onMouseEnter={showWriterInfo}
