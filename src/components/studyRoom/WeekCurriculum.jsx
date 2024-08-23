@@ -5,14 +5,14 @@ import { MinorText } from './StudySummary';
 import { weekTaskProgressAPI } from '../../utils/studyRoom/weekTaskProgressAPI';
 
 const WeekCurriculum = ( {roomId, week} ) => {
-    const nicknames = ['닉네임1', '닉네임2', '닉네임3', '닉네임4', '닉네임5', '닉네임6', '닉네임7', '닉네임8'];
-
-    const [hoveredNickname, setHoveredNickname] = useState(null);
+    // const [hoveredNickname, setHoveredNickname] = useState(null);
     const [activeTask1, setActiveTask1] = useState(false);  // task1
     const [activeTask2, setActiveTask2] = useState(false);  // task2
     const [activeTask3, setActiveTask3] = useState(false);  // task3
     const [taskCnt, setTaskCnt] = useState(3);  // 남은 과제 개수
     const [taskComplete, setTaskComplete] = useState(0);  // 내 과제 당성률 % 표시
+    const nicknames = ['릴규', '디오', '따마', '지민', '스타', '하나', '연두', '워치', '샤크' , '연두2'];
+    const opacity = ['100%', '50%', '20%', '20%', '100%', '50%', '100%', '100%'];
 
     const handleTask1 = () => {
       if (activeTask1) {
@@ -131,13 +131,14 @@ const WeekCurriculum = ( {roomId, week} ) => {
                     {nicknames.map((nickname, index) => (
                         <Circle 
                             key={index}
-                            onMouseEnter={() => setHoveredNickname(nickname)}
-                            onMouseLeave={() => setHoveredNickname(null)}
+                            style={{ opacity: opacity[index % opacity.length] }} // index에 따른 배경색 설정
+                            // onMouseEnter={() => setHoveredNickname(nickname)}
+                            // onMouseLeave={() => setHoveredNickname(null)}
                         >
                             <NickName className="default-text">{truncateNickname(nickname)}</NickName>
-                            {hoveredNickname === nickname && (
+                            {/* {hoveredNickname === nickname && (
                                 <CloudyText>{nickname}</CloudyText>
-                            )}
+                            )} */}
                         </Circle>
                     ))}
                 </NinckNameList>
