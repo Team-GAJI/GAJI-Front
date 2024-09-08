@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Calendar from '../components/mypage/Calendar';
-import MyPost from '../components/mypage/MyPost';
-import StudyList from '../components/mypage/StudyList';
-import UserInfo from '../components/mypage/UserInfo';
-import SidePageHeader from '../components/common/SidePageHeader';
-import { userInfoAPI } from '../utils/mypage/userInfoAPI';
-import { ongoingStudyListAPI, endedStudyListAPI } from '../utils/mypage/myStudyListAPI';
+import Calendar from './ui/Calendar';
+import MyPost from './ui/MyPost';
+import StudyList from './ui/StudyList';
+import UserInfo from './ui/UserInfo';
+import SidePageHeader from '../../components/common/SidePageHeader';
+import { userInfoAPI } from '../../utils/mypage/userInfoAPI';
+import { ongoingStudyListAPI, endedStudyListAPI } from '../../utils/mypage/myStudyListAPI';
 
 const MyPage = () => {
     const homeRef = useRef(null);

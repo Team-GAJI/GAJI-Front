@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Color } from '../style/Color';
+import { Color } from '../../../components/style/Color';
 import studyProfileUrl from '../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
-import { studyInfoAPI } from '../../utils/mypage/studyInfoAPI';
-import { Scroll } from '../common/Scroll';
+import { studyInfoAPI } from '../../../utils/mypage/studyInfoAPI';
+import { Scroll } from '../../../components/common/Scroll';
 
 const StudyList = ({ ongoingStudyList, endedStudyList }) => {
     const navigate = useNavigate();

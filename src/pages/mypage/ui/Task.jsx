@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Color } from '../style/Color';
-import { PuppleButton } from '../style/Button';
+import { Color } from '../../../components/style/Color';
+import { PuppleButton } from '../../../components/style/Button';
 import PlusIcon from '../../assets/icons/mypage/plusIcon.svg?react';
 
 const Task = ({ selectedDate }) => {

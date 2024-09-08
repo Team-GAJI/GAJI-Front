@@ -14,7 +14,6 @@ function CharacterVotePage() {
     const [isModalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
 
-    
     const fetchCharacterList = async () => {
         try {
             const data = await characterListAPI();
@@ -33,7 +32,7 @@ function CharacterVotePage() {
     useEffect(() => {
         fetchCharacterList();
     }, []);
-    
+
     const handleSubmit = async () => {
         try {
             const newNickname = {
@@ -75,29 +74,32 @@ function CharacterVotePage() {
     };
 
     const closeModal = () => {
-        console.log('모달 닫기')
+        console.log('모달 닫기');
         setModalOpen(false);
     };
 
     const goToMain = () => {
-        console.log('메인으로 가기')
+        console.log('메인으로 가기');
         navigate('/');
     };
 
     return (
         <StyledContentWrapper>
             <Container>
-                <StyledCharacterPoster><StyledCharacter/></StyledCharacterPoster>
-                
+                <StyledCharacterPoster>
+                    <StyledCharacter />
+                </StyledCharacterPoster>
 
                 <Title>GAJI 캐릭터의 이름을 정해주세요!</Title>
                 <SubTitle>이메일당 하나의 닉네임 제출이 가능해요</SubTitle>
-                
+
                 <RankingContainer>
                     <RankingDropFilter>
                         {nicknames.map((nickname, index) => (
                             <NicknameRow key={nickname.characterId} rank={index + 1}>
-                                <NicknameText rank={index + 1}>{index + 1}위: {nickname.characterName} ({nickname.voteCount}표)</NicknameText>
+                                <NicknameText rank={index + 1}>
+                                    {index + 1}위: {nickname.characterName} ({nickname.voteCount}표)
+                                </NicknameText>
                                 <VoteButton onClick={() => handleVote(nickname.characterId)}>투표하기</VoteButton>
                             </NicknameRow>
                         ))}
@@ -120,7 +122,9 @@ function CharacterVotePage() {
                         />
                     </RowColumn>
                     <SubmitButton onClick={handleSubmit}>제출하기</SubmitButton>
-                    <CreatePostButton onClick={handleSubmit}><StyledSubmitIcon /></CreatePostButton>
+                    <CreatePostButton onClick={handleSubmit}>
+                        <StyledSubmitIcon />
+                    </CreatePostButton>
                 </InputRow>
             </Container>
 
@@ -141,7 +145,6 @@ function CharacterVotePage() {
 
 export default CharacterVotePage;
 
-
 const rotateAnimation = keyframes`
     0% {
         transform: rotate(0deg);
@@ -160,16 +163,15 @@ const StyledCharacter = styled(Character)`
 `;
 const StyledCharacterPoster = styled.div`
     margin-top: 2em;
-    display : flex;
-    justify-content :center;
+    display: flex;
+    justify-content: center;
     width: 100%;
 `;
 
-
 const Row = styled.div`
-    display : flex;
-    gap : 0.5em;
-`
+    display: flex;
+    gap: 0.5em;
+`;
 
 const ModalOverlay = styled.div`
     position: fixed;
@@ -187,15 +189,14 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
     background: white;
     padding: 2em;
-    justify-content : center;
-    box-sizing : border-box;
+    justify-content: center;
+    box-sizing: border-box;
     border-radius: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.1);
 `;
-
 
 const ModalButton = styled.button`
     padding: 0.5em 1em;
@@ -212,33 +213,38 @@ const ModalButton = styled.button`
     }
 `;
 
-
 const RankingContainer = styled.div`
     width: 100%;
     background-color: #ffffff;
     padding: 1.5em;
     border-radius: 1em;
-    margin-top : -2em;
+    margin-top: -2em;
     box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.1);
-    box-sizing : border-box;
-    overflow-y : scroll;
-    max-height: 80vh;  /* 스크롤 가능한 최대 높이 설정 */
+    box-sizing: border-box;
+    overflow-y: scroll;
+    max-height: 80vh; /* 스크롤 가능한 최대 높이 설정 */
 `;
 
 const NicknameRow = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1em;
-    padding : 1em;
-    border-radius : 1em;
-    box-sizing : border-box;
-    ${({ rank }) => rank === 1 && `
+    padding: 1em;
+    border-radius: 1em;
+    box-sizing: border-box;
+    ${({ rank }) =>
+        rank === 1 &&
+        `
         border : 1px solid gold;
     `}
-    ${({ rank }) => rank === 2 && `
+    ${({ rank }) =>
+        rank === 2 &&
+        `
         border : 1px solid silver;
     `}
-    ${({ rank }) => rank === 3 && `
+    ${({ rank }) =>
+        rank === 3 &&
+        `
         border : 1px solid brown;
     `}
 `;
@@ -277,7 +283,7 @@ const RankingDropFilter = styled.div`
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     width: 100%;
 `;
 
@@ -300,39 +306,39 @@ const StyledSubmitIcon = styled(SubmitIcon)`
 const Title = styled.h1`
     font-family: 'NanumSquareNeo', sans-serif;
     font-size: 2em;
-    font-weight : 800;
-    color: #8E59FF;
-    
-    @media(max-width : 768px){
-        font-size : 1.5em;
+    font-weight: 800;
+    color: #8e59ff;
+
+    @media (max-width: 768px) {
+        font-size: 1.5em;
     }
-    @media(max-width : 480px){
-        font-size : 1.25em;
+    @media (max-width: 480px) {
+        font-size: 1.25em;
     }
 `;
 
 const SubTitle = styled.div`
-    margin-bottom : 4em;
-    color: #8E59FF;
-    border : none;
+    margin-bottom: 4em;
+    color: #8e59ff;
+    border: none;
 
-    @media(max-width : 768px){
-        font-size : 1em;
-        margin-bottom : 3em;
+    @media (max-width: 768px) {
+        font-size: 1em;
+        margin-bottom: 3em;
     }
-    @media(max-width : 480px){
-        font-size : 0.8125em;
-        margin-bottom : 3em;
+    @media (max-width: 480px) {
+        font-size: 0.8125em;
+        margin-bottom: 3em;
     }
-`
+`;
 
 const Title2 = styled(Title)`
-    margin-bottom : 1em;
-    @media(max-width : 768px){
-        margin-bottom : 0.75em;
+    margin-bottom: 1em;
+    @media (max-width: 768px) {
+        margin-bottom: 0.75em;
     }
-    @media(max-width : 480px){
-        margin-bottom : 0.5em;
+    @media (max-width: 480px) {
+        margin-bottom: 0.5em;
     }
 `;
 
@@ -364,10 +370,10 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 80%;
-    box-sizing : border-box;
-    padding-bottom  : 2em;
-    
-    @media(max-width: 768px) {
+    box-sizing: border-box;
+    padding-bottom: 2em;
+
+    @media (max-width: 768px) {
         width: 90%;
     }
 `;
@@ -395,8 +401,8 @@ const InputField = styled.input`
     font-family: 'NanumSquareNeo', sans-serif;
     font-size: 1em;
     color: #495057;
-    &:focus{
-        outline : 1px solid #8e59ff;
+    &:focus {
+        outline: 1px solid #8e59ff;
     }
 `;
 
