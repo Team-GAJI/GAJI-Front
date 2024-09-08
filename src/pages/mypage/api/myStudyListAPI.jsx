@@ -1,4 +1,4 @@
-import { api } from "../API";
+import { api } from "../../../../berfore_src/utils/API";
 
 export const ongoingStudyListAPI = async () => {
     try {

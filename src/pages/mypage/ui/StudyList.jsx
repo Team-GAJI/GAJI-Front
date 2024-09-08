@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Color } from '../../../components/style/Color';
-import studyProfileUrl from '../../assets/images/common/studyprofile.png';
+import { Color } from '../../../components/container/Color';
+import studyProfileUrl from '../../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
-import { studyInfoAPI } from '../../../utils/mypage/studyInfoAPI';
+import { studyInfoAPI } from '../api/studyInfoAPI';
 import { Scroll } from '../../../components/common/Scroll';
 
 const StudyList = ({ ongoingStudyList, endedStudyList }) => {
@@ -13,7 +13,7 @@ const StudyList = ({ ongoingStudyList, endedStudyList }) => {
         try {
             const response = await studyInfoAPI(roomId);
             console.log(response);
-            navigate('/studyroom', { state: { data: response, roomId : roomId } });
+            navigate('/studyroom', { state: { data: response, roomId: roomId } });
         } catch (error) {
             console.log(error);
         }
@@ -29,9 +29,7 @@ const StudyList = ({ ongoingStudyList, endedStudyList }) => {
                     {ongoingStudyList && ongoingStudyList.length > 0 ? (
                         ongoingStudyList.map((study) => (
                             <ListItem key={study.roomId} onClick={() => handleStudyRoom(study.roomId)}>
-                                <StudyProfile src={
-                                    study.thumbnail_url || 
-                                    studyProfileUrl} alt="Study Profile" />
+                                <StudyProfile src={study.thumbnail_url || studyProfileUrl} alt="Study Profile" />
                                 <ColumnWrapper>
                                     <StudyName>{study.name}</StudyName>
                                     <StudyText>{study.description}</StudyText>
@@ -76,10 +74,9 @@ const StudyListWrapper = styled.div`
     width: 100%;
     display: flex;
     gap: 2em;
-    @media(max-width : 768px){
+    @media (max-width: 768px) {
         flex-direction: column;
     }
-    
 `;
 
 const StudySection = styled.div`
@@ -92,7 +89,7 @@ const StudySection = styled.div`
 const ListWrapper = styled(Scroll)`
     box-sizing: border-box;
     height: 20em;
-    border: 1px solid #8E59FF;
+    border: 1px solid #8e59ff;
     border-radius: 20px;
     padding: 2.5em;
     display: flex;
@@ -112,7 +109,7 @@ const ListItem = styled.div`
     box-sizing: border-box;
     display: flex;
     gap: 1em;
-    border-bottom: 1px solid #8E59FF;
+    border-bottom: 1px solid #8e59ff;
     padding-bottom: 1.25em;
     cursor: pointer;
 
@@ -158,13 +155,13 @@ const StudyName = styled.div`
 const StudyText = styled.div`
     font-size: 0.875em;
     font-weight: 500;
-    color: #7E7D80;
+    color: #7e7d80;
 `;
 
 const StudyDate = styled.div`
     font-size: 0.875em;
     font-weight: 500;
-    color: #A2A3B2;
+    color: #a2a3b2;
 `;
 
 const StudyProfile = styled.img`
@@ -172,10 +169,10 @@ const StudyProfile = styled.img`
     height: 3em;
     object-fit: cover;
     border-radius: 5px;
-    margin-bottom : 0.5em;
+    margin-bottom: 0.5em;
 
     @media (max-width: 768px) {
-        width : 5em;
+        width: 5em;
         height: 5em;
     }
 `;
@@ -183,7 +180,7 @@ const StudyProfile = styled.img`
 const NoDataText = styled.div`
     font-size: 1em;
     font-weight: 700;
-    color: #7E7D80;
+    color: #7e7d80;
     text-align: center;
     margin-top: 1em;
 `;

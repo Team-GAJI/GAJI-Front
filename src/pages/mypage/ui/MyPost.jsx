@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { PuppleButton } from '../../../components/style/Button';
+import { PuppleButton } from '../../../components/button/Button';
 import Loading from '../../../components/common/Loading';
-import { postAPI } from '../../../utils/mypage/postAPI';
+import { postAPI } from '../api/postAPI';
 
 const MyPost = () => {
     const [page, setPage] = useState(1);

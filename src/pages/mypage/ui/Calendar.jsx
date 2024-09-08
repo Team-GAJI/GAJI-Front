@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
-import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
-import { Color } from '../../../components/style/Color';
-import { PuppleButton } from '../../../style/Button';
+import PrevMonth from '../../../assets/icons/common/prevmonth.svg?react';
+import NextMonth from '../../../assets/icons/common/nextmonth.svg?react';
+import { Color } from '../../../components/container/Color';
+import { PuppleButton } from '../../../components/button/Button';
 import Task from './Task';
 
 const Calendar = () => {

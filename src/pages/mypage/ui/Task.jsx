@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Color } from '../../../components/style/Color';
-import { PuppleButton } from '../../../components/style/Button';
-import PlusIcon from '../../assets/icons/mypage/plusIcon.svg?react';
+import { Color } from '../../../components/container/Color';
+import { PuppleButton } from '../../../components/button/Button';
+import PlusIcon from '../../../assets/icons/mypage/plusIcon.svg?react';
 
 const Task = ({ selectedDate }) => {
     const [taskModal, setTaskModal] = useState(false);

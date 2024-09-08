@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PuppleButton } from '../style/Button';
+import { PuppleButton } from '../button/Button';
 import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
 import Logo from './Logo';
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import backGroundUrl from "../../assets/images/mypage/mypageBackground.png";
-import { PuppleButton } from "../style/Button";
+import { PuppleButton } from "../../../src/components/button/Button";
 
 const PageHeader = ({
   pageTitle,

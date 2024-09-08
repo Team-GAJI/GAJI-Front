@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { ContentWrapper } from '../components/common/MediaWrapper';
+import { ContentWrapper } from '../components/common/MediaWrapper.jsx';
 import CharacterPoster from '../assets/images/common/characterPoster.svg?react';
 import Character from '../assets/images/common/character.svg?react';
 import SubmitIcon from '../assets/icons/common/submitIcon.svg?react';

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import LogoIcon from '../../assets/logos//logo.svg?react';
+import LogoIcon from '../../assets/logos/logo.svg?react';
 import ProjectPreview from './ProjectPreview';
 import QuestionPreview from './QuestionPreview';
 import BlogPreview from './BlogPreview';

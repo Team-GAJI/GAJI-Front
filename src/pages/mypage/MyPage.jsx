@@ -4,9 +4,9 @@ import Calendar from './ui/Calendar';
 import MyPost from './ui/MyPost';
 import StudyList from './ui/StudyList';
 import UserInfo from './ui/UserInfo';
+import { userInfoAPI } from './api/userInfoAPI';
+import { ongoingStudyListAPI, endedStudyListAPI } from './api/myStudyListAPI';
 import SidePageHeader from '../../components/common/SidePageHeader';
-import { userInfoAPI } from '../../utils/mypage/userInfoAPI';
-import { ongoingStudyListAPI, endedStudyListAPI } from '../../utils/mypage/myStudyListAPI';
 
 const MyPage = () => {
     const homeRef = useRef(null);

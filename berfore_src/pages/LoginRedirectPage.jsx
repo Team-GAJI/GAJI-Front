@@ -1,76 +1,98 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backgroundimage from '../assets/images/login/background.png';
 import Logo from '../components/common/Logo';
-import { Color } from '../components/style/Color';
+import { Color } from '../../src/components/container/Color';
 import { LoginButton, PuppleButton } from '../components/style/Button';
+import {  useLocation, useNavigate } from 'react-router-dom';
+import { nickNameAPI } from '../utils/auth/nickNameAPI';
+import { userIdAPI } from '../utils/auth/userIdAPI';
 import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
-import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
-    const [register, setRegister] = useState(false);
-    const [isAgreed, setIsAgreed] = useState(false); // 첫 번째 체크박스 상태 관리
-    const [modal, setModal] = useState(false);
+const LoginRedirectPage = () => {
+    const [modal, setModal] = useState(true);
+    const [nickName, setNickName] = useState(''); 
+    const navigate = useNavigate()
 
-    const navigate = useNavigate();
+    function handleRedirect() {
+        // 서버에서 설정한 헤더에서 토큰 추출
+        const authHeader = document.cookie.split('; ').find(row => row.startsWith('Authorization='));
+        if (authHeader) {
+            const accessToken = authHeader.split('=')[1];
+            // 토큰을 안전한 저장소에 저장 (예: localStorage)
+            localStorage.setItem('accessToken', accessToken);
+            // 헤더 쿠키 삭제 (선택적)
+            document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+    }
 
-    const handleGoogleLogin = async () => {
-        const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
-        window.location.href = naverLoginUrl;
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);    
+    const token = queryParams.get('access_token');
+
+
+
+    const submitNickname = async (nickName) => {
+        try {
+            const response = await nickNameAPI(nickName);
+            console.log(response.data);
+        } catch (error) {
+            console.error('닉네임 저장 중 오류 발생:', error);
+            // 오류 처리 추가
+        } finally {
+            setModal(false);
+            navigate('/'); // 로그인 후 메인 페이지로 이동
+        }
     };
 
-    const handleNaverLogin = () => {
-        const naverLoginUrl = `${import.meta.env.VITE_REACT_APP_SERVER_URL}oauth2/authorization/naver`;
-        window.location.href = naverLoginUrl;
+
+    const saveTokenToLocalStorage = (token) => {
+        localStorage.setItem('accessToken', token);
+        localStorage.setItem('refreshToken', token);
     };
+
+    useEffect(() => {
+        handleRedirect();
+        const fetchUserId = async () => {
+            if (token) {
+                saveTokenToLocalStorage(token);
+                try {
+                    const userId = await userIdAPI();
+                    console.log(userId)
+                } catch (error) {
+                    console.error('User ID 불러오기 실패:', error);
+                }
+            }
+        };
     
-    const handleGoogleRegister = () => {
-        if (isAgreed) {
-            console.log('로그인 시작');
-            handleGoogleLogin();
-        } else {
-            alert("필수 약관에 동의해야 합니다.");
-        }
-    };
-
-    const handleNaverRegister = () => {
-        if (isAgreed) {
-            console.log('로그인 시작');
-            handleNaverLogin();
-        } else {
-            alert("필수 약관에 동의해야 합니다.");
-        }
-    };
-
-    const submitNickname = () => {
-        // 서버에 닉네임 저장 로직 추가
-        setModal(false);
-        navigate('/');
-    };
+        fetchUserId();
+    }, [token, navigate]);
 
     return (
-        <LoginWrapper image={backgroundimage}>
-            {modal && 
-                <ModalWrapper>
-                    <Modal>
-                        <ColumnWrapper2>
-                            <Text4>스터디 가지기 전</Text4>
-                            <Text5><Color>닉네임</Color>을 입력해주세요</Text5>
-                            <NickNameInput placeholder='닉네임 입력시 제한 사항 적기'/>
-                            <NickNameSubmitButton onClick={submitNickname}>닉네임 가지기</NickNameSubmitButton>
-                        </ColumnWrapper2>
-                    </Modal>
-                </ModalWrapper> 
-            }
-            <StyledLogo/>
-            <Title>가지고 싶은 스터디, <Color>GAJI</Color></Title>
-            {register ? 
-            <ColumnWrapper>
+            <LoginWrapper image={backgroundimage}>
+                {modal && 
+                    <ModalWrapper>
+                        <Modal>
+                            <ColumnWrapper2>
+                                <Text4>스터디 가지기 전</Text4>
+                                <Text5><Color>닉네임</Color>을 입력해주세요</Text5>
+                                <NickNameInput  
+                                    placeholder='닉네임 입력시 제한 사항 적기'
+                                    value={nickName}
+                                    onChange={(e) => setNickName(e.target.value)}/>
+                                <NickNameSubmitButton onClick={()=>submitNickname(nickName)}>닉네임 가지기</NickNameSubmitButton>
+                            </ColumnWrapper2>
+                        </Modal>
+                    </ModalWrapper> 
+                }
+                <StyledLogo/>
+                <Title>가지고 싶은 스터디, <Color>GAJI</Color></Title>
+                <ColumnWrapper>
                 <RowWrapper>
                     <RowWrapper>
                         <Radio
-                            checked={isAgreed} 
-                            onChange={(e) => setIsAgreed(e.target.checked)}/>
+                            onChange={(e) => (e.target.checked)}/>
                         <Text2>개인정보 수집 및 이용에 동의합니다(필수)</Text2>
                     </RowWrapper>
                     <Text3>약관보기</Text3>
@@ -82,39 +104,28 @@ const LoginPage = () => {
                     <Text3>약관보기</Text3>
                 </RowWrapper>
                 <Padding/>
-                <LoginButton onClick={handleGoogleRegister} disabled={!isAgreed}>
+                <LoginButton>
                     <GoogleLogo/>
                     구글로 회원가입하기
                 </LoginButton> 
-                <LoginButton onClick={handleNaverRegister} disabled={!isAgreed}>
+                <LoginButton>
                     <NaverLogo>N</NaverLogo>
                     네이버로 회원가입하기
                 </LoginButton>
-            </ColumnWrapper>
-            :
-            <ColumnWrapper>
-                    <LoginButton onClick={handleGoogleLogin}>
-                        <GoogleLogo/>
-                        구글로 로그인하기
-                    </LoginButton>
-                    <LoginButton onClick={handleNaverLogin}>
-                        <NaverLogo>N</NaverLogo>
-                        네이버로 로그인하기
-                    </LoginButton>
-                <Text onClick={() => setRegister(true)}>회원가입하기</Text>
-            </ColumnWrapper>
-            }
-            <LoginFooter>@ Copyright 2024_GAJI</LoginFooter>
-        </LoginWrapper>
+                </ColumnWrapper>
+            
+                <LoginFooter>@ Copyright 2024_GAJI</LoginFooter>
+                
+            </LoginWrapper>
     );
 };
 
-export default LoginPage;
+export default LoginRedirectPage;
 
 const NaverLogo = styled.div`
     font-weight : 1000;
     color : #03C75A;
-`;
+`
 
 const LoginWrapper = styled.div`
     background-image: url(${props => props.image});
@@ -132,7 +143,7 @@ const ColumnWrapper = styled.div`
     display : flex;
     flex-direction : column;
     gap : 1em;
-`;
+`
 
 const ColumnWrapper2 = styled.div`
     width : 80%;
@@ -142,14 +153,15 @@ const ColumnWrapper2 = styled.div`
     gap : 0.8125em;
     justify-content : center;
     align-items : center;
-`;
+`
 
 const RowWrapper = styled.div`
     display : flex;
     align-items : center;
     justify-content : space-between;
     gap : 1.25em;
-`;
+`
+
 
 const Title = styled.div`
     font-size : 2em;
@@ -159,11 +171,7 @@ const Title = styled.div`
     }
 `;
 
-const Text = styled.div`
-    color : #C1C7CD;
-    text-align : center;
-    font-size : 0.8125em;
-`;
+
 
 const Text2 = styled.div`
     text-align : center;
@@ -179,9 +187,11 @@ const Text3 = styled.div`
     text-decoration : underline;
 `;
 
+
 const Padding = styled.div`
     height: 2em;
-`;
+`
+
 
 const Radio = styled.input.attrs({ type: 'checkbox' })`
     width: 16px;
@@ -226,7 +236,7 @@ const StyledLogo = styled(Logo)`
     @media(max-width: 768px){
         width : 90px;
     }
-`;
+`
 
 const ModalWrapper = styled.div`
     backdrop-filter: blur(2px);
@@ -252,6 +262,7 @@ const Modal = styled.div`
     @media(max-width: 768px){
         width : 80%;
     }
+
 `;
 
 const Text4 = styled.div`
@@ -264,6 +275,7 @@ const Text5 = styled.div`
     font-size : 1.5em;
     font-weight : 700;
 `;
+
 
 const NickNameInput = styled.input`
     margin-top : 1em;
@@ -279,7 +291,7 @@ const NickNameInput = styled.input`
         outline : none;
         border: 1px solid #8E59FF;
     }
-`;
+`
 
 const NickNameSubmitButton = styled(PuppleButton)`
     width : 100%;
