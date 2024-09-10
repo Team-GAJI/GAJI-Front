@@ -1,3 +1,11 @@
+---
+name: 가지 버그 이슈 템플릿
+about: 
+title: '[BUG]'
+labels: 'bug'
+assignees: ''
+---
+
 ## 어떤 버그인가요?
 
 > 어떤 버그인지 간결하게 설명해주세요
