@@ -1,7 +1,7 @@
 ---
 name: 가지 이슈 템플릿
 about: 
-title: "[FEAT]"
+title: '[FEAT]'
 labels: ''
 assignees: ''
 
