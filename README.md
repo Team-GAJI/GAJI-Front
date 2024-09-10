@@ -28,7 +28,7 @@
 
 ### Prettier 규칙 (.prettierrc)
 
-```json
+```js
 {
     "tabWidth": 4, // 들여쓰기에 사용할 공백의 수를 4칸으로 설정
     "trailingComma": "all", // 가능한 모든 곳에 후행 쉼표를 추가
