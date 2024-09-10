@@ -2,7 +2,7 @@
 name: 가지 기능 이슈 템플릿
 about: 
 title: '[FEAT]'
-labels: ''
+labels: 'feature'
 assignees: ''
 ---
 
