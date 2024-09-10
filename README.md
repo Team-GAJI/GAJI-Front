@@ -1,270 +1,34 @@
-## 디렉토리 구조
+### 프로젝트 디렉토리 구조 요약
 
-````
-📦src
+1. **`app` 디렉토리**: 전역 파일 관리 및 API 인스턴스 생성.
 
-app디렉토리
+    - `api.jsx`: API 인스턴스 생성.
+    - `App.jsx`: 라우팅 관리.
 
-전역 파일 이부분에서 api.jsx로 api인스턴스를 생성, 그리고 App.jsx로 라우팅 관리
-┣ 📂app
-┃ ┣ 📜App.css
-┃ ┣ 📜App.jsx
-┃ ┣ 📜api.jsx
-┃ ┣ 📜index.css
-┃ ┗ 📜main.jsx
+2. **`assets` 디렉토리**: 폰트, 아이콘, 이미지 파일 저장 (리팩토링 예정).
 
-assets 파일은 추후 리팩토링 예정
+3. **`components` 디렉토리**: 전역 UI 컴포넌트 관리.
 
-┣ 📂assets
-┃ ┣ 📂font
-┃ ┣ 📂icons
-┃ ┣ 📂images
+    - 버튼, 레이아웃, 공통 컴포넌트, 입력 등 다양한 UI 요소 포함.
 
-components 디렉토리에서는 전역에서 사용되는 ui 컴포넌트를 관리
+4. **`hooks` 디렉토리**: 전역에서 사용되는 커스텀 훅 관리.
 
-┣ 📂components
-┃ ┣ 📂button
-┃ ┃ ┗ 📜Button.jsx
-┃ ┣ 📂common
-┃ ┃ ┣ 📜CommunityWritePost.jsx
-┃ ┃ ┣ 📜Footer.jsx
-┃ ┃ ┣ 📜Header.jsx
-┃ ┃ ┣ 📜Loading.jsx
-┃ ┃ ┣ 📜Logo.jsx
-┃ ┃ ┣ 📜MediaWrapper.jsx
-┃ ┃ ┣ 📜MobileManageButton.jsx
-┃ ┃ ┣ 📜MobileWriteButton.jsx
-┃ ┃ ┣ 📜PageHeader.jsx
-┃ ┃ ┣ 📜Scroll.jsx
-┃ ┃ ┗ 📜SidePageHeader.jsx
-┃ ┣ 📂container
-┃ ┃ ┗ 📜Color.jsx
-┃ ┣ 📂input
-┃ ┗ 📂layout
-┃ ┃ ┣ 📜Footer.jsx
-┃ ┃ ┣ 📜Header.jsx
-┃ ┃ ┗ 📜MainLayOut.jsx
+5. **`pages` 디렉토리**: 페이지별로 API, UI 컴포넌트 및 라우팅 파일을 관리.
 
-hooks 디렉토리에서는 전역에서 사용되는 custom hook 컴포넌트를 관리
+    - 예: `character-vote`, `community`, `study` 등.
 
-┣ 📂hooks
+6. **`redux` 디렉토리**: Redux 상태 관리 (추후 Recoil 등으로 개선 가능).
 
-(중요)pages 디렉토리에서는 각각 아래와 같이 이루어져 있음
+    - `slice` 폴더: Redux 슬라이스 파일.
+    - `store` 폴더: Redux 스토어 파일.
 
-[페이지명]/[ui]/해당 페이지의 ui 컴포넌트들
+7. **`utils` 디렉토리**: 전역에서 사용되는 유틸리티 함수들 포함.
 
-    #### /[api]/해당 페이지의 api들
-    #### /Page.jsx - 해당 페이지 파일(실질적 라우팅되는 파일)
-
-┣ 📂pages
-┃ ┣ 📂character-vote
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜characterAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜CharacterVotePage.jsx
-┃ ┣ 📂community
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜communityPostsPreviewAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜BlogPreview.jsx
-┃ ┃ ┃ ┣ 📜CommunityHomePosts.jsx
-┃ ┃ ┃ ┣ 📜CommunitySelectBox.jsx
-┃ ┃ ┃ ┣ 📜DummyBlogPosts.jsx
-┃ ┃ ┃ ┣ 📜DummyHotPosts.jsx
-┃ ┃ ┃ ┣ 📜DummyProjectPosts.jsx
-┃ ┃ ┃ ┣ 📜DummyQuestionPosts.jsx
-┃ ┃ ┃ ┣ 📜HotPostPreview.jsx
-┃ ┃ ┃ ┣ 📜ProjectPreview.jsx
-┃ ┃ ┃ ┗ 📜QuestionPreview.jsx
-┃ ┃ ┗ 📜CommunityPage.jsx
-┃ ┣ 📂community-detail
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜communityPostAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜Comment.jsx
-┃ ┃ ┃ ┣ 📜CommentContainer.jsx
-┃ ┃ ┃ ┣ 📜DummyComments.jsx
-┃ ┃ ┃ ┣ 📜ExtraPostPreview.jsx
-┃ ┃ ┃ ┗ 📜PostWriterInfo.jsx
-┃ ┃ ┗ 📜CommunityDetailPage.jsx
-┃ ┣ 📂community-write
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜communityWriteAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜Hashtag.jsx
-┃ ┃ ┃ ┗ 📜WriteSelectBox.jsx
-┃ ┃ ┗ 📜CommunityWritePage.jsx
-┃ ┣ 📂login
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┣ 📜commentAPI.jsx
-┃ ┃ ┃ ┣ 📜nickNameAPI.jsx
-┃ ┃ ┃ ┗ 📜userIdAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┣ 📜LoginPage.jsx
-┃ ┃ ┗ 📜LoginRedirectPage.jsx
-┃ ┣ 📂main
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┗ 📜MainSelectBox.jsx
-┃ ┃ ┗ 📜MainPage.jsx
-┃ ┣ 📂mypage
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┣ 📜myStudyListAPI.jsx
-┃ ┃ ┃ ┣ 📜postAPI.jsx
-┃ ┃ ┃ ┣ 📜studyInfoAPI.jsx
-┃ ┃ ┃ ┗ 📜userInfoAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜Calendar.jsx
-┃ ┃ ┃ ┣ 📜MyPost.jsx
-┃ ┃ ┃ ┣ 📜StudyList.jsx
-┃ ┃ ┃ ┣ 📜Task.jsx
-┃ ┃ ┃ ┗ 📜UserInfo.jsx
-┃ ┃ ┗ 📜MyPage.jsx
-┃ ┣ 📂study
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜studyPostsPreviewAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜DummyStudyPosts.jsx
-┃ ┃ ┃ ┗ 📜StudyPreview.jsx
-┃ ┃ ┗ 📜StudyMainPage.jsx
-┃ ┣ 📂study-create
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜studyCreateAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜StudyCreateCalendar.jsx
-┃ ┃ ┃ ┣ 📜StudyCreateLinkEmbed.jsx
-┃ ┃ ┃ ┣ 📜StudyCreateRecruitCalendar.jsx
-┃ ┃ ┃ ┣ 📜StudyCreateSelectBox.jsx
-┃ ┃ ┃ ┣ 📜StudyData.jsx
-┃ ┃ ┃ ┣ 📜StudyDetail.jsx
-┃ ┃ ┃ ┣ 📜StudyInfo.jsx
-┃ ┃ ┃ ┗ 📜StudyPeriod.jsx
-┃ ┃ ┗ 📜StudyCreatePage.jsx
-┃ ┣ 📂study-detail
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┣ 📜studyDetailAPI.jsx
-┃ ┃ ┃ ┣ 📜studyInteraction.jsx
-┃ ┃ ┃ ┗ 📜studyRecruitAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜DummyStudyComments.jsx
-┃ ┃ ┃ ┣ 📜ReportModal.jsx
-┃ ┃ ┃ ┣ 📜StudyComment.jsx
-┃ ┃ ┃ ┣ 📜StudyCommentContainer.jsx
-┃ ┃ ┃ ┣ 📜StudyDetailHeader.jsx
-┃ ┃ ┃ ┣ 📜StudyLinkEmbed.jsx
-┃ ┃ ┃ ┗ 📜StudyPostWriterInfo.jsx
-┃ ┃ ┗ 📜StudyDetailPage.jsx
-┃ ┣ 📂study-manage
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜studyManageDateAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜LinkData.jsx
-┃ ┃ ┃ ┣ 📜LinkEmbed.jsx
-┃ ┃ ┃ ┣ 📜ManageDetailed.jsx
-┃ ┃ ┃ ┣ 📜ManageInfo.jsx
-┃ ┃ ┃ ┣ 📜StudyManageCalendar.jsx
-┃ ┃ ┃ ┣ 📜StudyManageDetail.jsx
-┃ ┃ ┃ ┣ 📜StudyManagePeriod.jsx
-┃ ┃ ┃ ┗ 📜StudyManageRecruitCalendar.jsx
-┃ ┃ ┗ 📜StudyManagePage.jsx
-┃ ┣ 📂study-manage-week
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┣ 📜TaskAPI.jsx
-┃ ┃ ┃ ┣ 📜assignmentsAPI.jsx
-┃ ┃ ┃ ┣ 📜descriptionAPI.jsx
-┃ ┃ ┃ ┣ 📜period.jsx
-┃ ┃ ┃ ┗ 📜weekcountAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜ManageWeekBasics.jsx
-┃ ┃ ┃ ┣ 📜ManageWeekDetailed.jsx
-┃ ┃ ┃ ┣ 📜ManageWeekWrithePost.jsx
-┃ ┃ ┃ ┣ 📜StudyManageWeekCalendar.jsx
-┃ ┃ ┃ ┣ 📜StudyManageWeekRecruitCalendar.jsx
-┃ ┃ ┃ ┗ 📜StudyMangeWeekPeriod.jsx
-┃ ┃ ┗ 📜StudyManageWeekPage.jsx
-┃ ┣ 📂study-notice
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜StudyNoticePage.jsx
-┃ ┣ 📂study-notice-write
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜StudyNoticeWritePage.jsx
-┃ ┣ 📂study-overview
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜StudyOverviewPage.jsx
-┃ ┣ 📂study-room
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┣ 📜studyManageInfoAPI.jsx
-┃ ┃ ┃ ┣ 📜studyNoticeAPI.jsx
-┃ ┃ ┃ ┣ 📜studyNoticeRegisterAPI.jsx
-┃ ┃ ┃ ┣ 📜studyRoomPostDetailAPI.jsx
-┃ ┃ ┃ ┣ 📜studyRoomPostPreviewAPI.jsx
-┃ ┃ ┃ ┣ 📜studyRoomWriteAPI.jsx
-┃ ┃ ┃ ┣ 📜weekStudyInfoAPI.jsx
-┃ ┃ ┃ ┗ 📜weekTaskProgressAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜CheckTooltip.jsx
-┃ ┃ ┃ ┣ 📜FirstNoticeSquare.jsx
-┃ ┃ ┃ ┣ 📜NoticeSquare.jsx
-┃ ┃ ┃ ┣ 📜Notices.jsx
-┃ ┃ ┃ ┣ 📜StudyPostList.jsx
-┃ ┃ ┃ ┣ 📜StudyRecruitment.jsx
-┃ ┃ ┃ ┣ 📜StudyRoomWritePost.jsx
-┃ ┃ ┃ ┣ 📜StudySummary.jsx
-┃ ┃ ┃ ┗ 📜WeekCurriculum.jsx
-┃ ┃ ┣ 📜StudyRoomPage.jsx
-┃ ┃ ┗ 📜StudyRoomPostPage.jsx
-┃ ┣ 📂study-room-write
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜StudyRoomWritePage.jsx
-┃ ┣ 📂study-trouble
-┃ ┃ ┣ 📂api
-┃ ┃ ┃ ┗ 📜troubleShootingInfoAPI.jsx
-┃ ┃ ┣ 📂ui
-┃ ┃ ┃ ┣ 📜Comment.jsx
-┃ ┃ ┃ ┣ 📜CommentContainer.jsx
-┃ ┃ ┃ ┣ 📜DummyComments.jsx
-┃ ┃ ┃ ┣ 📜ItemList.jsx
-┃ ┃ ┃ ┣ 📜PostWriterInfo.jsx
-┃ ┃ ┃ ┣ 📜ReportModal.jsx
-┃ ┃ ┃ ┗ 📜TroubleshootingWritePost.jsx
-┃ ┃ ┗ 📜StudyTroublePage.jsx
-┃ ┣ 📂study-trouble-detail
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜StudyTroubleDetailPage.jsx
-┃ ┗ 📂study-trouble-write
-┃ ┃ ┣ 📂api
-┃ ┃ ┣ 📂ui
-┃ ┃ ┗ 📜StudyTroubleWritePage.jsx
-
-redux에서는 전역에서 사용되는 redux 상태를 관리 향후 recoil 등으로 개선될 수 있기에 별도로 디렉토리를 구성
-
-┣ 📂redux
-┃ ┣ 📂slice
-┃ ┃ ┣ 📂community
-┃ ┃ ┃ ┣ 📜communitySlice.jsx
-┃ ┃ ┃ ┗ 📜communityWriteSlice.jsx
-┃ ┃ ┣ 📂posts
-┃ ┃ ┃ ┣ 📜commentSlice.jsx
-┃ ┃ ┃ ┗ 📜postSlice.jsx
-┃ ┃ ┗ 📂study
-┃ ┃ ┃ ┗ 📜studyCreateSlice.jsx
-┃ ┗ 📂store
-┃ ┃ ┗ 📜store.jsx
-
-utils는 전역에서 사용되며, api와 무관하고, 훅으로 작동하는 것이 아닌 함수기능을 포함
-
-┗ 📂utils
-┃ ┗ 📜ScrollToTop.js
-```
+---
 
 ### Prettier 규칙 (.prettierrc)
 
-```
+```json
 {
     "tabWidth": 4, // 들여쓰기에 사용할 공백의 수를 4칸으로 설정
     "trailingComma": "all", // 가능한 모든 곳에 후행 쉼표를 추가
@@ -273,11 +37,20 @@ utils는 전역에서 사용되며, api와 무관하고, 훅으로 작동하는 
     "useTabs": false, // 들여쓰기에 탭 대신 공백 사용
     "endOfLine": "auto" // 파일의 줄바꿈 방식을 자동으로 처리
 }
-````
+```
+
+-   **탭 너비**: 4칸.
+-   **후행 쉼표**: 모든 곳에 추가.
+-   **작은 따옴표** 사용.
+-   **최대 줄 길이**: 120자.
+-   **탭 대신 공백 사용**.
+-   **줄바꿈 방식**: 자동.
+
+---
 
 ### Eslint 규칙 (.eslintrc.cjs)
 
-```
+```js
 module.exports = {
     // 프로젝트의 루트 디렉토리임을 명시합니다.
     root: true,
@@ -285,7 +58,7 @@ module.exports = {
     // 코드가 실행될 환경을 정의합니다. 여기서는 브라우저와 ES2020 환경을 사용합니다.
     env: {
         browser: true, // 브라우저 환경
-        es2020: true   // ECMAScript 2020 문법 지원
+        es2020: true, // ECMAScript 2020 문법 지원
     },
 
     // ESLint 설정을 확장합니다. 여러 플러그인과 규칙을 적용하여 코드 품질을 유지합니다.
@@ -303,12 +76,12 @@ module.exports = {
     // 파서 옵션을 설정합니다. 최신 ECMAScript 문법을 사용할 수 있도록 설정합니다.
     parserOptions: {
         ecmaVersion: 'latest', // 최신 ECMAScript 버전 사용
-        sourceType: 'module'   // ES 모듈 사용
+        sourceType: 'module', // ES 모듈 사용
     },
 
     // React 버전 설정을 명시적으로 지정합니다.
     settings: {
-        react: { version: '18.2' } // React 18.2 버전을 사용
+        react: { version: '18.2' }, // React 18.2 버전을 사용
     },
 
     // 사용할 ESLint 플러그인을 정의합니다.
@@ -329,7 +102,10 @@ module.exports = {
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }], // React Fast Refresh를 위한 규칙
     },
 };
-
 ```
 
-### 사용 라이브러리
+-   **주요 규칙**:
+    -   `prop-types` 비활성화.
+    -   `react-in-jsx-scope` 비활성화.
+    -   `target="_blank"` 규칙 비활성화.
+    -   Fast Refresh 관련 규칙 적용.
