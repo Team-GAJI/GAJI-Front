@@ -1,6 +1,6 @@
 ---
 name: 가지 기능 이슈 템플릿
-about: 
+about: 기능 관련 이슈를 위한 템플릿
 title: '[FEAT]'
 labels: 'feature'
 assignees: ''
