@@ -15,10 +15,10 @@ jobs:
                   JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
                   JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
 
-            - name: Checkout main code
+            - name: Checkout develop code
               uses: actions/checkout@v4
               with:
-                  ref: main
+                  ref: develop
 
             - name: Issue Parser
               uses: stefanbuck/github-issue-praser@v3
@@ -46,7 +46,7 @@ jobs:
               uses: atlassian/gajira-create@v3
               with:
                   project: GAJI
-                  issuetype: Subtask
+                  issuetype: Sub-task
                   summary: '${{ github.event.issue.title }}'
                   description: '${{ steps.md2jira.outputs.output-text }}'
                   fields: |
