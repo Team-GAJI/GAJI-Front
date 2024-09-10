@@ -14,10 +14,10 @@ export const PuppleButton2 = styled.div`
     background-color: #b693ff;
     border-radius: 10px;
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
     color: #ffffff;
-    cursor: pointer;
 `;
 
 export const PuppleButton3 = styled.div`
