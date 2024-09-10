@@ -5,7 +5,7 @@ import StudyCreateLinkEmbed from './LinkEmbed';
 const LinkData = () => {
     const [links, setLinks] = useState([]);
     const [linkInput, setLinkInput] = useState('');
-    const [isComposing, setIsComposing] = useState(false);  // 한글 조합 상태 관리
+    const [isComposing, setIsComposing] = useState(false); // 한글 조합 상태 관리
 
     const handleLinkSubmit = (e) => {
         if (e.key === 'Enter' && !isComposing && linkInput.trim() !== '') {
@@ -35,7 +35,7 @@ const LinkData = () => {
         <StudyDataWrapper>
             <Title>스터디 자료 링크</Title>
             <LinkInput
-                placeholder='링크를 입력해주세요'
+                placeholder="링크를 입력해주세요"
                 value={linkInput}
                 onChange={handleLinkChange}
                 onKeyDown={handleLinkSubmit}
@@ -44,11 +44,7 @@ const LinkData = () => {
             />
             <LinkEmbedWrapper>
                 {links.map((link, index) => (
-                    <StudyCreateLinkEmbed
-                        key={index}
-                        link={link}
-                        onRemove={() => handleRemoveLink(index)}
-                    />
+                    <StudyCreateLinkEmbed key={index} link={link} onRemove={() => handleRemoveLink(index)} />
                 ))}
             </LinkEmbedWrapper>
         </StudyDataWrapper>
@@ -59,7 +55,7 @@ export default LinkData;
 /* CSS */
 const Title = styled.div`
     margin: 1em 0 0.7em 0;
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
@@ -71,19 +67,19 @@ const StudyDataWrapper = styled.div`
 
 const LinkInput = styled.input`
     padding-left: 1em;
-    border: 1px solid #A2A3B2;
+    border: 1px solid #a2a3b2;
     border-radius: 10px;
     width: 100%;
     height: 2.8125em;
     background-color: transparent;
     font-family: 'NanumSquareNeo';
     font-weight: bold;
-    &:focus{
+    &:focus {
         outline: none;
     }
     transition: all 0.3s ease;
-    &::placeholder{
-        color: #A2A3B2;
+    &::placeholder {
+        color: #a2a3b2;
         font-size: 0.9em;
         font-weight: bold;
     }
@@ -95,4 +91,3 @@ const LinkEmbedWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
 `;
-

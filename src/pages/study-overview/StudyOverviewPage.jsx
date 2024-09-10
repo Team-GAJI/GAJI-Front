@@ -42,19 +42,27 @@ const StudyOverviewPage = () => {
                     {/* 검색창 */}
                     <SearchInputWrapper>
                         <StyledLogoIcon />
-                        <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
+                        <StyledSearchInput type="text" placeholder="검색어를 입력해주세요" />
                     </SearchInputWrapper>
                 </RowWrapper>
             </Header>
-            
+
             <ContentWrapper>
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox/>
-                    <CreatePostButton onClick={() => {navigate("/studycreate");}}>
-                    + 스터디 만들기
+                    <MainSelectBox />
+                    <CreatePostButton
+                        onClick={() => {
+                            navigate('/studycreate');
+                        }}
+                    >
+                        + 스터디 만들기
                     </CreatePostButton>
-                    <MobileWriteButton onClick={() => {navigate("/studycreate");}}/> 
+                    <MobileWriteButton
+                        onClick={() => {
+                            navigate('/studycreate');
+                        }}
+                    />
                 </SelectAndButtonWrapper>
                 <StyledHr />
 
@@ -74,7 +82,8 @@ const StudyOverviewPage = () => {
                             dday={post.deadLine}
                             recruiter={post.recruitMaxCount}
                             state={post.recruitStatus}
-                            applicant={post.applicant}/>
+                            applicant={post.applicant}
+                        />
                     ))}
                 </StudyPreviewWrapper>
             </ContentWrapper>
@@ -93,9 +102,9 @@ const PageWrapper = styled.div`
 `;
 
 const SubTitle = styled.div`
-    color : #D0D1D9;
-    font-weight : 700;
-`
+    color: #d0d1d9;
+    font-weight: 700;
+`;
 
 const Header = styled.div`
     display: flex;
@@ -107,15 +116,15 @@ const Header = styled.div`
     justify-content: center;
     width: 100%;
     height: 10em;
-    gap : 1em;
-    background-color: #FBFAFF;
+    gap: 1em;
+    background-color: #fbfaff;
     background-image: url(${backGroundUrl});
 `;
 
 const PageHeaderTitle = styled.div`
     font-size: 1.5em;
     font-weight: 800;
-    color: #8E59FF;
+    color: #8e59ff;
 
     @media (max-width: 768px) {
         font-size: 1.25em;
@@ -132,13 +141,13 @@ const RowWrapper = styled.div`
 `;
 
 const SearchInputWrapper = styled.div`
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-radius: 10px;
     width: 50%;
-    min-width :273px;
+    min-width: 273px;
 
-    @media(max-width : 768px){
-        width : 80%;
+    @media (max-width: 768px) {
+        width: 80%;
     }
     height: 2.5em;
     background-color: white;
@@ -158,11 +167,11 @@ const StyledSearchInput = styled.input`
     height: 2em;
     font-weight: bold;
     -webkit-appearance: none;
-    &:focus{
+    &:focus {
         outline: none;
     }
-    &::placeholder{
-        color: #D0D1D9;
+    &::placeholder {
+        color: #d0d1d9;
     }
     font-family: 'NanumSquareNeo';
 `;
@@ -173,7 +182,7 @@ const SelectAndButtonWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    background-color: #FBFAFF;
+    background-color: #fbfaff;
     position: sticky;
     top: 60px;
     z-index: 10;
@@ -182,25 +191,25 @@ const SelectAndButtonWrapper = styled.div`
 const CreatePostButton = styled.button`
     border: none;
     border-radius: 10px;
-    width: 9.9230em;
+    width: 9.923em;
     height: 2.4em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     color: white;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
-    &:hover{
-            box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    &:hover {
+        box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
     }
     transition: all 0.3s ease;
-    `;
+`;
 
 const StyledHr = styled.hr`
     margin-bottom: 1.2em;
     border: none;
     width: 100%;
     height: 1.5px;
-    background-color: #D0D1D9;
+    background-color: #d0d1d9;
 `;
 
 const CategoryTitleWrapper = styled.div`
@@ -217,7 +226,7 @@ const CategoryTitle = styled.div`
     padding: 0 1.5em;
     height: 2.5em;
     line-height: 2.5em;
-    background-color: #BB9CFF;
+    background-color: #bb9cff;
     color: white;
     font-size: 0.8125em;
     font-weight: 800;
@@ -230,17 +239,17 @@ const StudyPreviewWrapper = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(13.2425em, 1fr));
     gap: 1em;
 
-    @media(max-width: 1024px) {
+    @media (max-width: 1024px) {
         grid-template-columns: repeat(2, 1fr); /* 1024px 이하에서 2열 */
         gap: 0.5em;
     }
 
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr); /* 768px 이하에서 2열 */
         gap: 0.5em;
     }
 
-    @media(max-width: 480px) {
+    @media (max-width: 480px) {
         grid-template-columns: 1fr; /* 480px 이하에서 1열 */
         gap: 0.5em;
     }

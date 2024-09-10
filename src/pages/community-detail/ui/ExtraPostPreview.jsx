@@ -16,28 +16,29 @@ const ExtraPostPreview = () => {
     const navigate = useNavigate();
 
     return (
-        <PostWrapper isVisible={isPostVisible} onClick={() => {navigate("/community/post");}}>
+        <PostWrapper
+            isVisible={isPostVisible}
+            onClick={() => {
+                navigate('/community/post');
+            }}
+        >
             <LeftWrapper></LeftWrapper>
             <RightWrapper>
                 <TextWrapper>
-                    <Title>
-                        제목
-                    </Title>
-                    <Content>
-                        설명입니다. 어쩌면 좋아요
-                    </Content>
+                    <Title>제목</Title>
+                    <Content>설명입니다. 어쩌면 좋아요</Content>
                 </TextWrapper>
-                <StyledCloseButton onClick={postVisibility}/>
+                <StyledCloseButton onClick={postVisibility} />
             </RightWrapper>
         </PostWrapper>
-    )
-}
+    );
+};
 
 export default ExtraPostPreview;
 
 /* CSS */
 const PostWrapper = styled.div`
-    border: 1px solid #A2A3B2;
+    border: 1px solid #a2a3b2;
     border-radius: 10px;
     width: 36em;
     height: 8.125em;
@@ -46,10 +47,10 @@ const PostWrapper = styled.div`
 `;
 
 const LeftWrapper = styled.div`
-    border-right: 1px solid #A2A3B2;
+    border-right: 1px solid #a2a3b2;
     border-radius: 8px 0 0 8px;
     width: 12.375em;
-    background-color: rgba(162,163,178,0.3);
+    background-color: rgba(162, 163, 178, 0.3);
 `;
 
 const RightWrapper = styled.div`
@@ -68,7 +69,7 @@ const TextWrapper = styled.div`
 const Title = styled.div`
     margin-bottom: 0.8em;
     width: 10em;
-    color: #161A3F;
+    color: #161a3f;
     font-size: 1.25em;
     font-weight: 800;
     // 말줄임 처리
@@ -80,7 +81,7 @@ const Title = styled.div`
 
 const Content = styled.div`
     width: 18em;
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-weight: bold;
     // 말줄임 처리
     overflow: hidden;

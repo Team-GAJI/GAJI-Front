@@ -8,7 +8,7 @@ const MyPost = () => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [posts, setPosts] = useState([]);
-    const [hasNext, setHasNext] = useState(true); 
+    const [hasNext, setHasNext] = useState(true);
     const [category, setCategory] = useState(0);
     const [cursorDate, setCursorDate] = useState('');
 
@@ -22,13 +22,13 @@ const MyPost = () => {
 
         try {
             const response = await postAPI(userId, currentType, cursorDate);
-            console.log('API 응답:', response); 
+            console.log('API 응답:', response);
 
             const { postList, hasNext: newHasNext } = response;
 
             if (!postList || postList.length === 0) {
                 console.log('게시글 데이터가 없습니다.');
-                setHasNext(false); 
+                setHasNext(false);
             } else {
                 setPosts((prevPosts) => [...prevPosts, ...postList]);
                 setPage((prevPage) => prevPage + 1);
@@ -62,9 +62,9 @@ const MyPost = () => {
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener('scroll', handleScroll);
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
     }, [getPosts]);
 
@@ -72,31 +72,38 @@ const MyPost = () => {
         <MyPostWrapper>
             <ExtraBold>내가 쓴 글</ExtraBold>
             <Header>
-                <PostRouteButton $isActive={category === 0} onClick={() => setCategory(0)}>질문하기</PostRouteButton>
-                <PostRouteButton $isActive={category === 1} onClick={() => setCategory(1)}>프로젝트 모집</PostRouteButton>
-                <PostRouteButton $isActive={category === 2} onClick={() => setCategory(2)}>블로그</PostRouteButton>
-                <PostRouteButton $isActive={category === 3} onClick={() => setCategory(3)}>스터디 모집</PostRouteButton>
+                <PostRouteButton $isActive={category === 0} onClick={() => setCategory(0)}>
+                    질문하기
+                </PostRouteButton>
+                <PostRouteButton $isActive={category === 1} onClick={() => setCategory(1)}>
+                    프로젝트 모집
+                </PostRouteButton>
+                <PostRouteButton $isActive={category === 2} onClick={() => setCategory(2)}>
+                    블로그
+                </PostRouteButton>
+                <PostRouteButton $isActive={category === 3} onClick={() => setCategory(3)}>
+                    스터디 모집
+                </PostRouteButton>
             </Header>
 
             <PostListWrapper>
                 {posts.map((post) => (
-                    <PostListItem key={post.postId}> 
+                    <PostListItem key={post.postId}>
                         <PostState>{post.status}</PostState>
                         <PostTitle>{post.title}</PostTitle>
                         <PostText>{post.body}</PostText>
-                        <PostInfo>{post.createdAt} | 댓글 {post.viewCnt}</PostInfo>
+                        <PostInfo>
+                            {post.createdAt} | 댓글 {post.viewCnt}
+                        </PostInfo>
                     </PostListItem>
                 ))}
-                {isLoading && (
-                    <Loading />
-                )}
+                {isLoading && <Loading />}
             </PostListWrapper>
         </MyPostWrapper>
     );
 };
 
 export default MyPost;
-
 
 const MyPostWrapper = styled.div`
     width: 100%;
@@ -105,7 +112,7 @@ const MyPostWrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 1.875em;
-    box-sizing : border-box;
+    box-sizing: border-box;
     padding: 1em;
 
     @media (max-width: 768px) {
@@ -154,7 +161,7 @@ const PostRouteButton = styled.div`
 
 const PostListWrapper = styled.div`
     width: 100%;
-    border-top: 3px solid #8E59FF;
+    border-top: 3px solid #8e59ff;
     padding-top: 1.5625em;
     padding-bottom: 1.5625em;
     display: flex;
@@ -173,7 +180,7 @@ const PostListItem = styled.div`
     padding: 1em;
     display: flex;
     flex-direction: column;
-    border-bottom: 2px solid #E8E9EC;
+    border-bottom: 2px solid #e8e9ec;
     gap: 0.8em;
 
     @media (max-width: 768px) {
@@ -209,7 +216,7 @@ const PostText = styled.div`
     max-height: 4.5em;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #A2A3B2;
+    color: #a2a3b2;
 
     @media (max-width: 768px) {
         font-size: 0.9em;
@@ -220,14 +227,14 @@ const PostText = styled.div`
 const PostInfo = styled.div`
     font-weight: 700;
     font-size: 0.8125em;
-    color: #D0D1D9;
+    color: #d0d1d9;
 
     @media (max-width: 768px) {
         font-size: 0.75em;
     }
 `;
 
-// 기존 코드 
+// 기존 코드
 // import React, { useCallback, useEffect, useState } from 'react';
 // import styled from 'styled-components';
 // import { PuppleButton } from '../style/Button';
@@ -301,7 +308,6 @@ const PostInfo = styled.div`
 //             postInfo: '2024-07-10 | 댓글 5개'
 //         }
 //     ];
-    
 
 //     const getPosts = useCallback(async () => {
 //         if (isLoading) return;

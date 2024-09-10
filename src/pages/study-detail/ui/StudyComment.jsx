@@ -3,24 +3,24 @@ import styled from 'styled-components';
 import ReplyIcon from '../../../assets/icons/community/reply.svg?react';
 import normalProfileImg from '../../../assets/images/community/userProfile.png';
 
-const StudyComment = ({key, writer, content, userProfileImg, time}) => {
+const StudyComment = ({ key, writer, content, userProfileImg, time }) => {
     const profileImg = userProfileImg || normalProfileImg;
-    
+
     return (
         <CommentWrapper key={key}>
             <WriterWrapper>
-                <StyledProfileImg src={profileImg} alt='profile image'/>
+                <StyledProfileImg src={profileImg} alt="profile image" />
                 <UserName>{writer}</UserName>
                 <RelativeTime>{time}</RelativeTime>
             </WriterWrapper>
             <Content>{content}</Content>
             <ReplyWrapper>
-                <StyledReplyIcon/>
+                <StyledReplyIcon />
                 <ReplyText>답글달기</ReplyText>
             </ReplyWrapper>
         </CommentWrapper>
-    )
-}
+    );
+};
 
 export default StudyComment;
 
@@ -45,20 +45,20 @@ const StyledProfileImg = styled.img`
 
 const UserName = styled.div`
     margin-right: 0.8em;
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
 const RelativeTime = styled.div`
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 0.8125em;
     font-weight: bold;
 `;
 
 const Content = styled.div`
     margin: 1em 0;
-    width:100%;
-    color: #161A3F;
+    width: 100%;
+    color: #161a3f;
     font-weight: bold;
 `;
 
@@ -76,7 +76,7 @@ const StyledReplyIcon = styled(ReplyIcon)`
 `;
 
 const ReplyText = styled.div`
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 0.8125em;
     font-weight: bold;
 `;

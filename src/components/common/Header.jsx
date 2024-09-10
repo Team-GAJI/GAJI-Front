@@ -6,7 +6,7 @@ import userProfileUrl from '../../assets/images/common/userProfile.png';
 
 const Header = () => {
     const navigate = useNavigate();
-    const [accessToken,setAccessToken] = useState(localStorage.getItem('accessToken'));
+    const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
     const [menuVisible, setMenuVisible] = useState(false);
 
     const handleLogout = () => {
@@ -18,13 +18,13 @@ const Header = () => {
     const toggleMenu = () => {
         setMenuVisible(!menuVisible);
         const timer = setTimeout(() => setMenuVisible(false), 3000);
-            return () => clearTimeout(timer);  // 3초후 자동으로 취소
-        }
+        return () => clearTimeout(timer); // 3초후 자동으로 취소
+    };
 
     return (
         <HeaderWrapper>
             <RowWrapper>
-                <StyledMenuIcon onClick={()=>toggleMenu()} $menuVisible={menuVisible} />
+                <StyledMenuIcon onClick={() => toggleMenu()} $menuVisible={menuVisible} />
                 <MenuWrapper $menuVisible={menuVisible}>
                     <Text onClick={() => navigate('/')}>홈</Text>
                     <Text onClick={() => navigate('/study')}>스터디</Text>
@@ -47,7 +47,7 @@ const Header = () => {
 
 export default Header;
 const HeaderWrapper = styled.div`
-    box-sizing : border-box;
+    box-sizing: border-box;
     z-index: 30;
     background-color: #fbfaff;
     position: fixed;
@@ -62,7 +62,7 @@ const HeaderWrapper = styled.div`
     align-items: center;
     padding-left: 3.1em;
     padding-right: 3.1em;
-    overflow-x : hidden;
+    overflow-x: hidden;
     @media (max-width: 768px) {
         width: 100%;
         height: 60px;
@@ -86,37 +86,45 @@ const RowWrapper = styled.div`
 const MenuWrapper = styled.div`
     visibility: ${(props) => (props.$menuVisible ? 'visible' : 'hidden')};
     opacity: ${(props) => (props.$menuVisible ? '1' : '0')};
-    transition:  visibility 0.3s ease, opacity 0.3s ease;
+    transition:
+        visibility 0.3s ease,
+        opacity 0.3s ease;
     display: flex;
     gap: 4.25em;
     width: 100%;
 
     @media (max-width: 768px) {
-        width : 5em;
-        height : 100vh;
+        width: 5em;
+        height: 100vh;
         flex-direction: column;
-        gap : 3em;
+        gap: 3em;
         transform: ${(props) => (props.$menuVisible ? 'translateX(0)' : 'translateX(-100%)')};
-        transition: transform 0.3s ease, visibility 0.3s ease, opacity 0.3s ease;
-        align-items : start;
+        transition:
+            transform 0.3s ease,
+            visibility 0.3s ease,
+            opacity 0.3s ease;
+        align-items: start;
         position: fixed;
         top: 60px;
         left: 0;
-        background-color: #FBFAFF;
-        padding-left : 5%;
+        background-color: #fbfaff;
+        padding-left: 5%;
     }
 `;
 
 const StyledMenuIcon = styled(MenuIcon)`
     width: 1em;
-    height : 1em;
+    height: 1em;
     cursor: pointer;
     fill: ${(props) => (props.$menuVisible ? '#8E59FF' : '#000000')};
-    transition: fill 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    transition:
+        fill 0.3s ease,
+        opacity 0.3s ease,
+        visibility 0.3s ease;
 
     @media (max-width: 768px) {
         width: 1em;
-        height : 1em;
+        height: 1em;
     }
 `;
 
@@ -155,9 +163,7 @@ const MyPageButton = styled.div`
     margin-right: 1em;
     background-image: url(${userProfileUrl});
     background-size: cover;
-    border: 5px solid #fbfaff 
-
-    @media (max-width: 768px) {
+    border: 5px solid #fbfaff @media (max-width: 768px) {
         width: 2.25em;
         height: 2.25em;
     }

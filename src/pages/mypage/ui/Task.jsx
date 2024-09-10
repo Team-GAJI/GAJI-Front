@@ -14,19 +14,27 @@ const Task = ({ selectedDate }) => {
     const dayName = dayNames[date.getDay()];
 
     const dummyJson = {
-        "studyName": "웹 개발 스터디",
-        "startTime": "2024-07-25T09:00:00",
-        "endTime": "2024-07-25T11:00:00",
-        "task": {
-            "title": "프론트엔드 프로젝트",
-            "description": "React를 사용하여 간단한 Todo 리스트 애플리케이션 만들기",
-            "dueDate": "2024-08-01T23:59:59"
-        }
+        studyName: '웹 개발 스터디',
+        startTime: '2024-07-25T09:00:00',
+        endTime: '2024-07-25T11:00:00',
+        task: {
+            title: '프론트엔드 프로젝트',
+            description: 'React를 사용하여 간단한 Todo 리스트 애플리케이션 만들기',
+            dueDate: '2024-08-01T23:59:59',
+        },
     };
 
     const { studyName, startTime, endTime, task } = dummyJson;
-    const formattedStartTime = new Date(startTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
-    const formattedEndTime = new Date(endTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
+    const formattedStartTime = new Date(startTime).toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    });
+    const formattedEndTime = new Date(endTime).toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    });
 
     const handleTaskModal = () => {
         if (!taskModal) {
@@ -45,41 +53,55 @@ const Task = ({ selectedDate }) => {
     return (
         <>
             <TaskWrapper>
-                <DateWrapper>{year}년 <Color>{month}월 {day}일 ({dayName})</Color></DateWrapper>
+                <DateWrapper>
+                    {year}년{' '}
+                    <Color>
+                        {month}월 {day}일 ({dayName})
+                    </Color>
+                </DateWrapper>
                 <ListWrapper>
                     <ListItem>
                         <ColumnWrapper>
                             <StudyName>{studyName}</StudyName>
                             <TaskTitle>{task.title}</TaskTitle>
-                            <Time><StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime></Time>
+                            <Time>
+                                <StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime>
+                            </Time>
                         </ColumnWrapper>
-                        <TaskCheckBox type='checkbox' />
+                        <TaskCheckBox type="checkbox" />
                     </ListItem>
                     <ListItem>
                         <ColumnWrapper>
                             <StudyName>{studyName}</StudyName>
                             <TaskTitle>{task.title}</TaskTitle>
-                            <Time><StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime></Time>
+                            <Time>
+                                <StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime>
+                            </Time>
                         </ColumnWrapper>
-                        <TaskCheckBox type='checkbox' />
+                        <TaskCheckBox type="checkbox" />
                     </ListItem>
                     <ListItem>
                         <ColumnWrapper>
                             <StudyName>{studyName}</StudyName>
                             <TaskTitle>{task.title}</TaskTitle>
-                            <Time><StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime></Time>
+                            <Time>
+                                <StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime>
+                            </Time>
                         </ColumnWrapper>
-                        <TaskCheckBox type='checkbox' />
+                        <TaskCheckBox type="checkbox" />
                     </ListItem>
                 </ListWrapper>
-                <AddScheduleButton onClick={() => handleTaskModal()}><PlusIcon />{taskModal ? '추가 완료' : '일정 추가하기'}</AddScheduleButton>
-                {taskModal &&
+                <AddScheduleButton onClick={() => handleTaskModal()}>
+                    <PlusIcon />
+                    {taskModal ? '추가 완료' : '일정 추가하기'}
+                </AddScheduleButton>
+                {taskModal && (
                     <AddTaskModal>
                         <Title1>일정 추가하기</Title1>
                         <Description>일정은 하루에 10개 추가할 수 있어요</Description>
                         <Line />
                         <Title2>일정 제목</Title2>
-                        <NewTaskTitle placeholder='일정 명을 입력해주세요'></NewTaskTitle>
+                        <NewTaskTitle placeholder="일정 명을 입력해주세요"></NewTaskTitle>
                         <Title2>시간 설정</Title2>
                         <RowWrapper>
                             <Text>시작</Text>
@@ -88,10 +110,12 @@ const Task = ({ selectedDate }) => {
                             <TimeInput></TimeInput>
                         </RowWrapper>
                         <RowWrapper>
-                            <RepeatCheck /><Text>반복 일정</Text><Description2>일정을 매주 반복합니다</Description2>
+                            <RepeatCheck />
+                            <Text>반복 일정</Text>
+                            <Description2>일정을 매주 반복합니다</Description2>
                         </RowWrapper>
                     </AddTaskModal>
-                }
+                )}
             </TaskWrapper>
         </>
     );
@@ -105,12 +129,12 @@ const AddTaskModal = styled.div`
     position: absolute;
     box-sizing: border-box;
     padding: 2em;
-    
+
     width: 100%;
     height: 75%;
     z-index: 1;
-    color: #161A3F;
-    background: #FFFFFF;
+    color: #161a3f;
+    background: #ffffff;
     box-shadow: 0px 2px 20px rgba(119, 106, 142, 0.1);
     border-radius: 10px;
     @media (max-width: 768px) {
@@ -127,13 +151,13 @@ const Description = styled.div`
     margin-top: 1em;
     font-size: 0.8125em;
     font-weight: 700;
-    color: #A2A3B2;
+    color: #a2a3b2;
 `;
 
 const Line = styled.div`
     width: 100%;
     height: 1px;
-    background-color: #D0D1D9;
+    background-color: #d0d1d9;
     margin-top: 0.625em;
 `;
 
@@ -145,7 +169,7 @@ const Title2 = styled.div`
 const NewTaskTitle = styled.input`
     width: 100%;
     height: 2em;
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-radius: 10px;
     box-sizing: border-box;
     margin-top: 0.5625em;
@@ -153,9 +177,9 @@ const NewTaskTitle = styled.input`
     padding-left: 1em;
 
     &::placeholder {
-        color: #D0D1D9;
+        color: #d0d1d9;
     }
-    
+
     &:focus {
         outline: none;
     }
@@ -179,16 +203,16 @@ const TimeInput = styled.input.attrs({ type: 'time' })`
     padding-left: 1em;
     border: none;
     box-sizing: border-box;
-    background-color: #ECEDF0;
+    background-color: #ecedf0;
     border-radius: 10px;
     font-family: 'NanumSquareNeo';
     font-weight: 700;
-    color: #8E59FF;
+    color: #8e59ff;
 `;
 
 const Description2 = styled.div`
     font-size: 0.8125em;
-    color: #D0D1D9;
+    color: #d0d1d9;
     margin-left: 0.625em;
 `;
 
@@ -197,7 +221,7 @@ const TaskWrapper = styled.div`
     padding-top: 3em;
     position: relative;
     margin-left: 1em;
-    padding-right :1em;
+    padding-right: 1em;
     width: 100%;
     height: 100%;
     display: flex;
@@ -224,7 +248,6 @@ const ListWrapper = styled.div`
     &:hover {
         overflow-y: scroll;
     }
-
 `;
 
 const ListItem = styled.div`
@@ -238,7 +261,6 @@ const ListItem = styled.div`
     border-radius: 10px;
     padding: 1em;
     margin-bottom: 1em;
-
 `;
 
 const ColumnWrapper = styled.div`
@@ -251,8 +273,8 @@ const TaskCheckBox = styled.input.attrs({ type: 'checkbox' })`
     appearance: none;
     width: 1.25rem;
     height: 1.25rem;
-    background-color: #FFFFFF;
-    border: solid 0.25px #8E59FF;
+    background-color: #ffffff;
+    border: solid 0.25px #8e59ff;
     border-radius: 100%;
 
     &:checked {
@@ -260,7 +282,7 @@ const TaskCheckBox = styled.input.attrs({ type: 'checkbox' })`
         background-size: 40% 40%;
         background-position: 50%;
         background-repeat: no-repeat;
-        background-color: #8E59FF;
+        background-color: #8e59ff;
     }
 `;
 
@@ -275,16 +297,16 @@ const StudyName = styled.div`
     width: fit-content;
     font-size: 1em;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #ffffff;
     padding: 0.5em;
     box-sizing: border-box;
-    background: #8E59FF;
+    background: #8e59ff;
     border-radius: 10px;
 `;
 
 const Time = styled.div`
     font-weight: 700;
-    color: #A2A3B2;
+    color: #a2a3b2;
 `;
 
 const StartTime = styled.span`
@@ -298,7 +320,7 @@ const EndTime = styled.span`
 const TaskTitle = styled.div`
     font-size: 1em;
     font-weight: 600;
-    color: #161A3F;
+    color: #161a3f;
 `;
 
 const AddScheduleButton = styled(PuppleButton)`

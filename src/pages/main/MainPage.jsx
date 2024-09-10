@@ -12,7 +12,7 @@ import StudyPreview from '../study/ui/StudyPreview';
 import BlogPreview from '../community/ui/BlogPreview';
 import { useNavigate } from 'react-router-dom';
 import MainSelectBox from './ui/MainSelectBox';
-import {ContentWrapperMain} from '../../components/common/MediaWrapper'
+import { ContentWrapperMain } from '../../components/common/MediaWrapper';
 import { Scroll } from '../../components/common/Scroll';
 import { studyPostsPreviewAPI } from '../study/api/studyPostsPreviewAPI';
 import { communityPostsPreviewAPI } from '../community/api/communityPostsPreviewAPI';
@@ -30,7 +30,7 @@ const MainPage = () => {
             try {
                 const [popularResponse, recentResponse] = await Promise.all([
                     studyPostsPreviewAPI(null, null, 'like', 5), // 인기 스터디
-                    studyPostsPreviewAPI(null, null, 'recent', 5) // 최신 스터디
+                    studyPostsPreviewAPI(null, null, 'recent', 5), // 최신 스터디
                 ]);
                 setPopularStudies(popularResponse);
                 setRecentStudies(recentResponse);
@@ -46,7 +46,7 @@ const MainPage = () => {
         const fetchStudies = async () => {
             try {
                 const [communityResponse] = await Promise.all([
-                communityPostsPreviewAPI(null, null, 'recent', null, 4) // 커뮤니티 게시물
+                    communityPostsPreviewAPI(null, null, 'recent', null, 4), // 커뮤니티 게시물
                 ]);
                 setCommunityPosts(communityResponse);
             } catch (error) {
@@ -58,9 +58,9 @@ const MainPage = () => {
 
     return (
         <PageWrapper>
-             {/* 배너 */}
-            <StyledSwiper 
-                pagination={{ clickable: true }} 
+            {/* 배너 */}
+            <StyledSwiper
+                pagination={{ clickable: true }}
                 modules={[Pagination, Autoplay]}
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
                 loop={true}
@@ -70,86 +70,127 @@ const MainPage = () => {
                 <StyledSwiperSlide3></StyledSwiperSlide3>
             </StyledSwiper>
 
-        <ContentWrapperMain>
-            {/* 검색창 */}
-            <Text><PuppleText>&#039;가지&#039;</PuppleText>고 싶은 스터디를 검색해보세요!</Text>
-            
-            <SearchInputWrapper>
-                <StyledLogoIcon />
-                <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
-            </SearchInputWrapper>
+            <ContentWrapperMain>
+                {/* 검색창 */}
+                <Text>
+                    <PuppleText>&#039;가지&#039;</PuppleText>고 싶은 스터디를 검색해보세요!
+                </Text>
 
-            {/* 게시글 필터 */}
-            <SelectAndButtonWrapper>
-                <MainSelectBox/>
-            </SelectAndButtonWrapper>
-            <StyledHr />
+                <SearchInputWrapper>
+                    <StyledLogoIcon />
+                    <StyledSearchInput type="text" placeholder="검색어를 입력해주세요" />
+                </SearchInputWrapper>
 
-            {/* 인기 스터디 미리보기 */}
-            <ViewAllWrapper>
-                <TitleText onClick={() => {navigate("/study");}}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
-                <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
-            </ViewAllWrapper>
+                {/* 게시글 필터 */}
+                <SelectAndButtonWrapper>
+                    <MainSelectBox />
+                </SelectAndButtonWrapper>
+                <StyledHr />
 
-            <BlogPreviewWrapper>
-                {popularStudies.map((post) => (
-                    <StudyPreview
-                        key={post.roomId}
-                        roomId={post.roomId}
-                        title={post.name}
-                        content={post.description}
-                        background={post.imageUrl}
-                        ago={post.createdAt}
-                        dday={post.deadLine}
-                        recruiter={post.recruitMaxCount}
-                        state={post.recruitStatus}
-                        applicant={post.applicant}/>
-                ))}
-            </BlogPreviewWrapper>
+                {/* 인기 스터디 미리보기 */}
+                <ViewAllWrapper>
+                    <TitleText
+                        onClick={() => {
+                            navigate('/study');
+                        }}
+                    >
+                        현재 가장 HOT한 스터디를 둘러보세요!
+                    </TitleText>
+                    <Arrow
+                        onClick={() => {
+                            navigate('/study');
+                        }}
+                    >
+                        &gt;
+                    </Arrow>
+                </ViewAllWrapper>
 
-            {/* 최신 스터디 미리보기 */}
-            <ViewAllWrapper>
-                <TitleText onClick={() => {navigate("/study");}}>가장 최신의 스터디를 둘러보세요!</TitleText>
-                <Arrow onClick={() => {navigate("/study");}}>&gt;</Arrow>
-            </ViewAllWrapper>
-            <BlogPreviewWrapper>
-                {recentStudies.map((post) => (
-                    <StudyPreview
-                        key={post.roomId}
-                        roomId={post.roomId}
-                        title={post.name}
-                        content={post.description}
-                        background={post.imageUrl}
-                        ago={post.createdAt}
-                        dday={post.deadLine}
-                        recruiter={post.recruitMaxCount}
-                        state={post.recruitStatus}
-                        applicant={post.applicant}/>
-                ))}
-            </BlogPreviewWrapper>
-            <StyledHr />
+                <BlogPreviewWrapper>
+                    {popularStudies.map((post) => (
+                        <StudyPreview
+                            key={post.roomId}
+                            roomId={post.roomId}
+                            title={post.name}
+                            content={post.description}
+                            background={post.imageUrl}
+                            ago={post.createdAt}
+                            dday={post.deadLine}
+                            recruiter={post.recruitMaxCount}
+                            state={post.recruitStatus}
+                            applicant={post.applicant}
+                        />
+                    ))}
+                </BlogPreviewWrapper>
 
-            {/* 커뮤니티 미리보기 */}
-            <ViewAllWrapper>
-                <TitleText onClick={() => {navigate("/community");}}>&#039;가지&#039;의 커뮤니티! 다 같이 성장해봐요!</TitleText>
-                <Arrow onClick={() => {navigate("/community");}}>&gt;</Arrow>
-            </ViewAllWrapper>
+                {/* 최신 스터디 미리보기 */}
+                <ViewAllWrapper>
+                    <TitleText
+                        onClick={() => {
+                            navigate('/study');
+                        }}
+                    >
+                        가장 최신의 스터디를 둘러보세요!
+                    </TitleText>
+                    <Arrow
+                        onClick={() => {
+                            navigate('/study');
+                        }}
+                    >
+                        &gt;
+                    </Arrow>
+                </ViewAllWrapper>
+                <BlogPreviewWrapper>
+                    {recentStudies.map((post) => (
+                        <StudyPreview
+                            key={post.roomId}
+                            roomId={post.roomId}
+                            title={post.name}
+                            content={post.description}
+                            background={post.imageUrl}
+                            ago={post.createdAt}
+                            dday={post.deadLine}
+                            recruiter={post.recruitMaxCount}
+                            state={post.recruitStatus}
+                            applicant={post.applicant}
+                        />
+                    ))}
+                </BlogPreviewWrapper>
+                <StyledHr />
 
-            <BlogPreviewWrapper2>
-                {communityPosts.map((post) => (
-                    <BlogPreview
-                        key={post.postId}
-                        postId={post.postId}
-                        title={post.title}
-                        content={post.body}
-                        background={post.thumbnailUrl}
-                        writer={post.userNickname}
-                        ago={post.uploadTime}
-                        views={post.hit}
-                        like={post.likeCnt} />
-                ))}
-            </BlogPreviewWrapper2>
-        </ContentWrapperMain>
+                {/* 커뮤니티 미리보기 */}
+                <ViewAllWrapper>
+                    <TitleText
+                        onClick={() => {
+                            navigate('/community');
+                        }}
+                    >
+                        &#039;가지&#039;의 커뮤니티! 다 같이 성장해봐요!
+                    </TitleText>
+                    <Arrow
+                        onClick={() => {
+                            navigate('/community');
+                        }}
+                    >
+                        &gt;
+                    </Arrow>
+                </ViewAllWrapper>
+
+                <BlogPreviewWrapper2>
+                    {communityPosts.map((post) => (
+                        <BlogPreview
+                            key={post.postId}
+                            postId={post.postId}
+                            title={post.title}
+                            content={post.body}
+                            background={post.thumbnailUrl}
+                            writer={post.userNickname}
+                            ago={post.uploadTime}
+                            views={post.hit}
+                            like={post.likeCnt}
+                        />
+                    ))}
+                </BlogPreviewWrapper2>
+            </ContentWrapperMain>
         </PageWrapper>
     );
 };
@@ -157,26 +198,25 @@ const MainPage = () => {
 export default MainPage;
 
 const PageWrapper = styled.div`
-    width : 100%;
-`
+    width: 100%;
+`;
 
 const StyledSwiper = styled(Swiper)`
-
-    background-color: #F4EFFF;
+    background-color: #f4efff;
     width: 100%;
     height: 25em;
     .swiper-pagination-bullet {
         width: 10px;
         height: 10px;
-        background-color: #8E59FF;
+        background-color: #8e59ff;
 
         &.swiper-pagination-bullet-active {
-            background-color: #8E59FF;
+            background-color: #8e59ff;
         }
     }
 
-    @media(max-width:768px){
-        height : 12.5em;
+    @media (max-width: 768px) {
+        height: 12.5em;
     }
 `;
 const StyledSwiperSlide1 = styled(SwiperSlide)`
@@ -194,25 +234,24 @@ const StyledSwiperSlide3 = styled(SwiperSlide)`
 
 const Text = styled.div`
     margin: 1.7em 0 1.3em 0;
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 1.25em;
     font-weight: 800;
-    
 `;
 
 const PuppleText = styled.span`
-    color: #8E59FF;
+    color: #8e59ff;
 `;
 
 const SearchInputWrapper = styled.div`
     margin-bottom: 3em;
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-radius: 10px;
     width: 50%;
-    min-width :273px;
+    min-width: 273px;
 
-    @media(max-width : 768px){
-        width : 80%;
+    @media (max-width: 768px) {
+        width: 80%;
     }
     height: 2.5em;
     background-color: white;
@@ -232,18 +271,18 @@ const StyledSearchInput = styled.input`
     height: 2em;
     font-weight: bold;
     -webkit-appearance: none;
-    &:focus{
+    &:focus {
         outline: none;
     }
-    &::placeholder{
-        color: #D0D1D9;
+    &::placeholder {
+        color: #d0d1d9;
     }
     font-family: 'NanumSquareNeo';
 `;
 
 const SelectAndButtonWrapper = styled.div`
     display: flex;
-    width : 100%;
+    width: 100%;
     justify-content: start;
 `;
 
@@ -251,21 +290,21 @@ const StyledHr = styled.div`
     margin-top: 1.2em;
     width: 100%;
     height: 1.5px;
-    background-color: #D0D1D9;
+    background-color: #d0d1d9;
 `;
 
 const ViewAllWrapper = styled.div`
     margin-top: 1em;
-    width : 100%;
+    width: 100%;
     display: flex;
-    color: #8E59FF;
+    color: #8e59ff;
 `;
 
 const TitleText = styled.div`
     cursor: pointer;
     font-weight: 800;
-    @media(max-width : 768px){
-        font-size : 0.8125em;
+    @media (max-width: 768px) {
+        font-size: 0.8125em;
     }
 `;
 
@@ -274,29 +313,27 @@ const Arrow = styled.span`
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
-    @media(max-width : 768px){
-        font-size : 0.8125em;
+    @media (max-width: 768px) {
+        font-size: 0.8125em;
     }
 `;
 
 const BlogPreviewWrapper = styled(Scroll)`
-    width : 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
-    overflow-x : scroll;
-    overflow-y : hidden;
-    
+    overflow-x: scroll;
+    overflow-y: hidden;
 `;
 
 const BlogPreviewWrapper2 = styled(Scroll)`
-    margin-bottom : 1em;
-    padding-top : 1em;
-    width : 100%;
+    margin-bottom: 1em;
+    padding-top: 1em;
+    width: 100%;
     display: flex;
     justify-content: center;
-    overflow-x : scroll;
-    overflow-y : hidden;
-    box-sizing : border-box;
-    gap : 1em;
-    
+    overflow-x: scroll;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    gap: 1em;
 `;

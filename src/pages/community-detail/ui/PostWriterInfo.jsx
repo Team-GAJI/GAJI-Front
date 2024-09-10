@@ -3,33 +3,26 @@ import styled from 'styled-components';
 import ProfileImg from '../../../assets/images/community/writerProfile.png';
 import SendMessageIcon from '../../../assets/icons/community/sendMessage.svg?react';
 
-const PostWriterInfo = ( {nickName} ) => {
+const PostWriterInfo = ({ nickName }) => {
     return (
         <ProfileWrapper>
             {/* 프로필 */}
             <ProfileDetailWrapper>
-                <StyledProfileImg src={ProfileImg} alt='writer profile'/>
+                <StyledProfileImg src={ProfileImg} alt="writer profile" />
                 <TextWrapper>
-                    <WriterName>
-                        {nickName}
-                    </WriterName>
-                    <WriterGrade>
-                        Gold Member
-                    </WriterGrade>
+                    <WriterName>{nickName}</WriterName>
+                    <WriterGrade>Gold Member</WriterGrade>
                     <Relativetime>
-                        마지막활동 | 1시간 전
-                        {/* <Cricle userActiveColor={userActiveColor}/>{userActive}  */}
+                        마지막활동 | 1시간 전{/* <Cricle userActiveColor={userActiveColor}/>{userActive}  */}
                     </Relativetime>
                 </TextWrapper>
             </ProfileDetailWrapper>
             {/* 쪽지 */}
             <SendMessageWrapper>
                 <SendMessageButton>
-                    <StyledSendMessageIcon/>
+                    <StyledSendMessageIcon />
                 </SendMessageButton>
-                <SendMessageText>
-                    쪽지 보내기
-                </SendMessageText>
+                <SendMessageText>쪽지 보내기</SendMessageText>
             </SendMessageWrapper>
         </ProfileWrapper>
     );
@@ -47,7 +40,7 @@ const ProfileWrapper = styled.div`
     background-color: white;
     display: flex;
     justify-content: space-between;
-    box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+    box-shadow: 0 0.25em 1.25em rgba(22, 26, 63, 0.2);
 `;
 
 const ProfileDetailWrapper = styled.div`
@@ -68,7 +61,7 @@ const TextWrapper = styled.div`
 `;
 
 const WriterName = styled.div`
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 1.25em;
     font-weight: 800;
 `;
@@ -80,12 +73,12 @@ const WriterGrade = styled.div`
     height: 1.5625em;
     line-height: 1.5625em;
     text-align: center;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     color: white;
 `;
 
 const Relativetime = styled.div`
-    color: #A2A3B2;
+    color: #a2a3b2;
 `;
 
 const SendMessageWrapper = styled.div`
@@ -101,7 +94,7 @@ const SendMessageButton = styled.div`
     width: 5.625em;
     height: 2.5em;
     justify-content: center;
-    background-color: #8E50FF;
+    background-color: #8e50ff;
     cursor: pointer;
 `;
 
@@ -113,7 +106,7 @@ const StyledSendMessageIcon = styled(SendMessageIcon)`
 
 const SendMessageText = styled.div`
     margin: 0.7em;
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 0.6875em;
     font-weight: bold;
 `;

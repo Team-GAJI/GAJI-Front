@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Scroll = styled.div`
     overflow-x: auto;
@@ -9,6 +9,6 @@ export const Scroll = styled.div`
     &:hover::-webkit-scrollbar-thumb {
         width: 1px;
         border-radius: 30px;
-        background-color: rgb(142,89,255,0.5);
+        background-color: rgb(142, 89, 255, 0.5);
     }
-`
+`;

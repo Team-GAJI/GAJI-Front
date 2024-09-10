@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import userProfileImg from '../../../assets/images/community/userProfile.png';
 import { communityPostAPI } from '../../community-detail/api/communityPostAPI';
 
-const QuestionPreview = ({key, postId, state, title, content, writer, ago, views, like}) => {
+const QuestionPreview = ({ key, postId, state, title, content, writer, ago, views, like }) => {
     // useNavigate
     const navigate = useNavigate();
 
@@ -13,11 +13,11 @@ const QuestionPreview = ({key, postId, state, title, content, writer, ago, views
     const handleSubmit = async () => {
         try {
             const postDetail = await communityPostAPI(postId);
-            console.log(postDetail)
-            navigate("/community/post", { state: 
-                {
-                    postId: postDetail
-                } 
+            console.log(postDetail);
+            navigate('/community/post', {
+                state: {
+                    postId: postDetail,
+                },
             });
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
@@ -28,18 +28,18 @@ const QuestionPreview = ({key, postId, state, title, content, writer, ago, views
     return (
         <PageWrapper key={key}>
             <PostState state={state}>{state}</PostState>
-            <ContentWrapper onClick={()=>handleSubmit()}>
+            <ContentWrapper onClick={() => handleSubmit()}>
                 <Title>{title}</Title>
-                <Content>
-                    {content}
-                </Content>
+                <Content>{content}</Content>
             </ContentWrapper>
             <PostInfoWrapper>
-                <PostType>질문</PostType><StyledBar>|</StyledBar>
-                <StyledUserProfileImg src={userProfileImg} alt='user profile'/>
+                <PostType>질문</PostType>
+                <StyledBar>|</StyledBar>
+                <StyledUserProfileImg src={userProfileImg} alt="user profile" />
                 <Writer>{writer}</Writer>
                 <Ago>{ago}</Ago>
-                <Views>조회 {views}</Views><StyledBar>|</StyledBar>
+                <Views>조회 {views}</Views>
+                <StyledBar>|</StyledBar>
                 <StyledLikeIcon />
                 <Like>{like}</Like>
             </PostInfoWrapper>
@@ -70,7 +70,7 @@ const PostState = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-    &:hover{
+    &:hover {
         cursor: pointer;
     }
 `;
@@ -78,7 +78,7 @@ const ContentWrapper = styled.div`
 const Title = styled.p`
     margin-top: 0.8em;
     width: 20em;
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 1.2em;
     font-weight: bold;
     // 말줄임 처리
@@ -91,12 +91,12 @@ const Title = styled.p`
 const Content = styled.div`
     height: 4.5em;
     line-height: 1.5em;
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 1.025em;
     // 말줄임 처리
     text-overflow: ellipsis;
     overflow: hidden;
-    word-break: break-word;    
+    word-break: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -106,7 +106,7 @@ const PostInfoWrapper = styled.div`
     margin-top: 1.5em;
     display: flex;
     flex-direction: row;
-    color: #D0D1D9;
+    color: #d0d1d9;
     font-size: 0.8em;
 `;
 
@@ -142,12 +142,11 @@ const StyledLikeIcon = styled(LikeIcon)`
     height: 1.3em;
 `;
 
-const Like = styled.div`
-`;
+const Like = styled.div``;
 
 const StyledHr = styled.hr`
     margin-top: 1.5em;
     border: none;
     height: 1px;
-    background-color: #D0D1D9;
+    background-color: #d0d1d9;
 `;

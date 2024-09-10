@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components'; 
-
+import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
     const [studyName, setStudyName] = useState('');
@@ -21,8 +20,8 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
             ...newWeekData[selectedWeek],
             basicInfo: {
                 ...newWeekData[selectedWeek]?.basicInfo,
-                name: value
-            }
+                name: value,
+            },
         };
         onWeekDataChange(newWeekData);
     };
@@ -35,8 +34,8 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
             ...newWeekData[selectedWeek],
             basicInfo: {
                 ...newWeekData[selectedWeek]?.basicInfo,
-                description: value
-            }
+                description: value,
+            },
         };
         onWeekDataChange(newWeekData);
     };
@@ -74,55 +73,53 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
 
 export default ManageWeekBasics;
 
-
 const Container = styled.div`
-width : 100%;
-  display: flex;
-  flex-direction: column; 
-  gap: 0.625em; 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625em;
 `;
 
 const RowContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
     gap: 0.3125em;
 `;
 
 /* 스터디 기본정보 */
 const Text2 = styled.p`
-    color: #8E59FF;
-    font-size: 1.25em; 
+    color: #8e59ff;
+    font-size: 1.25em;
     font-weight: 800;
 `;
 
 const MainWrapper1 = styled.div`
     display: flex;
     flex-direction: column;
-    border: 1px solid #8E59FF;
-    border-radius: 0.5em; 
-    width: 100%; 
-    padding : 2.25em 3em;
-    box-sizing : border-box;
+    border: 1px solid #8e59ff;
+    border-radius: 0.5em;
+    width: 100%;
+    padding: 2.25em 3em;
+    box-sizing: border-box;
 `;
 
 const InputWrapper = styled.div`
     position: relative;
     width: 100%;
-    
 `;
 
 const InputStudyName = styled.input`
     background: none;
     border: none;
     outline: none;
-    font-size: 1em; 
+    font-size: 1em;
     font-family: 'NanumSquareNeo';
-    width : 100%;
+    width: 100%;
     &::placeholder {
-        color: #A2A3B2;
-        font-size: 0.8125em; 
+        color: #a2a3b2;
+        font-size: 0.8125em;
         font-weight: 700;
     }
 `;
@@ -132,51 +129,50 @@ const CharCount = styled.span`
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: #A2A3B2;
-    font-size: 0.8125em; 
+    color: #a2a3b2;
+    font-size: 0.8125em;
     font-weight: 700;
-    text-align: right; 
-    right: 0em; 
+    text-align: right;
+    right: 0em;
 `;
 
 const DivisionLine2 = styled.div`
-    border-top: 1px solid #8E59FF;
+    border-top: 1px solid #8e59ff;
     align-items: center;
-    margin-top : 1em;
+    margin-top: 1em;
     width: 100%;
 `;
 
 const ExWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    border: 1px solid #A2A3B2;
-    border-radius: 0.5em; 
-    width: 100%; 
-    height: 14.375em; 
-    padding : 1.5em;
-    box-sizing :border-box;
+    border: 1px solid #a2a3b2;
+    border-radius: 0.5em;
+    width: 100%;
+    height: 14.375em;
+    padding: 1.5em;
+    box-sizing: border-box;
 `;
 
 const Text4 = styled.p`
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 0.9375em;
     font-weight: 700;
     text-align: left;
     width: 100%;
 `;
 
-
 /* 스터디 설명 */
 const InputExStudy = styled.textarea`
     background: none;
     border: none;
     outline: none;
-    resize : none;
+    resize: none;
     font-size: 1em;
-    width : 100%;
-      font-family: 'NanumSquareNeo';
+    width: 100%;
+    font-family: 'NanumSquareNeo';
     &::placeholder {
-        color: #A2A3B2;
+        color: #a2a3b2;
         font-size: 0.8125em;
         font-weight: 500;
     }
@@ -184,19 +180,18 @@ const InputExStudy = styled.textarea`
 
 const ExStudyCharCount = styled.span`
     display: block;
-    color: #A2A3B2;
-    font-size: 0.8125em; 
+    color: #a2a3b2;
+    font-size: 0.8125em;
     font-weight: 700;
     text-align: right;
-    margin-right: 0.625em; 
-    margin-top: 10.75em; 
+    margin-right: 0.625em;
+    margin-top: 10.75em;
 `;
 
 const ToggleWrapper = styled.div`
     margin-top: 2em;
     display: flex;
     align-items: center;
-
 `;
 
 const OnToggleText = styled.div`
@@ -217,7 +212,7 @@ const OffToggleText = styled.div`
 
 const ToggleBox = styled.div`
     margin: 0 0.8em;
-    border: 1.5px solid #8E59FF;
+    border: 1.5px solid #8e59ff;
     border-radius: 10px;
     width: 3.5em;
     height: 1.4375em;
@@ -231,7 +226,7 @@ const Toggle = styled.div`
     border-radius: 30px;
     width: 1em;
     height: 1em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     position: absolute;
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;
@@ -239,7 +234,7 @@ const Toggle = styled.div`
 
 const SaveButton = styled.button`
     padding: 10px 20px;
-    background-color: #4CAF50; // Green background
+    background-color: #4caf50; // Green background
     color: white;
     border: none;
     border-radius: 5px;

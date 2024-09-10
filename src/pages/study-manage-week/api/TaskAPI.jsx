@@ -1,4 +1,4 @@
-import { api } from "../../../app/api";
+import { api } from '../../../app/api';
 
 // 스터디 주차별 정보 API
 export const TaskAPI = async (roomId, week) => {
@@ -9,6 +9,6 @@ export const TaskAPI = async (roomId, week) => {
         return response.data;
     } catch (error) {
         console.error('API 요청 중 오류 발생:', error);
-        throw error; 
+        throw error;
     }
 };

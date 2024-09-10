@@ -17,34 +17,45 @@ const StudyMainPage = () => {
         인공지능: [],
         하드웨어: [],
         보안: [],
-        "네트워크-클라우드": [],
+        '네트워크-클라우드': [],
         어학: [],
         디자인: [],
         비즈니스: [],
         독서: [],
-        기타: []
+        기타: [],
     });
-    const [, setCategory] = useState("");
+    const [, setCategory] = useState('');
 
     // 스터디 데이터를 API로부터 불러오는 useEffect
     useEffect(() => {
-        const categories = ["개발", "인공지능", "하드웨어", "보안", "네트워크-클라우드", "어학", "디자인", "비즈니스", "독서", "기타"];
-        
+        const categories = [
+            '개발',
+            '인공지능',
+            '하드웨어',
+            '보안',
+            '네트워크-클라우드',
+            '어학',
+            '디자인',
+            '비즈니스',
+            '독서',
+            '기타',
+        ];
+
         const fetchStudies = async () => {
             try {
                 const studiesByCategory = await Promise.all(
                     categories.map(async (cat) => {
                         const response = await studyPostsPreviewAPI(cat, null, 'recent', 5);
-                        
+
                         // API로부터 받은 응답은 배열 형식이므로, 이를 상태값에 맞게 저장
                         return { [cat]: response };
-                    })
+                    }),
                 );
-                
+
                 const studiesData = studiesByCategory.reduce((acc, cur) => {
                     return { ...acc, ...cur };
                 }, {});
-                
+
                 setStudies(studiesData);
             } catch (error) {
                 console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
@@ -60,67 +71,76 @@ const StudyMainPage = () => {
     // 카테고리 클릭 시 해당 카테고리의 스터디 페이지로 이동
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
-        navigate("/studycategory", { state: { category: selectedCategory } });
+        navigate('/studycategory', { state: { category: selectedCategory } });
     };
 
     return (
         <>
-        <Header>
-        <PageHeaderTitle>스터디</PageHeaderTitle>
-        <SubTitle>&#039;가지&#039;고싶은 스터디를 검색해보세요!</SubTitle>
-        <RowWrapper>
-            {/* 검색창 */}
-            <SearchInputWrapper>
-                <StyledLogoIcon />
-                <StyledSearchInput type="text" placeholder='검색어를 입력해주세요'/>
-            </SearchInputWrapper>
-        </RowWrapper>
-    </Header>
-    
-        <ContentWrapper>
-            {/* 페이지 헤더 */}
-            
-            {/* 게시글 필터 */}
-            <SelectAndButtonWrapper>
-                <MainSelectBox/>
-                <div onClick={() => {navigate("/studycreate");}}>
-                <MobileWriteButton/></div>
-                <CreatePostButton onClick={() => {navigate("/studycreate");}}>
-                + 스터디 만들기
-                </CreatePostButton>
-            </SelectAndButtonWrapper>
-            <StyledHr />
+            <Header>
+                <PageHeaderTitle>스터디</PageHeaderTitle>
+                <SubTitle>&#039;가지&#039;고싶은 스터디를 검색해보세요!</SubTitle>
+                <RowWrapper>
+                    {/* 검색창 */}
+                    <SearchInputWrapper>
+                        <StyledLogoIcon />
+                        <StyledSearchInput type="text" placeholder="검색어를 입력해주세요" />
+                    </SearchInputWrapper>
+                </RowWrapper>
+            </Header>
 
-            {/* 카테고리별 스터디 영역 */}
-            {Object.keys(studies).map((cat) => (
-                <React.Fragment key={cat}>
-                    <CategoryTitleWrapper>
-                        <CategoryTitle># {cat}</CategoryTitle>
-                        <ViewAllWrapper>
-                            <ViewAll onClick={() => handleCategoryClick(cat)}>모두 보기</ViewAll>
-                            <Arrow onClick={() => handleCategoryClick(cat)}>&gt;</Arrow>
-                        </ViewAllWrapper>
-                    </CategoryTitleWrapper>
-                    <StudyPreviewWrapper>
-                        {/* 각 카테고리별로 5개의 스터디를 화면에 렌더링 */}
-                        {studies[cat].slice(0, 5).map((post) => (
-                            <StudyPreview
-                                key={post.roomId} // 고유한 ID로 key 설정
-                                roomId={post.roomId} // room Id 설정
-                                title={post.name} // 제목 설정
-                                content={post.description} // 내용 설정
-                                background={post.imageUrl} // 배경 이미지 설정
-                                ago={post.createdAt} // 생성 시간 설정
-                                dday={post.deadLine} // 마감일 설정
-                                recruiter={post.recruitMaxCount} // 모집 인원 설정
-                                state={post.recruitStatus} // 모집 상태 설정
-                                applicant={post.applicant} // 지원자 수 설정
-                            />
-                        ))}
-                    </StudyPreviewWrapper>
-                </React.Fragment>
-            ))}
-        </ContentWrapper>
+            <ContentWrapper>
+                {/* 페이지 헤더 */}
+
+                {/* 게시글 필터 */}
+                <SelectAndButtonWrapper>
+                    <MainSelectBox />
+                    <div
+                        onClick={() => {
+                            navigate('/studycreate');
+                        }}
+                    >
+                        <MobileWriteButton />
+                    </div>
+                    <CreatePostButton
+                        onClick={() => {
+                            navigate('/studycreate');
+                        }}
+                    >
+                        + 스터디 만들기
+                    </CreatePostButton>
+                </SelectAndButtonWrapper>
+                <StyledHr />
+
+                {/* 카테고리별 스터디 영역 */}
+                {Object.keys(studies).map((cat) => (
+                    <React.Fragment key={cat}>
+                        <CategoryTitleWrapper>
+                            <CategoryTitle># {cat}</CategoryTitle>
+                            <ViewAllWrapper>
+                                <ViewAll onClick={() => handleCategoryClick(cat)}>모두 보기</ViewAll>
+                                <Arrow onClick={() => handleCategoryClick(cat)}>&gt;</Arrow>
+                            </ViewAllWrapper>
+                        </CategoryTitleWrapper>
+                        <StudyPreviewWrapper>
+                            {/* 각 카테고리별로 5개의 스터디를 화면에 렌더링 */}
+                            {studies[cat].slice(0, 5).map((post) => (
+                                <StudyPreview
+                                    key={post.roomId} // 고유한 ID로 key 설정
+                                    roomId={post.roomId} // room Id 설정
+                                    title={post.name} // 제목 설정
+                                    content={post.description} // 내용 설정
+                                    background={post.imageUrl} // 배경 이미지 설정
+                                    ago={post.createdAt} // 생성 시간 설정
+                                    dday={post.deadLine} // 마감일 설정
+                                    recruiter={post.recruitMaxCount} // 모집 인원 설정
+                                    state={post.recruitStatus} // 모집 상태 설정
+                                    applicant={post.applicant} // 지원자 수 설정
+                                />
+                            ))}
+                        </StudyPreviewWrapper>
+                    </React.Fragment>
+                ))}
+            </ContentWrapper>
         </>
     );
 };
@@ -129,8 +149,8 @@ export default StudyMainPage;
 
 // 스타일링 관련 컴포넌트
 const SubTitle = styled.div`
-    color : #D0D1D9;
-    font-weight : 700;
+    color: #d0d1d9;
+    font-weight: 700;
 `;
 
 const Header = styled.div`
@@ -143,15 +163,15 @@ const Header = styled.div`
     justify-content: center;
     width: 100%;
     height: 10em;
-    gap : 1em;
-    background-color: #FBFAFF;
+    gap: 1em;
+    background-color: #fbfaff;
     background-image: url(${backGroundUrl});
 `;
 
 const PageHeaderTitle = styled.div`
     font-size: 1.5em;
     font-weight: 800;
-    color: #8E59FF;
+    color: #8e59ff;
 
     @media (max-width: 768px) {
         font-size: 1.25em;
@@ -161,20 +181,20 @@ const PageHeaderTitle = styled.div`
 `;
 
 const RowWrapper = styled.div`
-    width : 100%;
+    width: 100%;
     display: flex;
     gap: 1em;
     justify-content: center;
 `;
 
 const SearchInputWrapper = styled.div`
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-radius: 10px;
     width: 50%;
-    min-width :273px;
+    min-width: 273px;
 
-    @media(max-width : 768px){
-        width : 80%;
+    @media (max-width: 768px) {
+        width: 80%;
     }
     height: 2.5em;
     background-color: white;
@@ -194,11 +214,11 @@ const StyledSearchInput = styled.input`
     height: 2em;
     font-weight: bold;
     -webkit-appearance: none;
-    &:focus{
+    &:focus {
         outline: none;
     }
-    &::placeholder{
-        color: #D0D1D9;
+    &::placeholder {
+        color: #d0d1d9;
     }
     font-family: 'NanumSquareNeo';
 `;
@@ -210,7 +230,7 @@ const SelectAndButtonWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: #FBFAFF;
+    background-color: #fbfaff;
     position: sticky;
     top: 60px;
     z-index: 10;
@@ -219,30 +239,29 @@ const SelectAndButtonWrapper = styled.div`
 const CreatePostButton = styled.button`
     border: none;
     border-radius: 10px;
-    width: 9.9230em;
+    width: 9.923em;
     height: 2.4em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     color: white;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
-    &:hover{
-            box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    &:hover {
+        box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
     }
     transition: all 0.3s ease;
 
-    @media( max-width : 768px ){
-        display : none
+    @media (max-width: 768px) {
+        display: none;
     }
-    `;
-
+`;
 
 const StyledHr = styled.hr`
     margin-bottom: 1.2em;
     border: none;
     width: 100%;
     height: 1.5px;
-    background-color: #D0D1D9;
+    background-color: #d0d1d9;
 `;
 
 const CategoryTitleWrapper = styled.div`
@@ -259,7 +278,7 @@ const CategoryTitle = styled.div`
     padding: 0 1.5em;
     height: 2.5em;
     line-height: 2.5em;
-    background-color: #BB9CFF;
+    background-color: #bb9cff;
     color: white;
     font-size: 0.8125em;
     font-weight: 800;
@@ -267,7 +286,7 @@ const CategoryTitle = styled.div`
 `;
 
 const ViewAllWrapper = styled.div`
-    color: #D0D1D9;
+    color: #d0d1d9;
     font-size: 0.8125em;
     display: flex;
     align-items: center;
@@ -276,8 +295,8 @@ const ViewAllWrapper = styled.div`
 const StudyPreviewWrapper = styled(Scroll)`
     width: 100%;
     display: flex;
-    justify-content : center;
-    overflow-x : scroll;
+    justify-content: center;
+    overflow-x: scroll;
 `;
 
 const ViewAll = styled.span`

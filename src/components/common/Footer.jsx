@@ -18,8 +18,10 @@ const Footer = () => {
                 <Text onClick={() => navigate('/mypage')}>마이페이지</Text>
             </RowWrapper>
             <RowLogoWrapper>
-                <StyledLogo/>
-                <LogoText>가지고 싶은 스터디, <Color>GAJI</Color></LogoText>
+                <StyledLogo />
+                <LogoText>
+                    가지고 싶은 스터디, <Color>GAJI</Color>
+                </LogoText>
             </RowLogoWrapper>
             <FooterText>@ Copyright 2024_GAJI</FooterText>
         </FooterWrapper>
@@ -37,7 +39,7 @@ const StyledLogo = styled(Logo)`
 `;
 
 const FooterWrapper = styled.div`
-    background-color: #E8E9EC;
+    background-color: #e8e9ec;
     width: 100%;
     height: 277px;
     box-sizing: border-box;

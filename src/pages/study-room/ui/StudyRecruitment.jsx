@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../../assets/logos/logo.svg';
 
-
 const StudyRecruitment = () => {
     return (
         <CardItemWrapper>
@@ -20,9 +19,9 @@ const StudyRecruitment = () => {
                         <ActivityTitle>D-5</ActivityTitle> {/* 기능 넣어야한다아아앙 */}
                     </SecondInfoText>
                     <ExplanationTitle>설명며어어어어어어어엉어어어어ㅓ어어 </ExplanationTitle>
-                    <DetailButton>N명 모집중!</DetailButton> 
+                    <DetailButton>N명 모집중!</DetailButton>
                 </ContentWrapper>
-            </StyledWrapper>  
+            </StyledWrapper>
         </CardItemWrapper>
     );
 };
@@ -31,9 +30,9 @@ export default StudyRecruitment;
 
 const CardItemWrapper = styled.div`
     background-color: #fff;
-    border: 1px solid #C8C8C8; 
+    border: 1px solid #c8c8c8;
     border-radius: 8px;
-    min-width : 250px;
+    min-width: 250px;
     width: 250px;
     margin-top: 20px;
     overflow: hidden;
@@ -74,11 +73,11 @@ const InfoTextWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 8px;
-    gap: 6px; 
+    gap: 6px;
 `;
 
 const Text = styled.p`
-    border: 1px solid #C8C8C8;
+    border: 1px solid #c8c8c8;
     border-radius: 10px;
     font-weight: 800;
     font-size: 0.8em;
@@ -86,8 +85,8 @@ const Text = styled.p`
     height: 20px;
     text-align: center;
     color: #747881;
-    line-height: 20px; 
-    margin: 0; 
+    line-height: 20px;
+    margin: 0;
 `;
 
 const SecondInfoText = styled.div`
@@ -101,7 +100,7 @@ const ActivityTitle = styled.h2`
     font-size: 1.125em;
     margin: 0;
     margin-bottom: 8px;
-    font-weight: 800; 
+    font-weight: 800;
 `;
 
 const ExplanationTitle = styled.h3`
@@ -110,7 +109,7 @@ const ExplanationTitle = styled.h3`
     font-size: 0.875em;
     margin: 0;
     margin-bottom: 16px;
-    word-break: break-word; 
+    word-break: break-word;
 `;
 
 const DetailButton = styled.div`

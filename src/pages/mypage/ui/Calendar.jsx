@@ -31,7 +31,7 @@ const Calendar = () => {
         cells.push(
             <Cell key={`prev-${i}`} className="empty">
                 {prevMonthLastDate - i + 1}
-            </Cell>
+            </Cell>,
         );
     }
 
@@ -44,7 +44,7 @@ const Calendar = () => {
         cells.push(
             <Cell key={day} $isSelected={isSelectedDate} onClick={() => handleDateClick(day)}>
                 {day}
-            </Cell>
+            </Cell>,
         );
     }
 
@@ -52,7 +52,7 @@ const Calendar = () => {
         cells.push(
             <Cell key={`next-${i}`} className="empty">
                 {i}
-            </Cell>
+            </Cell>,
         );
     }
 
@@ -107,17 +107,17 @@ const CalendarWrapper = styled.div`
     border-top: 1px solid #d0d1d9;
 
     @media (max-width: 768px) {
-        height : auto;
+        height: auto;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, 1fr);
     }
 `;
 
 const CalendarWrapper1 = styled.div`
-    display : flex;
-    flex-direction : column;
-    justify-content :center;
-    align-items : center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: relative;
     width: 100%;
     height: 100%;
@@ -149,15 +149,14 @@ const MonthYear = styled.div`
 `;
 
 const Grid = styled.div`
-    width : 100%;
-    padding : 1em;
+    width: 100%;
+    padding: 1em;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
     gap: 1em;
-    font-size : 1em;
+    font-size: 1em;
     place-items: center center;
-    
 `;
 
 const Day = styled.div`
@@ -174,11 +173,11 @@ const Cell = styled.div`
     height: 2.5em;
     width: 2.5em;
     padding: 0.625em;
-    font-weight: ${props => (props.$isSelected ? '600' : '400')};
-    color: ${props => (props.$isSelected ? '#ffffff' : '#000000')};
-    background-color: ${props => (props.$isSelected ? '#8e59ff' : 'transparent')};
-    border-radius: ${props => (props.$isSelected ? '100%' : 'none')};
-    box-shadow: ${props => (props.$isSelected ? '0px 4px 0.625em rgba(129, 76, 161, 0.19)' : 'none')};
+    font-weight: ${(props) => (props.$isSelected ? '600' : '400')};
+    color: ${(props) => (props.$isSelected ? '#ffffff' : '#000000')};
+    background-color: ${(props) => (props.$isSelected ? '#8e59ff' : 'transparent')};
+    border-radius: ${(props) => (props.$isSelected ? '100%' : 'none')};
+    box-shadow: ${(props) => (props.$isSelected ? '0px 4px 0.625em rgba(129, 76, 161, 0.19)' : 'none')};
     cursor: pointer;
     &.empty {
         color: #ccc;

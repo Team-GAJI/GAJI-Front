@@ -14,12 +14,12 @@ export default Hashtag;
 
 /* CSS */
 const Wrapper = styled.div`
-    position : relative;
+    position: relative;
     padding: 0 1.2em;
     border-radius: 15px;
     height: 1.8182em;
     line-height: 1.8182em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     color: white;
     font-size: 0.6875em;
     font-weight: bold;
@@ -32,10 +32,10 @@ const Wrapper = styled.div`
 `;
 
 const DeleteButton = styled.button`
-    position : absolute;
+    position: absolute;
     display: none;
     top: 0.125em;
-    right : 0;
+    right: 0;
     background: none;
     border: none;
     color: white;

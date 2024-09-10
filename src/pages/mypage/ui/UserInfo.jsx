@@ -22,12 +22,12 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
                 alert('닉네임을 입력해주세요.');
                 return;
             }
-    
+
             try {
                 // 닉네임 수정 API 호출
                 const response = await nickNameAPI(userName);
                 console.log(response.message);
-                
+
                 alert(response.message || '닉네임이 수정되었습니다!');
             } catch (error) {
                 console.error('닉네임 수정 중 오류 발생:', error);
@@ -57,12 +57,7 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
                 <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
                 <ColumnWrapper>
                     {isEditing ? (
-                        <UserNameInput
-                            type="text"
-                            value={userName}
-                            onChange={handleNameChange}
-                            autoFocus
-                        />
+                        <UserNameInput type="text" value={userName} onChange={handleNameChange} autoFocus />
                     ) : (
                         <UserName>{userName} 님</UserName>
                     )}
@@ -76,11 +71,15 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
                 </NameEditButton>
                 <RowWrapper3>
                     <ColumnWrapper2>
-                        <MarketingButton onClick={handleMarketingClick}><BellIcon /></MarketingButton>
+                        <MarketingButton onClick={handleMarketingClick}>
+                            <BellIcon />
+                        </MarketingButton>
                         <GreyText>마케팅 수신</GreyText>
                     </ColumnWrapper2>
                     <ColumnWrapper2>
-                        <MarketingButton onClick={handleSendMessageClick}><SendIcon /></MarketingButton>
+                        <MarketingButton onClick={handleSendMessageClick}>
+                            <SendIcon />
+                        </MarketingButton>
                         <GreyText>쪽지 보내기</GreyText>
                     </ColumnWrapper2>
                 </RowWrapper3>
@@ -154,7 +153,7 @@ const UserWrapper = styled.div`
     width: 100%;
     height: 166px;
     border-radius: 10px;
-    background-color: #F0EAFF;
+    background-color: #f0eaff;
 
     @media (max-width: 768px) {
         flex-direction: column;
@@ -185,7 +184,7 @@ const UserGrade = styled(PuppleButton)`
 const WelcomeText = styled.div`
     font-size: 1em;
     font-weight: 700;
-    color: #A2A3B2;
+    color: #a2a3b2;
 
     @media (max-width: 768px) {
         margin-bottom: 1em;
@@ -193,7 +192,7 @@ const WelcomeText = styled.div`
 `;
 
 const NameEditButton = styled(PuppleButton2)`
-    background-color: #B693FF;
+    background-color: #b693ff;
     width: 100%;
     height: 40px;
     font-weight: 700;
@@ -216,7 +215,7 @@ const MarketingButton = styled(PuppleButton3)`
 const GreyText = styled.div`
     text-align: center;
     font-size: 0.6875em;
-    color: #C9C7DA;
+    color: #c9c7da;
     font-weight: 700;
 
     @media (max-width: 768px) {
@@ -225,7 +224,7 @@ const GreyText = styled.div`
 `;
 
 const UserNameInput = styled.input`
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 1.25em;
     font-weight: 800;
     font-family: 'NanumSquareNeo';
@@ -233,14 +232,13 @@ const UserNameInput = styled.input`
     outline: none;
     background-color: transparent;
     width: 100%;
-    
 
     &:focus {
         outline: none;
     }
 
     @media (max-width: 768px) {
-        text-align : center;
+        text-align: center;
         font-size: 1em;
     }
 `;

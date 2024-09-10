@@ -1,4 +1,4 @@
-import { api } from "../../../app/api";
+import { api } from '../../../app/api';
 
 export const studyPostsPreviewAPI = async (category, filter, sort, page) => {
     try {

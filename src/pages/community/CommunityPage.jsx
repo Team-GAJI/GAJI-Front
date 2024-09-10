@@ -25,15 +25,15 @@ const CommunityPage = () => {
     const { type } = useSelector((state) => state.community);
 
     // 헤더 함수
-    const headerTitles = ["프로젝트", "질문", "블로그"];
+    const headerTitles = ['프로젝트', '질문', '블로그'];
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
         if (index == 0) {
-            dispatch(setActiveButton("프로젝트"));
+            dispatch(setActiveButton('프로젝트'));
         } else if (index == 1) {
-            dispatch(setActiveButton("질문"));
+            dispatch(setActiveButton('질문'));
         } else {
-            dispatch(setActiveButton("블로그"));
+            dispatch(setActiveButton('블로그'));
         }
     };
 
@@ -42,7 +42,7 @@ const CommunityPage = () => {
         const fetchStudies = async () => {
             try {
                 const [hotPostResponse] = await Promise.all([
-                communityPostsPreviewAPI(type, null, 'hot', null, 10) // 핫게시물
+                    communityPostsPreviewAPI(type, null, 'hot', null, 10), // 핫게시물
                 ]);
                 setHotPosts(hotPostResponse);
             } catch (error) {
@@ -50,7 +50,7 @@ const CommunityPage = () => {
             }
         };
         fetchStudies();
-    },[type]);
+    }, [type]);
 
     return (
         <>
@@ -92,14 +92,15 @@ const CommunityPage = () => {
                                     postId={post.postId}
                                     title={post.title}
                                     background={post.thumbnailUrl}
-                                    tags={post.hashtagList} />
+                                    tags={post.hashtagList}
+                                />
                             </StyledSwiperSlide>
                         ))}
                     </StyledSwiper>
                 </HotPostsBackground>
 
                 {/* 게시글 영역 */}
-                <CommunityHomePosts/>
+                <CommunityHomePosts />
             </PostsWrapper>
         </>
     );
@@ -116,17 +117,17 @@ const PostsWrapper = styled.div`
 const HotPostsBackground = styled.div`
     margin-bottom: 1.5em;
     height: 19.75em;
-    background-color: #F0EAFF;
+    background-color: #f0eaff;
 `;
 
 const HotPostText = styled.div`
     padding-top: 1.2em;
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width : 100%;
+    width: 100%;
     max-width: 52em;
     height: 16em;
 `;
@@ -135,7 +136,9 @@ const StyledSwiperSlide = styled(SwiperSlide)`
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition:
+        transform 0.5s ease,
+        opacity 0.5s ease;
     &.swiper-slide-prev,
     &.swiper-slide-next {
         transform: scale(0.8);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PostBackground from '../../../assets/images/common/studyExampleImage.png'; // 기본 썸네일 이미지
-import { studyDetailAPI } from '../../study-detail/api/studyDetailAPI'; 
+import { studyDetailAPI } from '../../study-detail/api/studyDetailAPI';
 
 const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recruiter, state, applicant, link }) => {
     // state 관리
@@ -23,32 +23,36 @@ const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recr
     const handleSubmit = async () => {
         try {
             const studyDetail = await studyDetailAPI(roomId);
-            console.log(studyDetail)
-            navigate("/studydetail", { state: 
-                {
+            console.log(studyDetail);
+            navigate('/studydetail', {
+                state: {
                     studyDetail: studyDetail,
-                    roomId: roomId
-                } 
+                    roomId: roomId,
+                },
             });
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
         }
     };
-    
+
     // 모집중, 모집완료 변환 기능
-    const recruitmentState = state === "RECRUITING" ? "모집중" : "모집완료";
+    const recruitmentState = state === 'RECRUITING' ? '모집중' : '모집완료';
 
     // D-day 변환 기능
-    const displayDday = dday === 0 ? "Day" : dday < 0 ? 0 : dday;
+    const displayDday = dday === 0 ? 'Day' : dday < 0 ? 0 : dday;
 
     // 기본 썸네일 기능
     const backgroundImage = background || PostBackground;
 
     return (
-        <PostWrapper link={link} key={key} onClick={()=>handleSubmit()}
+        <PostWrapper
+            link={link}
+            key={key}
+            onClick={() => handleSubmit()}
             onMouseOver={() => showDetail()}
-            onMouseOut={() => hiddenDetail()}>
+            onMouseOut={() => hiddenDetail()}
+        >
             <BackgroundWrapper background={backgroundImage} isVisible={isDetailVisible}>
                 <TagWrapper isVisible={isDetailVisible}>
                     <Tag>{recruitmentState}</Tag>
@@ -83,30 +87,28 @@ const PostWrapper = styled.div`
     flex-direction: column;
     cursor: pointer;
     transition: all 0.3s ease;
-    &:hover{
+    &:hover {
         transform: translateY(-0.8em);
-        box-shadow: 0 0.625em 1.25em #C8C8C8;
+        box-shadow: 0 0.625em 1.25em #c8c8c8;
     }
 
     @media (min-width: 1024px) {
-        width : ${({ link }) => (link === "category" ? "18%" : "100%")};
+        width: ${({ link }) => (link === 'category' ? '18%' : '100%')};
     }
 
-
-    @media(max-width : 1024px){
-        width : ${({ link }) => (link === "category" ? "45%" : "100%")};
-            @media (max-width : 768px){
-        width : 100%;
-    }
-
+    @media (max-width: 1024px) {
+        width: ${({ link }) => (link === 'category' ? '45%' : '100%')};
+        @media (max-width: 768px) {
+            width: 100%;
+        }
     }
 `;
 
 const BackgroundWrapper = styled.div`
-    border: ${(props) => (props.isVisible ? "none" : "1px solid #D0D1D9")};
+    border: ${(props) => (props.isVisible ? 'none' : '1px solid #D0D1D9')};
     border-bottom: none;
     border-radius: 10px 10px 0 0;
-    height: ${(props) => (props.isVisible ? "0%" : "50%")};
+    height: ${(props) => (props.isVisible ? '0%' : '50%')};
     display: flex;
     position: relative;
     background-image: ${({ background }) => `url(${background})`};
@@ -119,17 +121,17 @@ const TagWrapper = styled.div`
     margin-left: 0.8em;
     position: absolute;
     bottom: 0;
-    visibility: ${(props) => (props.isVisible ? "hidden" : "visibility")};
+    visibility: ${(props) => (props.isVisible ? 'hidden' : 'visibility')};
     transition-delay: 0.1s;
-    @media (max-width : 768px){
-        width : 100%;
+    @media (max-width: 768px) {
+        width: 100%;
     }
 `;
 
 const Tag = styled.div`
     margin: 0 0.7em 0.6em 0;
     padding: 0 1em;
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-radius: 30px;
     min-width: 2.6409em;
     height: 1.6436em;
@@ -143,9 +145,9 @@ const Tag = styled.div`
 `;
 
 const DetailsWrapper = styled.div`
-    border: 1px solid #D0D1D9;
-    border-radius: ${(props) => (props.isVisible ? "10px" : "0 0 10px 10px")};
-    height: ${(props) => (props.isVisible ? "100%" : "50%")};
+    border: 1px solid #d0d1d9;
+    border-radius: ${(props) => (props.isVisible ? '10px' : '0 0 10px 10px')};
+    height: ${(props) => (props.isVisible ? '100%' : '50%')};
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
@@ -163,7 +165,7 @@ const Title = styled.div`
     font-size: 0.875em;
     font-weight: 800;
 
-    width  : 74%;
+    width: 74%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -175,7 +177,7 @@ const Dday = styled.div`
     font-weight: 800;
     text-align: end;
 
-    width  : 26%;
+    width: 26%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -190,9 +192,9 @@ const Content = styled.div`
     // 말줄임 처리
     text-overflow: ellipsis;
     overflow: hidden;
-    word-break: break-word;    
+    word-break: break-word;
     display: -webkit-box;
-    -webkit-line-clamp: ${(props) => (props.isVisible ? "10" : "3")};
+    -webkit-line-clamp: ${(props) => (props.isVisible ? '10' : '3')};
     -webkit-box-orient: vertical;
 `;
 

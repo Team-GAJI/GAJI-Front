@@ -33,21 +33,21 @@ const ProfileWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
+    box-shadow: 0 0.25em 1.25em rgba(22, 26, 63, 0.2);
 
     position: fixed;
-    left : 50%;
-    top : 50%;
-    transform: translate(-50%, -50%); 
-    align-self : center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-self: center;
     z-index: 1;
-    visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
+    visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
     opacity: ${(props) => (props.isVisible ? 1 : 0)};
     transition: all 0.3s ease;
 `;
 
 const Text = styled.div`
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
@@ -62,7 +62,7 @@ const ReportButton = styled.div`
     width: 7em;
     height: 2.0769em;
     line-height: 2.0769em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -74,7 +74,7 @@ const CancelButton = styled.div`
     width: 7em;
     height: 2.0769em;
     line-height: 2.0769em;
-    background-color: #E0E0E0;
+    background-color: #e0e0e0;
     color: white;
     font-weight: bold;
     cursor: pointer;

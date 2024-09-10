@@ -107,7 +107,7 @@ const MyPage = () => {
         };
     }, []);
 
-    const headerTitles = ["내 정보", "스터디룸", "일정", "내가 쓴 글"];
+    const headerTitles = ['내 정보', '스터디룸', '일정', '내가 쓴 글'];
     const handleHeaderButtonClick = (index) => {
         const sections = ['home', 'studyroom', 'calendar', 'mypost'];
         setActiveButtonIndex(index);
@@ -116,7 +116,7 @@ const MyPage = () => {
 
     return (
         <>
-        <SidePageHeader
+            <SidePageHeader
                 large={true}
                 pageTitle="마이페이지"
                 headerTitles={headerTitles}
@@ -125,20 +125,19 @@ const MyPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
-            
-        <MyPageWrapper ref={homeRef}> 
-            
-            <UserInfo userInfo={userInfo} />
-            <RowWrapper4 ref={studyRoomRef}>
-                <StudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
-            </RowWrapper4>
-            <Div ref={calendarRef}>
-                <Calendar />
-            </Div>
-            <Div ref={myPostRef}>
-                <MyPost />
-            </Div>
-        </MyPageWrapper>
+
+            <MyPageWrapper ref={homeRef}>
+                <UserInfo userInfo={userInfo} />
+                <RowWrapper4 ref={studyRoomRef}>
+                    <StudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
+                </RowWrapper4>
+                <Div ref={calendarRef}>
+                    <Calendar />
+                </Div>
+                <Div ref={myPostRef}>
+                    <MyPost />
+                </Div>
+            </MyPageWrapper>
         </>
     );
 };
@@ -154,8 +153,8 @@ const MyPageWrapper = styled.div`
     justify-content: center;
     flex-direction: column;
     width: 60%;
-    margin-left: auto; 
-    margin-right: auto; 
+    margin-left: auto;
+    margin-right: auto;
     gap: 4em;
 
     @media (max-width: 1199px) {

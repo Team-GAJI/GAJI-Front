@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import userProfileImg from '../../../assets/images/community/userProfile.png';
 import { communityPostAPI } from '../../community-detail/api/communityPostAPI';
 import PostBackground from '../../../assets/images/common/communityExampleImage.png'; // 기본 썸네일 이미지
-import {studyRoomPostDetailAPI}  from '../../study-room/api/studyRoomPostDetailAPI';
+import { studyRoomPostDetailAPI } from '../../study-room/api/studyRoomPostDetailAPI';
 
-const BlogPreview = ({key, postId, title, content, background, writer, ago, views, like, link,apiType}) => {
+const BlogPreview = ({ key, postId, title, content, background, writer, ago, views, like, link, apiType }) => {
     // useNavigate
     const navigate = useNavigate();
 
@@ -23,10 +23,10 @@ const BlogPreview = ({key, postId, title, content, background, writer, ago, view
                 throw new Error('잘못된 API 타입입니다.');
             }
             console.log(postDetail);
-            navigate("/community/post", {
+            navigate('/community/post', {
                 state: {
-                    postId: postDetail
-                }
+                    postId: postDetail,
+                },
             });
         } catch (error) {
             console.error('게시글 불러오기 중 오류 발생:', error);
@@ -38,23 +38,22 @@ const BlogPreview = ({key, postId, title, content, background, writer, ago, view
     const backgroundImage = background || PostBackground;
 
     return (
-        <PostWrapper key={key} onClick={()=>handleSubmit()} link={link}>
+        <PostWrapper key={key} onClick={() => handleSubmit()} link={link}>
             {/* 배경 */}
             <BackgroundWrapper background={backgroundImage}>
                 <LikeWrapper>
-                    <StyledLikeIcon /><Like>{like}</Like>
+                    <StyledLikeIcon />
+                    <Like>{like}</Like>
                 </LikeWrapper>
             </BackgroundWrapper>
-            
+
             {/* 설명 */}
             <PostContentContainer>
                 <PostTitle>{title}</PostTitle>
-                <Content>
-                    {content}
-                </Content>
+                <Content>{content}</Content>
                 <PostInfoWrapper>
                     <InfoLeftWrapper>
-                        <StyledUserProfileImg src={userProfileImg} alt='user profile'/>
+                        <StyledUserProfileImg src={userProfileImg} alt="user profile" />
                         <Writer>{writer}</Writer>
                     </InfoLeftWrapper>
                     <InfoRightWrapper>
@@ -73,14 +72,16 @@ const PostWrapper = styled.div`
     border-radius: 10px;
     width: 100%;
     height: auto;
-    min-height : 21.6em;
+    min-height: 21.6em;
     font-size: 0.7489em;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 
     &:hover {
         transform: translateY(-1.3em);
@@ -98,24 +99,23 @@ const PostWrapper = styled.div`
     @media (max-width: 768px) {
         max-width: 100%;
         height: auto;
-        margin-top: 1em;  /* 위 간격 추가 */
+        margin-top: 1em; /* 위 간격 추가 */
         margin-bottom: 1em; /* 아래 간격 추가 */
     }
 
     @media (max-width: 480px) {
         max-width: 100%;
         height: auto;
-        margin-top: 1em;  /* 위 간격 추가 */
+        margin-top: 1em; /* 위 간격 추가 */
         margin-bottom: 1em; /* 아래 간격 추가 */
     }
 `;
 
-
 const BackgroundWrapper = styled.div`
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-radius: 10px 10px 0 0;
     height: 50%;
-    background-image: ${({background}) => `url(${background})`};
+    background-image: ${({ background }) => `url(${background})`};
     background-size: cover;
 `;
 
@@ -134,12 +134,12 @@ const StyledLikeIcon = styled(LikeIcon)`
 `;
 
 const Like = styled.span`
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 1.1em;
 `;
 
 const PostContentContainer = styled.div`
-    border: 1px solid #D0D1D9;
+    border: 1px solid #d0d1d9;
     border-top: 0;
     border-radius: 0 0 10px 10px;
     height: 50%;
@@ -150,7 +150,7 @@ const PostContentContainer = styled.div`
 const PostTitle = styled.div`
     margin: 1.2692em 1.2em 0.5em 1.2em;
     width: 13.5em;
-    min-width  : 13.5em;
+    min-width: 13.5em;
     font-size: 1.3em;
     font-weight: bold;
     // 말줄임 처리
@@ -158,9 +158,9 @@ const PostTitle = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     word-break: break-all;
-        @media(max-width: 1024px){
-        width : 100%;
-        max-width : 25em;
+    @media (max-width: 1024px) {
+        width: 100%;
+        max-width: 25em;
     }
 `;
 
@@ -172,17 +172,17 @@ const Content = styled.div`
     // 말줄임 처리
     text-overflow: ellipsis;
     overflow: hidden;
-    word-break: break-word;    
+    word-break: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 `;
 
 const PostInfoWrapper = styled.div`
-    margin:  1em 1.56em;
+    margin: 1em 1.56em;
     display: flex;
     justify-content: space-between;
-    color: #D0D1D9;
+    color: #d0d1d9;
 `;
 
 const InfoLeftWrapper = styled.div`
@@ -198,8 +198,7 @@ const StyledUserProfileImg = styled.img`
     height: 1.7515em;
 `;
 
-const Writer = styled.div`
-`;
+const Writer = styled.div``;
 
 const InfoRightWrapper = styled.div`
     padding-top: 0.2em;
@@ -212,5 +211,4 @@ const Ago = styled.div`
     margin-right: 1.5em;
 `;
 
-const Views = styled.div`
-`;
+const Views = styled.div``;

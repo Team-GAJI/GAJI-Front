@@ -1,4 +1,4 @@
-import { api } from "../../../app/api";
+import { api } from '../../../app/api';
 
 export const postAPI = async (userId, type, cursorDate, size = 10) => {
     try {
@@ -6,8 +6,8 @@ export const postAPI = async (userId, type, cursorDate, size = 10) => {
             params: {
                 type: type,
                 cursorDate: cursorDate, // 문자열 형식의 날짜
-                size: size 
-            }
+                size: size,
+            },
         });
 
         console.log('API 응답:', response);

@@ -7,17 +7,17 @@ import styled from 'styled-components';
 const MainLayOut = () => {
     return (
         <>
-            <Header/>
+            <Header />
             <Padding>
-                <Outlet/>
-            </Padding>  
-            <Footer/>
+                <Outlet />
+            </Padding>
+            <Footer />
         </>
     );
 };
 
 export default MainLayOut;
 
-const  Padding = styled.div`
-    padding-top : 60px;
+const Padding = styled.div`
+    padding-top: 60px;
 `;

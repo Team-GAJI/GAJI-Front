@@ -4,7 +4,6 @@ module.exports = {
     extends: [
         'plugin:react/jsx-runtime',
         'plugin:react-hooks/recommended',
-        'eslint:recommended',
         'plugin:react/recommended',
         'plugin:prettier/recommended',
     ],
@@ -13,11 +12,15 @@ module.exports = {
     settings: { react: { version: '18.2' } },
     plugins: ['react-refresh'],
     rules: {
+        'prettier/prettier': [
+            'error',
+            {
+                endOfLine: 'auto',
+            },
+        ],
         'react/prop-types': 'off',
         'react/react-in-jsx-scope': 'off',
         'react/jsx-no-target-blank': 'off',
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
 };
-
-

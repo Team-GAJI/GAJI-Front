@@ -29,14 +29,14 @@ const CommentContainer = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-        const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-        if (scrollTop + clientHeight >= scrollHeight - 20) {
-            getComments();
-        }
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+            if (scrollTop + clientHeight >= scrollHeight - 20) {
+                getComments();
+            }
         };
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener('scroll', handleScroll);
         return () => {
-        window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
     }, [getComments]);
 
@@ -50,25 +50,24 @@ const CommentContainer = () => {
                 <Count>총 {count}개</Count>
             </TitleWrapper>
             <InputWrapper>
-                <StyledProfileImg src={ProfileImg} alt='profile image'/>
-                <StyledInput placeholder='댓글을 작성해주세요'/>
+                <StyledProfileImg src={ProfileImg} alt="profile image" />
+                <StyledInput placeholder="댓글을 작성해주세요" />
             </InputWrapper>
 
-            {/* 댓글 */}        
+            {/* 댓글 */}
             {comments.map((comment) => (
                 <Comment
                     key={comment.commentId}
                     writer={comment.commentWriter}
                     content={comment.commentContent}
-                        userProfileImg={comment.commentUserProfileImg}
-                    time={comment.commentTime} />
+                    userProfileImg={comment.commentUserProfileImg}
+                    time={comment.commentTime}
+                />
             ))}
-            {isLoading && (
-                <Loading />
-            )}
+            {isLoading && <Loading />}
         </CommentContainerWrapper>
-    )
-}
+    );
+};
 
 export default CommentContainer;
 
@@ -86,13 +85,13 @@ const TitleWrapper = styled.div`
 
 const Title = styled.div`
     margin-right: 1em;
-    color: #161A3F;
+    color: #161a3f;
     font-size: 1.25em;
     font-weight: 800;
 `;
 
 const Count = styled.div`
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-weight: bold;
 `;
 
@@ -111,16 +110,16 @@ const StyledProfileImg = styled.img`
 const StyledInput = styled.input`
     margin-left: 1.5em;
     padding-left: 1em;
-    border: 1px solid #A2A3B2;
+    border: 1px solid #a2a3b2;
     border-radius: 10px;
     width: 100%;
     height: 3.0147em;
-    background-color: rgba(217,217,217,0);
-    &:focus{
+    background-color: rgba(217, 217, 217, 0);
+    &:focus {
         outline: none;
     }
-    &::placeholder{
-        color: #A2A3B2;
+    &::placeholder {
+        color: #a2a3b2;
         font-size: 0.95em;
     }
     font-family: 'NanumSquareNeo';

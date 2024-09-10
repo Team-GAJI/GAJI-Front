@@ -10,29 +10,39 @@ import { useSelector } from 'react-redux';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
 import { studyDetailAPI } from '../study-detail/api/studyDetailAPI';
 
-
 const StudyCreatePage = () => {
     // useNavigate
     const navigate = useNavigate();
 
     // Redux 관리
-    const { name, peopleMaximum, thumbnailUrl, category, privateCheck,
-        recruitStartDay, recruitEndDay, studyStartDay, studyEndDay, description, materialList } = useSelector((state) => state.studyCreate);
+    const {
+        name,
+        peopleMaximum,
+        thumbnailUrl,
+        category,
+        privateCheck,
+        recruitStartDay,
+        recruitEndDay,
+        studyStartDay,
+        studyEndDay,
+        description,
+        materialList,
+    } = useSelector((state) => state.studyCreate);
 
     // 서버로 전달할 데이터
     const data = {
-        "name": name,
-        "description": description,
-        "thumbnailUrl": thumbnailUrl,
-        "materialList": materialList,
-        "recruitStartDay": recruitStartDay,
-        "recruitEndDay": recruitEndDay,
-        "studyStartDay": studyStartDay,
-        "studyEndDay": studyEndDay,
-        "peopleLimited": true,
-        "peopleMaximum": peopleMaximum,
-        "category": category,
-        "private": privateCheck
+        name: name,
+        description: description,
+        thumbnailUrl: thumbnailUrl,
+        materialList: materialList,
+        recruitStartDay: recruitStartDay,
+        recruitEndDay: recruitEndDay,
+        studyStartDay: studyStartDay,
+        studyEndDay: studyEndDay,
+        peopleLimited: true,
+        peopleMaximum: peopleMaximum,
+        category: category,
+        private: privateCheck,
     };
 
     const handleSubmit = async () => {
@@ -41,70 +51,61 @@ const StudyCreatePage = () => {
             console.log(response.result.roomId);
             //전역상태초기화 함수
             const studyDetail = await studyDetailAPI(response.result.roomId);
-            console.log(studyDetail)
-            navigate("/studydetail", { state: 
-                {
+            console.log(studyDetail);
+            navigate('/studydetail', {
+                state: {
                     studyDetail: studyDetail,
-                    roomId: response.result.roomId
-                } 
-            }); 
-
-
+                    roomId: response.result.roomId,
+                },
+            });
         } catch (error) {
             console.error('스터디 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
         }
     };
 
-
     return (
         <>
-        {/* 페이지 헤더 */}
+            {/* 페이지 헤더 */}
             <Header>
                 <PageHeaderTitle>스터디 만들기</PageHeaderTitle>
                 <SubTitle>&#039;가지&#039;고싶은 스터디를 만들어보세요!</SubTitle>
-                <RowWrapper>
-                </RowWrapper>
+                <RowWrapper></RowWrapper>
             </Header>
 
-
-        <ContentWrapper>
-
-            {/* 내용 */}
+            <ContentWrapper>
+                {/* 내용 */}
 
                 {/* 스터디 기본정보 */}
                 {/* <StudyContentWrapper> */}
-                    <Title>스터디 기본정보</Title>
-                    <StudyInfo/>
+                <Title>스터디 기본정보</Title>
+                <StudyInfo />
                 {/* </StudyContentWrapper> */}
 
                 {/* 스터디 기한 */}
                 <StudyContentWrapper>
                     <Title>스터디 기한</Title>
-                    <StudyPeriod/>
+                    <StudyPeriod />
                 </StudyContentWrapper>
 
                 {/* 스터디 상세정보 */}
                 <StudyContentWrapper>
                     <Title>스터디 상세정보</Title>
-                    <StudyDetail/>
+                    <StudyDetail />
                 </StudyContentWrapper>
 
                 {/* 제출 버튼 */}
-                <SubmitButton onClick={()=>handleSubmit()}>
-                스터디 만들기
-            </SubmitButton>
-        </ContentWrapper>
+                <SubmitButton onClick={() => handleSubmit()}>스터디 만들기</SubmitButton>
+            </ContentWrapper>
         </>
     );
 };
 
 export default StudyCreatePage;
 
-
 const SubTitle = styled.div`
-    color : #D0D1D9;
-    font-weight : 700;
+    color: #d0d1d9;
+    font-weight: 700;
 `;
 
 const Header = styled.div`
@@ -117,15 +118,15 @@ const Header = styled.div`
     justify-content: center;
     width: 100%;
     height: 10em;
-    gap : 1em;
-    background-color: #FBFAFF;
+    gap: 1em;
+    background-color: #fbfaff;
     background-image: url(${backGroundUrl});
 `;
 
 const PageHeaderTitle = styled.div`
     font-size: 1.5em;
     font-weight: 800;
-    color: #8E59FF;
+    color: #8e59ff;
 
     @media (max-width: 768px) {
         font-size: 1.25em;
@@ -140,7 +141,6 @@ const RowWrapper = styled.div`
     justify-content: center;
 `;
 
-
 const StudyContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -148,9 +148,9 @@ const StudyContentWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    width : 100%;
+    width: 100%;
     margin: 1.5em 0;
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
@@ -161,17 +161,17 @@ const SubmitButton = styled.button`
     border-radius: 10px;
     width: 17.2308em;
     height: 2.5em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     color: white;
     font-size: 0.9em;
     font-weight: bold;
     cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    &:hover {
+        box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
     }
     transition: all 0.3s ease;
 
-    @media(max-width : 768px){
-        width : 9em;
+    @media (max-width: 768px) {
+        width: 9em;
     }
 `;
