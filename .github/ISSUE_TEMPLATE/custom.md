@@ -1,6 +1,6 @@
 ---
-name: Custom issue template
-about: Describe this issue template's purpose here.
+name: 가지 이슈 템플릿
+about: 
 title: "[FEAT]"
 labels: ''
 assignees: ''
