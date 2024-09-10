@@ -1,6 +1,6 @@
 ---
 name: 가지 버그 이슈 템플릿
-about: 
+about: 버그 관련 이슈를 위한 템플릿
 title: '[BUG]'
 labels: 'bug'
 assignees: ''
