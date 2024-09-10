@@ -1,9 +1,8 @@
 ## 디렉토리 구조
 
-```markdown
 📦src
 
-### app디렉토리
+#### app디렉토리
 
 전역 파일 이부분에서 api.jsx로 api인스턴스를 생성, 그리고 App.jsx로 라우팅 관리
 ┣ 📂app
@@ -13,14 +12,14 @@
 ┃ ┣ 📜index.css
 ┃ ┗ 📜main.jsx
 
-### assets 파일은 추후 리팩토링 예정
+#### assets 파일은 추후 리팩토링 예정
 
 ┣ 📂assets
 ┃ ┣ 📂font
 ┃ ┣ 📂icons
 ┃ ┣ 📂images
 
-### components 디렉토리에서는 전역에서 사용되는 ui 컴포넌트를 관리
+#### components 디렉토리에서는 전역에서 사용되는 ui 컴포넌트를 관리
 
 ┣ 📂components
 ┃ ┣ 📂button
@@ -45,11 +44,11 @@
 ┃ ┃ ┣ 📜Header.jsx
 ┃ ┃ ┗ 📜MainLayOut.jsx
 
-### hooks 디렉토리에서는 전역에서 사용되는 custom hook 컴포넌트를 관리
+#### hooks 디렉토리에서는 전역에서 사용되는 custom hook 컴포넌트를 관리
 
 ┣ 📂hooks
 
-### (중요)pages 디렉토리에서는 각각 아래와 같이 이루어져 있음
+#### (중요)pages 디렉토리에서는 각각 아래와 같이 이루어져 있음
 
 #### [페이지명]/[ui]/해당 페이지의 ui 컴포넌트들
 
@@ -241,7 +240,7 @@
 ┃ ┃ ┣ 📂ui
 ┃ ┃ ┗ 📜StudyTroubleWritePage.jsx
 
-### redux에서는 전역에서 사용되는 redux 상태를 관리 향후 recoil 등으로 개선될 수 있기에 별도로 디렉토리를 구성
+#### redux에서는 전역에서 사용되는 redux 상태를 관리 향후 recoil 등으로 개선될 수 있기에 별도로 디렉토리를 구성
 
 ┣ 📂redux
 ┃ ┣ 📂slice
@@ -256,11 +255,10 @@
 ┃ ┗ 📂store
 ┃ ┃ ┗ 📜store.jsx
 
-### utls는 전역에서 사용되며, api와 무관하고, 훅으로 작동하는 것이 아닌 함수기능을 포함
+#### utils는 전역에서 사용되며, api와 무관하고, 훅으로 작동하는 것이 아닌 함수기능을 포함
 
 ┗ 📂utils
 ┃ ┗ 📜ScrollToTop.js
-```
 
 ### Prettier 규칙 (.prettierrc)
 
@@ -277,7 +275,7 @@
 
 ### Eslint 규칙 (.eslintrc.cjs)
 
-```json
+```
 module.exports = {
     // 프로젝트의 루트 디렉토리임을 명시합니다.
     root: true,
