@@ -5,7 +5,7 @@ import SendIcon from '../../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../../components/container/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../../components/button/Button';
 import defaultProfileImage from '../../../assets/images/mypage/userProfile.png'; // 기본 프로필 이미지 경로
-import { nickNameAPI } from '../../../../berfore_src/utils/auth/nickNameAPI';
+import { nickNameAPI } from '../../login/api/nickNameAPI';
 
 const UserInfo = forwardRef(({ userInfo }, ref) => {
     const [userName, setUserName] = useState(userInfo?.result?.nickname || 'Guest');

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Plus from '../../assets/icons/studyRoom/Plus.png';
+import Plus from '../../../assets/icons/studyRoom/Plus.png';
 import { MinorText } from './StudySummary';
 import styled from 'styled-components';
-import BlogPreview from '../community/BlogPreview';
+import BlogPreview from '../../community/ui/BlogPreview';
 import { useNavigate } from 'react-router-dom';
-import {  studyRoomPostPreviewAPI }from '../../utils/studyRoom/studyRoomPostPreviewAPI';
+import { studyRoomPostPreviewAPI } from '../api/studyRoomPostPreviewAPI';
 
 const StudyPostList = ({roomId}) => {
     console.log(roomId)

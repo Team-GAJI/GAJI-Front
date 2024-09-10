@@ -1,4 +1,4 @@
-import { api } from "../../../../berfore_src/utils/API";
+import { api } from "../../../app/api";
 
 export const postAPI = async (userId, type, cursorDate, size = 10) => {
     try {

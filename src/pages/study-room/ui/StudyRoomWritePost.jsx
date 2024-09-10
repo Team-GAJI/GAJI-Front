@@ -2,16 +2,16 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
-import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
-import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
-import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
-import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
+import BoldIcon from '../../../assets/icons/communityWrite/bold.svg?react';
+import ItalicIcon from '../../../assets/icons/communityWrite/italic.svg?react';
+import ThroughIcon from '../../../assets/icons/communityWrite/through.svg?react';
+import ImageIcon from '../../../assets/icons/communityWrite/image.svg?react';
+import LinkIcon from '../../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
-import { studyRoomWriteAPI } from '../../utils/studyRoom/studyRoomWriteAPI';
-import { setTitle, setBody } from '../../features/community/communityWriteSlice';
-import { studyRoomPostDetailAPI } from '../../utils/studyRoom/studyRoomPostDetailAPI';
+import { studyRoomWriteAPI } from '../api/studyRoomWriteAPI';
+import { setTitle, setBody } from '../../../redux/slice/community/communityWriteSlice';
+import { studyRoomPostDetailAPI } from '../api/studyRoomPostDetailAPI';
 
 const StudyRoomWritePost = ({roomId}) => {
     // 상태 관리

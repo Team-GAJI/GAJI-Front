@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Book from '../../assets/images/studyRoom/Rectangle 34624913.png';
-// import BellIcon from '../../assets/icons/studyRoom/bellIcon.svg?react';
+import Book from '../../../assets/images/studyRoom/Rectangle 34624913.png';
+// import BellIcon from '../../../assets/icons/studyRoom/bellIcon.svg?react';
 //import { useNavigate } from 'react-router-dom';
-import { studyDetailAPI } from '../../utils/studyDetail/studyDetailAPI';
+import { studyDetailAPI } from '../../study-detail/api/studyDetailAPI';
 // import { studyNoticeAPI } from '../../utils/studyRoom/studyNoticeAPI';
 
 const StudySummary = ({ studyInfo ,roomId}) => {

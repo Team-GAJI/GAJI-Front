@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import userProfile from "../../assets/images/community/userProfile.png"; // Adjust the path as necessary
+import userProfile from "../../../assets/images/community/userProfile.png"; // Adjust the path as necessary
 
 const CheckTooltip = ({ users, visible }) => {
   if (!visible || !users.length) return null;

@@ -9,9 +9,9 @@ import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm';
-import { communityWriteAPI } from '../../utils/communityWrite/communityWriteAPI';
-import { setTitle, setBody } from '../../features/community/communityWriteSlice';
-import { communityPostAPI } from '../../utils/communityPost/communityPostAPI';
+import { communityWriteAPI } from '../../pages/community-write/api/communityWriteAPI';
+import { setTitle, setBody } from '../../redux/slice/community/communityWriteSlice';
+import { communityPostAPI } from '../../pages/community-detail/api/communityPostAPI';
 
 const CommunityWritePost = () => {
     // 상태 관리

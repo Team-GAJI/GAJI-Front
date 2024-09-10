@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MinorText } from './StudySummary';
-import { weekTaskProgressAPI } from '../../utils/studyRoom/weekTaskProgressAPI';
+import { weekTaskProgressAPI } from '../api/weekTaskProgressAPI';
 
 const WeekCurriculum = ( {roomId, week} ) => {
     const nicknames = ['릴규', '디오', '따마', '지민', '스타', '하나', '연두', '워치', '샤크' , '연두2'];
