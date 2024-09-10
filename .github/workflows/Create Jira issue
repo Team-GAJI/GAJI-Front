@@ -1,4 +1,4 @@
-name: Create Jira issue # 1
+name: 지라 이슈 생성 # 1
 on: # 2
   issues: 
     types: [opened]
