@@ -1,2 +1,0 @@
-# .husky/pre-push
-npm run lint

@@ -1,5 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# npm을 사용하는 경우
-npm commitlint --edit $1
+npm run commitlint ${1}
