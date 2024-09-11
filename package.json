@@ -38,6 +38,7 @@
     "devDependencies": {
         "@commitlint/cli": "19.4.1",
         "@commitlint/config-conventional": "19.4.1",
+        "@tanstack/eslint-plugin-query": "4.38.0",
         "@types/react": "18.2.66",
         "@types/react-dom": "18.2.22",
         "@vitejs/plugin-react": "4.2.1",
