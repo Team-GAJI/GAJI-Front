@@ -67,9 +67,10 @@ jobs:
 
             - name: Create branch with Ticket number
               run: |
-                  sanitized_branch_name=$(echo '${{ github.event.issue.title }}-${{ steps.create.outputs.issue }}' | tr -c '[:alnum:]-_' '-')
-                  git checkout -b '${{ github.event.issue.title }}/${{ steps.create.outputs.issue }}'
-                  git push origin '${{ github.event.issue.title }}/${{ steps.create.outputs.issue }}'
+                sanitized_branch_name=$(echo '${{ github.event.issue.title }}-${{ steps.create.outputs.issue }}' | sed 's/[^a-zA-Z0-9_-]/-/g')
+                sanitized_branch_name=$(echo "$sanitized_branch_name" | sed 's/-\+/-/g' | sed 's/-$//g' | sed 's/^-\+//g')
+                git checkout -b "$sanitized_branch_name"
+                git push origin "$sanitized_branch_name"
 
             - name: Update issue title
               uses: actions-cool/issues-helper@v3
