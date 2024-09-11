@@ -6,6 +6,7 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:react/recommended',
         'plugin:prettier/recommended',
+        'plugin:@tanstack/eslint-plugin-query/recommended',
     ],
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
