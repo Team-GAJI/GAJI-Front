@@ -10,7 +10,8 @@
         "prepare": "husky",
         "format": "prettier --cache --write .",
         "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
-        "lint:fix": "eslint --fix './src/**/*.{ts,tsx,js,jsx}'"
+        "lint:fix": "eslint --fix './src/**/*.{ts,tsx,js,jsx}'",
+        "commitlint": "commitlint --edit"
     },
     "lint-staged": {
         "src/**/*.{js,jsx,ts,tsx}": [
