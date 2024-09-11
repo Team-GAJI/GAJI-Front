@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import backgroundimage from '../../assets/images/login/background.png';
 import Logo from '../../components/common/Logo';
 import { Color } from '../../components/container/Color';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { PuppleButton } from '../../components/button/Button';
 
 const LoginPage = () => {
+    const theme = ThemeContext();
     const [register, setRegister] = useState(false);
     const [isAgreed, setIsAgreed] = useState(false); // 첫 번째 체크박스 상태 관리
     const [modal, setModal] = useState(false);
@@ -159,7 +160,7 @@ const Title = styled.div`
     font-size: 2em;
     font-weight: 700;
     @media (max-width: 768px) {
-        font-size: 1.5em;
+        font-size: ${({ theme }) => theme.fontSize.lg};
     }
 `;
 
