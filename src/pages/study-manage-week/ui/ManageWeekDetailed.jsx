@@ -2,9 +2,6 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import Delete from '../../../assets/icons/studyManageWeek/StudyManageWeekDelete.png';
 
-// displayName을 준다.
-ManageWeekDetailed.displayName = 'ManageWeekDetailed';
-
 const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, ref) => {
     const [inputs, setInputs] = useState(['']);
     const maxInputs = 5;
@@ -64,6 +61,9 @@ const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, re
 });
 
 export default ManageWeekDetailed;
+
+// displayName을 준다.
+ManageWeekDetailed.displayName = 'ManageWeekDetailed';
 
 const MainWrapper = styled.div`
     background-color: #fbfaff;
