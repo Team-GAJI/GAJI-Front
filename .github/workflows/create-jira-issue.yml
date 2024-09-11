@@ -67,6 +67,7 @@ jobs:
 
             - name: Create branch with Ticket number
               run: |
+                  sanitized_branch_name=$(echo '${{ github.event.issue.title }}-${{ steps.create.outputs.issue }}' | sed 's/[^a-zA-Z0-9가-힣_-]/-/g')
                   git checkout -b '${{ github.event.issue.title }}/${{ steps.create.outputs.issue }}'
                   git push origin '${{ github.event.issue.title }}/${{ steps.create.outputs.issue }}'
 
