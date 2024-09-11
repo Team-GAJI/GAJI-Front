@@ -10,7 +10,7 @@ import { nickNameAPI } from '../../login/api/nickNameAPI';
 const UserInfo = forwardRef(({ userInfo }, ref) => {
     const [userName, setUserName] = useState(userInfo?.result?.nickname || 'Guest');
     const [isEditing, setIsEditing] = useState(false);
-    const userGrade = 'Gold';
+    const userGrade = 'Sliver';
 
     useEffect(() => {
         setUserName(userInfo?.nickname || '');
