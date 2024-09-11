@@ -6,6 +6,7 @@ import { store } from '../redux/store/store.jsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import ScrollToTop from '../utils/ScrollToTop.js';
+import { ThemeProvider } from 'styled-components';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
