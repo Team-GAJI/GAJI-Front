@@ -109,3 +109,9 @@ module.exports = {
     -   `react-in-jsx-scope` 비활성화.
     -   `target="_blank"` 규칙 비활성화.
     -   Fast Refresh 관련 규칙 적용.
+
+### 참고 블로그
+
+https://velog.io/@sangpok/Github-협업-설정Github-Issue-Jira-연동#create-jira-issueyml
+
+[효율적인 개발환경을 위한 Git Hooks, Husky, 그리고 lint-staged](https://velog.io/@wns450/환경설정-해보기-husky)
