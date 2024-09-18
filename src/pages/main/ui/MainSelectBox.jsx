@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DownArrowIcon from '../../../assets/icons/communityPost/grayDownArrow.svg?react';
+import { useNavigate } from 'react-router-dom';
 
-const MainSelectBox = () => {
+const MainSelectBox = ({ page, category, sort, filter }) => {
+    // useNavigate
+    const navigate = useNavigate();
+
     // 필터 상태 관리
     const [isCategoryVisible, setIsCategoryVisible] = useState(false);
     const [selectedCategoryOption, setSelectedCategoryOption] = useState('카테고리');
@@ -12,6 +16,17 @@ const MainSelectBox = () => {
 
     const [isFilterVisible, setIsFilterVisible] = useState(false);
     const [selectedFilterOption, setSelectedFilterOption] = useState('필터');
+
+    // 홈화면에서 카테고리 선택 시 옵션 초기값을 선택한 옵션 값으로 설정
+    useEffect(() => {
+        if (category) {
+            setSelectedCategoryOption(category);
+        } else if (sort) {
+            setSelectedSortOption(sort);
+        } else if (filter) {
+            setSelectedFilterOption(filter);
+        }
+    }, []);
 
     // 필터 버튼 텍스트
     const toggleCategoryVisibility = () => {
@@ -34,14 +49,21 @@ const MainSelectBox = () => {
     const handleCategorySelect = (option) => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
+        navigate('/study/overview', { state: { category: option } }); // 스터디메인에서는 카테고리별 페이지로 이동
     };
     const handleSortSelect = (option) => {
         setSelectedSortOption(option);
         setIsSortVisible(false);
+        if (page == 'mainPage') {
+            navigate('/study', { state: { sort: option } }); // 홈화면에서는 스터디페이지로 이동
+        }
     };
     const handleFilterSelect = (option) => {
         setSelectedFilterOption(option);
         setIsFilterVisible(false);
+        if (page == 'mainPage') {
+            navigate('/study', { state: { filter: option } }); // 홈화면에서는 스터디페이지로 이동
+        }
     };
 
     return (

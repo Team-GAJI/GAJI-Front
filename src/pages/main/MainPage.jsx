@@ -90,14 +90,16 @@ const MainPage = () => {
 
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox />
+                    <MainSelectBox page={'mainPage'} />
                 </SelectAndButtonWrapper>
                 <StyledHr />
 
                 {/* 인기 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText onClick={() => handleStudyPage('like')}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
-                    <Arrow onClick={() => handleStudyPage('like')}>&gt;</Arrow>
+                    <TitleText onClick={() => handleStudyPage('좋아요수')}>
+                        현재 가장 HOT한 스터디를 둘러보세요!
+                    </TitleText>
+                    <Arrow onClick={() => handleStudyPage('좋아요수')}>&gt;</Arrow>
                 </ViewAllWrapper>
 
                 <StudyPreviewWrapper>
@@ -119,8 +121,8 @@ const MainPage = () => {
 
                 {/* 최신 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText onClick={() => handleStudyPage('recent')}>가장 최신의 스터디를 둘러보세요!</TitleText>
-                    <Arrow onClick={() => handleStudyPage('recent')}>&gt;</Arrow>
+                    <TitleText onClick={() => handleStudyPage('최신순')}>가장 최신의 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('최신순')}>&gt;</Arrow>
                 </ViewAllWrapper>
                 <StudyPreviewWrapper>
                     {recentStudies.map((post) => (

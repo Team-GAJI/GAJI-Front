@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
 import LogoIcon from '../../assets/logos//logo.svg?react';
 import StudyPreview from './ui/StudyPreview';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import MainSelectBox from '../main/ui/MainSelectBox';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
 import { Scroll } from '../../components/common/Scroll';
@@ -68,6 +68,9 @@ const StudyMainPage = () => {
     // useNavigate 훅을 사용하여 페이지 이동을 처리
     const navigate = useNavigate();
 
+    // useLocation
+    const location = useLocation();
+
     // 카테고리 클릭 시 해당 카테고리의 스터디 페이지로 이동
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
@@ -93,7 +96,12 @@ const StudyMainPage = () => {
 
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox />
+                    <MainSelectBox
+                        page={'studyMainPage'}
+                        category={location.state?.category}
+                        sort={location.state?.sort}
+                        filter={location.state?.filter}
+                    />
                     <div
                         onClick={() => {
                             navigate('/study/create');
