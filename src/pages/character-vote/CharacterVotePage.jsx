@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ContentWrapper } from '../../components/common/MediaWrapper.jsx';
-import Character from '../../assets/images/common/character.svg?react';
 import SubmitIcon from '../../assets/icons/common/submitIcon.svg?react';
 import { characterListAPI, characterRegisterAPI, characterVoteAPI } from './api/characterAPI.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -156,7 +155,7 @@ const rotateAnimation = keyframes`
     }
 `;
 
-const StyledCharacter = styled(Character)`
+const StyledCharacter = styled.div`
     animation: ${rotateAnimation} 2s infinite ease-in-out;
     transform-origin: center center;
 `;
