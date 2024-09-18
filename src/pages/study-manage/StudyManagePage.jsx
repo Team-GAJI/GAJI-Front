@@ -15,15 +15,15 @@ const StudyManagePage = () => {
     const location = useLocation();
     const roomId = location.state?.roomId || {};
 
+    //sidebar
     const [weeks, setWeeks] = useState([...Array(9).keys()]);
     const sidebarRef = useRef(null);
 
     const handleDelete = () => {
         setWeeks(weeks.slice(0, -1));
     };
-
     const handleAdd = () => {
-        setWeeks([...weeks, weeks.length + 1]);
+        setWeeks([...weeks, weeks.length]);
     };
 
     useEffect(() => {
@@ -81,6 +81,7 @@ const StudyManagePage = () => {
                 <Sidebar1 ref={sidebarRef}>
                     {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
                     <BasicInfoButton>기본정보</BasicInfoButton>
+
                     {weeks.map((week, index) => (
                         <React.Fragment key={week}>
                             <SidebarButton1
@@ -97,6 +98,7 @@ const StudyManagePage = () => {
                             </SidebarButton1>
                         </React.Fragment>
                     ))}
+
                     <PlusButton onClick={handleAdd}>
                         <PlusIcons src={ManagePlus} alt="추가" />
                     </PlusButton>
@@ -133,7 +135,7 @@ const Sidebar1 = styled.aside`
     border: 1px solid #a2a3b2;
     border-radius: 0.5em;
     max-height: 78.5vh;
-    width: 10%;
+    // width: 10%;
     width: 11.25em;
     right: 3%;
     padding: 0.2em;
@@ -224,14 +226,14 @@ const SidebarButton1 = styled.div`
         }
     }
 `;
-
 const BasicInfoButton = styled(SidebarButton1)`
-    font-size: 1em;
-    font-weight: 1.125em;
-    background-color: #8e59ff;
+    font-weight: 800;
+    letter-spacing: -1px; // 커서 올리면 미세하게 모든 요소가 밑으로 내려가서 방지함
     border: none;
     background-color: transparent;
     color: #a2a3b2;
+    height: 2.5em;
+    line-height: 2.5em;
 
     @media (max-width: 768px) {
         margin-left: 0.5em;
