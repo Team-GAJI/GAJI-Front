@@ -26,7 +26,7 @@ const MainSelectBox = ({ page, category, sort, filter }) => {
         } else if (filter) {
             setSelectedFilterOption(filter);
         }
-    }, []);
+    }, [category, sort, filter]);
 
     // 필터 버튼 텍스트
     const toggleCategoryVisibility = () => {
