@@ -1,33 +1,37 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import BellIcon from '../../../assets/icons/mypage/bellicon.svg?react';
 import SendIcon from '../../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../../components/container/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../../components/button/Button';
-import defaultProfileImage from '../../../assets/images/mypage/userProfile.png'; // 기본 프로필 이미지 경로
+import defaultProfileImage from '../../../assets/images/mypage/userProfile.png';
 import { nickNameAPI } from '../../login/api/nickNameAPI';
 
 const UserInfo = forwardRef(({ userInfo }, ref) => {
-    const [userName, setUserName] = useState(userInfo?.result?.nickname || 'Guest');
+    const [userDetails, setUserDetails] = useState({
+        userName: userInfo?.result?.nickname || '',
+        userGrade: userInfo?.result?.userInfo || '',
+    });
     const [isEditing, setIsEditing] = useState(false);
-    const userGrade = 'Sliver';
 
     useEffect(() => {
-        setUserName(userInfo?.nickname || '');
+        setUserDetails({
+            userName: userInfo?.result?.nickname,
+            userGrade: userInfo?.result?.userInfo,
+        });
     }, [userInfo]);
+
+    const profileImage = useMemo(() => userInfo?.result?.profileImagePth || defaultProfileImage, [userInfo]);
 
     const toggleEditingMode = async () => {
         if (isEditing) {
-            if (userName.trim() === '') {
+            if (!userDetails.userName.trim()) {
                 alert('닉네임을 입력해주세요.');
                 return;
             }
 
             try {
-                // 닉네임 수정 API 호출
-                const response = await nickNameAPI(userName);
-                console.log(response.message);
-
+                const response = await nickNameAPI(userDetails.userName);
                 alert(response.message || '닉네임이 수정되었습니다!');
             } catch (error) {
                 console.error('닉네임 수정 중 오류 발생:', error);
@@ -37,19 +41,13 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
         }
         setIsEditing(!isEditing);
     };
+
     const handleNameChange = (event) => {
-        setUserName(event.target.value);
+        setUserDetails((prevDetails) => ({
+            ...prevDetails,
+            userName: event.target.value,
+        }));
     };
-
-    const handleMarketingClick = () => {
-        alert('마케팅 수신 설정이 변경되었습니다.');
-    };
-
-    const handleSendMessageClick = () => {
-        alert('준비중인 기능입니다.');
-    };
-
-    const profileImage = userInfo?.result?.profileImagePth || defaultProfileImage;
 
     return (
         <UserWrapper ref={ref}>
@@ -57,11 +55,11 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
                 <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
                 <ColumnWrapper>
                     {isEditing ? (
-                        <UserNameInput type="text" value={userName} onChange={handleNameChange} autoFocus />
+                        <UserNameInput type="text" value={userDetails.userName} onChange={handleNameChange} autoFocus />
                     ) : (
-                        <UserName>{userName} 님</UserName>
+                        <UserName>{userDetails.userName} 님</UserName>
                     )}
-                    <UserGrade>{userGrade} Member</UserGrade>
+                    <UserGrade>{userDetails.userGrade} Member</UserGrade>
                     <WelcomeText>마이페이지에 오신 것을 환영합니다!</WelcomeText>
                 </ColumnWrapper>
             </RowWrapper2>
@@ -70,18 +68,16 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
                     {isEditing ? '닉네임 수정완료' : '닉네임 수정하기'}
                 </NameEditButton>
                 <RowWrapper3>
-                    <ColumnWrapper2>
-                        <MarketingButton onClick={handleMarketingClick}>
-                            <BellIcon />
-                        </MarketingButton>
-                        <GreyText>마케팅 수신</GreyText>
-                    </ColumnWrapper2>
-                    <ColumnWrapper2>
-                        <MarketingButton onClick={handleSendMessageClick}>
-                            <SendIcon />
-                        </MarketingButton>
-                        <GreyText>쪽지 보내기</GreyText>
-                    </ColumnWrapper2>
+                    <IconWithText
+                        icon={<BellIcon />}
+                        text="마케팅 수신"
+                        onClick={() => alert('마케팅 수신 설정이 변경되었습니다.')}
+                    />
+                    <IconWithText
+                        icon={<SendIcon />}
+                        text="쪽지 보내기"
+                        onClick={() => alert('준비중인 기능입니다.')}
+                    />
                 </RowWrapper3>
             </ColumnWrapper>
         </UserWrapper>
@@ -91,6 +87,16 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
 UserInfo.displayName = 'UserInfo';
 
 export default UserInfo;
+
+// 재사용 가능한 컴포넌트로 아이콘과 텍스트를 묶음
+const IconWithText = ({ icon, text, onClick }) => (
+    <ColumnWrapper2 onClick={onClick}>
+        <MarketingButton>{icon}</MarketingButton>
+        <GreyText>{text}</GreyText>
+    </ColumnWrapper2>
+);
+
+// 스타일 정의
 
 const RowWrapper2 = styled.div`
     display: flex;
@@ -166,6 +172,7 @@ const UserWrapper = styled.div`
 const UserName = styled(Color)`
     font-size: 1.25em;
     font-weight: 800;
+    cursor: default;
 
     @media (max-width: 768px) {
         font-size: 1em;
@@ -175,6 +182,7 @@ const UserName = styled(Color)`
 const UserGrade = styled(PuppleButton)`
     width: 7.8125em;
     height: 1.5625em;
+    cursor: default;
 
     @media (max-width: 768px) {
         box-sizing: border-box;
@@ -185,6 +193,7 @@ const WelcomeText = styled.div`
     font-size: 1em;
     font-weight: 700;
     color: #a2a3b2;
+    cursor: default;
 
     @media (max-width: 768px) {
         margin-bottom: 1em;
