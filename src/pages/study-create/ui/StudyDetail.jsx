@@ -5,10 +5,10 @@ import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
 import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
 import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
 import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useDispatch } from 'react-redux';
-import { setDescription } from  '../../../redux/slice/study/studyCreateSlice';
+import { setDescription } from '../../../redux/slice/study/studyCreateSlice';
 
 const StudyDetail = () => {
     // 상태 관리
@@ -27,7 +27,7 @@ const StudyDetail = () => {
         const value = e.target.value;
         setFontSize(value);
         if (value === '0') return;
-        
+
         const headerSyntax = '#'.repeat(value) + ' ';
         const textarea = textareaRef.current;
         const { selectionStart, selectionEnd } = textarea;
@@ -110,20 +110,18 @@ const StudyDetail = () => {
                     <option value="6">6h</option>
                 </StyledFontSizeSelect>
                 <StyledBar>|</StyledBar>
-                <StyledBoldIcon onClick={() => applyFormatting('**')}/>
-                <StyledItalicIcon onClick={() => applyFormatting('*')}/>
-                <StyledThroughIcon onClick={() => applyFormatting('~~')}/>
+                <StyledBoldIcon onClick={() => applyFormatting('**')} />
+                <StyledItalicIcon onClick={() => applyFormatting('*')} />
+                <StyledThroughIcon onClick={() => applyFormatting('~~')} />
                 <StyledBar>|</StyledBar>
                 {/* <StyledImageIcon onClick={addImage}/> */}
                 <FileInputLabel htmlFor="contentImg">
-                    <StyledImageIcon/>
+                    <StyledImageIcon />
                 </FileInputLabel>
-                <ImageUploadInput type="file" id="contentImg" accept="image/*"/>
-                <StyledLinkIcon onClick={addLink}/>
+                <ImageUploadInput type="file" id="contentImg" accept="image/*" />
+                <StyledLinkIcon onClick={() => addLink} />
                 <StyledBar>|</StyledBar>
-                <StyledPreviewButton onClick={openModal}>
-                    미리보기
-                </StyledPreviewButton>
+                <StyledPreviewButton onClick={() => openModal}>미리보기</StyledPreviewButton>
             </ToolbarWrapper>
 
             {/* 내용 */}
@@ -133,8 +131,8 @@ const StudyDetail = () => {
                     value={markdown}
                     onChange={handleMarkdownChange}
                     onKeyDown={handleKeyDown}
-                    placeholder='게시글의 내용을 입력해주세요.'
-                    maxLength='20000'
+                    placeholder="게시글의 내용을 입력해주세요."
+                    maxLength="20000"
                 />
                 <TextareaBottom>
                     <TextLength lengthCount={lengthCount}>{lengthCount}/20000 자</TextLength>
@@ -143,9 +141,9 @@ const StudyDetail = () => {
 
             {/* 모달 */}
             {isModalOpen && (
-                <ModalOverlay onClick={closeModal}>
+                <ModalOverlay onClick={() => closeModal}>
                     <ModalContent onClick={(e) => e.stopPropagation()}>
-                        <CloseButton onClick={closeModal}>x</CloseButton>
+                        <CloseButton onClick={() => closeModal}>x</CloseButton>
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
                     </ModalContent>
                 </ModalOverlay>
@@ -158,63 +156,62 @@ export default StudyDetail;
 
 /* CSS */
 const ComponentWrapper = styled.div`
-    padding : 1em;
-    box-sizing : border-box;
-    border: 1px solid #8E59FF;
+    padding: 1em;
+    box-sizing: border-box;
+    border: 1px solid #8e59ff;
     border-radius: 10px;
     width: 100%;
 `;
 
 const ToolbarWrapper = styled.div`
-    margin-top : 0.6em;
-    width : 100%;
+    margin-top: 0.6em;
+    width: 100%;
     height: 2em;
     display: flex;
     align-items: center;
-    background-color: #FBFAFF;
+    background-color: #fbfaff;
     font-size: 0.9em;
-    overflow-x : scorll;
+    overflow-x: scorll;
     position: sticky;
     top: 60px;
 `;
 
 const StyledFontSizeSelect = styled.select`
-    display : flex;
-    justify-content : center;
-    padding-left : 0.25em;
-    box-sizing : border-box;
-    border: 1px solid #8E59FF;
+    display: flex;
+    justify-content: center;
+    padding-left: 0.25em;
+    box-sizing: border-box;
+    border: 1px solid #8e59ff;
     border-radius: 10px;
     width: 6em;
     height: 1.75em;
     background-color: transparent;
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 1em;
     font-weight: 800;
     cursor: pointer;
-    &:focus{
+    &:focus {
         outline: none;
     }
 
-    @media(max-width:768px){
-        font-size : 0.75em;
-
+    @media (max-width: 768px) {
+        font-size: 0.75em;
     }
 `;
 
 const StyledBar = styled.div`
     margin: 0 1.2em;
-    color: #A2A3B2;
+    color: #a2a3b2;
 `;
 
 const StyledBoldIcon = styled(BoldIcon)`
     width: 0.825em;
     height: 1.1em;
-    &:hover{
+    &:hover {
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-    @media(max-width:768px){
-        width : 0.75em;
+    @media (max-width: 768px) {
+        width: 0.75em;
     }
 `;
 
@@ -222,11 +219,11 @@ const StyledItalicIcon = styled(ItalicIcon)`
     margin: 0 2em;
     width: 0.857em;
     height: 1em;
-    &:hover{
+    &:hover {
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-    @media(max-width:768px){
-        width : 0.75em;
+    @media (max-width: 768px) {
+        width: 0.75em;
         margin: 0 1em;
     }
 `;
@@ -234,48 +231,47 @@ const StyledItalicIcon = styled(ItalicIcon)`
 const StyledThroughIcon = styled(ThroughIcon)`
     width: 1.0625em;
     height: 1.125em;
-    &:hover{
+    &:hover {
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-    @media(max-width:768px){
-        width : 0.75em;
+    @media (max-width: 768px) {
+        width: 0.75em;
     }
 `;
 
 const FileInputLabel = styled.label`
     display: flex;
     align-items: center;
-    @media(max-width:768px){
-        width : 0.75em;
+    @media (max-width: 768px) {
+        width: 0.75em;
     }
 `;
 
 const ImageUploadInput = styled.input`
     display: none;
-    
 `;
 
 const StyledImageIcon = styled(ImageIcon)`
     width: 1.2716em;
     height: 1.2em;
-    &:hover{
+    &:hover {
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-            @media(max-width:768px){
-        width : 0.75em;
+    @media (max-width: 768px) {
+        width: 0.75em;
     }
 `;
 
 const StyledLinkIcon = styled(LinkIcon)`
-    margin-left:2em;
+    margin-left: 2em;
     width: 1.2em;
     height: 1.2em;
-    &:hover{
+    &:hover {
         filter: invert(42%) sepia(59%) saturate(4229%) hue-rotate(238deg) brightness(100%) contrast(105%);
     }
-    @media(max-width:768px){
-        width : 0.8125em;
-        margin-left:1em;
+    @media (max-width: 768px) {
+        width: 0.8125em;
+        margin-left: 1em;
     }
 `;
 
@@ -283,14 +279,14 @@ const TextareaWrapper = styled.div`
     border-radius: 15px;
     width: 100%;
     height: auto;
-    padding : 1em;
-    padding-bottom : 0em;
-    margin-top : 0.8125em;
-    box-sizing : border-box;
+    padding: 1em;
+    padding-bottom: 0em;
+    margin-top: 0.8125em;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    &:focus-within{
+    &:focus-within {
         // box-shadow: 0 0.25em 1.25em rgba(22,26,63,0.2);
     }
     transition: all 0.3s ease;
@@ -306,53 +302,49 @@ const StyledTextarea = styled.textarea`
     font-size: 0.8125em;
     font-weight: 700;
     font-family: 'NanumSquareNeo';
-    &:focus{
+    &:focus {
         outline: none;
     }
-    &::placeholder{
-        color: #A2A3B2;
+    &::placeholder {
+        color: #a2a3b2;
         font-weight: 700;
     }
     resize: none;
 `;
 
 const TextareaBottom = styled.div`
-    width : 100%;
+    width: 100%;
     margin-top: 1em;
     display: flex;
     flex-direction: column;
 `;
 
 const TextLength = styled.div`
-    font-size : 0.8125em;
+    font-size: 0.8125em;
     margin-left: auto;
     font-weight: bold;
     color: ${(props) => (props.lengthCount >= 20000 ? 'red' : '#A2A3B2')};
 `;
 
-
-
 const StyledPreviewButton = styled.div`
-    border: 1px solid #8E59FF;
+    border: 1px solid #8e59ff;
     border-radius: 10px;
     width: 6em;
-    box-sizing : border-box;
-    padding-left : 0.25em;
-    padding-right : 0.25em;
+    box-sizing: border-box;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
     height: 1.75em;
     line-height: 1.75em;
     text-align: center;
     background-color: transparent;
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 1em;
     font-weight: 800;
     cursor: pointer;
-    @media(max-width:768px){
+    @media (max-width: 768px) {
         font-size: 0.75em;
     }
 `;
-
-
 
 // 모달
 const ModalOverlay = styled.div`
@@ -366,7 +358,6 @@ const ModalOverlay = styled.div`
     align-items: center;
     justify-content: center;
     z-index: 10;
-
 `;
 const ModalContent = styled.div`
     background-color: #fff;
@@ -377,8 +368,8 @@ const ModalContent = styled.div`
     font-size: 0.8125em;
     overflow-y: auto;
     position: relative;
-    @media(max-width:768px){
-        width : 80%;
+    @media (max-width: 768px) {
+        width: 80%;
     }
 `;
 const CloseButton = styled.button`
