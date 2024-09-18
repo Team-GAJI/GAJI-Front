@@ -5,7 +5,7 @@ import { PuppleButton } from '../../../components/button/Button';
 import PlusIcon from '../../../assets/icons/mypage/plusIcon.svg?react';
 
 const Task = ({ selectedDate }) => {
-    const [taskModal, setTaskModal] = useState(false);
+    const [isTaskModalOpen, setTaskModalOpen] = useState(false);
     const date = selectedDate;
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -48,27 +48,40 @@ const Task = ({ selectedDate }) => {
         },
     ]);
 
-    //체크를 핸들하는 함수
-    const checkHandler = (index) => {
-        const updatedStudyData = studyData.map((study, i) => {
-            if (i === index) {
-                return {
-                    ...study,
-                    task: {
-                        ...study.task,
-                        isFinished: !study.task.isFinished, // 상태 변경
-                    },
-                };
-            }
-            return study;
-        });
-        setStudyData(updatedStudyData); // 상태 업데이트
+    //체크를 핸들하는 함수 변경전
+    // const checkHandler = (index) => {
+    //     const updatedStudyData = studyData.map((study, i) => {
+    //         if (i === index) {
+    //             return {
+    //                 ...study,
+    //                 task: {
+    //                     ...study.task,
+    //                     isFinished: !study.task.isFinished, // 상태 변경
+    //                 },
+    //             };
+    //         }
+    //         return study;
+    //     });
+    //     setStudyData(updatedStudyData); // 상태 업데이트
+    // };
+
+    //체크를 핸들하는 함수 변경후
+    const toggleTaskCompletion = (index) => {
+        setStudyData((prevData) =>
+            prevData.map((study, i) =>
+                i === index
+                    ? {
+                          ...study,
+                          task: { ...study.task, isFinished: !study.task.isFinished },
+                      }
+                    : study,
+            ),
+        );
     };
-    const handleTaskModal = () => {
-        if (!taskModal) {
-            setTaskModal(true);
-        } else {
-            setTaskModal(false);
+
+    const toggleTaskModal = () => {
+        setTaskModalOpen((prev) => !prev);
+        if (isTaskModalOpen) {
             taskSubmit();
         }
     };
@@ -119,19 +132,21 @@ const Task = ({ selectedDate }) => {
                                         $isChecked={study.task.isFinished}
                                         type="checkbox"
                                         checked={study.task.isFinished} // study.task.isFinished와 연동
-                                        onChange={() => checkHandler(index)} // index를 전달하여 상태 변경
+                                        onChange={() => toggleTaskCompletion(index)} // index를 전달하여 상태 변경
                                     />
-                                    {study.task.isFinished && <TaskCheckBox2 onClick={() => checkHandler(index)} />}
+                                    {study.task.isFinished && (
+                                        <TaskCheckBox2 onClick={() => toggleTaskCompletion(index)} />
+                                    )}
                                 </ListItem>
                             </ListItemWrapper>
                         ))}
                 </ListWrapper>
 
-                <AddScheduleButton onClick={() => handleTaskModal()}>
+                <AddScheduleButton onClick={() => toggleTaskModal()}>
                     <PlusIcon />
-                    {taskModal ? '추가 완료' : '일정 추가하기'}
+                    {isTaskModalOpen ? '추가 완료' : '일정 추가하기'}
                 </AddScheduleButton>
-                {taskModal && (
+                {isTaskModalOpen && (
                     <AddTaskModal>
                         <Title1>일정 추가하기</Title1>
                         <Description>일정은 하루에 10개 추가할 수 있어요</Description>
