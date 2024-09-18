@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { PuppleButton } from '../../components/button/Button';
 
 const LoginPage = () => {
-    const theme = ThemeContext();
+    const theme = ThemeContext;
     const [register, setRegister] = useState(false);
     const [isAgreed, setIsAgreed] = useState(false); // 첫 번째 체크박스 상태 관리
     const [modal, setModal] = useState(false);
