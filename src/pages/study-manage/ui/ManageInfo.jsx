@@ -14,20 +14,40 @@ const StudyManageInfo = () => {
     const [imgFile, setImgFile] = useState('');
 
     // 인원수 카운터
-    const increaseCount = () => {
-        setMemberCount(memberCount + 1);
-        setIsWarningVisible(false);
-    };
-    const decreaseCount = () => {
-        if (memberCount === 0) {
-            setIsWarningVisible(true);
-        } else if (memberCount === 1) {
-            setMemberCount(memberCount - 1);
-            setIsWarningVisible(true);
-        } else {
-            setMemberCount(memberCount - 1);
+    // const increaseCount = () => {
+    //     setMemberCount(memberCount + 1);
+    //     setIsWarningVisible(false);
+    // };
+    // const decreaseCount = () => {
+    //     if (memberCount === 0) {
+    //         setIsWarningVisible(true);
+    //     } else if (memberCount === 1) {
+    //         setMemberCount(memberCount - 1);
+    //         setIsWarningVisible(true);
+    //     } else {
+    //         setMemberCount(memberCount - 1);
+    //         setIsWarningVisible(false);
+    //     }
+    // };
+
+    const handleCountChange = (direction) => {
+        //인원수 증가할 경우
+        if (direction === 'increase') {
+            setMemberCount((prevCount) => prevCount + 1);
             setIsWarningVisible(false);
+            return;
         }
+        // 인원수 감소할 경우
+        setMemberCount((prevCount) => {
+            if (prevCount === 0) {
+                setIsWarningVisible(true); // 경고문
+                return prevCount;
+            }
+            //인원수 1명 이상인 경우 감소할 때
+            const newCount = prevCount - 1;
+            setIsWarningVisible(newCount === 0); //1 -> 0명인 경우에 경고문
+            return newCount;
+        });
     };
 
     // 제목 글자 수 관리
@@ -51,9 +71,18 @@ const StudyManageInfo = () => {
     };
 
     // 토글 기능
-    const handleToggle = () => setIsOn(!isOn);
-    const onToggle = () => setIsOn(true);
-    const offToggle = () => setIsOn(false);
+    // const handleToggle = () => setIsOn(!isOn);
+    // const onToggle = () => setIsOn(true);
+    // const offToggle = () => setIsOn(false);
+
+    // 토글 통합함
+    const handleToggle = (value = null) => {
+        if (value !== null) {
+            setIsOn(value);
+            return;
+        }
+        setIsOn((prevIsOn) => !prevIsOn);
+    };
 
     return (
         <>
@@ -66,9 +95,9 @@ const StudyManageInfo = () => {
                     <TotalMembersWrapper>
                         <CounterWrapper>
                             <Text>최대 인원수 설정</Text>
-                            <CountButton onClick={decreaseCount}>-</CountButton>
+                            <CountButton onClick={() => handleCountChange('decrease')}>-</CountButton>
                             <TotalCount>{memberCount}</TotalCount>
-                            <CountButton onClick={increaseCount}>+</CountButton>
+                            <CountButton onClick={() => handleCountChange('increase')}>+</CountButton>
                         </CounterWrapper>
                         <WanringText isVisible={isWarningVisible}>인원수는 1명 이상이어야 합니다!</WanringText>
                     </TotalMembersWrapper>
@@ -110,13 +139,13 @@ const StudyManageInfo = () => {
 
                 {/* 공개/비공개 토글 영역 */}
                 <ToggleWrapper>
-                    <OnToggleText onClick={onToggle} isOn={isOn}>
+                    <OnToggleText onClick={() => handleToggle(true)} isOn={isOn}>
                         공개
                     </OnToggleText>
                     <ToggleBox onClick={handleToggle}>
                         <Toggle isOn={isOn}></Toggle>
                     </ToggleBox>
-                    <OffToggleText onClick={offToggle} isOn={isOn}>
+                    <OffToggleText onClick={() => handleToggle(false)} isOn={isOn}>
                         비공개
                     </OffToggleText>
                 </ToggleWrapper>
