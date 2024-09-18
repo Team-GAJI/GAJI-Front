@@ -12,30 +12,58 @@ const Task = ({ selectedDate }) => {
     const day = date.getDate();
     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
     const dayName = dayNames[date.getDay()];
-
-    const dummyJson = {
-        studyName: '웹 개발 스터디',
-        startTime: '2024-07-25T09:00:00',
-        endTime: '2024-07-25T11:00:00',
-        task: {
-            title: '프론트엔드 프로젝트',
-            description: 'React를 사용하여 간단한 Todo 리스트 애플리케이션 만들기',
-            dueDate: '2024-08-01T23:59:59',
+    const [studyData, setStudyData] = useState([
+        {
+            studyName: '웹 개발 스터디',
+            startTime: '2024-09-25T09:00:00',
+            endTime: '2024-09-25T11:00:00',
+            task: {
+                title: '프론트엔드 프로젝트',
+                description: 'Next.js와 Recoil을 사용한 블로그 애플리케이션 만들기',
+                dueDate: '2024-10-01T23:59:59',
+                isFinished: true,
+            },
         },
+        {
+            studyName: '백엔드 개발 스터디',
+            startTime: '2024-09-25T14:00:00',
+            endTime: '2024-09-25T16:00:00',
+            task: {
+                title: 'API 서버 구축',
+                description: 'Nest.js와 MongoDB를 사용한 REST API 서버 구축하기',
+                dueDate: '2024-10-05T23:59:59',
+                isFinished: false,
+            },
+        },
+        {
+            studyName: '코딩테스트 스터디',
+            startTime: '2024-09-25T19:00:00',
+            endTime: '2024-09-25T21:00:00',
+            task: {
+                title: '백준 알고리즘 문제풀이',
+                description: '다이나믹 프로그래밍 문제 해결 및 복습',
+                dueDate: '2024-10-10T23:59:59',
+                isFinished: false,
+            },
+        },
+    ]);
+
+    //체크를 핸들하는 함수
+    const checkHandler = (index) => {
+        const updatedStudyData = studyData.map((study, i) => {
+            if (i === index) {
+                return {
+                    ...study,
+                    task: {
+                        ...study.task,
+                        isFinished: !study.task.isFinished, // 상태 변경
+                    },
+                };
+            }
+            return study;
+        });
+        setStudyData(updatedStudyData); // 상태 업데이트
     };
-
-    const { studyName, startTime, endTime, task } = dummyJson;
-    const formattedStartTime = new Date(startTime).toLocaleTimeString('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-    });
-    const formattedEndTime = new Date(endTime).toLocaleTimeString('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-    });
-
     const handleTaskModal = () => {
         if (!taskModal) {
             setTaskModal(true);
@@ -43,6 +71,15 @@ const Task = ({ selectedDate }) => {
             setTaskModal(false);
             taskSubmit();
         }
+    };
+
+    const extractTime = (isoString) => {
+        const date = new Date(isoString);
+
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `- ${hours}:${minutes}`;
     };
 
     // 서버에 일정 추가
@@ -59,38 +96,37 @@ const Task = ({ selectedDate }) => {
                         {month}월 {day}일 ({dayName})
                     </Color>
                 </DateWrapper>
+
                 <ListWrapper>
-                    <ListItem>
-                        <ColumnWrapper>
-                            <StudyName>{studyName}</StudyName>
-                            <TaskTitle>{task.title}</TaskTitle>
-                            <Time>
-                                <StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime>
-                            </Time>
-                        </ColumnWrapper>
-                        <TaskCheckBox type="checkbox" />
-                    </ListItem>
-                    <ListItem>
-                        <ColumnWrapper>
-                            <StudyName>{studyName}</StudyName>
-                            <TaskTitle>{task.title}</TaskTitle>
-                            <Time>
-                                <StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime>
-                            </Time>
-                        </ColumnWrapper>
-                        <TaskCheckBox type="checkbox" />
-                    </ListItem>
-                    <ListItem>
-                        <ColumnWrapper>
-                            <StudyName>{studyName}</StudyName>
-                            <TaskTitle>{task.title}</TaskTitle>
-                            <Time>
-                                <StartTime>{formattedStartTime}</StartTime> - <EndTime>{formattedEndTime}</EndTime>
-                            </Time>
-                        </ColumnWrapper>
-                        <TaskCheckBox type="checkbox" />
-                    </ListItem>
+                    {studyData &&
+                        studyData.map((study, index) => (
+                            <ListItemWrapper key={index}>
+                                {study.task.isFinished === true && (
+                                    <TimeLine>
+                                        <DueDate>{extractTime(study.task.dueDate)}</DueDate>
+                                        <VerticalLine />
+                                    </TimeLine>
+                                )}
+                                <ListItem $isChecked={study.task.isFinished}>
+                                    <ColumnWrapper $isChecked={study.task.isFinished}>
+                                        <StudyName $isChecked={study.task.isFinished}>{study.studyName}</StudyName>
+                                        <TaskTitle $isChecked={study.task.isFinished}>{study.task.title}</TaskTitle>
+                                        <Time $isChecked={study.task.isFinished}>
+                                            <DueDate>{extractTime(study.task.dueDate)}</DueDate>
+                                        </Time>
+                                    </ColumnWrapper>
+                                    <TaskCheckBox
+                                        $isChecked={study.task.isFinished}
+                                        type="checkbox"
+                                        checked={study.task.isFinished} // study.task.isFinished와 연동
+                                        onChange={() => checkHandler(index)} // index를 전달하여 상태 변경
+                                    />
+                                    {study.task.isFinished && <TaskCheckBox2 onClick={() => checkHandler(index)} />}
+                                </ListItem>
+                            </ListItemWrapper>
+                        ))}
                 </ListWrapper>
+
                 <AddScheduleButton onClick={() => handleTaskModal()}>
                     <PlusIcon />
                     {taskModal ? '추가 완료' : '일정 추가하기'}
@@ -256,13 +292,18 @@ const ListItem = styled.div`
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 2px 20px rgba(119, 106, 142, 0.1);
+    background: ${({ $isChecked }) => ($isChecked ? 'transparent' : 'rgba(255, 255, 255, 0.5)')};
+    box-shadow: ${({ $isChecked }) => ($isChecked ? 'none' : '0px 2px 20px rgba(119, 106, 142, 0.1);')};
+    border: ${({ $isChecked }) => ($isChecked ? '1px dashed #A2A3B2' : 'none')};
+    filter: ${({ $isChecked }) => ($isChecked ? 'drop-shadow(0px 5px 20px rgba(209, 216, 220, 0.7));' : 'none')};
     border-radius: 10px;
     padding: 1em;
     margin-bottom: 1em;
 `;
 
+const ListItemWrapper = styled.div`
+    display: flex;
+`;
 const ColumnWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -270,6 +311,7 @@ const ColumnWrapper = styled.div`
 `;
 
 const TaskCheckBox = styled.input.attrs({ type: 'checkbox' })`
+    display: ${({ $isChecked }) => ($isChecked ? 'none' : 'flex')};
     appearance: none;
     width: 1.25rem;
     height: 1.25rem;
@@ -286,6 +328,14 @@ const TaskCheckBox = styled.input.attrs({ type: 'checkbox' })`
     }
 `;
 
+const TaskCheckBox2 = styled.div`
+    background: #a2a3b2;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 100%;
+    cursor: pointer;
+`;
+
 const RepeatCheck = styled(TaskCheckBox)`
     width: 1em;
     height: 1em;
@@ -300,27 +350,26 @@ const StudyName = styled.div`
     color: #ffffff;
     padding: 0.5em;
     box-sizing: border-box;
-    background: #8e59ff;
+    background: ${({ $isChecked }) => ($isChecked ? '#A2A3B2' : '#8e59ff')};
     border-radius: 10px;
 `;
 
 const Time = styled.div`
+    display: ${({ $isChecked }) => ($isChecked ? 'none' : 'flex')};
     font-weight: 700;
     color: #a2a3b2;
 `;
 
-const StartTime = styled.span`
-    font-size: 0.9375em;
-`;
-
-const EndTime = styled.span`
-    font-size: 0.6875em;
+const DueDate = styled.span`
+    font-size: 1rem;
+    color: #a2a3b2;
 `;
 
 const TaskTitle = styled.div`
     font-size: 1em;
     font-weight: 600;
-    color: #161a3f;
+    color: ${({ $isChecked }) => ($isChecked ? '#A2A3B2' : '#161a3f;')};
+    text-decoration: ${({ $isChecked }) => ($isChecked ? 'line-through' : 'none')};
 `;
 
 const AddScheduleButton = styled(PuppleButton)`
@@ -332,4 +381,17 @@ const AddScheduleButton = styled(PuppleButton)`
     width: 12.38em;
     height: 2.44em;
     gap: 0.25em;
+`;
+
+const TimeLine = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.125em;
+    align-items: center;
+`;
+
+const VerticalLine = styled.div`
+    height: 50%;
+    width: 0.5px;
+    background: #a2a3b2;
 `;
