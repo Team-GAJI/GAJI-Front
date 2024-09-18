@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
-import LogoIcon from '../assets/logos//logo.svg?react';
-import StudyPreview from '../components/studyMain/StudyPreview';
+import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
+import LogoIcon from '../../assets/logos//logo.svg?react';
+import StudyPreview from './ui/StudyPreview';
 import { useNavigate } from 'react-router-dom';
-import MainSelectBox from '../components/main/MainSelectBox';
-import { ContentWrapper } from '../components/common/MediaWrapper';
-import { Scroll } from '../components/common/Scroll';
-import MobileWriteButton from '../components/common/MobileWriteButton';
+import MainSelectBox from '../main/ui/MainSelectBox';
+import { ContentWrapper } from '../../components/common/MediaWrapper';
+import { Scroll } from '../../components/common/Scroll';
+import MobileWriteButton from '../../components/common/MobileWriteButton';
 import { studyPostsPreviewAPI } from './api/studyPostsPreviewAPI';
 
 const StudyMainPage = () => {
@@ -71,7 +71,7 @@ const StudyMainPage = () => {
     // 카테고리 클릭 시 해당 카테고리의 스터디 페이지로 이동
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
-        navigate('/studycategory', { state: { category: selectedCategory } });
+        navigate('/study/overview', { state: { category: selectedCategory } });
     };
 
     return (
@@ -96,14 +96,14 @@ const StudyMainPage = () => {
                     <MainSelectBox />
                     <div
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         <MobileWriteButton />
                     </div>
                     <CreatePostButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         + 스터디 만들기

@@ -53,14 +53,14 @@ const StudyOverviewPage = () => {
                     <MainSelectBox />
                     <CreatePostButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         + 스터디 만들기
                     </CreatePostButton>
                     <MobileWriteButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     />
                 </SelectAndButtonWrapper>

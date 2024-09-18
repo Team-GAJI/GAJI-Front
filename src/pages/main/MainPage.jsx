@@ -23,6 +23,7 @@ const MainPage = () => {
     const [popularStudies, setPopularStudies] = useState([]);
     const [recentStudies, setRecentStudies] = useState([]);
     const [communityPosts, setCommunityPosts] = useState([]);
+    const [, setStudySort] = useState('');
 
     // 스터디 불러오기
     useEffect(() => {
@@ -55,6 +56,12 @@ const MainPage = () => {
         };
         fetchStudies();
     }, []);
+
+    // 좋아요순, 최신순 스터디 페이지로 이동
+    const handleStudyPage = (selectedSort) => {
+        setStudySort(selectedSort);
+        navigate('/study', { state: { sort: selectedSort } });
+    };
 
     return (
         <PageWrapper>
@@ -89,23 +96,11 @@ const MainPage = () => {
 
                 {/* 인기 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        현재 가장 HOT한 스터디를 둘러보세요!
-                    </TitleText>
-                    <Arrow
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        &gt;
-                    </Arrow>
+                    <TitleText onClick={() => handleStudyPage('like')}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('like')}>&gt;</Arrow>
                 </ViewAllWrapper>
 
-                <BlogPreviewWrapper>
+                <StudyPreviewWrapper>
                     {popularStudies.map((post) => (
                         <StudyPreview
                             key={post.roomId}
@@ -120,26 +115,14 @@ const MainPage = () => {
                             applicant={post.applicant}
                         />
                     ))}
-                </BlogPreviewWrapper>
+                </StudyPreviewWrapper>
 
                 {/* 최신 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        가장 최신의 스터디를 둘러보세요!
-                    </TitleText>
-                    <Arrow
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        &gt;
-                    </Arrow>
+                    <TitleText onClick={() => handleStudyPage('recent')}>가장 최신의 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('recent')}>&gt;</Arrow>
                 </ViewAllWrapper>
-                <BlogPreviewWrapper>
+                <StudyPreviewWrapper>
                     {recentStudies.map((post) => (
                         <StudyPreview
                             key={post.roomId}
@@ -154,7 +137,7 @@ const MainPage = () => {
                             applicant={post.applicant}
                         />
                     ))}
-                </BlogPreviewWrapper>
+                </StudyPreviewWrapper>
                 <StyledHr />
 
                 {/* 커뮤니티 미리보기 */}
@@ -175,7 +158,7 @@ const MainPage = () => {
                     </Arrow>
                 </ViewAllWrapper>
 
-                <BlogPreviewWrapper2>
+                <BlogPreviewWrapper>
                     {communityPosts.map((post) => (
                         <BlogPreview
                             key={post.postId}
@@ -189,7 +172,7 @@ const MainPage = () => {
                             like={post.likeCnt}
                         />
                     ))}
-                </BlogPreviewWrapper2>
+                </BlogPreviewWrapper>
             </ContentWrapperMain>
         </PageWrapper>
     );
@@ -297,6 +280,7 @@ const ViewAllWrapper = styled.div`
     margin-top: 1em;
     width: 100%;
     display: flex;
+    align-items: center;
     color: #8e59ff;
 `;
 
@@ -318,7 +302,7 @@ const Arrow = styled.span`
     }
 `;
 
-const BlogPreviewWrapper = styled(Scroll)`
+const StudyPreviewWrapper = styled(Scroll)`
     width: 100%;
     display: flex;
     justify-content: center;
@@ -326,7 +310,7 @@ const BlogPreviewWrapper = styled(Scroll)`
     overflow-y: hidden;
 `;
 
-const BlogPreviewWrapper2 = styled(Scroll)`
+const BlogPreviewWrapper = styled(Scroll)`
     margin-bottom: 1em;
     padding-top: 1em;
     width: 100%;
