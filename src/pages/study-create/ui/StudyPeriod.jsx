@@ -3,7 +3,12 @@ import styled from 'styled-components';
 import StudyCreateRecruitCalendar from './StudyCreateRecruitCalendar';
 import StudyCreateCalendar from './StudyCreateCalendar';
 import { useDispatch } from 'react-redux';
-import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../../redux/slice/study/studyCreateSlice';
+import {
+    setRecruitStartDay,
+    setRecruitEndDay,
+    setStudyStartDay,
+    setStudyEndDay,
+} from '../../../redux/slice/study/studyCreateSlice';
 
 const StudyPeriod = () => {
     // state 관리
@@ -34,10 +39,10 @@ const StudyPeriod = () => {
             setStudyPeriodStartDate(date);
         }
         const formattedDate = formatDate(date);
-        console.log("Start Date:", formattedDate);
+        console.log('Start Date:', formattedDate);
         dispatch(setRecruitStartDay(formattedDate));
     };
-    
+
     const handleRecruitEndDateChange = (date) => {
         if (isRecruitmentActive) {
             setRecruitmentEndDate(date);
@@ -45,7 +50,7 @@ const StudyPeriod = () => {
             setStudyPeriodEndDate(date);
         }
         const formattedDate = formatDate(date);
-        console.log("End Date:", formattedDate);
+        console.log('End Date:', formattedDate);
         dispatch(setRecruitEndDay(formattedDate));
     };
 
@@ -57,10 +62,10 @@ const StudyPeriod = () => {
             setStudyPeriodStartDate(date);
         }
         const formattedDate = formatDate(date);
-        console.log("Start Date:", formattedDate);
+        console.log('Start Date:', formattedDate);
         dispatch(setStudyStartDay(formattedDate));
     };
-    
+
     const handleStudyEndDateChange = (date) => {
         if (isRecruitmentActive) {
             setRecruitmentEndDate(date);
@@ -68,7 +73,7 @@ const StudyPeriod = () => {
             setStudyPeriodEndDate(date);
         }
         const formattedDate = formatDate(date);
-        console.log("End Date:", formattedDate);
+        console.log('End Date:', formattedDate);
         dispatch(setStudyEndDay(formattedDate));
     };
 
@@ -104,40 +109,28 @@ const StudyPeriod = () => {
                 {/* 스터디 모집기한 */}
                 <StyledContentWrapper>
                     <Title>스터디 모집 기한</Title>
-                    <RecruitButton
-                        onClick={handleRecruitmentButtonClick}
-                        isActive={isRecruitmentActive}>
+                    <RecruitButton onClick={() => handleRecruitmentButtonClick()} isActive={isRecruitmentActive}>
                         입력하기
                     </RecruitButton>
                     <PeriodWrapper>
                         <Text>시작</Text>
-                        <Period>
-                            {recruitmentStartDate ? formatDate(recruitmentStartDate) : "--"}
-                        </Period>
+                        <Period>{recruitmentStartDate ? formatDate(recruitmentStartDate) : '--'}</Period>
                         <Text>끝</Text>
-                        <Period>
-                            {recruitmentEndDate ? formatDate(recruitmentEndDate) : "--"}
-                        </Period>
+                        <Period>{recruitmentEndDate ? formatDate(recruitmentEndDate) : '--'}</Period>
                     </PeriodWrapper>
                 </StyledContentWrapper>
 
                 {/* 스터디 진행기한 */}
                 <StyledContentWrapper>
                     <Title>스터디 진행 기한</Title>
-                    <StudyButton
-                        onClick={handleStudyPeriodButtonClick}
-                        isActive={isStudyPeriodActive}>
+                    <StudyButton onClick={() => handleStudyPeriodButtonClick()} isActive={isStudyPeriodActive}>
                         입력하기
                     </StudyButton>
                     <PeriodWrapper>
                         <Text>시작</Text>
-                        <Period>
-                            {studyPeriodStartDate ? formatDate(studyPeriodStartDate) : "--"}
-                        </Period>
+                        <Period>{studyPeriodStartDate ? formatDate(studyPeriodStartDate) : '--'}</Period>
                         <Text>끝</Text>
-                        <Period>
-                            {studyPeriodEndDate ? formatDate(studyPeriodEndDate) : "--"}
-                        </Period>
+                        <Period>{studyPeriodEndDate ? formatDate(studyPeriodEndDate) : '--'}</Period>
                     </PeriodWrapper>
                 </StyledContentWrapper>
             </RightWrapper>
@@ -149,30 +142,30 @@ export default StudyPeriod;
 
 /* CSS */
 const ComponentWrapper = styled.div`
-    border: 1px solid #8E59FF;
+    border: 1px solid #8e59ff;
     border-radius: 10px;
     width: 100%;
     display: flex;
     align-items: center;
 
-    @media(max-width : 768px){
-        flex-direction : column;
-        gap : 1em;
-        padding-bottom  :1em;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1em;
+        padding-bottom: 1em;
     }
 `;
 
 const RightWrapper = styled.div`
-    border-left: 1.2px solid #A2A3B2;
-    width : 50%;
+    border-left: 1.2px solid #a2a3b2;
+    width: 50%;
     display: flex;
     flex-direction: column;
 
-    @media(max-width : 768px){
-        margin-top : 2em;
-        align-items : center;
-        border : none;
-        width  :100%
+    @media (max-width: 768px) {
+        margin-top: 2em;
+        align-items: center;
+        border: none;
+        width: 100%;
     }
 `;
 
@@ -183,7 +176,7 @@ const StyledContentWrapper = styled.div`
 `;
 
 const Title = styled.div`
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
@@ -194,13 +187,13 @@ const RecruitButton = styled.div`
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
-    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+    background-color: ${(props) => (props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)')};
     color: white;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    &:hover {
+        box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
     }
     transition: all 0.3s ease;
 `;
@@ -212,13 +205,13 @@ const StudyButton = styled.div`
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
-    background-color: ${props => props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)'};
+    background-color: ${(props) => (props.isActive ? '#8E59FF' : 'rgba(142,89,255,0.5)')};
     color: white;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
-    &:hover{
-        box-shadow: 0 0.2em 1em rgba(22,26,63,0.2);
+    &:hover {
+        box-shadow: 0 0.2em 1em rgba(22, 26, 63, 0.2);
     }
     transition: all 0.3s ease;
 `;
@@ -229,13 +222,13 @@ const PeriodWrapper = styled.div`
 `;
 
 const Text = styled.div`
-    border: 1px solid #8E59FF;
+    border: 1px solid #8e59ff;
     border-radius: 10px;
     width: 5.0545em;
     height: 2.2054em;
     line-height: 2.2054em;
     text-align: center;
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 0.8125em;
     font-weight: bold;
 `;
@@ -243,7 +236,7 @@ const Text = styled.div`
 const Period = styled.div`
     margin: 0 4em 0 1em;
     width: 8em;
-    color: #161A3F;
+    color: #161a3f;
     font-size: 0.8125em;
     font-weight: bold;
 `;

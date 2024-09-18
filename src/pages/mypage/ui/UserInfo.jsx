@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import BellIcon from '../../../assets/icons/mypage/bellIcon.svg?react';
+import BellIcon from '../../../assets/icons/mypage/bellicon.svg?react';
 import SendIcon from '../../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../../components/container/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../../components/button/Button';
