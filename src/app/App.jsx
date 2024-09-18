@@ -4,6 +4,7 @@ import MainLayOut from '../components/layout/MainLayOut';
 import MyPage from '../pages/mypage/MyPage';
 import LoginPage from '../pages/login/LoginPage';
 import MainPage from '../pages/main/MainPage';
+import StudyMainPage from '../pages/study/StudyMainPage';
 import StudyDetailPage from '../pages/study-detail/StudyDetailPage';
 import StudyCreatePage from '../pages/study-create/StudyCreatePage';
 import StudyManagePage from '../pages/study-manage/StudyManagePage';
@@ -38,6 +39,7 @@ function App() {
                 <Route exact path="/mypage" element={<MyPage />} />
 
                 {/* Study 관련 라우트 */}
+                <Route exact path="/study" element={<StudyMainPage />} />
                 <Route exact path="/study/create" element={<StudyCreatePage />} />
                 <Route exact path="/study/detail" element={<StudyDetailPage />} />
                 <Route exact path="/study/manage" element={<StudyManagePage />} />

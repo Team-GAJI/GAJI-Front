@@ -50,17 +50,17 @@ const StudyOverviewPage = () => {
             <ContentWrapper>
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox />
+                    <MainSelectBox page={'studyOverviewPage'} category={category} />
                     <CreatePostButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         + 스터디 만들기
                     </CreatePostButton>
                     <MobileWriteButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     />
                 </SelectAndButtonWrapper>
