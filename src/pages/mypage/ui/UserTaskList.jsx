@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { Color } from '../../../components/container/Color';
 import { PuppleButton } from '../../../components/button/Button';
 import PlusIcon from '../../../assets/icons/mypage/plusIcon.svg?react';
+import UserTaskCreateModal from './UserTaskCreateModal';
 
-const Task = ({ selectedDate }) => {
+const UserTaskList = ({ selectedDate }) => {
     const [isTaskModalOpen, setTaskModalOpen] = useState(false);
     const date = selectedDate;
     const year = date.getFullYear();
@@ -147,125 +148,16 @@ const Task = ({ selectedDate }) => {
                     {isTaskModalOpen ? '추가 완료' : '일정 추가하기'}
                 </AddScheduleButton>
                 {isTaskModalOpen && (
-                    <AddTaskModal>
-                        <Title1>일정 추가하기</Title1>
-                        <Description>일정은 하루에 10개 추가할 수 있어요</Description>
-                        <Line />
-                        <Title2>일정 제목</Title2>
-                        <NewTaskTitle placeholder="일정 명을 입력해주세요"></NewTaskTitle>
-                        <Title2>시간 설정</Title2>
-                        <RowWrapper>
-                            <Text>시작</Text>
-                            <TimeInput></TimeInput>
-                            <Text>끝</Text>
-                            <TimeInput></TimeInput>
-                        </RowWrapper>
-                        <RowWrapper>
-                            <RepeatCheck />
-                            <Text>반복 일정</Text>
-                            <Description2>일정을 매주 반복합니다</Description2>
-                        </RowWrapper>
-                    </AddTaskModal>
+                    <>
+                        <UserTaskCreateModal data={date} />
+                    </>
                 )}
             </TaskWrapper>
         </>
     );
 };
 
-export default Task;
-
-const AddTaskModal = styled.div`
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    box-sizing: border-box;
-    padding: 2em;
-
-    width: 100%;
-    height: 75%;
-    z-index: 1;
-    color: #161a3f;
-    background: #ffffff;
-    box-shadow: 0px 2px 20px rgba(119, 106, 142, 0.1);
-    border-radius: 10px;
-    @media (max-width: 768px) {
-        top: 4em;
-    }
-`;
-
-const Title1 = styled.div`
-    font-size: 1.25em;
-    font-weight: 800;
-`;
-
-const Description = styled.div`
-    margin-top: 1em;
-    font-size: 0.8125em;
-    font-weight: 700;
-    color: #a2a3b2;
-`;
-
-const Line = styled.div`
-    width: 100%;
-    height: 1px;
-    background-color: #d0d1d9;
-    margin-top: 0.625em;
-`;
-
-const Title2 = styled.div`
-    margin-top: 1em;
-    font-weight: 700;
-`;
-
-const NewTaskTitle = styled.input`
-    width: 100%;
-    height: 2em;
-    border: 1px solid #d0d1d9;
-    border-radius: 10px;
-    box-sizing: border-box;
-    margin-top: 0.5625em;
-    font-size: 0.8125em;
-    padding-left: 1em;
-
-    &::placeholder {
-        color: #d0d1d9;
-    }
-
-    &:focus {
-        outline: none;
-    }
-`;
-
-const RowWrapper = styled.div`
-    width: 100%;
-    margin-top: 1.25em;
-    display: flex;
-    align-items: center;
-`;
-
-const Text = styled.div`
-    font-size: 0.8125em;
-    font-weight: 700;
-`;
-
-const TimeInput = styled.input.attrs({ type: 'time' })`
-    margin-left: 1.375em;
-    margin-right: 1.375em;
-    padding-left: 1em;
-    border: none;
-    box-sizing: border-box;
-    background-color: #ecedf0;
-    border-radius: 10px;
-    font-family: 'NanumSquareNeo';
-    font-weight: 700;
-    color: #8e59ff;
-`;
-
-const Description2 = styled.div`
-    font-size: 0.8125em;
-    color: #d0d1d9;
-    margin-left: 0.625em;
-`;
+export default UserTaskList;
 
 const TaskWrapper = styled.div`
     box-sizing: border-box;
@@ -349,13 +241,6 @@ const TaskCheckBox2 = styled.div`
     height: 1.5em;
     border-radius: 100%;
     cursor: pointer;
-`;
-
-const RepeatCheck = styled(TaskCheckBox)`
-    width: 1em;
-    height: 1em;
-    margin-right: 0.8125em;
-    box-sizing: border-box;
 `;
 
 const StudyName = styled.div`

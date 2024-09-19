@@ -5,7 +5,7 @@ import studyProfileUrl from '../../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
 import { studyInfoAPI } from '../api/studyInfoAPI';
 import { Scroll } from '../../../components/common/Scroll';
-import StudySection from './StudySection';
+import UserStudySection from './UserStudySection';
 
 const UserStudyList = ({ ongoingStudyList, endedStudyList }) => {
     const navigate = useNavigate();
@@ -22,8 +22,8 @@ const UserStudyList = ({ ongoingStudyList, endedStudyList }) => {
 
     return (
         <StudyListWrapper>
-            <StudySection title="현재 스터디룸" studyList={ongoingStudyList} handleStudyRoom={handleStudyRoom} />
-            <StudySection title="이전 스터디룸" studyList={endedStudyList} handleStudyRoom={handleStudyRoom} />
+            <UserStudySection title="현재 스터디룸" studyList={ongoingStudyList} handleStudyRoom={handleStudyRoom} />
+            <UserStudySection title="이전 스터디룸" studyList={endedStudyList} handleStudyRoom={handleStudyRoom} />
         </StudyListWrapper>
     );
 };

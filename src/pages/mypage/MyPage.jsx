@@ -76,7 +76,6 @@ const MyPage = () => {
                 const endedStudyListData = await endedStudyListAPI();
 
                 if (userInfoData.result) {
-                    console.log(userInfoData.result);
                     setUserInfo(userInfoData.result);
                 } else {
                     console.error('Failed to fetch user info:', userInfoData.message);
@@ -128,18 +127,20 @@ const MyPage = () => {
                 changeColorOnHover={true}
             />
 
-            <MyPageWrapper ref={homeRef}>
-                {userInfo && <UserInfo userInfo={userInfo} />}
-                <RowWrapper4 ref={studyRoomRef}>
-                    <UserStudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
-                </RowWrapper4>
-                <Div ref={calendarRef}>
-                    <UserCalendar />
-                </Div>
-                <Div ref={myPostRef}>
-                    <UserPost />
-                </Div>
-            </MyPageWrapper>
+            {userInfo && (
+                <MyPageWrapper ref={homeRef}>
+                    <UserInfo userInfo={userInfo} />
+                    <RowWrapper4 ref={studyRoomRef}>
+                        <UserStudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
+                    </RowWrapper4>
+                    <Div ref={calendarRef}>
+                        <UserCalendar />
+                    </Div>
+                    <Div ref={myPostRef}>
+                        <UserPost nickName={userInfo.nickname} />
+                    </Div>
+                </MyPageWrapper>
+            )}
         </>
     );
 };
@@ -154,10 +155,10 @@ const MyPageWrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    gap: 5em;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
-    gap: 4em;
 
     @media (max-width: 1199px) {
         width: 90%;

@@ -4,7 +4,7 @@ import { Scroll } from '../../../components/common/Scroll';
 import { Color } from '../../../components/container/Color';
 import studyProfileUrl from '../../../assets/images/common/studyProfile.png';
 
-const StudySection = ({ title, studyList, handleStudyRoom }) => (
+const UserStudySection = ({ title, studyList, handleStudyRoom }) => (
     <SectionWrapper>
         <RowWrapper>
             <SectionTitle>{title}</SectionTitle>
@@ -28,7 +28,7 @@ const StudySection = ({ title, studyList, handleStudyRoom }) => (
     </SectionWrapper>
 );
 
-export default StudySection;
+export default UserStudySection;
 
 const SectionWrapper = styled.div`
     width: 100%;
