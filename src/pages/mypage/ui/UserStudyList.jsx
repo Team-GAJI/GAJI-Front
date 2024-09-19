@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Color } from '../../../components/container/Color';
-import studyProfileUrl from '../../../assets/images/common/studyprofile.png';
 import { useNavigate } from 'react-router-dom';
 import { studyInfoAPI } from '../api/studyInfoAPI';
-import { Scroll } from '../../../components/common/Scroll';
 import UserStudySection from './UserStudySection';
 
 const UserStudyList = ({ ongoingStudyList, endedStudyList }) => {

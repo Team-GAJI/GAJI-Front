@@ -1,8 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CheckBox } from '../../../components/input/CheckBox';
 import styled from 'styled-components';
 
 const UserTaskCreateModal = ({ date }) => {
+    const [timeState, setTimeState] = useState(['오전', '오후']);
+    const [hourState, setHourState] = useState([
+        '00',
+        '01',
+        '02',
+        '03',
+        '04',
+        '05',
+        '06',
+        '07',
+        '08',
+        '09',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15',
+        '16',
+        '17',
+        '18',
+        '19',
+        '20',
+        '21',
+        '22',
+        '23',
+    ]);
+    const [minuteState, setMinuteState] = useState(Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0')));
+
+    const [startTime, setStartTime] = useState({ time: '오후', hour: '15', minute: '00' });
+    const [endTime, setEndTime] = useState({ time: '오후', hour: '17', minute: '00' });
+
+    const handleTimeChange = (type, key, value) => {
+        if (type === 'start') {
+            setStartTime({ ...startTime, [key]: value });
+        } else {
+            setEndTime({ ...endTime, [key]: value });
+        }
+    };
+
     return (
         <>
             <AddTaskModal>
@@ -10,13 +50,71 @@ const UserTaskCreateModal = ({ date }) => {
                 <Description>일정은 하루에 10개 추가할 수 있어요</Description>
                 <Line />
                 <Title2>일정 제목</Title2>
-                <NewTaskTitle placeholder="일정 명을 입력해주세요"></NewTaskTitle>
+                <NewTaskTitle placeholder="일정 명을 입력해주세요" />
                 <Title2>시간 설정</Title2>
                 <RowWrapper>
                     <Text>시작</Text>
-                    <TimeInput />
+                    <TimeSelectWrapper>
+                        <Select
+                            value={startTime.time}
+                            onChange={(e) => handleTimeChange('start', 'time', e.target.value)}
+                        >
+                            {timeState.map((time) => (
+                                <option key={time} value={time}>
+                                    {time}
+                                </option>
+                            ))}
+                        </Select>
+                        <Select
+                            value={startTime.hour}
+                            onChange={(e) => handleTimeChange('start', 'hour', e.target.value)}
+                        >
+                            {hourState.map((hour) => (
+                                <option key={hour} value={hour}>
+                                    {hour}
+                                </option>
+                            ))}
+                        </Select>
+                        <span>:</span>
+                        <Select
+                            value={startTime.minute}
+                            onChange={(e) => handleTimeChange('start', 'minute', e.target.value)}
+                        >
+                            {minuteState.map((minute) => (
+                                <option key={minute} value={minute}>
+                                    {minute}
+                                </option>
+                            ))}
+                        </Select>
+                    </TimeSelectWrapper>
                     <Text>끝</Text>
-                    <TimeInput />
+                    <TimeSelectWrapper>
+                        <Select value={endTime.time} onChange={(e) => handleTimeChange('end', 'time', e.target.value)}>
+                            {timeState.map((time) => (
+                                <option key={time} value={time}>
+                                    {time}
+                                </option>
+                            ))}
+                        </Select>
+                        <Select value={endTime.hour} onChange={(e) => handleTimeChange('end', 'hour', e.target.value)}>
+                            {hourState.map((hour) => (
+                                <option key={hour} value={hour}>
+                                    {hour}
+                                </option>
+                            ))}
+                        </Select>
+                        <span>:</span>
+                        <Select
+                            value={endTime.minute}
+                            onChange={(e) => handleTimeChange('end', 'minute', e.target.value)}
+                        >
+                            {minuteState.map((minute) => (
+                                <option key={minute} value={minute}>
+                                    {minute}
+                                </option>
+                            ))}
+                        </Select>
+                    </TimeSelectWrapper>
                 </RowWrapper>
                 <RowWrapper>
                     <RepeatCheck />
@@ -36,7 +134,6 @@ const AddTaskModal = styled.div`
     position: absolute;
     box-sizing: border-box;
     padding: 2em;
-
     width: 100%;
     height: 75%;
     z-index: 1;
@@ -111,17 +208,28 @@ const Text = styled.div`
     font-weight: 700;
 `;
 
-const TimeInput = styled.input.attrs({ type: 'time' })`
+const TimeSelectWrapper = styled.div`
+    display: flex;
+    align-items: center;
     margin-left: 1.375em;
     margin-right: 1.375em;
-    padding-left: 1em;
-    border: none;
-    box-sizing: border-box;
-    background-color: #ecedf0;
+    background-color: #f0f0f5;
     border-radius: 10px;
-    font-family: 'NanumSquareNeo';
-    font-weight: 700;
+    padding: 0.5em;
+`;
+
+const Select = styled.select`
+    border: none;
+    background-color: transparent;
+    font-size: 0.8125em;
     color: #8e59ff;
+    font-weight: 700;
+    appearance: none;
+    margin-right: 0.5em;
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 const Description2 = styled.div`
