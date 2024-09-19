@@ -6,7 +6,7 @@ import { Color } from '../../../components/container/Color';
 import { PuppleButton } from '../../../components/button/Button';
 import Task from './Task';
 
-const Calendar = () => {
+const UserCalendar = () => {
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const monthName = date.toLocaleString('default', { month: 'long' });
@@ -87,7 +87,7 @@ const Calendar = () => {
     );
 };
 
-export default Calendar;
+export default UserCalendar;
 
 const StyledPrevMonth = styled(PrevMonth)`
     width: 0.61em;

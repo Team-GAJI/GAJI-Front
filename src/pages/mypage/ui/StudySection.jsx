@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Scroll } from '../../../components/common/Scroll';
 import { Color } from '../../../components/container/Color';
+import studyProfileUrl from '../../../assets/images/common/studyProfile.png';
 
 const StudySection = ({ title, studyList, handleStudyRoom }) => (
     <SectionWrapper>

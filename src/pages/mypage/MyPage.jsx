@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Calendar from './ui/Calendar';
-import MyPost from './ui/MyPost';
-import StudyList from './ui/StudyList';
+import UserCalendar from './ui/UserCalendar';
+import UserPost from './ui/UserPost';
+import UserStudyList from './ui/UserStudyList';
 import UserInfo from './ui/UserInfo';
 import { userInfoAPI } from './api/userInfoAPI';
 import { ongoingStudyListAPI, endedStudyListAPI } from './api/myStudyListAPI';
@@ -75,7 +75,8 @@ const MyPage = () => {
                 console.log(ongoingStudyListData);
                 const endedStudyListData = await endedStudyListAPI();
 
-                if (userInfoData.success) {
+                if (userInfoData.result) {
+                    console.log(userInfoData.result);
                     setUserInfo(userInfoData.result);
                 } else {
                     console.error('Failed to fetch user info:', userInfoData.message);
@@ -99,6 +100,7 @@ const MyPage = () => {
         };
 
         fetchUserData();
+
         window.addEventListener('scroll', handleScrollEvent);
         window.addEventListener('resize', handleResize);
         return () => {
@@ -127,15 +129,15 @@ const MyPage = () => {
             />
 
             <MyPageWrapper ref={homeRef}>
-                <UserInfo userInfo={userInfo} />
+                {userInfo && <UserInfo userInfo={userInfo} />}
                 <RowWrapper4 ref={studyRoomRef}>
-                    <StudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
+                    <UserStudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
                 </RowWrapper4>
                 <Div ref={calendarRef}>
-                    <Calendar />
+                    <UserCalendar />
                 </Div>
                 <Div ref={myPostRef}>
-                    <MyPost />
+                    <UserPost />
                 </Div>
             </MyPageWrapper>
         </>

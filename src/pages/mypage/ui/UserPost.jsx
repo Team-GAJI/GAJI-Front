@@ -4,7 +4,7 @@ import { PuppleButton } from '../../../components/button/Button';
 import Loading from '../../../components/common/Loading';
 import { postAPI } from '../api/postAPI';
 
-const MyPost = () => {
+const UserPost = () => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -103,7 +103,7 @@ const MyPost = () => {
     );
 };
 
-export default MyPost;
+export default UserPost;
 
 const MyPostWrapper = styled.div`
     width: 100%;

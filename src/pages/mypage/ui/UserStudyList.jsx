@@ -7,7 +7,7 @@ import { studyInfoAPI } from '../api/studyInfoAPI';
 import { Scroll } from '../../../components/common/Scroll';
 import StudySection from './StudySection';
 
-const StudyList = ({ ongoingStudyList, endedStudyList }) => {
+const UserStudyList = ({ ongoingStudyList, endedStudyList }) => {
     const navigate = useNavigate();
 
     const handleStudyRoom = async (roomId) => {
@@ -28,7 +28,7 @@ const StudyList = ({ ongoingStudyList, endedStudyList }) => {
     );
 };
 
-export default StudyList;
+export default UserStudyList;
 
 const StudyListWrapper = styled.div`
     width: 100%;

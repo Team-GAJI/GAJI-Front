@@ -8,30 +8,19 @@ import defaultProfileImage from '../../../assets/images/mypage/userProfile.png';
 import { nickNameAPI } from '../../login/api/nickNameAPI';
 
 const UserInfo = forwardRef(({ userInfo }, ref) => {
-    const [userDetails, setUserDetails] = useState({
-        userName: userInfo?.result?.nickname || '',
-        userGrade: userInfo?.result?.userInfo || '',
-    });
+    console.log(userInfo);
     const [isEditing, setIsEditing] = useState(false);
-
-    useEffect(() => {
-        setUserDetails({
-            userName: userInfo?.result?.nickname,
-            userGrade: userInfo?.result?.userInfo,
-        });
-    }, [userInfo]);
-
-    const profileImage = useMemo(() => userInfo?.result?.profileImagePth || defaultProfileImage, [userInfo]);
+    const profileImage = useMemo(() => userInfo.profileImagePth || defaultProfileImage);
 
     const toggleEditingMode = async () => {
         if (isEditing) {
-            if (!userDetails.userName.trim()) {
+            if (!userInfo.nickname.trim()) {
                 alert('닉네임을 입력해주세요.');
                 return;
             }
 
             try {
-                const response = await nickNameAPI(userDetails.userName);
+                const response = await nickNameAPI(userInfo.nickname);
                 alert(response.message || '닉네임이 수정되었습니다!');
             } catch (error) {
                 console.error('닉네임 수정 중 오류 발생:', error);
@@ -53,13 +42,14 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
         <UserWrapper ref={ref}>
             <RowWrapper2>
                 <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
+                <>{userInfo.userName}</>
                 <ColumnWrapper>
                     {isEditing ? (
-                        <UserNameInput type="text" value={userDetails.userName} onChange={handleNameChange} autoFocus />
+                        <UserNameInput type="text" value={userInfo.nickname} onChange={handleNameChange} autoFocus />
                     ) : (
-                        <UserName>{userDetails.userName} 님</UserName>
+                        <UserName>{userInfo?.nickname} 님</UserName>
                     )}
-                    <UserGrade>{userDetails.userGrade} Member</UserGrade>
+                    <UserGrade>{userInfo?.userGrade} Member</UserGrade>
                     <WelcomeText>마이페이지에 오신 것을 환영합니다!</WelcomeText>
                 </ColumnWrapper>
             </RowWrapper2>
