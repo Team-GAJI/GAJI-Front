@@ -6,7 +6,7 @@ import ManagePlus from '../../assets/icons/studyManage/StudyManagePlus.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ManageInfo from './ui/ManageInfo';
 import ManagePeriod from './ui/StudyManagePeriod';
-import ManageDetailed from './ui/ManageDetailed';
+import ManageDetailed from './ui/StudyManageDetail';
 import PageHeader from '../../components/common/PageHeader';
 import { ContentWrapper70 } from '../../components/common/MediaWrapper';
 const StudyManagePage = () => {

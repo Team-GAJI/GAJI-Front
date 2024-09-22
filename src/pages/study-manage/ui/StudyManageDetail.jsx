@@ -107,58 +107,62 @@ const StudyManageDetail = () => {
     };
 
     return (
-        <ComponentWrapper>
-            {/* 툴바 */}
-            <ToolbarWrapper>
-                <StyledFontSizeSelect name="fontSize" value={fontSize} onChange={applyFontSize}>
-                    <option value="0">폰트크기</option>
-                    <option value="1">1h</option>
-                    <option value="2">2h</option>
-                    <option value="3">3h</option>
-                    <option value="4">4h</option>
-                    <option value="5">5h</option>
-                    <option value="6">6h</option>
-                </StyledFontSizeSelect>
-                <StyledBar>|</StyledBar>
-                <StyledBoldIcon onClick={() => applyFormatting('**')} />
-                <StyledItalicIcon onClick={() => applyFormatting('*')} />
-                <StyledThroughIcon onClick={() => applyFormatting('~~')} />
-                <StyledBar>|</StyledBar>
-                {/* <StyledImageIcon onClick={addImage}/> */}
-                <FileInputLabel htmlFor="contentImg">
-                    <StyledImageIcon />
-                </FileInputLabel>
-                <ImageUploadInput type="file" id="contentImg" accept="image/*" />
-                <StyledLinkIcon onClick={addLink} />
-                <StyledBar>|</StyledBar>
-                <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
-            </ToolbarWrapper>
+        <>
+            <Text2>스터디 상세정보</Text2>
 
-            {/* 내용 */}
-            <TextareaWrapper>
-                <StyledTextarea
-                    ref={textareaRef}
-                    value={markdown}
-                    onChange={handleMarkdownChange}
-                    onKeyDown={handleKeyDown}
-                    placeholder="게시글의 내용을 입력해주세요."
-                    maxLength="20000"
-                />
-                <TextareaBottom>
-                    <TextLength lengthCount={lengthCount}>{lengthCount}/20000 자</TextLength>
-                </TextareaBottom>
-            </TextareaWrapper>
+            <ComponentWrapper>
+                {/* 툴바 */}
+                <ToolbarWrapper>
+                    <StyledFontSizeSelect name="fontSize" value={fontSize} onChange={applyFontSize}>
+                        <option value="0">폰트크기</option>
+                        <option value="1">1h</option>
+                        <option value="2">2h</option>
+                        <option value="3">3h</option>
+                        <option value="4">4h</option>
+                        <option value="5">5h</option>
+                        <option value="6">6h</option>
+                    </StyledFontSizeSelect>
+                    <StyledBar>|</StyledBar>
+                    <StyledBoldIcon onClick={() => applyFormatting('**')} />
+                    <StyledItalicIcon onClick={() => applyFormatting('*')} />
+                    <StyledThroughIcon onClick={() => applyFormatting('~~')} />
+                    <StyledBar>|</StyledBar>
+                    {/* <StyledImageIcon onClick={addImage}/> */}
+                    <FileInputLabel htmlFor="contentImg">
+                        <StyledImageIcon />
+                    </FileInputLabel>
+                    <ImageUploadInput type="file" id="contentImg" accept="image/*" />
+                    <StyledLinkIcon onClick={addLink} />
+                    <StyledBar>|</StyledBar>
+                    <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
+                </ToolbarWrapper>
 
-            {/* 모달 */}
-            {isModalOpen && (
-                <ModalOverlay onClick={closeModal}>
-                    <ModalContent onClick={(e) => e.stopPropagation()}>
-                        <CloseButton onClick={closeModal}>x</CloseButton>
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
-                    </ModalContent>
-                </ModalOverlay>
-            )}
-        </ComponentWrapper>
+                {/* 내용 */}
+                <TextareaWrapper>
+                    <StyledTextarea
+                        ref={textareaRef}
+                        value={markdown}
+                        onChange={handleMarkdownChange}
+                        onKeyDown={handleKeyDown}
+                        placeholder="게시글의 내용을 입력해주세요."
+                        maxLength="20000"
+                    />
+                    <TextareaBottom>
+                        <TextLength lengthCount={lengthCount}>{lengthCount}/20000 자</TextLength>
+                    </TextareaBottom>
+                </TextareaWrapper>
+
+                {/* 모달 */}
+                {isModalOpen && (
+                    <ModalOverlay onClick={closeModal}>
+                        <ModalContent onClick={(e) => e.stopPropagation()}>
+                            <CloseButton onClick={closeModal}>x</CloseButton>
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+                        </ModalContent>
+                    </ModalOverlay>
+                )}
+            </ComponentWrapper>
+        </>
     );
 };
 
@@ -391,4 +395,13 @@ const CloseButton = styled.button`
     border: none;
     font-size: 1.5em;
     cursor: pointer;
+`;
+
+const Text2 = styled.p`
+    color: #8e59ff;
+    // font-size: 1.25em;
+    font-weight: 800;
+    width: 100%;
+    @media (max-width: 768px) {
+    }
 `;
