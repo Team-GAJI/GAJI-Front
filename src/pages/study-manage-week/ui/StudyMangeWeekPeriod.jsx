@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import StudyCreateRecruitCalendar from './StudyManageWeekRecruitCalendar';
 import StudyCreateCalendar from './StudyManageWeekCalendar';
 import { useDispatch } from 'react-redux';
-// import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
 
 const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => {
+    // 스터디 시작 날 상태
     const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
+    // 스터디 마지막 날 상태
     const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
+
     const [isRecruitmentActive, setIsRecruitmentActive] = useState(false);
+    // 스터디 기간 활성화 상태
     const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);
 
     const dispatch = useDispatch();
     const today = new Date();
 
+    // 선택한 주 선택하면 나타나는 효과
     useEffect(() => {
         if (selectedWeek < weekData.length) {
             const newWeekData = weekData[selectedWeek] || {};
@@ -23,8 +26,9 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
             );
             setStudyPeriodEndDate(newWeekData.studyPeriodEndDate ? new Date(newWeekData.studyPeriodEndDate) : null);
         }
-    }, [selectedWeek, weekData]);
+    }, [selectedWeek, weekData]); //selectedWeek, weekData가 변경되면 재실행
 
+    // 날짜 포맷팅
     const formatDate = (date) => {
         if (!(date instanceof Date) || isNaN(date.getTime())) {
             return '날짜를 선택해주세요'; // 유효하지 않은 날짜일 경우 표시할 텍스트
@@ -34,19 +38,21 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
         return `${month}월 ${day}일`;
     };
 
+    //스터디 시작 날짜 변경 핸들러
     const handleStudyStartDateChange = (date) => {
         setStudyPeriodStartDate(date);
         updateWeekData({ studyPeriodStartDate: date });
     };
-
+    //스터디 마지막 날짜 변경 핸들러
     const handleStudyEndDateChange = (date) => {
         setStudyPeriodEndDate(date);
         updateWeekData({ studyPeriodEndDate: date });
     };
 
+    // 새로운 주 데이터에 업데이트하는 함수
     const updateWeekData = (updates) => {
         const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], ...updates };
+        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], ...updates }; //특정 주를 업데이트
         onWeekDataChange(newWeekData);
     };
 

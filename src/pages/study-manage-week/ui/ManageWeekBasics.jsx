@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
-    const [studyName, setStudyName] = useState('');
-    const [studyDescription, setStudyDescription] = useState('');
+    const [studyName, setStudyName] = useState(''); //스터디 이름
+    const [studyDescription, setStudyDescription] = useState(''); // 스터디 설명
 
     useEffect(() => {
         if (weekData[selectedWeek]) {
-            setStudyName(weekData[selectedWeek].basicInfo?.name || '');
-            setStudyDescription(weekData[selectedWeek].basicInfo?.description || '');
+            setStudyName(weekData[selectedWeek].basicInfo?.name || ''); //주 데이터에서 스터디 이름 가져오기
+            setStudyDescription(weekData[selectedWeek].basicInfo?.description || ''); //주 데이터에서 스터디 설명 가져옴
         }
     }, [selectedWeek, weekData]);
 
+    // 스터디 이름 변경 핸들러
     const handleStudyNameChange = (event) => {
         const value = event.target.value;
         setStudyName(value);
@@ -26,6 +27,7 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
         onWeekDataChange(newWeekData);
     };
 
+    // 스터디 설명 변경 핸들러
     const handleStudyDescriptionChange = (event) => {
         const value = event.target.value;
         setStudyDescription(value);

@@ -9,6 +9,7 @@ import StudyMangeWeekPeriod from './ui/StudyMangeWeekPeriod.jsx';
 import ManageWeekeDetailed from './ui/ManageWeekDetailed.jsx';
 import PageHeader from '../../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../../components/common/MediaWrapper.jsx';
+// API
 import { TaskAPI } from './api/TaskAPI.jsx';
 import { descriptionAPI } from './api/descriptionAPI.jsx';
 import { periodAPI } from './api/period.jsx';
@@ -287,7 +288,7 @@ const Sidebar1 = styled.aside`
     position: -webkit-sticky;
     position: sticky;
     top: 5em;
-    margin-top: 2.75em;
+    margin-top: 4.75em;
 
     @media (max-width: 768px) {
         position: -webkit-sticky;
