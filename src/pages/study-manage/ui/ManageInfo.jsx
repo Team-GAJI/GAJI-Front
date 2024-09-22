@@ -13,23 +13,6 @@ const StudyManageInfo = () => {
     const [isOn, setIsOn] = useState(true);
     const [imgFile, setImgFile] = useState('');
 
-    // 인원수 카운터
-    // const increaseCount = () => {
-    //     setMemberCount(memberCount + 1);
-    //     setIsWarningVisible(false);
-    // };
-    // const decreaseCount = () => {
-    //     if (memberCount === 0) {
-    //         setIsWarningVisible(true);
-    //     } else if (memberCount === 1) {
-    //         setMemberCount(memberCount - 1);
-    //         setIsWarningVisible(true);
-    //     } else {
-    //         setMemberCount(memberCount - 1);
-    //         setIsWarningVisible(false);
-    //     }
-    // };
-
     const handleCountChange = (direction) => {
         //인원수 증가할 경우
         if (direction === 'increase') {
@@ -69,11 +52,6 @@ const StudyManageInfo = () => {
             setImgFile(reader.result);
         };
     };
-
-    // 토글 기능
-    // const handleToggle = () => setIsOn(!isOn);
-    // const onToggle = () => setIsOn(true);
-    // const offToggle = () => setIsOn(false);
 
     // 토글 통합함
     const handleToggle = (value = null) => {
@@ -142,7 +120,7 @@ const StudyManageInfo = () => {
                     <OnToggleText onClick={() => handleToggle(true)} isOn={isOn}>
                         공개
                     </OnToggleText>
-                    <ToggleBox onClick={handleToggle}>
+                    <ToggleBox onClick={() => handleToggle()}>
                         <Toggle isOn={isOn}></Toggle>
                     </ToggleBox>
                     <OffToggleText onClick={() => handleToggle(false)} isOn={isOn}>
