@@ -4,9 +4,9 @@ import PrevMonth from '../../../assets/icons/common/prevmonth.svg?react';
 import NextMonth from '../../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../../../components/container/Color';
 import { PuppleButton } from '../../../components/button/Button';
-import Task from './Task';
+import UserTaskList from './UserTaskList';
 
-const Calendar = () => {
+const UserCalendar = () => {
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const monthName = date.toLocaleString('default', { month: 'long' });
@@ -82,12 +82,12 @@ const Calendar = () => {
                 </Grid>
                 <AddGoogleCalendarButton>구글 캘린더 연동하기</AddGoogleCalendarButton>
             </CalendarWrapper1>
-            <Task selectedDate={selectedDate} />
+            <UserTaskList selectedDate={selectedDate} />
         </CalendarWrapper>
     );
 };
 
-export default Calendar;
+export default UserCalendar;
 
 const StyledPrevMonth = styled(PrevMonth)`
     width: 0.61em;

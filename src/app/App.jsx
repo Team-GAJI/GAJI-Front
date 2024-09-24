@@ -21,12 +21,14 @@ import CommunityPage from '../pages/community/CommunityPage';
 import CommunityDetailPage from '../pages/community-detail/CommunityDetailPage';
 import CommunityWritePage from '../pages/community-write/CommunityWritePage';
 import CharacterVotePage from '../pages/character-vote/CharacterVotePage';
+import LoginRedirectPage from '../pages/login/LoginRedirectPage';
 
 function App() {
     return (
         <Routes>
             {/* 로그인 페이지 라우트 */}
             <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/nickname" element={<LoginRedirectPage />} />
 
             {/* 메인 레이아웃이 적용되는 라우트 그룹 */}
             <Route element={<MainLayOut />}>
