@@ -7,8 +7,10 @@ import UserInfo from './ui/UserInfo';
 import { userInfoAPI } from './api/userInfoAPI';
 import { ongoingStudyListAPI, endedStudyListAPI } from './api/myStudyListAPI';
 import SidePageHeader from '../../components/common/SidePageHeader';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+    const navigate = useNavigate();
     const homeRef = useRef(null);
     const studyRoomRef = useRef(null);
     const calendarRef = useRef(null);
@@ -66,6 +68,12 @@ const MyPage = () => {
             }
         });
     };
+
+    useEffect(() => {
+        if (!localStorage.getItem('accessToken')) {
+            navigate('/');
+        }
+    });
 
     useEffect(() => {
         const fetchUserData = async () => {

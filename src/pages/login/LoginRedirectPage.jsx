@@ -50,6 +50,7 @@ const LoginRedirectPage = () => {
 
     useEffect(() => {
         handleRedirect();
+
         const fetchUserId = async () => {
             if (token) {
                 saveTokenToLocalStorage(token);
