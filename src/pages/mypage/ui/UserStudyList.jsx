@@ -10,7 +10,7 @@ const UserStudyList = ({ ongoingStudyList, endedStudyList }) => {
     const handleStudyRoom = async (roomId) => {
         try {
             const response = await studyInfoAPI(roomId);
-            navigate('/studyroom', { state: { data: response, roomId: roomId } });
+            navigate('/study/room', { state: { data: response, roomId: roomId } });
         } catch (error) {
             alert('스터디룸 정보 불러오기에 실패했습니다.');
             console.error('Error fetching study room info:', error);
