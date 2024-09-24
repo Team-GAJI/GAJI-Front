@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { PuppleButton } from '../../../components/button/Button';
 import Loading from '../../../components/common/Loading';
-import { postAPI } from '../api/postAPI';
+import { getUserPostAPI } from '../api/getUserPostAPI';
 
 const UserPost = ({ nickName }) => {
     const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ const UserPost = ({ nickName }) => {
         const currentType = types[category];
 
         try {
-            const response = await postAPI(userId, currentType, cursorDate);
+            const response = await getUserPostAPI(userId, currentType, cursorDate);
             console.log('API 응답:', response);
 
             const { postList, hasNext: newHasNext } = response;
