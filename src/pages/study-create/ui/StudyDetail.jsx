@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
-import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
-import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
-import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
-import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
+import BoldIcon from '../../../assets/icons/communityWrite/bold.svg?react';
+import ItalicIcon from '../../../assets/icons/communityWrite/italic.svg?react';
+import ThroughIcon from '../../../assets/icons/communityWrite/through.svg?react';
+import ImageIcon from '../../../assets/icons/communityWrite/image.svg?react';
+import LinkIcon from '../../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useDispatch } from 'react-redux';
