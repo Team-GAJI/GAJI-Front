@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
+const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => {
     const [studyName, setStudyName] = useState(''); //스터디 이름
     const [studyDescription, setStudyDescription] = useState(''); // 스터디 설명
 
@@ -16,7 +16,9 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
     const handleStudyNameChange = (event) => {
         const value = event.target.value;
         setStudyName(value);
-        const newWeekData = [...weekData];
+
+        // weekData가 배열이 아니면 빈 배열로 초기화
+        const newWeekData = Array.isArray(weekData) ? [...weekData] : [];
         newWeekData[selectedWeek] = {
             ...newWeekData[selectedWeek],
             basicInfo: {
@@ -31,7 +33,9 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
     const handleStudyDescriptionChange = (event) => {
         const value = event.target.value;
         setStudyDescription(value);
-        const newWeekData = [...weekData];
+
+        // weekData가 배열이 아니면 빈 배열로 초기화
+        const newWeekData = Array.isArray(weekData) ? [...weekData] : [];
         newWeekData[selectedWeek] = {
             ...newWeekData[selectedWeek],
             basicInfo: {
