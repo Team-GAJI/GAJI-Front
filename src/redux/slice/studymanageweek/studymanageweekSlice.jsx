@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { assignmentsAPI } from '../../../pages/study-manage-week/api/assignmentsAPI';
 
 // studyWeekSlice.js
 const initialState = {
     weeksData: [],
+    taskData: [],
+    periodDate: [],
+    assignmentsDate: [],
 };
 
 const studyWeekSlice = createSlice({

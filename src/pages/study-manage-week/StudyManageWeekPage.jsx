@@ -62,6 +62,23 @@ const StudyManageWeeKPage = () => {
         dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeekData }));
     };
 
+    // 검증 함수 추가 -> 모든 데이터가 입력되었는가?
+    const isAllDataFilled = () => {
+        return weeks.every((weekIndex) => {
+            //weekData[weekIndex]가 undefined인 경우를 방지
+            const weekDataForIndex = weekData[weekIndex];
+            return (
+                weekDataForIndex &&
+                weekDataForIndex.basicInfo?.name &&
+                weekDataForIndex.basicInfo?.description &&
+                weekDataForIndex.studyPeriodStartDate &&
+                weekDataForIndex.studyPeriodEndDate &&
+                Array.isArray(weekDataForIndex.assignments) &&
+                weekDataForIndex.assignments.length > 0
+            );
+        });
+    };
+
     const fetchSelectedWeekData = async () => {
         try {
             const taskData = await TaskAPI(roomId, selectedWeek);
@@ -104,6 +121,12 @@ const StudyManageWeeKPage = () => {
         setActiveButtonIndex(index);
 
         if (index === 0) {
+            // 저장 전에 데이터 검증
+            if (!isAllDataFilled()) {
+                alert('모든 입력값을 채워주세요.');
+                return;
+            }
+
             try {
                 console.log('저장 중...');
 
@@ -186,6 +209,8 @@ const StudyManageWeeKPage = () => {
                 onButtonClick={handleHeaderButtonClick}
                 changeColorOnClick={true}
                 changeColorOnHover={true}
+                // 데이터가 불완전할 경우 저장 버튼 비활성화
+                disabled={!isAllDataFilled()}
             />
 
             <RowWrapper>
