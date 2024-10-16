@@ -2,48 +2,25 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => {
-    const [studyName, setStudyName] = useState(''); //스터디 이름
-    const [studyDescription, setStudyDescription] = useState(''); // 스터디 설명
+    const currentWeekData = weekData[selectedWeek] || { basicInfo: { name: '', description: '' } };
+    const [studyName, setStudyName] = useState(currentWeekData.basicInfo.name);
+    const [studyDescription, setStudyDescription] = useState(currentWeekData.basicInfo.description);
 
     useEffect(() => {
-        if (weekData[selectedWeek]) {
-            setStudyName(weekData[selectedWeek].basicInfo?.name || ''); //주 데이터에서 스터디 이름 가져오기
-            setStudyDescription(weekData[selectedWeek].basicInfo?.description || ''); //주 데이터에서 스터디 설명 가져옴
-        }
+        setStudyName(currentWeekData.basicInfo.name);
+        setStudyDescription(currentWeekData.basicInfo.description);
     }, [selectedWeek, weekData]);
 
-    // 스터디 이름 변경 핸들러
-    const handleStudyNameChange = (event) => {
-        const value = event.target.value;
+    const handleStudyNameChange = (e) => {
+        const value = e.target.value;
         setStudyName(value);
-
-        // weekData가 배열이 아니면 빈 배열로 초기화
-        const newWeekData = Array.isArray(weekData) ? [...weekData] : [];
-        newWeekData[selectedWeek] = {
-            ...newWeekData[selectedWeek],
-            basicInfo: {
-                ...newWeekData[selectedWeek]?.basicInfo,
-                name: value,
-            },
-        };
-        onWeekDataChange(newWeekData);
+        onWeekDataChange('name', value);
     };
 
-    // 스터디 설명 변경 핸들러
-    const handleStudyDescriptionChange = (event) => {
-        const value = event.target.value;
+    const handleStudyDescriptionChange = (e) => {
+        const value = e.target.value;
         setStudyDescription(value);
-
-        // weekData가 배열이 아니면 빈 배열로 초기화
-        const newWeekData = Array.isArray(weekData) ? [...weekData] : [];
-        newWeekData[selectedWeek] = {
-            ...newWeekData[selectedWeek],
-            basicInfo: {
-                ...newWeekData[selectedWeek]?.basicInfo,
-                description: value,
-            },
-        };
-        onWeekDataChange(newWeekData);
+        onWeekDataChange('description', value);
     };
 
     return (
@@ -76,7 +53,6 @@ const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => 
         </Container>
     );
 };
-
 export default ManageWeekBasics;
 
 const Container = styled.div`

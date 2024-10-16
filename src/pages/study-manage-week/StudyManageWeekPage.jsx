@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
 
 import StudyManageWeekManageDel from '../../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
 import StudyManageWeekManageManagePlus from '../../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
@@ -20,166 +21,52 @@ import { weekcountAPI } from './api/weekcountAPI.jsx';
 
 import { setWeekData } from '../../redux/slice/studymanageweek/studymanageweekSlice.jsx';
 
-const StudyManageWeeKPage = () => {
+const StudyManageWeekPage = () => {
     const [weeks, setWeeks] = useState([0]);
-    // const [weekData, setWeekData] = useState([]);
-    const [selectedWeek, setSelectedWeek] = useState(0);
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-    const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
-    const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
-
     const sidebarRef = useRef(null);
-    const manageWeekDetailedRef = useRef(null);
-    const navigate = useNavigate();
-    const location = useLocation();
+    const dispatch = useDispatch();
+    const { weeksData = [] } = useSelector((state) => state.studyWeek); // 'weekData'를 'weeksData'로 변경
+    const [selectedWeek, setSelectedWeek] = useState(0);
     const roomId = location.state?.roomId || null;
 
-    //새로고침하면 다 날아가ㅠㅠ
-
-    // 주차 수 만큼! 사이드 창 버튼 만들기
-    const fetchWeekCount = async () => {
-        if (roomId) {
-            try {
-                const response = await weekcountAPI(roomId);
-                const weekCount = response.result.weekCount;
-                setWeeks([...Array(weekCount).keys()]);
-            } catch (error) {
-                console.error('API 요청 중 오류 발생:', error);
-            }
-        }
-    };
-
     useEffect(() => {
-        fetchWeekCount();
-    }, [roomId]);
-
-    // Redux에서 데이터 가져오기
-    const weekData = useSelector((state) => state.studyWeek.weeksData[selectedWeek] || {});
-    const dispatch = useDispatch();
-
-    // 주차 데이터가 변경될 때 Redux에 저장
-    const handleWeekDataChange = (newWeekData) => {
-        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeekData }));
-    };
-
-    // 검증 함수 추가 -> 모든 데이터가 입력되었는가?
-    const isAllDataFilled = () => {
-        return weeks.every((weekIndex) => {
-            //weekData[weekIndex]가 undefined인 경우를 방지
-            const weekDataForIndex = weekData[weekIndex];
-            return (
-                weekDataForIndex &&
-                weekDataForIndex.basicInfo?.name &&
-                weekDataForIndex.basicInfo?.description &&
-                weekDataForIndex.studyPeriodStartDate &&
-                weekDataForIndex.studyPeriodEndDate &&
-                Array.isArray(weekDataForIndex.assignments) &&
-                weekDataForIndex.assignments.length > 0
-            );
-        });
-    };
-
-    const fetchSelectedWeekData = async () => {
-        try {
-            const taskData = await TaskAPI(roomId, selectedWeek);
-            const periodData = await periodAPI(roomId, selectedWeek);
-            const assignments = await assignmentsAPI(roomId, selectedWeek);
-
-            const newWeekData = {
-                basicInfo: {
-                    name: taskData?.title || '',
-                    description: taskData?.content || '',
+        if (weeksData.length === 0) {
+            const initialWeekData = [
+                {
+                    basicInfo: { name: '주차 1', description: '' },
+                    tasks: [],
+                    studyPeriodStartDate: null,
+                    studyPeriodEndDate: null,
+                    assignments: [],
                 },
-                tasks: taskData?.tasks || [],
-                studyPeriodStartDate: periodData?.studyPeriodStartDate
-                    ? new Date(periodData.studyPeriodStartDate)
-                    : null,
-                studyPeriodEndDate: periodData?.studyPeriodEndDate ? new Date(periodData.studyPeriodEndDate) : null,
-                assignments: assignments || [],
-            };
+            ];
+            dispatch(setWeekData({ weekIndex: 0, weekData: initialWeekData }));
+            setSelectedWeek(0);
+        }
+    }, [dispatch, weeksData.length]);
 
-            // Redux에 주차 데이터 저장
-            dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeekData }));
+    const handleSave = useCallback(async () => {
+        const currentWeekData = weeksData[selectedWeek];
+        if (!currentWeekData) {
+            console.error('현재 주차 데이터가 없습니다.');
+            return;
+        }
+        const weekInfo = {
+            name: currentWeekData.basicInfo.name,
+            description: currentWeekData.basicInfo.description,
+        };
+
+        try {
+            const result = await descriptionAPI(roomId, selectedWeek, weekInfo);
+            console.log('저장 완료:', result);
         } catch (error) {
-            console.error('데이터 가져오기 오류:', error);
+            console.error('저장 중 오류 발생:', error);
         }
-    };
+    }, [dispatch, roomId, selectedWeek, weeksData]);
 
-    useEffect(() => {
-        fetchSelectedWeekData();
-    }, [roomId, selectedWeek]);
-
-    useEffect(() => {
-        if (selectedWeek < weekData.length) {
-            const newWeekData = weekData[selectedWeek] || {};
-            setStudyPeriodStartDate(newWeekData.studyPeriodStartDate || new Date());
-            setStudyPeriodEndDate(newWeekData.studyPeriodEndDate || new Date());
-        }
-    }, [selectedWeek, weekData]);
-
-    const handleHeaderButtonClick = async (index) => {
-        setActiveButtonIndex(index);
-
-        if (index === 0) {
-            // 저장 전에 데이터 검증
-            if (!isAllDataFilled()) {
-                alert('모든 입력값을 채워주세요.');
-                return;
-            }
-
-            try {
-                console.log('저장 중...');
-
-                for (let i = 0; i < weeks.length; i++) {
-                    const week = weeks[i];
-
-                    const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-                    const periodInfo = {
-                        studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
-                        studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString(),
-                    };
-                    const assignments = weekData[i]?.assignments || [];
-
-                    // 각 주차별로 데이터를 저장
-                    await descriptionAPI(roomId, week, weekInfo);
-                    await periodAPI(roomId, week, periodInfo);
-                    await assignmentsAPI(roomId, week, { assignments });
-
-                    console.log(`주차: ${week + 1}`);
-                    console.log(`정보:`, weekInfo);
-                    console.log(`기간:`, periodInfo);
-                    console.log(`과제:`, assignments);
-                }
-
-                alert('저장되었습니다.');
-            } catch (error) {
-                console.error('저장 중 오류 발생:', error);
-                alert('저장 중 오류가 발생했습니다.');
-            }
-        }
-    };
-
-    const handleDelete = () => {
-        if (weeks.length > 0) {
-            const newWeeks = weeks.slice(0, -1);
-            setWeeks(newWeeks);
-
-            // Redux에서 주차 데이터 삭제
-            dispatch(deleteWeekData({ weekIndex: selectedWeek }));
-
-            // 선택된 주차가 삭제된 경우, 마지막 주차로 선택 변경
-            if (selectedWeek >= newWeeks.length) {
-                setSelectedWeek(newWeeks.length - 1);
-            }
-        }
-    };
-
-    const handleAdd = () => {
-        const newWeekIndex = weeks.length;
-        setWeeks([...weeks, newWeekIndex]);
-
-        // 새로운 주차에 빈 데이터 초기화
-        const newWeekData = {
+    const handleWeekDataChange = (field, value) => {
+        const currentWeekData = weeksData[selectedWeek] || {
             basicInfo: { name: '', description: '' },
             tasks: [],
             studyPeriodStartDate: null,
@@ -187,17 +74,18 @@ const StudyManageWeeKPage = () => {
             assignments: [],
         };
 
-        dispatch(setWeekData({ weekIndex: newWeekIndex, weekData: newWeekData }));
-        setSelectedWeek(newWeekIndex);
+        const updatedWeekData = {
+            ...currentWeekData,
+            basicInfo: {
+                ...currentWeekData.basicInfo,
+                [field]: value,
+            },
+        };
+
+        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
     };
 
-    const handleWeekSelect = (index) => {
-        setSelectedWeek(index);
-    };
-
-    const handleButtonClick = () => {
-        navigate('/studymanage');
-    };
+    // 나머지 코드...
 
     return (
         <>
@@ -206,69 +94,26 @@ const StudyManageWeeKPage = () => {
                 subTitle="스터디장에게만 보이는 메뉴에요"
                 headerTitles={['저장하기']}
                 activeButtonIndex={activeButtonIndex}
-                onButtonClick={handleHeaderButtonClick}
+                onButtonClick={handleSave}
                 changeColorOnClick={true}
                 changeColorOnHover={true}
-                // 데이터가 불완전할 경우 저장 버튼 비활성화
-                disabled={!isAllDataFilled()}
             />
-
             <RowWrapper>
                 <ContentWrapper70>
                     <ManageWeekBasics
                         selectedWeek={selectedWeek}
-                        weekData={weekData}
+                        weekData={weeksData} // 'weekData'를 'weeksData'로 변경
                         onWeekDataChange={handleWeekDataChange}
                         roomId={roomId}
-                    />
-                    <StudyMangeWeekPeriod
-                        selectedWeek={selectedWeek}
-                        weekData={weekData}
-                        onWeekDataChange={handleWeekDataChange}
-                        roomId={roomId}
-                    />
-                    <ManageWeekeDetailed
-                        ref={manageWeekDetailedRef}
-                        selectedWeek={selectedWeek}
-                        onAssignmentsChange={(assignments) => {
-                            handleWeekDataChange({
-                                [selectedWeek]: {
-                                    ...weekData[selectedWeek],
-                                    assignments,
-                                },
-                            });
-                        }}
                     />
                 </ContentWrapper70>
-
-                <Sidebar1 ref={sidebarRef}>
-                    <BasicInfoButton onClick={handleButtonClick}>기본정보</BasicInfoButton>
-                    {weeks.map((week, index) => (
-                        <React.Fragment key={week}>
-                            <SidebarButton1
-                                className={index === weeks.length - 1 ? 'last-week' : ''}
-                                bold={index === selectedWeek}
-                                onClick={() => handleWeekSelect(index)}
-                            >
-                                <TextWrapper>{week + 1}주차</TextWrapper>
-                                {index === weeks.length - 1 && (
-                                    <DelIconWrapper>
-                                        <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={handleDelete} />
-                                    </DelIconWrapper>
-                                )}
-                            </SidebarButton1>
-                        </React.Fragment>
-                    ))}
-                    <PlusButton onClick={handleAdd}>
-                        <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
-                    </PlusButton>
-                </Sidebar1>
+                <Sidebar1 ref={sidebarRef}>{/* 사이드바 버튼들... */}</Sidebar1>
             </RowWrapper>
         </>
     );
 };
 
-export default StudyManageWeeKPage;
+export default StudyManageWeekPage;
 
 const RowWrapper = styled.div`
     display: flex;

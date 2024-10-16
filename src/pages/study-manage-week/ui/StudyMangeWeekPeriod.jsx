@@ -13,52 +13,55 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
     // 스터디 기간 활성화 상태
     const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);
 
-    const dispatch = useDispatch();
-    const today = new Date();
-
-    // 선택한 주 선택하면 나타나는 효과
     useEffect(() => {
-        if (selectedWeek < weekData.length) {
-            const newWeekData = weekData[selectedWeek] || {};
+        if (weekData && selectedWeek >= 0 && selectedWeek < weekData.length) {
+            const selectedWeekData = weekData[selectedWeek] || {};
+            const startDate = selectedWeekData.studyPeriodStartDate
+                ? new Date(selectedWeekData.studyPeriodStartDate)
+                : null;
+            const endDate = selectedWeekData.studyPeriodEndDate ? new Date(selectedWeekData.studyPeriodEndDate) : null;
 
-            setStudyPeriodStartDate(
-                newWeekData.studyPeriodStartDate ? new Date(newWeekData.studyPeriodStartDate) : null,
-            );
-            setStudyPeriodEndDate(newWeekData.studyPeriodEndDate ? new Date(newWeekData.studyPeriodEndDate) : null);
+            if (studyPeriodStartDate !== startDate) {
+                setStudyPeriodStartDate(startDate);
+            }
+            if (studyPeriodEndDate !== endDate) {
+                setStudyPeriodEndDate(endDate);
+            }
         }
-    }, [selectedWeek, weekData]); //selectedWeek, weekData가 변경되면 재실행
+    }, [selectedWeek, weekData]);
 
     // 날짜 포맷팅
     const formatDate = (date) => {
         if (!(date instanceof Date) || isNaN(date.getTime())) {
-            return '날짜를 선택해주세요'; // 유효하지 않은 날짜일 경우 표시할 텍스트
+            return '날짜를 선택해주세요';
         }
         const month = date.getMonth() + 1;
         const day = date.getDate();
         return `${month}월 ${day}일`;
     };
 
-    //스터디 시작 날짜 변경 핸들러
+    // 스터디 시작 날짜 변경 핸들러
     const handleStudyStartDateChange = (date) => {
         setStudyPeriodStartDate(date);
         updateWeekData({ studyPeriodStartDate: date });
     };
-    //스터디 마지막 날짜 변경 핸들러
+
+    // 스터디 마지막 날짜 변경 핸들러
     const handleStudyEndDateChange = (date) => {
         setStudyPeriodEndDate(date);
         updateWeekData({ studyPeriodEndDate: date });
     };
 
-    // 새로운 주 데이터에 업데이트하는 함수
+    // 새로운 주차 데이터를 업데이트하는 함수
     const updateWeekData = (updates) => {
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], ...updates }; //특정 주를 업데이트
-        onWeekDataChange(newWeekData);
-    };
-
-    const handleStudyPeriodButtonClick = () => {
-        setIsRecruitmentActive(false);
-        setIsStudyPeriodActive(true);
+        const updatedWeekData = {
+            ...weekData,
+            [selectedWeek]: {
+                ...weekData[selectedWeek],
+                ...updates,
+            },
+        };
+        onWeekDataChange(updatedWeekData);
     };
 
     return (
@@ -78,7 +81,7 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
                 <RightWrapper>
                     <ContentWrapper>
                         <Title>스터디 진행 기한</Title>
-                        <StudyButton onClick={handleStudyPeriodButtonClick} isActive={isStudyPeriodActive}>
+                        <StudyButton onClick={() => setIsStudyPeriodActive(true)} isActive={isStudyPeriodActive}>
                             입력하기
                         </StudyButton>
                         <PeriodWrapper>
@@ -95,7 +98,6 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
 };
 
 export default StudyManageWeekPeriod;
-
 /* CSS */
 const ComponentWrapper = styled.div`
     border: 1px solid #8e59ff;
