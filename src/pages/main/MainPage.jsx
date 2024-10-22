@@ -57,6 +57,31 @@ const MainPage = () => {
         fetchStudies();
     }, []);
 
+    // 셀렉트 박스 기능
+    const handleCategory = (option) => {
+        navigate('/study/overview', { state: { category: option } });
+    };
+    const handleSort = (option) => {
+        if (option === '최신순') {
+            navigate('/study', { state: { sort: 'recent' } });
+        } else if (option === '좋아요수') {
+            navigate('/study', { state: { sort: 'like' } });
+        } else {
+            navigate('/study', { state: { sort: 'hit' } });
+        }
+    };
+    const handleFilter = (option) => {
+        if (option === '모집 중') {
+            navigate('/study', { state: { filter: '모집중' } });
+        } else if (option === '모집 완료') {
+            navigate('/study', { state: { filter: '모집 완료' } });
+        } else if (option === '인원 제한') {
+            navigate('/study', { state: { filter: '인원 제한' } });
+        } else {
+            navigate('/study', { state: { filter: '인원 제한 없음' } });
+        }
+    };
+
     // 좋아요순, 최신순 스터디 페이지로 이동
     const handleStudyPage = (selectedSort) => {
         setStudySort(selectedSort);
@@ -90,16 +115,18 @@ const MainPage = () => {
 
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox page={'mainPage'} />
+                    <MainSelectBox
+                        onCategorySelect={handleCategory}
+                        onSortSelect={handleSort}
+                        onFilterSelect={handleFilter}
+                    />
                 </SelectAndButtonWrapper>
                 <StyledHr />
 
                 {/* 인기 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText onClick={() => handleStudyPage('좋아요수')}>
-                        현재 가장 HOT한 스터디를 둘러보세요!
-                    </TitleText>
-                    <Arrow onClick={() => handleStudyPage('좋아요수')}>&gt;</Arrow>
+                    <TitleText onClick={() => handleStudyPage('like')}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('like')}>&gt;</Arrow>
                 </ViewAllWrapper>
 
                 <StudyPreviewWrapper>
@@ -121,8 +148,8 @@ const MainPage = () => {
 
                 {/* 최신 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText onClick={() => handleStudyPage('최신순')}>가장 최신의 스터디를 둘러보세요!</TitleText>
-                    <Arrow onClick={() => handleStudyPage('최신순')}>&gt;</Arrow>
+                    <TitleText onClick={() => handleStudyPage('recent')}>가장 최신의 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('recent')}>&gt;</Arrow>
                 </ViewAllWrapper>
                 <StudyPreviewWrapper>
                     {recentStudies.map((post) => (
