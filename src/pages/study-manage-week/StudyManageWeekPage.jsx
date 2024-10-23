@@ -127,6 +127,9 @@ const StudyManageWeekPage = () => {
     const handleWeekSelect = (index) => {
         setSelectedWeek(index);
         console.log('주차 선택:', index);
+
+        const currentWeekData = weeksData[index];
+        console.log('선택한 주차 데이터:', currentWeekData);
     };
     const handleDelete = () => {
         if (weeks.length > 0) {
