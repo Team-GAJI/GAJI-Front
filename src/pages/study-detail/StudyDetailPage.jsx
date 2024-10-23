@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import StudyDetailHeader from './ui/StudyDetailHeader';
 import StudyLinkEmbed from './ui/StudyLinkEmbed';
@@ -13,6 +13,9 @@ const StudyDetailPage = () => {
     const location = useLocation();
     const { studyDetail } = location.state || {};
     const { roomId } = location.state;
+
+    // 댓글 개수
+    const [commentCount, setCommentCount] = useState(0);
 
     // 날짜 형식을 변환하는 함수
     const formatDate = (dateString) => {
@@ -39,6 +42,7 @@ const StudyDetailPage = () => {
                         recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === 'RECRUITING' ? '모집 중' : '모집 완료'}
                         userActive={studyDetail.userActive === 'ACTIVE' ? '활동중' : '자리비움'}
                         userActiveColor={studyDetail.userActive === 'ACTIVE' ? '#A8FEA1' : 'grey'}
+                        commentCount={commentCount} // 댓글 개수
                     />
 
                     {/* 게시글 정보 */}
@@ -90,7 +94,7 @@ const StudyDetailPage = () => {
 
                         <StyledHr />
                         {/* 댓글 영역 */}
-                        <StudyCommentContainer roomId={roomId} type="study" />
+                        <StudyCommentContainer roomId={roomId} type="study" setCommentCount={setCommentCount} />
                     </ContentWrapper>
                 </>
             )}

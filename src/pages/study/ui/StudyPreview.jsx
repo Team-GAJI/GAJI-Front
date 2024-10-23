@@ -24,7 +24,7 @@ const StudyPreview = ({ key, roomId, title, content, background, ago, dday, recr
         try {
             const studyDetail = await studyDetailAPI(roomId);
             console.log(studyDetail);
-            navigate('/studydetail', {
+            navigate('/study/detail', {
                 state: {
                     studyDetail: studyDetail,
                     roomId: roomId,

@@ -30,6 +30,7 @@ const StudyDetailHeader = ({
     recruitPostTypeEnum,
     userActive,
     userActiveColor,
+    commentCount,
 }) => {
     const [bookMarkState, setBookMarkState] = useState(false);
     const [likeState, setLikeState] = useState(false);
@@ -118,7 +119,7 @@ const StudyDetailHeader = ({
                                 <StyledBar>|</StyledBar>
                                 조회 {views}
                                 <StyledBar>|</StyledBar>
-                                댓글 3
+                                댓글 {commentCount}
                             </Wrapper>
                         </TitleDetail>
 

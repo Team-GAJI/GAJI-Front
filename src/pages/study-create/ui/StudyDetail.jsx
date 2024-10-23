@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import BoldIcon from '../../assets/icons/communityWrite/bold.svg?react';
-import ItalicIcon from '../../assets/icons/communityWrite/italic.svg?react';
-import ThroughIcon from '../../assets/icons/communityWrite/through.svg?react';
-import ImageIcon from '../../assets/icons/communityWrite/image.svg?react';
-import LinkIcon from '../../assets/icons/communityWrite/link.svg?react';
+import BoldIcon from '../../../assets/icons/communityWrite/bold.svg?react';
+import ItalicIcon from '../../../assets/icons/communityWrite/italic.svg?react';
+import ThroughIcon from '../../../assets/icons/communityWrite/through.svg?react';
+import ImageIcon from '../../../assets/icons/communityWrite/image.svg?react';
+import LinkIcon from '../../../assets/icons/communityWrite/link.svg?react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useDispatch } from 'react-redux';
@@ -119,9 +119,9 @@ const StudyDetail = () => {
                     <StyledImageIcon />
                 </FileInputLabel>
                 <ImageUploadInput type="file" id="contentImg" accept="image/*" />
-                <StyledLinkIcon onClick={() => addLink} />
+                <StyledLinkIcon onClick={addLink} />
                 <StyledBar>|</StyledBar>
-                <StyledPreviewButton onClick={() => openModal}>미리보기</StyledPreviewButton>
+                <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
             </ToolbarWrapper>
 
             {/* 내용 */}
@@ -141,9 +141,9 @@ const StudyDetail = () => {
 
             {/* 모달 */}
             {isModalOpen && (
-                <ModalOverlay onClick={() => closeModal}>
+                <ModalOverlay onClick={closeModal}>
                     <ModalContent onClick={(e) => e.stopPropagation()}>
-                        <CloseButton onClick={() => closeModal}>x</CloseButton>
+                        <CloseButton onClick={closeModal}>x</CloseButton>
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
                     </ModalContent>
                 </ModalOverlay>

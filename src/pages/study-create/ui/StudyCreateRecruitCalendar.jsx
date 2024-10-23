@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
-import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
+import PrevMonth from '../../../assets/icons/common/prevmonth.svg?react';
+import NextMonth from '../../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../../../components/container/Color';
 
 const StudyCreateRecruitCalendar = ({ onStartDateChange, onEndDateChange }) => {

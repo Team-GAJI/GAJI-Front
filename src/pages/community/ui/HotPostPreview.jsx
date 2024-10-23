@@ -13,7 +13,7 @@ const HotPostPreview = ({ key, postId, title, background, tags }) => {
         try {
             const postDetail = await communityPostAPI(postId);
             console.log(postDetail);
-            navigate('/community/post', {
+            navigate('/community/detail', {
                 state: {
                     postId: postDetail,
                 },

@@ -44,7 +44,7 @@ const CommunityWritePost = () => {
             //전역상태초기화 함수
             const postId = await communityPostAPI(response);
             console.log(postId);
-            navigate('/community/post', {
+            navigate('/community/detail', {
                 state: {
                     postId: postId,
                     //추후 수정
