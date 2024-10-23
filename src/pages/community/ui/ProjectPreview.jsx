@@ -17,6 +17,7 @@ const ProjectPreview = ({ key, postId, state, title, content, writer, ago, views
             navigate('/community/detail', {
                 state: {
                     postId: postDetail,
+                    postId2: key,
                 },
             });
         } catch (error) {
