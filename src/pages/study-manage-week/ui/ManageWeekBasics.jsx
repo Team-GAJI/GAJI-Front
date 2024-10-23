@@ -14,15 +14,18 @@ const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => 
         setStudyDescription(updatedBasicInfo.description || '');
     }, [currentWeekData]);
 
+    // 변경 사항을 부모 컴포넌트로 전송하는 함수를 분리
     const handleStudyNameChange = (e) => {
         const value = e.target.value;
         setStudyName(value);
+        // 여기서는 업데이트된 스터디 이름만 전송
         onWeekDataChange('name', value);
     };
 
     const handleStudyDescriptionChange = (e) => {
         const value = e.target.value;
         setStudyDescription(value);
+        // 여기서는 업데이트된 스터디 설명만 전송
         onWeekDataChange('description', value);
     };
 

@@ -112,8 +112,8 @@ const StudyManageWeekPage = () => {
 
         const newWeeksData = weeksData.map((week, index) => (index === selectedWeek ? updatedWeekData : week));
 
-        // dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
-        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeeksData }));
+        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
+        // dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeeksData }));
     };
 
     const onWeekDataChange = (updatedWeekData) => {
