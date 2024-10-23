@@ -1,14 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Calendar from './ui/Calendar';
-import MyPost from './ui/MyPost';
-import StudyList from './ui/StudyList';
+import UserCalendar from './ui/UserCalendar';
+import UserPost from './ui/UserPost';
+import UserStudyList from './ui/UserStudyList';
 import UserInfo from './ui/UserInfo';
 import { userInfoAPI } from './api/userInfoAPI';
 import { ongoingStudyListAPI, endedStudyListAPI } from './api/myStudyListAPI';
 import SidePageHeader from '../../components/common/SidePageHeader';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+    const navigate = useNavigate();
     const homeRef = useRef(null);
     const studyRoomRef = useRef(null);
     const calendarRef = useRef(null);
@@ -68,6 +70,12 @@ const MyPage = () => {
     };
 
     useEffect(() => {
+        if (!localStorage.getItem('accessToken')) {
+            navigate('/');
+        }
+    });
+
+    useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const userInfoData = await userInfoAPI();
@@ -75,7 +83,7 @@ const MyPage = () => {
                 console.log(ongoingStudyListData);
                 const endedStudyListData = await endedStudyListAPI();
 
-                if (userInfoData.success) {
+                if (userInfoData.result) {
                     setUserInfo(userInfoData.result);
                 } else {
                     console.error('Failed to fetch user info:', userInfoData.message);
@@ -99,6 +107,7 @@ const MyPage = () => {
         };
 
         fetchUserData();
+
         window.addEventListener('scroll', handleScrollEvent);
         window.addEventListener('resize', handleResize);
         return () => {
@@ -126,18 +135,20 @@ const MyPage = () => {
                 changeColorOnHover={true}
             />
 
-            <MyPageWrapper ref={homeRef}>
-                <UserInfo userInfo={userInfo} />
-                <RowWrapper4 ref={studyRoomRef}>
-                    <StudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
-                </RowWrapper4>
-                <Div ref={calendarRef}>
-                    <Calendar />
-                </Div>
-                <Div ref={myPostRef}>
-                    <MyPost />
-                </Div>
-            </MyPageWrapper>
+            {userInfo && (
+                <MyPageWrapper ref={homeRef}>
+                    <UserInfo userInfo={userInfo} />
+                    <RowWrapper4 ref={studyRoomRef}>
+                        <UserStudyList ongoingStudyList={ongoingStudyList} endedStudyList={endedStudyList} />
+                    </RowWrapper4>
+                    <Div ref={calendarRef}>
+                        <UserCalendar />
+                    </Div>
+                    <Div ref={myPostRef}>
+                        <UserPost nickName={userInfo.nickname} />
+                    </Div>
+                </MyPageWrapper>
+            )}
         </>
     );
 };
@@ -152,10 +163,10 @@ const MyPageWrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    gap: 5em;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
-    gap: 4em;
 
     @media (max-width: 1199px) {
         width: 90%;

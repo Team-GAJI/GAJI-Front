@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import backGroundUrl from '../assets/images/mypage/mypageBackground.png';
-import LogoIcon from '../assets/logos//logo.svg?react';
-import StudyPreview from '../components/studyMain/StudyPreview';
-import { useNavigate } from 'react-router-dom';
-import MainSelectBox from '../components/main/MainSelectBox';
-import { ContentWrapper } from '../components/common/MediaWrapper';
-import { Scroll } from '../components/common/Scroll';
-import MobileWriteButton from '../components/common/MobileWriteButton';
+import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
+import LogoIcon from '../../assets/logos//logo.svg?react';
+import StudyPreview from './ui/StudyPreview';
+import { useNavigate, useLocation } from 'react-router-dom';
+import MainSelectBox from '../main/ui/MainSelectBox';
+import { ContentWrapper } from '../../components/common/MediaWrapper';
+import { Scroll } from '../../components/common/Scroll';
+import MobileWriteButton from '../../components/common/MobileWriteButton';
 import { studyPostsPreviewAPI } from './api/studyPostsPreviewAPI';
 
 const StudyMainPage = () => {
@@ -24,7 +24,43 @@ const StudyMainPage = () => {
         독서: [],
         기타: [],
     });
-    const [, setCategory] = useState('');
+
+    // useLocation
+    const location = useLocation();
+    const { filter } = location.state || { sort: null };
+    const { sort } = location.state || { sort: null };
+
+    // 셀렉트 박스 옵션 state
+    const [filterOption, setFilterOption] = useState(filter);
+    const [sortOption, setSortOption] = useState(sort);
+
+    // useNavigate 훅을 사용하여 페이지 이동을 처리
+    const navigate = useNavigate();
+
+    // 셀렉트 박스 기능
+    const handleCategory = (option) => {
+        navigate('/study/overview', { state: { category: option } });
+    };
+    const handleSort = (option) => {
+        if (option === '최신순') {
+            setSortOption('recent');
+        } else if (option === '좋아요수') {
+            setSortOption('like');
+        } else {
+            setSortOption('hit');
+        }
+    };
+    const handleFilter = (option) => {
+        if (option === '모집 중') {
+            setFilterOption('모집중');
+        } else if (option === '모집 완료') {
+            setFilterOption('모집 완료');
+        } else if (option === '인원 제한') {
+            setFilterOption('인원 제한');
+        } else {
+            setFilterOption('인원 제한 없음');
+        }
+    };
 
     // 스터디 데이터를 API로부터 불러오는 useEffect
     useEffect(() => {
@@ -45,7 +81,7 @@ const StudyMainPage = () => {
             try {
                 const studiesByCategory = await Promise.all(
                     categories.map(async (cat) => {
-                        const response = await studyPostsPreviewAPI(cat, null, 'recent', 5);
+                        const response = await studyPostsPreviewAPI(cat, filterOption, sortOption, 5);
 
                         // API로부터 받은 응답은 배열 형식이므로, 이를 상태값에 맞게 저장
                         return { [cat]: response };
@@ -63,15 +99,11 @@ const StudyMainPage = () => {
         };
 
         fetchStudies();
-    }, []);
+    }, [sortOption, filterOption]);
 
-    // useNavigate 훅을 사용하여 페이지 이동을 처리
-    const navigate = useNavigate();
-
-    // 카테고리 클릭 시 해당 카테고리의 스터디 페이지로 이동
+    // 모두보기 클릭 시 해당 카테고리의 스터디 페이지로 이동
     const handleCategoryClick = (selectedCategory) => {
-        setCategory(selectedCategory);
-        navigate('/studycategory', { state: { category: selectedCategory } });
+        navigate('/study/overview', { state: { category: selectedCategory } });
     };
 
     return (
@@ -93,17 +125,41 @@ const StudyMainPage = () => {
 
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox />
+                    <MainSelectBox
+                        onCategorySelect={handleCategory}
+                        onSortSelect={handleSort}
+                        onFilterSelect={handleFilter}
+                        selectedSort={
+                            sort === 'recent'
+                                ? '최신순'
+                                : sort === 'like'
+                                  ? '좋아요수'
+                                  : sort === 'hit'
+                                    ? '조회수'
+                                    : '정렬'
+                        }
+                        selectedFilter={
+                            filter === '모집중'
+                                ? '모집 중'
+                                : filter === '모집 완료'
+                                  ? '모집 완료'
+                                  : filter === '인원 제한'
+                                    ? '인원 제한'
+                                    : filter === '인원 제한 없음'
+                                      ? '제한 없음'
+                                      : '필터'
+                        }
+                    />
                     <div
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         <MobileWriteButton />
                     </div>
                     <CreatePostButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         + 스터디 만들기

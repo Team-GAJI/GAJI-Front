@@ -4,47 +4,16 @@ import ProfileImg from '../../../assets/images/community/userProfile.png';
 import StudyComment from './StudyComment';
 // import { dummyStudyComments } from './DummyStudyComments';
 // import Loading from '../common/Loading';
-import { studyWriteCommentAPI } from '../../login/api/commentAPI';
-import { studyViewCommentAPI } from '../../login/api/commentAPI';
-import { communityWriteCommentAPI } from '../../login/api/commentAPI';
-import { communityViewCommentAPI } from '../../login/api/commentAPI';
+import { studyWriteCommentAPI, studyViewCommentAPI } from '../../login/api/commentAPI';
+import { communityWriteCommentAPI, communityViewCommentAPI } from '../../login/api/commentAPI';
 
-const StudyCommentContainer = ({ roomId, postId, type }) => {
+const StudyCommentContainer = ({ roomId, postId, type, setCommentCount }) => {
     // state 관리
     // const [commentPage, setCommentPage] = useState(1);
     // const [, setComments] = useState([]);
     // const [isLoading, setIsLoading] = useState(false);
     const [commentBody, setCommentBody] = useState(''); // 작성 중인 댓글 저장
     const [commentsList, setCommentsList] = useState([]); // 댓글 리스트
-
-    // 프로젝트 불러오기 기능
-    // const getComments = useCallback(async () => {
-    //     if (isLoading) return;
-    //     setIsLoading(true);
-    //     setTimeout(() => {
-    //         const newPosts = dummyStudyComments.slice((commentPage - 1) * 4, commentPage * 4); // 페이지당 4개씩 로드
-    //         setComments((prevPosts) => [...prevPosts, ...newPosts]);
-    //         setCommentPage((prevPage) => prevPage + 1);
-    //         setIsLoading(false);
-    //     }, 1000); // 1초 지연 후 데이터 추가
-    // }, [isLoading, commentPage]);
-
-    // useEffect(() => {
-    //     getComments();
-    // }, []);
-
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    //     if (scrollTop + clientHeight >= scrollHeight - 20) {
-    //         getComments();
-    //     }
-    //     };
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => {
-    //     window.removeEventListener("scroll", handleScroll);
-    //     };
-    // }, [getComments]);
 
     // 댓글 총 개수
     const count = commentsList.length;
@@ -91,9 +60,11 @@ const StudyCommentContainer = ({ roomId, postId, type }) => {
                 if (type === 'study') {
                     const commentsResponse = await studyViewCommentAPI(roomId);
                     setCommentsList(commentsResponse);
+                    setCommentCount(commentsResponse.length);
                 } else if (type === 'community') {
                     const commentsResponse = await communityViewCommentAPI(postId);
                     setCommentsList(commentsResponse);
+                    setCommentCount(commentsResponse.length);
                 } else {
                     console.log('존재하지 않는 type입니다');
                 }

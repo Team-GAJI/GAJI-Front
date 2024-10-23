@@ -1,43 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
-    const [studyName, setStudyName] = useState('');
-    const [studyDescription, setStudyDescription] = useState('');
+const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => {
+    const currentWeekData = weekData[selectedWeek] || {};
+    const basicInfo = currentWeekData.basicInfo || { name: '', description: '' };
+
+    const [studyName, setStudyName] = useState(basicInfo.name || '');
+    const [studyDescription, setStudyDescription] = useState(basicInfo.description || '');
 
     useEffect(() => {
-        if (weekData[selectedWeek]) {
-            setStudyName(weekData[selectedWeek].basicInfo?.name || '');
-            setStudyDescription(weekData[selectedWeek].basicInfo?.description || '');
-        }
-    }, [selectedWeek, weekData]);
+        const updatedBasicInfo = currentWeekData.basicInfo || { name: '', description: '' };
+        setStudyName(updatedBasicInfo.name || '');
+        setStudyDescription(updatedBasicInfo.description || '');
+    }, [currentWeekData]);
 
-    const handleStudyNameChange = (event) => {
-        const value = event.target.value;
+    // 변경 사항을 부모 컴포넌트로 전송하는 함수를 분리
+    const handleStudyNameChange = (e) => {
+        const value = e.target.value;
         setStudyName(value);
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = {
-            ...newWeekData[selectedWeek],
-            basicInfo: {
-                ...newWeekData[selectedWeek]?.basicInfo,
-                name: value,
-            },
-        };
-        onWeekDataChange(newWeekData);
+        // 여기서는 업데이트된 스터디 이름만 전송
+        onWeekDataChange('name', value);
     };
 
-    const handleStudyDescriptionChange = (event) => {
-        const value = event.target.value;
+    const handleStudyDescriptionChange = (e) => {
+        const value = e.target.value;
         setStudyDescription(value);
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = {
-            ...newWeekData[selectedWeek],
-            basicInfo: {
-                ...newWeekData[selectedWeek]?.basicInfo,
-                description: value,
-            },
-        };
-        onWeekDataChange(newWeekData);
+        // 여기서는 업데이트된 스터디 설명만 전송
+        onWeekDataChange('description', value);
     };
 
     return (
@@ -50,7 +39,7 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
                         value={studyName}
                         onChange={handleStudyNameChange}
                     />
-                    <CharCount>{studyName.length}/30</CharCount>
+                    <CharCount>{(studyName || '').length}/30</CharCount>
                 </InputWrapper>
                 <DivisionLine2 />
                 <RowContainer>
@@ -62,7 +51,7 @@ const ManageWeekBasics = ({ selectedWeek, weekData, onWeekDataChange }) => {
                                 value={studyDescription}
                                 onChange={handleStudyDescriptionChange}
                             />
-                            <ExStudyCharCount>{studyDescription.length}/200</ExStudyCharCount>
+                            <ExStudyCharCount>{(studyDescription || '').length}/200</ExStudyCharCount>
                         </ExWrapper>
                     </Container>
                 </RowContainer>

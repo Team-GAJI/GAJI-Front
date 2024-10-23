@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PrevMonth from '../../assets/icons/common/prevmonth.svg?react';
-import NextMonth from '../../assets/icons/common/nextmonth.svg?react';
+import PrevMonth from '../../../assets/icons/common/prevmonth.svg?react';
+import NextMonth from '../../../assets/icons/common/nextmonth.svg?react';
 import { Color } from '../../../components/container/Color';
 
 const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
@@ -26,9 +26,12 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
 
     const isDateSelected = (day) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
-        return (startDate && endDate && 
-                (currentDate.toDateString() === startDate.toDateString() || 
-                currentDate.toDateString() === endDate.toDateString()));
+        return (
+            startDate &&
+            endDate &&
+            (currentDate.toDateString() === startDate.toDateString() ||
+                currentDate.toDateString() === endDate.toDateString())
+        );
     };
 
     const isInSelectionRange = (day) => {
@@ -39,7 +42,7 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
 
     const handleDateClick = (day) => {
         const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
-        
+
         if (!startDate) {
             setStartDate(selectedDate);
             setEndDate(null);
@@ -65,29 +68,33 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
         cells.push(
             <Cell key={`prev-${i}`} className="empty">
                 {prevMonthLastDate - i + 1}
-            </Cell>
+            </Cell>,
         );
     }
 
     // 현재 달의 날짜 추가
     for (let day = 1; day <= daysInMonth; day++) {
-        const isToday = 
-            today.getDate() === day && 
-            today.getMonth() === currentMonth && 
-            today.getFullYear() === currentYear;
-    
+        const isToday =
+            today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+
         cells.push(
             <Cell
                 key={day}
                 isToday={isToday}
                 isInRange={isInSelectionRange(day)}
                 isSelected={isDateSelected(day)}
-                isStart={startDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()}
-                isEnd={endDate && new Date(date.getFullYear(), date.getMonth(), day).toDateString() === endDate.toDateString()}
+                isStart={
+                    startDate &&
+                    new Date(date.getFullYear(), date.getMonth(), day).toDateString() === startDate.toDateString()
+                }
+                isEnd={
+                    endDate &&
+                    new Date(date.getFullYear(), date.getMonth(), day).toDateString() === endDate.toDateString()
+                }
                 onClick={() => handleDateClick(day)}
             >
                 {day}
-            </Cell>
+            </Cell>,
         );
     }
 
@@ -96,7 +103,7 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
         cells.push(
             <Cell key={`next-${i}`} className="empty">
                 {i}
-            </Cell>
+            </Cell>,
         );
     }
 
@@ -112,11 +119,11 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
         <CalendarWrapper>
             <CalendarWrapper1>
                 <Header>
-                    <StyledPrevMonth onClick={prevMonth} />
+                    <StyledPrevMonth onClick={() => prevMonth()} />
                     <MonthYear>
                         {`${year}년`} <Color>{`${monthName}`}</Color>
                     </MonthYear>
-                    <StyledNextMonth onClick={nextMonth} />
+                    <StyledNextMonth onClick={() => nextMonth()} />
                 </Header>
                 <Grid>
                     {days.map((day, index) => (
@@ -131,14 +138,13 @@ const StudyCreateCalendar = ({ onStartDateChange, onEndDateChange }) => {
 
 export default StudyCreateCalendar;
 
-
 /* CSS */
 const CalendarWrapper = styled.div`
     width: 50%;
-    
+
     @media (max-width: 768px) {
-        height : auto;
-        width : 100%
+        height: auto;
+        width: 100%;
     }
 `;
 
@@ -192,7 +198,7 @@ const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    font-size : 1em;
+    font-size: 1em;
     place-items: center center;
 
     @media (max-width: 768px) {
@@ -205,15 +211,15 @@ const Day = styled.div`
 `;
 
 const Cell = styled.div`
-    @media(max-width : 1100px){
-        font-size : 0.8125em;
+    @media (max-width: 1100px) {
+        font-size: 0.8125em;
     }
-    @media(max-width : 900px){
-        font-size : 0.75em;
+    @media (max-width: 900px) {
+        font-size: 0.75em;
     }
 
-    @media(max-width : 768px){
-        font-size : 1em;
+    @media (max-width: 768px) {
+        font-size: 1em;
     }
     padding: 1em;
     box-sizing: border-box;
@@ -228,16 +234,13 @@ const Cell = styled.div`
     }
     transition: all ease 0.3s;
 
-    font-weight: ${props => props.isToday ? '600' : '400'};
-    color: ${props => (props.isToday || props.isStart || props.isEnd) ? '#FFFFFF' : '#000000'};
-    background-color: ${props => 
-        props.isToday ? 'rgba(142,89,255,0.5)' : 
-        props.isStart || props.isEnd ? '#8E59FF' : 
-        'transparent'
-    };
+    font-weight: ${(props) => (props.isToday ? '600' : '400')};
+    color: ${(props) => (props.isToday || props.isStart || props.isEnd ? '#FFFFFF' : '#000000')};
+    background-color: ${(props) =>
+        props.isToday ? 'rgba(142,89,255,0.5)' : props.isStart || props.isEnd ? '#8E59FF' : 'transparent'};
     border-radius: 50%;
-    box-shadow: ${props => props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none'};
-    position: relative; 
+    box-shadow: ${(props) => (props.isToday ? '0px 4px 10px rgba(129, 76, 161, 0.19)' : 'none')};
+    position: relative;
     // z-index: 10;
 
     @media (max-width: 768px) {
@@ -253,14 +256,10 @@ const Cell = styled.div`
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: ${props => props.isInRange ? 'rgba(142,89,255,0.1)' : 'transparent'};
+        background-color: ${(props) => (props.isInRange ? 'rgba(142,89,255,0.1)' : 'transparent')};
         z-index: -1;
         transition: all ease 0.3s;
-        border-radius: ${props => 
-            props.isStart ? '20px 0 0 20px' :
-            props.isEnd ? '0 20px 20px 0' : 
-            '0'
-        };
-        visibility: ${props => props.isInRange ? 'visible' : 'hidden'};
+        border-radius: ${(props) => (props.isStart ? '20px 0 0 20px' : props.isEnd ? '0 20px 20px 0' : '0')};
+        visibility: ${(props) => (props.isInRange ? 'visible' : 'hidden')};
     }
 `;

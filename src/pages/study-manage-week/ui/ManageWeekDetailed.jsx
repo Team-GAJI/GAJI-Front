@@ -4,7 +4,7 @@ import Delete from '../../../assets/icons/studyManageWeek/StudyManageWeekDelete.
 
 const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, ref) => {
     const [inputs, setInputs] = useState(['']);
-    const maxInputs = 5;
+    const maxInputs = 5; //5개까지 만들 수 있게 함
 
     useImperativeHandle(ref, () => ({
         getAssignments: () => inputs,

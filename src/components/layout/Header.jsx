@@ -13,6 +13,7 @@ const Header = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userId');
         setAccessToken(null);
+        navigate('/');
     };
 
     const toggleMenu = () => {

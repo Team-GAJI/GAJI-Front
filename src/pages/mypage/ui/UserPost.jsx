@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { PuppleButton } from '../../../components/button/Button';
 import Loading from '../../../components/common/Loading';
-import { postAPI } from '../api/postAPI';
+import { getUserPostAPI } from '../api/getUserPostAPI';
 
-const MyPost = () => {
+const UserPost = ({ nickName }) => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -21,7 +21,7 @@ const MyPost = () => {
         const currentType = types[category];
 
         try {
-            const response = await postAPI(userId, currentType, cursorDate);
+            const response = await getUserPostAPI(userId, currentType, cursorDate);
             console.log('API 응답:', response);
 
             const { postList, hasNext: newHasNext } = response;
@@ -70,7 +70,7 @@ const MyPost = () => {
 
     return (
         <MyPostWrapper>
-            <ExtraBold>내가 쓴 글</ExtraBold>
+            <ExtraBold>{nickName}님이 쓴 글</ExtraBold>
             <Header>
                 <PostRouteButton $isActive={category === 0} onClick={() => setCategory(0)}>
                     질문하기
@@ -103,7 +103,7 @@ const MyPost = () => {
     );
 };
 
-export default MyPost;
+export default UserPost;
 
 const MyPostWrapper = styled.div`
     width: 100%;
@@ -124,7 +124,7 @@ const MyPostWrapper = styled.div`
 const ExtraBold = styled.div`
     font-weight: 800;
     font-size: 1.25em;
-
+    color: #8e59ff;
     @media (max-width: 768px) {
         font-size: 1em;
     }

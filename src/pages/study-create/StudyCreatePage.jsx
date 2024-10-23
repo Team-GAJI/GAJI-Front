@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import backGroundUrl from '../../assets/images/mypage/mypageBackground.png';
 import StudyInfo from './ui/StudyInfo';
-import StudyPeriod from './ui/StudyInfo';
-import StudyDetail from './ui/StudyInfo';
+import StudyPeriod from './ui/StudyPeriod';
+import StudyDetail from './ui/StudyDetail';
 import { studyCreateAPI } from './api/studyCreateAPI';
 import { useSelector } from 'react-redux';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
@@ -52,7 +52,7 @@ const StudyCreatePage = () => {
             //전역상태초기화 함수
             const studyDetail = await studyDetailAPI(response.result.roomId);
             console.log(studyDetail);
-            navigate('/studydetail', {
+            navigate('/study/detail', {
                 state: {
                     studyDetail: studyDetail,
                     roomId: response.result.roomId,

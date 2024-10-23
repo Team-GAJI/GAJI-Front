@@ -4,6 +4,7 @@ import MainLayOut from '../components/layout/MainLayOut';
 import MyPage from '../pages/mypage/MyPage';
 import LoginPage from '../pages/login/LoginPage';
 import MainPage from '../pages/main/MainPage';
+import StudyMainPage from '../pages/study/StudyMainPage';
 import StudyDetailPage from '../pages/study-detail/StudyDetailPage';
 import StudyCreatePage from '../pages/study-create/StudyCreatePage';
 import StudyManagePage from '../pages/study-manage/StudyManagePage';
@@ -20,12 +21,14 @@ import CommunityPage from '../pages/community/CommunityPage';
 import CommunityDetailPage from '../pages/community-detail/CommunityDetailPage';
 import CommunityWritePage from '../pages/community-write/CommunityWritePage';
 import CharacterVotePage from '../pages/character-vote/CharacterVotePage';
+import LoginRedirectPage from '../pages/login/LoginRedirectPage';
 
 function App() {
     return (
         <Routes>
             {/* 로그인 페이지 라우트 */}
             <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/nickname" element={<LoginRedirectPage />} />
 
             {/* 메인 레이아웃이 적용되는 라우트 그룹 */}
             <Route element={<MainLayOut />}>
@@ -38,6 +41,7 @@ function App() {
                 <Route exact path="/mypage" element={<MyPage />} />
 
                 {/* Study 관련 라우트 */}
+                <Route exact path="/study" element={<StudyMainPage />} />
                 <Route exact path="/study/create" element={<StudyCreatePage />} />
                 <Route exact path="/study/detail" element={<StudyDetailPage />} />
                 <Route exact path="/study/manage" element={<StudyManagePage />} />

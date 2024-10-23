@@ -23,6 +23,7 @@ const MainPage = () => {
     const [popularStudies, setPopularStudies] = useState([]);
     const [recentStudies, setRecentStudies] = useState([]);
     const [communityPosts, setCommunityPosts] = useState([]);
+    const [, setStudySort] = useState('');
 
     // 스터디 불러오기
     useEffect(() => {
@@ -56,6 +57,37 @@ const MainPage = () => {
         fetchStudies();
     }, []);
 
+    // 셀렉트 박스 기능
+    const handleCategory = (option) => {
+        navigate('/study/overview', { state: { category: option } });
+    };
+    const handleSort = (option) => {
+        if (option === '최신순') {
+            navigate('/study', { state: { sort: 'recent' } });
+        } else if (option === '좋아요수') {
+            navigate('/study', { state: { sort: 'like' } });
+        } else {
+            navigate('/study', { state: { sort: 'hit' } });
+        }
+    };
+    const handleFilter = (option) => {
+        if (option === '모집 중') {
+            navigate('/study', { state: { filter: '모집중' } });
+        } else if (option === '모집 완료') {
+            navigate('/study', { state: { filter: '모집 완료' } });
+        } else if (option === '인원 제한') {
+            navigate('/study', { state: { filter: '인원 제한' } });
+        } else {
+            navigate('/study', { state: { filter: '인원 제한 없음' } });
+        }
+    };
+
+    // 좋아요순, 최신순 스터디 페이지로 이동
+    const handleStudyPage = (selectedSort) => {
+        setStudySort(selectedSort);
+        navigate('/study', { state: { sort: selectedSort } });
+    };
+
     return (
         <PageWrapper>
             {/* 배너 */}
@@ -83,29 +115,21 @@ const MainPage = () => {
 
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox />
+                    <MainSelectBox
+                        onCategorySelect={handleCategory}
+                        onSortSelect={handleSort}
+                        onFilterSelect={handleFilter}
+                    />
                 </SelectAndButtonWrapper>
                 <StyledHr />
 
                 {/* 인기 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        현재 가장 HOT한 스터디를 둘러보세요!
-                    </TitleText>
-                    <Arrow
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        &gt;
-                    </Arrow>
+                    <TitleText onClick={() => handleStudyPage('like')}>현재 가장 HOT한 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('like')}>&gt;</Arrow>
                 </ViewAllWrapper>
 
-                <BlogPreviewWrapper>
+                <StudyPreviewWrapper>
                     {popularStudies.map((post) => (
                         <StudyPreview
                             key={post.roomId}
@@ -120,26 +144,14 @@ const MainPage = () => {
                             applicant={post.applicant}
                         />
                     ))}
-                </BlogPreviewWrapper>
+                </StudyPreviewWrapper>
 
                 {/* 최신 스터디 미리보기 */}
                 <ViewAllWrapper>
-                    <TitleText
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        가장 최신의 스터디를 둘러보세요!
-                    </TitleText>
-                    <Arrow
-                        onClick={() => {
-                            navigate('/study');
-                        }}
-                    >
-                        &gt;
-                    </Arrow>
+                    <TitleText onClick={() => handleStudyPage('recent')}>가장 최신의 스터디를 둘러보세요!</TitleText>
+                    <Arrow onClick={() => handleStudyPage('recent')}>&gt;</Arrow>
                 </ViewAllWrapper>
-                <BlogPreviewWrapper>
+                <StudyPreviewWrapper>
                     {recentStudies.map((post) => (
                         <StudyPreview
                             key={post.roomId}
@@ -154,7 +166,7 @@ const MainPage = () => {
                             applicant={post.applicant}
                         />
                     ))}
-                </BlogPreviewWrapper>
+                </StudyPreviewWrapper>
                 <StyledHr />
 
                 {/* 커뮤니티 미리보기 */}
@@ -175,7 +187,7 @@ const MainPage = () => {
                     </Arrow>
                 </ViewAllWrapper>
 
-                <BlogPreviewWrapper2>
+                <BlogPreviewWrapper>
                     {communityPosts.map((post) => (
                         <BlogPreview
                             key={post.postId}
@@ -189,7 +201,7 @@ const MainPage = () => {
                             like={post.likeCnt}
                         />
                     ))}
-                </BlogPreviewWrapper2>
+                </BlogPreviewWrapper>
             </ContentWrapperMain>
         </PageWrapper>
     );
@@ -297,6 +309,7 @@ const ViewAllWrapper = styled.div`
     margin-top: 1em;
     width: 100%;
     display: flex;
+    align-items: center;
     color: #8e59ff;
 `;
 
@@ -318,7 +331,7 @@ const Arrow = styled.span`
     }
 `;
 
-const BlogPreviewWrapper = styled(Scroll)`
+const StudyPreviewWrapper = styled(Scroll)`
     width: 100%;
     display: flex;
     justify-content: center;
@@ -326,7 +339,7 @@ const BlogPreviewWrapper = styled(Scroll)`
     overflow-y: hidden;
 `;
 
-const BlogPreviewWrapper2 = styled(Scroll)`
+const BlogPreviewWrapper = styled(Scroll)`
     margin-bottom: 1em;
     padding-top: 1em;
     width: 100%;

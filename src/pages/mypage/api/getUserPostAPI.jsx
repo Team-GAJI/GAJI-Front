@@ -1,6 +1,6 @@
 import { api } from '../../../app/api';
 
-export const postAPI = async (userId, type, cursorDate, size = 10) => {
+export const getUserPostAPI = async (userId, type, cursorDate, size = 10) => {
     try {
         const response = await api.get(`users/posts/${userId}`, {
             params: {

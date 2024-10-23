@@ -8,17 +8,19 @@ const StudyCreateLinkEmbed = ({ link, onRemove }) => {
     };
 
     return (
-        <PostWrapper onClick={handleLinkClick}>
+        <PostWrapper onClick={() => handleLinkClick()}>
             <LeftWrapper></LeftWrapper>
             <RightWrapper>
                 <TextWrapper>
                     <Title>{link}</Title>
                     <Content>{link}</Content>
                 </TextWrapper>
-                <StyledCloseButton onClick={(e) => {
-                    e.stopPropagation();
-                    onRemove();
-                }}/>
+                <StyledCloseButton
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onRemove();
+                    }}
+                />
             </RightWrapper>
         </PostWrapper>
     );
@@ -30,7 +32,7 @@ export default StudyCreateLinkEmbed;
 const PostWrapper = styled.div`
     margin-right: 0.5em;
     margin-bottom: 0.5em;
-    border: 1.2px solid #8E59FF;
+    border: 1.2px solid #8e59ff;
     border-radius: 10px;
     width: 17em;
     height: 5.4375em;
@@ -39,10 +41,10 @@ const PostWrapper = styled.div`
 `;
 
 const LeftWrapper = styled.div`
-    border-right: 1.2px solid #8E59FF;
+    border-right: 1.2px solid #8e59ff;
     border-radius: 10px 0 0 10px;
     width: 4.4188em;
-    background-color: #F4EFFF;
+    background-color: #f4efff;
 `;
 
 const RightWrapper = styled.div`
@@ -60,7 +62,7 @@ const TextWrapper = styled.div`
 
 const Title = styled.div`
     margin-bottom: 0.8em;
-    color: #161A3F;
+    color: #161a3f;
     font-weight: 800;
     overflow: hidden;
     white-space: nowrap;
@@ -69,7 +71,7 @@ const Title = styled.div`
 `;
 
 const Content = styled.div`
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 0.8125em;
     font-weight: bold;
     overflow: hidden;

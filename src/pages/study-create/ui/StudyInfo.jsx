@@ -12,12 +12,12 @@ const StudyInfo = () => {
     const [lengthCount, setLengthCount] = useState(0);
     const [styledHr, setStyledHr] = useState(false);
     const [isOn, setIsOn] = useState(true);
-    const [imgFile, setImgFile] = useState("");
+    const [imgFile, setImgFile] = useState('');
 
     // Redux 관리
     const dispatch = useDispatch();
     const { name, peopleMaximum } = useSelector((state) => state.studyCreate);
-    
+
     // 제목 입력
     const handleTitleChange = (e) => {
         dispatch(setName(e.target.value));
@@ -29,7 +29,7 @@ const StudyInfo = () => {
         if (peopleMaximum === 100) {
             setIsMaxWarningVisible(true);
             const timer = setTimeout(() => setIsMaxWarningVisible(false), 3000);
-            return () => clearTimeout(timer);  // 3초후 자동으로 취소
+            return () => clearTimeout(timer); // 3초후 자동으로 취소
         } else {
             dispatch(setPeopleMaximum(peopleMaximum + 1));
         }
@@ -40,7 +40,7 @@ const StudyInfo = () => {
         if (peopleMaximum === 1) {
             setIsMinWarningVisible(true);
             const timer = setTimeout(() => setIsMinWarningVisible(false), 3000);
-            return () => clearTimeout(timer);  // 3초후 자동으로 취소
+            return () => clearTimeout(timer); // 3초후 자동으로 취소
         } else {
             dispatch(setPeopleMaximum(peopleMaximum - 1));
         }
@@ -106,8 +106,8 @@ const StudyInfo = () => {
                         onBlur={handleGrayHr}
                         onChange={handleTitleChange}
                         value={name}
-                        placeholder='스터디 명을 입력해주세요'
-                        maxLength='20'
+                        placeholder="스터디 명을 입력해주세요"
+                        maxLength="20"
                     />
                     <TextLength lengthCount={lengthCount}>{lengthCount}/20 자</TextLength>
                 </InputWrapper>
@@ -116,24 +116,23 @@ const StudyInfo = () => {
 
             {/* 썸네일 업로드 영역 */}
             <ThumbNailWrapper>
-                <Title>
-                    대표 이미지
-                </Title>
+                <Title>대표 이미지</Title>
                 <UploadWrapper>
                     {/* 업로드 버튼 */}
                     <ImageWrapper>
-                        <FileInputLabel htmlFor="file">
-                            이미지 업로드
-                        </FileInputLabel>
-                        <ImageUploadInput type="file" id="file" accept=".jpg, .png"
+                        <FileInputLabel htmlFor="file">이미지 업로드</FileInputLabel>
+                        <ImageUploadInput
+                            type="file"
+                            id="file"
+                            accept=".jpg, .png"
                             onChange={saveImgFile}
-                            ref={imgRef} />
+                            ref={imgRef}
+                        />
                         <ImageText>용량 제한: 232123mb</ImageText>
                         <ImageText>파일 형식: jpg, png</ImageText>
                     </ImageWrapper>
                     {/* 미리보기 */}
-                    <PreivewWrapper isImgFile={imgFile}>
-                    </PreivewWrapper>
+                    <PreivewWrapper isImgFile={imgFile}></PreivewWrapper>
                 </UploadWrapper>
             </ThumbNailWrapper>
 
@@ -142,11 +141,15 @@ const StudyInfo = () => {
 
             {/* 공개/비공개 토글 영역 */}
             <ToggleWrapper>
-                <OnToggleText onClick={onToggle} isOn={isOn}>공개</OnToggleText>
+                <OnToggleText onClick={onToggle} isOn={isOn}>
+                    공개
+                </OnToggleText>
                 <ToggleBox onClick={handleToggle}>
                     <Toggle isOn={isOn}></Toggle>
                 </ToggleBox>
-                <OffToggleText onClick={offToggle} isOn={isOn}>비공개</OffToggleText>
+                <OffToggleText onClick={offToggle} isOn={isOn}>
+                    비공개
+                </OffToggleText>
             </ToggleWrapper>
         </ComponentWrapper>
     );
@@ -154,12 +157,11 @@ const StudyInfo = () => {
 
 export default StudyInfo;
 
-
 /* CSS */
 const ComponentWrapper = styled.div`
     padding: 3em 3em 2em 3em;
     box-sizing: border-box;
-    border: 1px solid #8E59FF;
+    border: 1px solid #8e59ff;
     border-radius: 10px;
     width: 100%;
     display: flex;
@@ -171,8 +173,8 @@ const TopWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media(max-width : 768px){
-        gap : 1em;
+    @media (max-width: 768px) {
+        gap: 1em;
     }
 `;
 
@@ -181,7 +183,7 @@ const TotalMembersWrapper = styled.div`
     flex-direction: column;
     align-items: end;
     position: relative;
-    width : 49%;
+    width: 49%;
 `;
 
 const CounterWrapper = styled.div`
@@ -202,7 +204,7 @@ const WanringText = styled.div`
 
 const Text = styled.div`
     margin-right: 2em;
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 0.8125em;
     font-weight: 800;
 `;
@@ -213,7 +215,7 @@ const CountButton = styled.div`
     height: 1.5em;
     line-height: 1.5em;
     text-align: center;
-    background-color: #A2A3B2;
+    background-color: #a2a3b2;
     color: white;
     font-size: 1.2em;
     cursor: pointer;
@@ -239,7 +241,7 @@ const InputWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width : 100%;
+    width: 100%;
 `;
 
 const TitleInput = styled.input`
@@ -251,29 +253,29 @@ const TitleInput = styled.input`
     font-size: 0.8125em;
     font-family: 'NanumSquareNeo';
     font-weight: bold;
-    &:focus{
+    &:focus {
         outline: none;
     }
     transition: all 0.3s ease;
-    &::placeholder{
-        color: #A2A3B2;
+    &::placeholder {
+        color: #a2a3b2;
         font-weight: bold;
     }
-    @medai(max-width : 768px){
+    @medai (max-width : 768px) {
         width: 80%;
     }
 `;
 
 const TextLength = styled.div`
-    width : 10%;
-    
+    width: 10%;
+
     font-size: 0.9em;
     font-weight: bold;
-    text-align : end;
+    text-align: end;
     color: ${(props) => (props.lengthCount >= 20 ? 'red' : '#A2A3B2')};
     transition: all 0.3s ease;
-    @media(max-width : 768px){
-        width : 20%;
+    @media (max-width: 768px) {
+        width: 20%;
     }
 `;
 
@@ -283,11 +285,11 @@ const StyledTitleHr = styled.hr`
     height: 1.5px;
     background-color: ${(props) => (props.styledHr ? '#8E59FF' : '#A2A3B2')};
     box-shadow: ${(props) => (props.styledHr ? '0 -0.3125em 0.8em rgba(142,89,255,0.5)' : 'none')};
-    transition: all 0.3s ease
+    transition: all 0.3s ease;
 `;
 
 const ThumbNailWrapper = styled.div`
-    width : 100%;
+    width: 100%;
     margin-bottom: 1em;
     display: flex;
     flex-direction: column;
@@ -295,7 +297,7 @@ const ThumbNailWrapper = styled.div`
 
 const Title = styled.div`
     margin: 1em 0 0.7em 0;
-    color: #8E59FF;
+    color: #8e59ff;
     font-weight: 800;
 `;
 
@@ -303,39 +305,38 @@ const UploadWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    @media(max-width : 768px){
-        flex-direction : column;
-        gap : 1em;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1em;
     }
 `;
 
 const ImageWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    border: 1px solid #A2A3B2;
-    border-radius: 10px; 
-    width: 50%; 
-    height: 11.625em; 
+    border: 1px solid #a2a3b2;
+    border-radius: 10px;
+    width: 50%;
+    height: 11.625em;
     align-items: center;
     justify-content: center;
-    @media(max-width : 768px){
-        width : 100%;
+    @media (max-width: 768px) {
+        width: 100%;
     }
 `;
 
 const FileInputLabel = styled.label`
     margin: 1em;
     padding: 0 1em;
-    border: 1.2px solid #8E59FF;
+    border: 1.2px solid #8e59ff;
     border-radius: 10px;
     height: 2.2308em;
     line-height: 2.2308em;
     text-align: center;
-    color: #8E59FF;
+    color: #8e59ff;
     font-size: 0.8125em;
     font-weight: bold;
     cursor: pointer;
-    
 `;
 
 const ImageUploadInput = styled.input`
@@ -344,20 +345,20 @@ const ImageUploadInput = styled.input`
 
 const ImageText = styled.div`
     margin-bottom: 0.3em;
-    color: #A2A3B2;
+    color: #a2a3b2;
     font-size: 0.6875em;
     font-weight: bold;
 `;
 
 const PreivewWrapper = styled.div`
-    border: 1px solid #A2A3B2;
-    border-radius: 10px; 
-    width: 40%; 
-    height: 11.625em; 
+    border: 1px solid #a2a3b2;
+    border-radius: 10px;
+    width: 40%;
+    height: 11.625em;
     background-image: url(${(props) => (props.isImgFile ? props.isImgFile : ThumbNailImg)});
     background-size: cover;
-    @media(max-width : 768px){
-        width : 100%;
+    @media (max-width: 768px) {
+        width: 100%;
     }
 `;
 
@@ -385,7 +386,7 @@ const OffToggleText = styled.div`
 
 const ToggleBox = styled.div`
     margin: 0 0.8em;
-    border: 1.5px solid #8E59FF;
+    border: 1.5px solid #8e59ff;
     border-radius: 10px;
     width: 3.5em;
     height: 1.4375em;
@@ -399,7 +400,7 @@ const Toggle = styled.div`
     border-radius: 30px;
     width: 1em;
     height: 1em;
-    background-color: #8E59FF;
+    background-color: #8e59ff;
     position: absolute;
     left: ${(props) => (props.isOn ? '0.2em' : '2.2em')};
     transition: all 0.3s ease-out;

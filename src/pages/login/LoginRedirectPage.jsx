@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import backgroundimage from '../assets/images/login/background.png';
-import Logo from '../components/common/Logo';
+import backgroundimage from '../../assets/images/login/background.png';
+import Logo from '../../components/common/Logo';
 import { Color } from '../../components/container/Color';
-import { LoginButton, PuppleButton } from '../components/style/Button';
+import { LoginButton, PuppleButton } from '../../components/button/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { nickNameAPI } from './api/nickNameAPI';
 import { userIdAPI } from './api/userIdAPI';
-import GoogleLogo from '../assets/icons/login/googlelogo.svg?react';
+import GoogleLogo from '../../assets/icons/login/googlelogo.svg?react';
 
 const LoginRedirectPage = () => {
     const [modal, setModal] = useState(true);
@@ -50,6 +50,7 @@ const LoginRedirectPage = () => {
 
     useEffect(() => {
         handleRedirect();
+
         const fetchUserId = async () => {
             if (token) {
                 saveTokenToLocalStorage(token);

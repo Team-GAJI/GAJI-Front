@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DownArrowIcon from '../../../assets/icons/communityPost/grayDownArrow.svg?react';
 
-const MainSelectBox = () => {
+const MainSelectBox = ({
+    onCategorySelect,
+    onSortSelect,
+    onFilterSelect,
+    selectedCategory,
+    selectedSort,
+    selectedFilter,
+}) => {
     // 필터 상태 관리
     const [isCategoryVisible, setIsCategoryVisible] = useState(false);
-    const [selectedCategoryOption, setSelectedCategoryOption] = useState('카테고리');
+    const [selectedCategoryOption, setSelectedCategoryOption] = useState(selectedCategory || '카테고리');
 
     const [isSortVisible, setIsSortVisible] = useState(false);
-    const [selectedSortOption, setSelectedSortOption] = useState('정렬');
+    const [selectedSortOption, setSelectedSortOption] = useState(selectedSort || '정렬');
 
     const [isFilterVisible, setIsFilterVisible] = useState(false);
-    const [selectedFilterOption, setSelectedFilterOption] = useState('필터');
+    const [selectedFilterOption, setSelectedFilterOption] = useState(selectedFilter || '필터');
 
     // 필터 버튼 텍스트
     const toggleCategoryVisibility = () => {
@@ -34,14 +41,17 @@ const MainSelectBox = () => {
     const handleCategorySelect = (option) => {
         setSelectedCategoryOption(option);
         setIsCategoryVisible(false);
+        onCategorySelect(option); // 선택한 값을 상위 컴포넌트로 전달
     };
     const handleSortSelect = (option) => {
         setSelectedSortOption(option);
         setIsSortVisible(false);
+        onSortSelect(option); // 선택한 값을 상위 컴포넌트로 전달
     };
     const handleFilterSelect = (option) => {
         setSelectedFilterOption(option);
         setIsFilterVisible(false);
+        onFilterSelect(option); // 선택한 값을 상위 컴포넌트로 전달
     };
 
     return (

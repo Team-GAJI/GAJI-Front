@@ -23,7 +23,7 @@ const BlogPreview = ({ key, postId, title, content, background, writer, ago, vie
                 throw new Error('잘못된 API 타입입니다.');
             }
             console.log(postDetail);
-            navigate('/community/post', {
+            navigate('/community/detail', {
                 state: {
                     postId: postDetail,
                 },

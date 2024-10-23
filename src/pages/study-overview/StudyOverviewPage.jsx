@@ -12,14 +12,47 @@ import { studyPostsPreviewAPI } from '../study/api/studyPostsPreviewAPI';
 const StudyOverviewPage = () => {
     // state 관리
     const [studies, setStudies] = useState([]);
+    // useLocation
     const location = useLocation();
-    const { category } = location.state;
+    const { category } = location.state || { category: null };
+
+    // 셀렉트 박스 옵션 state
+    const [filterOption, setFilterOption] = useState(null);
+    const [sortOption, setSortOption] = useState(null);
+
+    // useNavigate 훅을 사용하여 페이지 이동을 처리
+    const navigate = useNavigate();
+
+    // 셀렉트 박스 기능
+    const handleCategory = (option) => {
+        navigate('/study/overview', { state: { category: option } });
+    };
+    const handleSort = (option) => {
+        if (option === '최신순') {
+            setSortOption('recent');
+        } else if (option === '좋아요수') {
+            setSortOption('like');
+        } else {
+            setSortOption('hit');
+        }
+    };
+    const handleFilter = (option) => {
+        if (option === '모집 중') {
+            setFilterOption('모집중');
+        } else if (option === '모집 완료') {
+            setFilterOption('모집 완료');
+        } else if (option === '인원 제한') {
+            setFilterOption('인원 제한');
+        } else {
+            setFilterOption('인원 제한 없음');
+        }
+    };
 
     // 스터디 불러오기
     useEffect(() => {
         const fetchStudiesByCategory = async () => {
             try {
-                const response = await studyPostsPreviewAPI(category, null, 'recent', null);
+                const response = await studyPostsPreviewAPI(category, filterOption, sortOption, null);
                 setStudies(response);
             } catch (error) {
                 console.error('스터디 데이터를 불러오는 중 오류 발생:', error);
@@ -27,10 +60,7 @@ const StudyOverviewPage = () => {
         };
 
         fetchStudiesByCategory();
-    }, [category]);
-
-    // useNavigate
-    const navigate = useNavigate();
+    }, [category, filterOption, sortOption]);
 
     return (
         <PageWrapper>
@@ -50,17 +80,22 @@ const StudyOverviewPage = () => {
             <ContentWrapper>
                 {/* 게시글 필터 */}
                 <SelectAndButtonWrapper>
-                    <MainSelectBox />
+                    <MainSelectBox
+                        onCategorySelect={handleCategory}
+                        onSortSelect={handleSort}
+                        onFilterSelect={handleFilter}
+                        selectedCategory={category}
+                    />
                     <CreatePostButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     >
                         + 스터디 만들기
                     </CreatePostButton>
                     <MobileWriteButton
                         onClick={() => {
-                            navigate('/studycreate');
+                            navigate('/study/create');
                         }}
                     />
                 </SelectAndButtonWrapper>
