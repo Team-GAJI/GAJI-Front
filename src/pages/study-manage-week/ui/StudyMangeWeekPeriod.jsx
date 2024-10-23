@@ -1,58 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import StudyCreateRecruitCalendar from './StudyManageWeekRecruitCalendar';
 import StudyCreateCalendar from './StudyManageWeekCalendar';
 import { useDispatch } from 'react-redux';
-// import { setRecruitStartDay, setRecruitEndDay, setStudyStartDay, setStudyEndDay } from '../../features/study/studyCreateSlice';
+import { setWeekData } from '../../../redux/slice/studymanageweek/studymanageweekSlice.jsx';
 
-const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => {
+const StudyManageWeekPeriod = ({ selectedWeek, weekData = [], onWeekDataChange }) => {
     const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
     const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
-    const [isRecruitmentActive, setIsRecruitmentActive] = useState(false);
     const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);
-
     const dispatch = useDispatch();
-    const today = new Date();
 
     useEffect(() => {
-        if (selectedWeek < weekData.length) {
-            const newWeekData = weekData[selectedWeek] || {};
+        if (selectedWeek >= 0 && weekData.length > 0) {
+            const selectedWeekData = weekData[selectedWeek] || {};
+            const startDate = selectedWeekData.studyPeriodStartDate
+                ? new Date(selectedWeekData.studyPeriodStartDate)
+                : null;
+            const endDate = selectedWeekData.studyPeriodEndDate ? new Date(selectedWeekData.studyPeriodEndDate) : null;
 
-            setStudyPeriodStartDate(
-                newWeekData.studyPeriodStartDate ? new Date(newWeekData.studyPeriodStartDate) : null,
-            );
-            setStudyPeriodEndDate(newWeekData.studyPeriodEndDate ? new Date(newWeekData.studyPeriodEndDate) : null);
+            // 값이 이미 있을 경우, 다시 초기화하지 않도록 조건 추가
+            if (!studyPeriodStartDate && startDate) {
+                setStudyPeriodStartDate(startDate);
+            }
+            if (!studyPeriodEndDate && endDate) {
+                setStudyPeriodEndDate(endDate);
+            }
         }
     }, [selectedWeek, weekData]);
 
     const formatDate = (date) => {
         if (!(date instanceof Date) || isNaN(date.getTime())) {
-            return '날짜를 선택해주세요'; // 유효하지 않은 날짜일 경우 표시할 텍스트
+            return '날짜를 선택해주세요';
         }
         const month = date.getMonth() + 1;
         const day = date.getDate();
         return `${month}월 ${day}일`;
     };
 
+    // 스터디 시작 날짜 변경 핸들러
     const handleStudyStartDateChange = (date) => {
+        const isoDateString = date ? date.toISOString() : null;
         setStudyPeriodStartDate(date);
-        updateWeekData({ studyPeriodStartDate: date });
+        dispatch(
+            setWeekData({
+                weekIndex: selectedWeek,
+                weekData: {
+                    ...weekData[selectedWeek],
+                    studyPeriodStartDate: isoDateString,
+                },
+            }),
+        );
     };
 
     const handleStudyEndDateChange = (date) => {
+        const isoDateString = date ? date.toISOString() : null;
         setStudyPeriodEndDate(date);
-        updateWeekData({ studyPeriodEndDate: date });
+        dispatch(
+            setWeekData({
+                weekIndex: selectedWeek,
+                weekData: {
+                    ...weekData[selectedWeek],
+                    studyPeriodEndDate: isoDateString,
+                },
+            }),
+        );
     };
 
+    // 주차 데이터 업데이트
     const updateWeekData = (updates) => {
-        const newWeekData = [...weekData];
-        newWeekData[selectedWeek] = { ...newWeekData[selectedWeek], ...updates };
-        onWeekDataChange(newWeekData);
-    };
+        const updatedWeekData = {
+            ...weekData[selectedWeek], // 선택된 주차 데이터 복사
+            ...updates, // 변경된 필드 업데이트
+        };
 
-    const handleStudyPeriodButtonClick = () => {
-        setIsRecruitmentActive(false);
-        setIsStudyPeriodActive(true);
+        // 전체 주차 데이터 업데이트
+        const newWeekData = weekData.map((data, index) => (index === selectedWeek ? updatedWeekData : data));
+
+        onWeekDataChange(newWeekData); // 전체 데이터 전달
     };
 
     return (
@@ -72,7 +96,7 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
                 <RightWrapper>
                     <ContentWrapper>
                         <Title>스터디 진행 기한</Title>
-                        <StudyButton onClick={handleStudyPeriodButtonClick} isActive={isStudyPeriodActive}>
+                        <StudyButton onClick={() => setIsStudyPeriodActive(true)} isActive={isStudyPeriodActive}>
                             입력하기
                         </StudyButton>
                         <PeriodWrapper>
@@ -90,7 +114,6 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
 
 export default StudyManageWeekPeriod;
 
-/* CSS */
 const ComponentWrapper = styled.div`
     border: 1px solid #8e59ff;
     border-radius: 10px;

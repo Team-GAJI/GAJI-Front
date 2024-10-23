@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
+
 import StudyManageWeekManageDel from '../../assets/icons/studyManageWeek/StudyManageWeekDel.svg';
 import StudyManageWeekManageManagePlus from '../../assets/icons/studyManageWeek/StudyManageWeekPlus.svg';
 
@@ -9,178 +12,155 @@ import StudyMangeWeekPeriod from './ui/StudyMangeWeekPeriod.jsx';
 import ManageWeekeDetailed from './ui/ManageWeekDetailed.jsx';
 import PageHeader from '../../components/common/PageHeader.jsx';
 import { ContentWrapper70 } from '../../components/common/MediaWrapper.jsx';
+// API
 import { TaskAPI } from './api/TaskAPI.jsx';
 import { descriptionAPI } from './api/descriptionAPI.jsx';
 import { periodAPI } from './api/period.jsx';
 import { assignmentsAPI } from './api/assignmentsAPI.jsx';
 import { weekcountAPI } from './api/weekcountAPI.jsx';
 
-const StudyManageWeeKPage = () => {
-    const [weeks, setWeeks] = useState([0]);
-    const [weekData, setWeekData] = useState([]);
-    const [selectedWeek, setSelectedWeek] = useState(0);
-    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
-    const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
-    const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
+import { setWeekData } from '../../redux/slice/studymanageweek/studymanageweekSlice.jsx';
 
+const StudyManageWeekPage = () => {
+    const [weeks, setWeeks] = useState([0]);
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const sidebarRef = useRef(null);
-    const manageWeekDetailedRef = useRef(null);
-    const navigate = useNavigate();
-    const location = useLocation();
+
+    const dispatch = useDispatch();
+
+    const { weeksData = [] } = useSelector((state) => state.studyWeek);
+    const [selectedWeek, setSelectedWeek] = useState(0);
     const roomId = location.state?.roomId || null;
 
-    // 주차 수 만큼! 사이드 창 버튼 만들기
-    const fetchWeekCount = async () => {
-        if (roomId) {
-            try {
-                const response = await weekcountAPI(roomId);
-                const weekCount = response.result.weekCount;
-                setWeeks([...Array(weekCount).keys()]);
-            } catch (error) {
-                console.error('API 요청 중 오류 발생:', error);
-            }
-        }
-    };
-
     useEffect(() => {
-        fetchWeekCount();
-    }, [roomId]);
+        if (weeksData.length === 0) {
+            const initialWeekData = [
+                {
+                    basicInfo: { name: '1주차', description: '' },
+                    tasks: [],
+                    studyPeriodStartDate: null,
+                    studyPeriodEndDate: null,
+                    assignments: [],
+                },
+            ];
 
-    // 주차 데이터 가져오기
-    const fetchSelectedWeekData = async () => {
-        if (roomId !== null) {
-            try {
-                const taskData = await TaskAPI(roomId, selectedWeek);
-                const periodData = await periodAPI(roomId, selectedWeek);
-                const assignments = await assignmentsAPI(roomId, selectedWeek);
-
-                setWeekData((prevWeekData) => {
-                    const newWeekDataArray = [...prevWeekData];
-                    const existingWeekData = newWeekDataArray[selectedWeek] || {};
-
-                    newWeekDataArray[selectedWeek] = {
-                        ...existingWeekData, // 기존 데이터 유지
-                        basicInfo: {
-                            name: taskData?.title || existingWeekData.basicInfo?.name || '',
-                            description: taskData?.content || existingWeekData.basicInfo?.description || '',
-                        },
-                        tasks: taskData?.tasks || existingWeekData.tasks || [], // 이거 나중에 확인하고 삭제
-                        studyPeriodStartDate: periodData?.studyPeriodStartDate
-                            ? new Date(periodData.studyPeriodStartDate)
-                            : existingWeekData.studyPeriodStartDate,
-                        studyPeriodEndDate: periodData?.studyPeriodEndDate
-                            ? new Date(periodData.studyPeriodEndDate)
-                            : existingWeekData.studyPeriodEndDate,
-                        assignments: assignments || [], // 과제 데이터를 배열로 저장 -> 근데 안 나온다...
-                    };
-
-                    return newWeekDataArray;
-                });
-            } catch (error) {
-                console.error('데이터 가져오기 오류:', error);
-            }
+            dispatch(setWeekData({ weekIndex: 0, weekData: initialWeekData }));
+            setSelectedWeek(0);
         }
+    }, [dispatch, weeksData.length]);
+
+    const handleSave = useCallback(async () => {
+        const currentWeekData = weeksData[selectedWeek];
+        if (!currentWeekData) {
+            console.error('현재 주차 데이터가 없습니다.');
+            return;
+        }
+
+        // 이름 및 설명
+        const weekInfo = {
+            name: currentWeekData.basicInfo.name,
+            description: currentWeekData.basicInfo.description,
+        };
+
+        // 기한 정보
+        const periodInfo = {
+            studyPeriodStartDate: currentWeekData.studyPeriodStartDate,
+            studyPeriodEndDate: currentWeekData.studyPeriodEndDate,
+        };
+
+        // 시작일과 종료일이 유효한지 확인
+        if (!periodInfo.studyPeriodStartDate || !periodInfo.studyPeriodEndDate) {
+            console.error('스터디 기간 정보가 누락되었습니다.');
+            return;
+        }
+
+        try {
+            // descriptionAPI 호출
+            const descriptionResult = await descriptionAPI(roomId, selectedWeek, weekInfo);
+            console.log('설명 저장 완료:', descriptionResult);
+
+            // periodAPI 호출
+            const periodResult = await periodAPI(roomId, selectedWeek, periodInfo);
+            console.log('스터디 기한 저장 완료:', periodResult);
+
+            console.log('현재 주차 데이터:', currentWeekData);
+        } catch (error) {
+            console.error('저장 중 오류 발생:', error);
+        }
+    }, [dispatch, roomId, selectedWeek, weeksData]);
+
+    const handleWeekDataChange = (field, value) => {
+        const currentWeekData = weeksData[selectedWeek] || {
+            basicInfo: { name: '', description: '' },
+            tasks: [],
+            studyPeriodStartDate: null,
+            studyPeriodEndDate: null,
+            assignments: [],
+        };
+
+        // 현재 주차 데이터 업데이트
+        const updatedWeekData = {
+            ...currentWeekData,
+            basicInfo: {
+                ...currentWeekData.basicInfo,
+                [field]: value,
+            },
+
+            ...(field === 'studyPeriodStartDate' && { studyPeriodStartDate: value }),
+            ...(field === 'studyPeriodEndDate' && { studyPeriodEndDate: value }),
+        };
+
+        const newWeeksData = weeksData.map((week, index) => (index === selectedWeek ? updatedWeekData : week));
+
+        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
+        // dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeeksData }));
     };
 
-    useEffect(() => {
-        fetchSelectedWeekData();
-    }, [roomId, selectedWeek]);
-
-    useEffect(() => {
-        if (selectedWeek < weekData.length) {
-            const newWeekData = weekData[selectedWeek] || {};
-            setStudyPeriodStartDate(newWeekData.studyPeriodStartDate || new Date());
-            setStudyPeriodEndDate(newWeekData.studyPeriodEndDate || new Date());
-        }
-    }, [selectedWeek, weekData]);
-
-    const handleHeaderButtonClick = async (index) => {
-        setActiveButtonIndex(index);
-
-        if (index === 0) {
-            try {
-                console.log('저장 중...');
-
-                for (let i = 0; i < weeks.length; i++) {
-                    const week = weeks[i];
-
-                    const weekInfo = weekData[i]?.basicInfo || { name: '', description: '' };
-                    const periodInfo = {
-                        studyPeriodStartDate: weekData[i]?.studyPeriodStartDate?.toISOString(),
-                        studyPeriodEndDate: weekData[i]?.studyPeriodEndDate?.toISOString(),
-                    };
-                    const assignments =
-                        i === selectedWeek
-                            ? manageWeekDetailedRef.current?.getAssignments() || []
-                            : weekData[i]?.assignments || [];
-
-                    await descriptionAPI(roomId, week, weekInfo);
-                    await periodAPI(roomId, week, periodInfo);
-                    await assignmentsAPI(roomId, week, { assignments });
-
-                    console.log(`주차: ${week}`);
-                    console.log(`정보:`, weekInfo);
-                    console.log(`기간:`, periodInfo);
-                    console.log(`과제:`, assignments);
-                }
-
-                alert('저장되었습니다.');
-            } catch (error) {
-                console.error('저장 중 오류 발생:', error);
-                alert('저장 중 오류가 발생했습니다.');
-            }
-        }
+    const onWeekDataChange = (updatedWeekData) => {
+        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData[selectedWeek] }));
     };
 
-    const handleWeekDataChange = (newWeekData) => {
-        setWeekData((prevWeekData) => {
-            return prevWeekData.map((week, index) => {
-                if (index === selectedWeek) {
-                    return {
-                        ...week,
-                        ...newWeekData[index],
-                    };
-                }
-                return week;
-            });
-        });
+    //사이드 버튼 주차 관련 코드들
+    const handleButtonClick = () => {
+        navigate('/studymanage');
     };
+    const handleWeekSelect = (index) => {
+        setSelectedWeek(index);
+        console.log('주차 선택:', index);
 
+        const currentWeekData = weeksData[index];
+        console.log('선택한 주차 데이터:', currentWeekData);
+    };
     const handleDelete = () => {
         if (weeks.length > 0) {
             const newWeeks = weeks.slice(0, -1);
-            const newWeekData = weekData.slice(0, -1);
             setWeeks(newWeeks);
-            setWeekData(newWeekData);
+
+            dispatch(deleteWeekData({ weekIndex: selectedWeek }));
+
             if (selectedWeek >= newWeeks.length) {
                 setSelectedWeek(newWeeks.length - 1);
             }
         }
     };
-
     const handleAdd = () => {
         const newWeekIndex = weeks.length;
         setWeeks([...weeks, newWeekIndex]);
-        setWeekData([
-            ...weekData,
-            {
-                basicInfo: { name: '', description: '' },
-                tasks: [],
-                recruitmentStartDate: null,
-                recruitmentEndDate: null,
-                studyPeriodStartDate: null,
-                studyPeriodEndDate: null,
-            },
-        ]);
+
+        // 새로운 주차 데이터 초기화
+        const newWeekData = {
+            basicInfo: { name: '', description: '' },
+            tasks: [],
+            studyPeriodStartDate: null,
+            studyPeriodEndDate: null,
+            assignments: [],
+        };
+
+        // 새로운 주차 데이터 설정
+        dispatch(setWeekData({ weekIndex: newWeekIndex, weekData: newWeekData }));
+
+        // 새로 생성한 주차 선택
         setSelectedWeek(newWeekIndex);
-    };
-
-    const handleWeekSelect = (index) => {
-        setSelectedWeek(index);
-    };
-
-    const handleButtonClick = () => {
-        navigate('/studymanage');
     };
 
     return (
@@ -190,39 +170,26 @@ const StudyManageWeeKPage = () => {
                 subTitle="스터디장에게만 보이는 메뉴에요"
                 headerTitles={['저장하기']}
                 activeButtonIndex={activeButtonIndex}
-                onButtonClick={handleHeaderButtonClick}
+                onButtonClick={handleSave}
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
-
             <RowWrapper>
                 <ContentWrapper70>
                     <ManageWeekBasics
                         selectedWeek={selectedWeek}
-                        weekData={weekData}
+                        weekData={weeksData}
                         onWeekDataChange={handleWeekDataChange}
                         roomId={roomId}
                     />
+
                     <StudyMangeWeekPeriod
                         selectedWeek={selectedWeek}
-                        weekData={weekData}
+                        weekData={weeksData}
                         onWeekDataChange={handleWeekDataChange}
                         roomId={roomId}
                     />
-                    <ManageWeekeDetailed
-                        ref={manageWeekDetailedRef}
-                        selectedWeek={selectedWeek}
-                        onAssignmentsChange={(assignments) => {
-                            handleWeekDataChange({
-                                [selectedWeek]: {
-                                    ...weekData[selectedWeek],
-                                    assignments,
-                                },
-                            });
-                        }}
-                    />
                 </ContentWrapper70>
-
                 <Sidebar1 ref={sidebarRef}>
                     <BasicInfoButton onClick={handleButtonClick}>기본정보</BasicInfoButton>
                     {weeks.map((week, index) => (
@@ -250,7 +217,7 @@ const StudyManageWeeKPage = () => {
     );
 };
 
-export default StudyManageWeeKPage;
+export default StudyManageWeekPage;
 
 const RowWrapper = styled.div`
     display: flex;
@@ -287,7 +254,7 @@ const Sidebar1 = styled.aside`
     position: -webkit-sticky;
     position: sticky;
     top: 5em;
-    margin-top: 2.75em;
+    margin-top: 4.75em;
 
     @media (max-width: 768px) {
         position: -webkit-sticky;
