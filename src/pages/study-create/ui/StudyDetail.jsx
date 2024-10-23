@@ -121,7 +121,7 @@ const StudyDetail = () => {
                 <ImageUploadInput type="file" id="contentImg" accept="image/*" />
                 <StyledLinkIcon onClick={() => addLink} />
                 <StyledBar>|</StyledBar>
-                <StyledPreviewButton onClick={() => openModal}>미리보기</StyledPreviewButton>
+                <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
             </ToolbarWrapper>
 
             {/* 내용 */}
@@ -141,9 +141,9 @@ const StudyDetail = () => {
 
             {/* 모달 */}
             {isModalOpen && (
-                <ModalOverlay onClick={() => closeModal}>
+                <ModalOverlay onClick={closeModal}>
                     <ModalContent onClick={(e) => e.stopPropagation()}>
-                        <CloseButton onClick={() => closeModal}>x</CloseButton>
+                        <CloseButton onClick={closeModal}>x</CloseButton>
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
                     </ModalContent>
                 </ModalOverlay>
