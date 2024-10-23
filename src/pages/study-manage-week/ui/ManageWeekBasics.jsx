@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => {
-    const currentWeekData = weekData[selectedWeek] || { basicInfo: { name: '', description: '' } };
-    const [studyName, setStudyName] = useState(currentWeekData.basicInfo.name);
-    const [studyDescription, setStudyDescription] = useState(currentWeekData.basicInfo.description);
+    const currentWeekData = weekData[selectedWeek] || {};
+    const basicInfo = currentWeekData.basicInfo || { name: '', description: '' };
+
+    const [studyName, setStudyName] = useState(basicInfo.name || '');
+    const [studyDescription, setStudyDescription] = useState(basicInfo.description || '');
 
     useEffect(() => {
-        setStudyName(currentWeekData.basicInfo.name);
-        setStudyDescription(currentWeekData.basicInfo.description);
-    }, [selectedWeek, weekData]);
+        const updatedBasicInfo = currentWeekData.basicInfo || { name: '', description: '' };
+        setStudyName(updatedBasicInfo.name || '');
+        setStudyDescription(updatedBasicInfo.description || '');
+    }, [currentWeekData]);
 
     const handleStudyNameChange = (e) => {
         const value = e.target.value;
@@ -33,7 +36,7 @@ const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => 
                         value={studyName}
                         onChange={handleStudyNameChange}
                     />
-                    <CharCount>{studyName.length}/30</CharCount>
+                    <CharCount>{(studyName || '').length}/30</CharCount>
                 </InputWrapper>
                 <DivisionLine2 />
                 <RowContainer>
@@ -45,7 +48,7 @@ const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => 
                                 value={studyDescription}
                                 onChange={handleStudyDescriptionChange}
                             />
-                            <ExStudyCharCount>{studyDescription.length}/200</ExStudyCharCount>
+                            <ExStudyCharCount>{(studyDescription || '').length}/200</ExStudyCharCount>
                         </ExWrapper>
                     </Container>
                 </RowContainer>
@@ -53,6 +56,7 @@ const ManageWeekBasics = ({ selectedWeek, weekData = [], onWeekDataChange }) => 
         </Container>
     );
 };
+
 export default ManageWeekBasics;
 
 const Container = styled.div`

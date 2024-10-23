@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { assignmentsAPI } from '../../../pages/study-manage-week/api/assignmentsAPI';
 
 // studyWeekSlice.js
 const initialState = {
@@ -15,7 +14,23 @@ const studyWeekSlice = createSlice({
     reducers: {
         setWeekData: (state, action) => {
             const { weekIndex, weekData } = action.payload;
-            state.weeksData[weekIndex] = weekData;
+
+            // 현재 주차 데이터가 없을 경우 초기화
+            if (!state.weeksData[weekIndex]) {
+                state.weeksData[weekIndex] = {
+                    basicInfo: { name: '', description: '' },
+                    tasks: [],
+                    studyPeriodStartDate: null,
+                    studyPeriodEndDate: null,
+                    assignments: [],
+                };
+            }
+
+            // 주차 데이터 업데이트
+            state.weeksData[weekIndex] = {
+                ...state.weeksData[weekIndex], // 기존 데이터 유지
+                ...weekData, // 새로운 데이터로 업데이트
+            };
         },
         deleteWeekData: (state, action) => {
             const { weekIndex } = action.payload;

@@ -2,35 +2,32 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import StudyCreateCalendar from './StudyManageWeekCalendar';
 import { useDispatch } from 'react-redux';
+import { setWeekData } from '../../../redux/slice/studymanageweek/studymanageweekSlice.jsx';
 
-const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => {
-    // 스터디 시작 날 상태
+const StudyManageWeekPeriod = ({ selectedWeek, weekData = [], onWeekDataChange }) => {
     const [studyPeriodStartDate, setStudyPeriodStartDate] = useState(null);
-    // 스터디 마지막 날 상태
     const [studyPeriodEndDate, setStudyPeriodEndDate] = useState(null);
-
-    const [isRecruitmentActive, setIsRecruitmentActive] = useState(false);
-    // 스터디 기간 활성화 상태
     const [isStudyPeriodActive, setIsStudyPeriodActive] = useState(true);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (weekData && selectedWeek >= 0 && selectedWeek < weekData.length) {
+        if (selectedWeek >= 0 && weekData.length > 0) {
             const selectedWeekData = weekData[selectedWeek] || {};
             const startDate = selectedWeekData.studyPeriodStartDate
                 ? new Date(selectedWeekData.studyPeriodStartDate)
                 : null;
             const endDate = selectedWeekData.studyPeriodEndDate ? new Date(selectedWeekData.studyPeriodEndDate) : null;
 
-            if (studyPeriodStartDate !== startDate) {
+            // 값이 이미 있을 경우, 다시 초기화하지 않도록 조건 추가
+            if (!studyPeriodStartDate && startDate) {
                 setStudyPeriodStartDate(startDate);
             }
-            if (studyPeriodEndDate !== endDate) {
+            if (!studyPeriodEndDate && endDate) {
                 setStudyPeriodEndDate(endDate);
             }
         }
     }, [selectedWeek, weekData]);
 
-    // 날짜 포맷팅
     const formatDate = (date) => {
         if (!(date instanceof Date) || isNaN(date.getTime())) {
             return '날짜를 선택해주세요';
@@ -42,26 +39,44 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
 
     // 스터디 시작 날짜 변경 핸들러
     const handleStudyStartDateChange = (date) => {
+        const isoDateString = date ? date.toISOString() : null;
         setStudyPeriodStartDate(date);
-        updateWeekData({ studyPeriodStartDate: date });
+        dispatch(
+            setWeekData({
+                weekIndex: selectedWeek,
+                weekData: {
+                    ...weekData[selectedWeek],
+                    studyPeriodStartDate: isoDateString,
+                },
+            }),
+        );
     };
 
-    // 스터디 마지막 날짜 변경 핸들러
     const handleStudyEndDateChange = (date) => {
+        const isoDateString = date ? date.toISOString() : null;
         setStudyPeriodEndDate(date);
-        updateWeekData({ studyPeriodEndDate: date });
+        dispatch(
+            setWeekData({
+                weekIndex: selectedWeek,
+                weekData: {
+                    ...weekData[selectedWeek],
+                    studyPeriodEndDate: isoDateString,
+                },
+            }),
+        );
     };
 
-    // 새로운 주차 데이터를 업데이트하는 함수
+    // 주차 데이터 업데이트
     const updateWeekData = (updates) => {
         const updatedWeekData = {
-            ...weekData,
-            [selectedWeek]: {
-                ...weekData[selectedWeek],
-                ...updates,
-            },
+            ...weekData[selectedWeek], // 선택된 주차 데이터 복사
+            ...updates, // 변경된 필드 업데이트
         };
-        onWeekDataChange(updatedWeekData);
+
+        // 전체 주차 데이터 업데이트
+        const newWeekData = weekData.map((data, index) => (index === selectedWeek ? updatedWeekData : data));
+
+        onWeekDataChange(newWeekData); // 전체 데이터 전달
     };
 
     return (
@@ -98,7 +113,7 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData, onWeekDataChange }) => 
 };
 
 export default StudyManageWeekPeriod;
-/* CSS */
+
 const ComponentWrapper = styled.div`
     border: 1px solid #8e59ff;
     border-radius: 10px;

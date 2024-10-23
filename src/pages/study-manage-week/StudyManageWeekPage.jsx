@@ -25,8 +25,10 @@ const StudyManageWeekPage = () => {
     const [weeks, setWeeks] = useState([0]);
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const sidebarRef = useRef(null);
+
     const dispatch = useDispatch();
-    const { weeksData = [] } = useSelector((state) => state.studyWeek); // 'weekData'를 'weeksData'로 변경
+
+    const { weeksData = [] } = useSelector((state) => state.studyWeek);
     const [selectedWeek, setSelectedWeek] = useState(0);
     const roomId = location.state?.roomId || null;
 
@@ -34,13 +36,14 @@ const StudyManageWeekPage = () => {
         if (weeksData.length === 0) {
             const initialWeekData = [
                 {
-                    basicInfo: { name: '주차 1', description: '' },
+                    basicInfo: { name: '1주차', description: '' },
                     tasks: [],
                     studyPeriodStartDate: null,
                     studyPeriodEndDate: null,
                     assignments: [],
                 },
             ];
+
             dispatch(setWeekData({ weekIndex: 0, weekData: initialWeekData }));
             setSelectedWeek(0);
         }
@@ -52,14 +55,35 @@ const StudyManageWeekPage = () => {
             console.error('현재 주차 데이터가 없습니다.');
             return;
         }
+
+        // 이름 및 설명
         const weekInfo = {
             name: currentWeekData.basicInfo.name,
             description: currentWeekData.basicInfo.description,
         };
 
+        // 기한 정보
+        const periodInfo = {
+            studyPeriodStartDate: currentWeekData.studyPeriodStartDate,
+            studyPeriodEndDate: currentWeekData.studyPeriodEndDate,
+        };
+
+        // 시작일과 종료일이 유효한지 확인
+        if (!periodInfo.studyPeriodStartDate || !periodInfo.studyPeriodEndDate) {
+            console.error('스터디 기간 정보가 누락되었습니다.');
+            return;
+        }
+
         try {
-            const result = await descriptionAPI(roomId, selectedWeek, weekInfo);
-            console.log('저장 완료:', result);
+            // descriptionAPI 호출
+            const descriptionResult = await descriptionAPI(roomId, selectedWeek, weekInfo);
+            console.log('설명 저장 완료:', descriptionResult);
+
+            // periodAPI 호출
+            const periodResult = await periodAPI(roomId, selectedWeek, periodInfo);
+            console.log('스터디 기한 저장 완료:', periodResult);
+
+            console.log('현재 주차 데이터:', currentWeekData);
         } catch (error) {
             console.error('저장 중 오류 발생:', error);
         }
@@ -74,18 +98,67 @@ const StudyManageWeekPage = () => {
             assignments: [],
         };
 
+        // 현재 주차 데이터 업데이트
         const updatedWeekData = {
             ...currentWeekData,
             basicInfo: {
                 ...currentWeekData.basicInfo,
                 [field]: value,
             },
+
+            ...(field === 'studyPeriodStartDate' && { studyPeriodStartDate: value }),
+            ...(field === 'studyPeriodEndDate' && { studyPeriodEndDate: value }),
         };
 
-        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
+        const newWeeksData = weeksData.map((week, index) => (index === selectedWeek ? updatedWeekData : week));
+
+        // dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
+        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeeksData }));
     };
 
-    // 나머지 코드...
+    const onWeekDataChange = (updatedWeekData) => {
+        dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData[selectedWeek] }));
+    };
+
+    //사이드 버튼 주차 관련 코드들
+    const handleButtonClick = () => {
+        navigate('/studymanage');
+    };
+    const handleWeekSelect = (index) => {
+        setSelectedWeek(index);
+        console.log('주차 선택:', index);
+    };
+    const handleDelete = () => {
+        if (weeks.length > 0) {
+            const newWeeks = weeks.slice(0, -1);
+            setWeeks(newWeeks);
+
+            dispatch(deleteWeekData({ weekIndex: selectedWeek }));
+
+            if (selectedWeek >= newWeeks.length) {
+                setSelectedWeek(newWeeks.length - 1);
+            }
+        }
+    };
+    const handleAdd = () => {
+        const newWeekIndex = weeks.length;
+        setWeeks([...weeks, newWeekIndex]);
+
+        // 새로운 주차 데이터 초기화
+        const newWeekData = {
+            basicInfo: { name: '', description: '' },
+            tasks: [],
+            studyPeriodStartDate: null,
+            studyPeriodEndDate: null,
+            assignments: [],
+        };
+
+        // 새로운 주차 데이터 설정
+        dispatch(setWeekData({ weekIndex: newWeekIndex, weekData: newWeekData }));
+
+        // 새로 생성한 주차 선택
+        setSelectedWeek(newWeekIndex);
+    };
 
     return (
         <>
@@ -102,12 +175,40 @@ const StudyManageWeekPage = () => {
                 <ContentWrapper70>
                     <ManageWeekBasics
                         selectedWeek={selectedWeek}
-                        weekData={weeksData} // 'weekData'를 'weeksData'로 변경
+                        weekData={weeksData}
+                        onWeekDataChange={handleWeekDataChange}
+                        roomId={roomId}
+                    />
+
+                    <StudyMangeWeekPeriod
+                        selectedWeek={selectedWeek}
+                        weekData={weeksData}
                         onWeekDataChange={handleWeekDataChange}
                         roomId={roomId}
                     />
                 </ContentWrapper70>
-                <Sidebar1 ref={sidebarRef}>{/* 사이드바 버튼들... */}</Sidebar1>
+                <Sidebar1 ref={sidebarRef}>
+                    <BasicInfoButton onClick={handleButtonClick}>기본정보</BasicInfoButton>
+                    {weeks.map((week, index) => (
+                        <React.Fragment key={week}>
+                            <SidebarButton1
+                                className={index === weeks.length - 1 ? 'last-week' : ''}
+                                bold={index === selectedWeek}
+                                onClick={() => handleWeekSelect(index)}
+                            >
+                                <TextWrapper>{week + 1}주차</TextWrapper>
+                                {index === weeks.length - 1 && (
+                                    <DelIconWrapper>
+                                        <DelIcons src={StudyManageWeekManageDel} alt="삭제" onClick={handleDelete} />
+                                    </DelIconWrapper>
+                                )}
+                            </SidebarButton1>
+                        </React.Fragment>
+                    ))}
+                    <PlusButton onClick={handleAdd}>
+                        <PlusIcons src={StudyManageWeekManageManagePlus} alt="추가" />
+                    </PlusButton>
+                </Sidebar1>
             </RowWrapper>
         </>
     );
