@@ -119,7 +119,7 @@ const StudyDetail = () => {
                     <StyledImageIcon />
                 </FileInputLabel>
                 <ImageUploadInput type="file" id="contentImg" accept="image/*" />
-                <StyledLinkIcon onClick={() => addLink} />
+                <StyledLinkIcon onClick={addLink} />
                 <StyledBar>|</StyledBar>
                 <StyledPreviewButton onClick={openModal}>미리보기</StyledPreviewButton>
             </ToolbarWrapper>
