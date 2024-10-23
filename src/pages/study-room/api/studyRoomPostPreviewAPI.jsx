@@ -1,8 +1,8 @@
-import { api } from "../../../app/api";
+import { api } from '../../../app/api';
 
-export const studyRoomPostPreviewAPI  = async (roomId) => {
+export const studyRoomPostPreviewAPI = async (roomId) => {
     try {
-        const response = await api.get(`study-rooms/home/post/${roomId}`)
+        const response = await api.get(`study-rooms/home/post/${roomId}`);
         console.log(response.data.resul);
         return response.data.result;
     } catch (error) {

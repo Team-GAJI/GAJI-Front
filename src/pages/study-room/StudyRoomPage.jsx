@@ -7,6 +7,7 @@ import StudyPostList from '../study-room/ui/StudyPostList';
 import { useNavigate, useLocation } from 'react-router-dom';
 import MobileManageButton from '../../components/common/MobileManageButton';
 import { studyDetailAPI } from '../study-detail/api/studyDetailAPI';
+import SideBar from './ui/SideBar';
 
 const StudyRoomPage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
@@ -21,10 +22,10 @@ const StudyRoomPage = () => {
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
         if (index === 0) {
-            navigate('/studyroom', { state: { roomId: roomId } });
+            navigate('/study/room', { state: { roomId: roomId } });
             console.log(studyInfo.weeksCount);
         } else if (index === 1) {
-            navigate('/troubleshooting', { state: { roomId: roomId } });
+            navigate('/study/trouble', { state: { roomId: roomId } });
         } else {
             navigate('/');
         }
@@ -56,22 +57,8 @@ const StudyRoomPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
+            <SideBar studyInfo={studyInfo} />
             <ContentWrapper>
-                <SidebarWrapper>
-                    <Sidebar>
-                        {/* TODO 주차별 정보 불러와서 버튼만들기 추가 */}
-                        {[...Array(studyInfo.weeksCount)].map((_, index) => (
-                            <React.Fragment key={index}>
-                                <SidebarButton bold={index === 0}>{index + 1}주차</SidebarButton>
-                                {index < 8}
-                            </React.Fragment>
-                        ))}
-                    </Sidebar>
-                    <SidebarManageButton onClick={() => navigate('/studymanage', { state: { roomId: roomId } })}>
-                        스터디 관리
-                    </SidebarManageButton>
-                </SidebarWrapper>
-
                 <MainContent>
                     <StudySummary studyInfo={studyInfo} roomId={roomId} /> {/* StudySummary에 데이터 전달 */}
                     <DivisionLine2 />
@@ -112,89 +99,6 @@ const DivisionLine2 = styled.div`
     border-top: 0.1125em solid #8e59ff;
     margin: 2.125em 0px;
     width: 100%;
-`;
-
-const Sidebar = styled.div`
-    display: flex;
-    flex-direction: column;
-    border: 0.0625em solid #a2a3b2;
-    border-radius: 0.5em;
-    padding: 0.5em 0.5em;
-    background-color: #fbfaff;
-    box-sizing: border-box;
-
-    @media (max-width: 768px) {
-        padding: 0em 0em;
-        font-size: 1em;
-        border: none;
-        flex-direction: row;
-        height: 5em;
-        width: 100%;
-        justify-content: center;
-    }
-`;
-
-const SidebarManageButton = styled.button`
-    background-color: #8e59ff;
-    border: 0.0625em solid #8e59ff;
-    color: #fff;
-    border-radius: 0.5em;
-    font-weight: 700;
-    padding: 0.75em;
-    margin-top: 0.625em;
-    box-sizing: border-box;
-    @media (max-width: 768px) {
-        display: none;
-    }
-`;
-
-const SidebarButton = styled.button`
-    background-color: transparent;
-    color: #a2a3b2;
-    font-weight: 1.125em;
-    padding: 0.6em 0.625em;
-    text-align: center;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    box-sizing: border-box;
-    &:hover {
-        border: 1px solid #8e59ff;
-        border-radius: 0.5em;
-        color: #8e59ff;
-        margin-left: 0.4em;
-        margin-right: 0.4em;
-    }
-
-    @media (max-width: 768px) {
-        height: 2em;
-        flex-direction: row;
-        width: auto;
-        min-width: 8em;
-        padding: 0.5em 0.5em;
-        margin-top: 0.5em;
-        font-size: 1em;
-    }
-`;
-
-const SidebarWrapper = styled.div`
-    width: 10%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25em;
-    position: fixed;
-    left: 5%;
-
-    @media (max-width: 768px) {
-        position: sticky;
-        top: 3em;
-        width: 100%;
-        box-sizing: border-box;
-        flex-direction: column;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        z-index: 10;
-    }
 `;
 
 const MainContent = styled.div`
