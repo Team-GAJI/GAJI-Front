@@ -1,21 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-const SideBar = (studyInfo, roomId) => {
+const SideBar = ({ roomId, week, setCurrentWeek }) => {
+    const navigate = useNavigate();
+    console.log('Week Count:', week);
+    const handleManage = () => {
+        navigate('/study/manage', { state: { roomId: roomId } });
+    };
     return (
         <SidebarWrapper>
             <SidebarContainer>
-                {/* TODO 주차별 정보 불러와서 버튼만들기 추가 */}
-                {[...Array(studyInfo.weeksCount)].map((_, index) => (
+                {[...Array(week)].map((_, index) => (
                     <React.Fragment key={index}>
-                        <SidebarButton bold={index === 0}>{index + 1}주차</SidebarButton>
-                        {index < 8}
+                        <SidebarButton onClick={() => setCurrentWeek(index)} bold={index === 0}>
+                            {index + 1}주차
+                        </SidebarButton>
                     </React.Fragment>
                 ))}
             </SidebarContainer>
-            <SidebarManageButton onClick={() => navigate('/study/manage', { state: { roomId: roomId } })}>
-                스터디 관리
-            </SidebarManageButton>
+            <SidebarManageButton onClick={handleManage}>스터디 관리</SidebarManageButton>
         </SidebarWrapper>
     );
 };
