@@ -27,7 +27,7 @@ const TroubleshootingWritePost = () => {
     const navigate = useNavigate();
     const location = useLocation();
     // const roomId = location.state?.roomId;
-    const roomId = 152;
+    const roomId = 152; //임시 룸아이디
     useEffect(() => {
         if (!roomId || typeof roomId !== 'number') {
             console.error('유효하지 않은 roomId입니다:', roomId);
