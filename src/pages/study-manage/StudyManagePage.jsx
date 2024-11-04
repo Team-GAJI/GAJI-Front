@@ -26,14 +26,18 @@ const StudyManagePage = () => {
         setWeeks([...weeks, weeks.length]);
     };
 
-    useEffect(() => {
-        console.log(roomId);
-        if (sidebarRef.current) {
-            sidebarRef.current.style.height = 'auto';
-            const newHeight = sidebarRef.current.scrollHeight;
-            sidebarRef.current.style.height = `${newHeight}px`;
-        }
-    }, [weeks]);
+    useEffect(
+        () => {
+            console.log(roomId);
+            if (sidebarRef.current) {
+                sidebarRef.current.style.height = 'auto';
+                const newHeight = sidebarRef.current.scrollHeight;
+                sidebarRef.current.style.height = `${newHeight}px`;
+            }
+        },
+        [roomId],
+        [weeks],
+    );
     const [selectedWeek, setSelectedWeek] = useState(0);
 
     const handleWeekSelect = (index) => {
@@ -43,7 +47,7 @@ const StudyManagePage = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
-        navigate('/studyweekmanage', { state: { roomId: roomId } });
+        navigate('/study/manage-week', { state: { roomId: roomId } });
     };
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 

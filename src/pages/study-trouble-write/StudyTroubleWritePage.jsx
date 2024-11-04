@@ -9,15 +9,15 @@ const StudyTroubleWritePage = () => {
     const [activeButtonIndex, setActiveButtonIndex] = useState(1);
 
     const location = useLocation();
-    let roomId = location.state?.roomId;
+    // let roomId = location.state?.roomId;
 
     // roomId가 유효하지 않은 경우 처리
-    if (typeof roomId !== 'string' && typeof roomId !== 'number') {
-        console.error('roomId가 잘못된 형식입니다:', roomId);
-        roomId = ''; // 기본값으로 빈 문자열 설정
-    }
+    // if (typeof roomId !== 'string' && typeof roomId !== 'number') {
+    //     console.error('roomId가 잘못된 형식입니다:', roomId);
+    //     roomId = ''; // 기본값으로 빈 문자열 설정
+    // }
 
-    console.log('roomId:', roomId);
+    // console.log('roomId:', roomId);
 
     // API 연결
     const [title, setTitle] = useState(''); // 게시글 제목을 위한 state
@@ -27,7 +27,7 @@ const StudyTroubleWritePage = () => {
 
     const handleNavigate = (index) => {
         if (index === 0) {
-            navigate('/studyroom');
+            navigate('/study/room');
         } else {
             setActiveButtonIndex(index);
         }

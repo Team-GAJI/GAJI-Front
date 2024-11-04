@@ -1,42 +1,55 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import styled from 'styled-components';
 import Delete from '../../../assets/icons/studyManageWeek/StudyManageWeekDelete.png';
-
-const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, ref) => {
+const ManageWeekeDetailed = forwardRef(({ selectedWeek, weekData = [], onWeekDataChange }, ref) => {
     const [inputs, setInputs] = useState(['']);
-    const maxInputs = 5; //5개까지 만들 수 있게 함
+    const maxInputs = 5; // 최대 5개까지 과제 입력
 
+    // 부모 컴포넌트에서 배열 참조할 수 있게
     useImperativeHandle(ref, () => ({
         getAssignments: () => inputs,
     }));
 
+    useEffect(() => {
+        if (weekData[selectedWeek]) {
+            const assignments = weekData[selectedWeek].assignments || [];
+            setInputs(assignments.length > 0 ? assignments : ['']);
+        } else {
+            setInputs(['']);
+        }
+    }, [weekData, selectedWeek]);
+
+    // 엔터 -> 과제 등록
     const handleKeyPress = (index, event) => {
         if (event.key === 'Enter' && inputs.length < maxInputs) {
             event.preventDefault();
             const newInputs = [...inputs];
             newInputs[index] = inputs[index];
 
+            // 기본 상단 고정
             const firstInputValue = newInputs[0];
-
-            newInputs.push(firstInputValue);
             newInputs[0] = '';
+            newInputs.push(firstInputValue);
 
             setInputs(newInputs);
-            onAssignmentsChange(newInputs); // 과제 변경 시 부모에게 전달
+            onWeekDataChange('assignments', newInputs);
+
+            console.log(newInputs);
         }
     };
 
+    // 과제 삭제
     const handleDeleteInput = (index) => {
         const newInputs = inputs.filter((_, i) => i !== index);
         setInputs(newInputs);
-        onAssignmentsChange(newInputs); // 과제 삭제 시 부모에게 전달
+        onWeekDataChange('assignments', newInputs);
     };
 
     const handleChange = (index, value) => {
         const newInputs = [...inputs];
         newInputs[index] = value;
         setInputs(newInputs);
-        onAssignmentsChange(newInputs); // 과제 내용 변경 시 부모에게 전달
+        onWeekDataChange('assignments', newInputs);
     };
 
     return (
@@ -47,7 +60,7 @@ const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, re
                     <InputWrapper key={index} isFirst={index === 0}>
                         <InputStudyName
                             value={input}
-                            onKeyPress={(e) => handleKeyPress(index, e)}
+                            onKeyDown={(e) => handleKeyPress(index, e)}
                             onChange={(e) => handleChange(index, e.target.value)}
                             placeholder="과제명을 입력해주세요"
                             isFirst={index === 0}
@@ -60,10 +73,9 @@ const ManageWeekDetailed = forwardRef(({ selectedWeek, onAssignmentsChange }, re
     );
 });
 
-export default ManageWeekDetailed;
+ManageWeekeDetailed.displayName = 'ManageWeekeDetailed';
 
-// displayName을 준다.
-ManageWeekDetailed.displayName = 'ManageWeekDetailed';
+export default ManageWeekeDetailed;
 
 const MainWrapper = styled.div`
     background-color: #fbfaff;

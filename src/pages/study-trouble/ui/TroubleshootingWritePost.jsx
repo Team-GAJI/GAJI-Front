@@ -26,8 +26,8 @@ const TroubleshootingWritePost = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const roomId = location.state?.roomId;
-
+    // const roomId = location.state?.roomId;
+    const roomId = 152;
     useEffect(() => {
         if (!roomId || typeof roomId !== 'number') {
             console.error('유효하지 않은 roomId입니다:', roomId);
@@ -49,7 +49,7 @@ const TroubleshootingWritePost = () => {
             const data = { title, body: markdown };
             const response = await registerTroubleShootingAPI(roomId, data);
             console.log(response.result.troublePostId);
-            navigate(`/troubleshooting-detail`, {
+            navigate(`/study/trouble/detail`, {
                 state: { roomId: roomId, postId: response.result.troublePostId },
             });
         } catch (error) {
