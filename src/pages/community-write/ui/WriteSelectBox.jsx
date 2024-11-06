@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import DownArrowIcon from '../../../assets/icons/communityWrite/purpleDownArrow.svg?react';
-import { setCategory } from '../../../redux/slice/study/studyCreateSlice';
+import { setCategory } from '../../../redux/slice/community/communityWriteSlice';
 
 const WriteSelectBox = () => {
     // 필터 상태 관리
