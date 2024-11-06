@@ -64,7 +64,7 @@ const StudyRoomPage = () => {
                     <StudyPostList roomId={roomId} />
                 </MainContent>
             </ContentWrapper>
-            <div onClick={() => navigate('/studymanage', { state: { roomId: roomId } })}>
+            <div onClick={() => navigate('/study/manage', { state: { roomId: roomId, week: weekCount } })}>
                 <MobileManageButton />
             </div>
         </>
