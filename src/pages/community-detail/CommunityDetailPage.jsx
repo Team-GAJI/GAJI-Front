@@ -39,6 +39,9 @@ const CommunityDetailPage = () => {
     const [isReportModalVisible, setIsReportModalVisible] = useState(false);
     const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
+    // 댓글 개수
+    const [commentCount, setCommentCount] = useState(0);
+
     // 북마크, 좋아요 기능
     const handleBookMark = () => {
         if (bookMarkState) {
@@ -120,7 +123,7 @@ const CommunityDetailPage = () => {
                                 <StyledBar>|</StyledBar>
                                 조회 {postDetail.hit}
                                 <StyledBar>|</StyledBar>
-                                댓글 {postDetail.commentCnt}
+                                댓글 {commentCount}
                             </TitleDetail>
 
                             {/* 작성자 정보 모달창 */}
@@ -225,7 +228,7 @@ const CommunityDetailPage = () => {
                             <StyledHr />
                             {/* 댓글 영역 */}
                             {/* <CommentContainer /> */}
-                            <StudyCommentContainer postId={postId} type="community" />
+                            <StudyCommentContainer postId={postId} type="community" setCommentCount={setCommentCount} />
                         </PostContentWrapper>
                     </ContentWrapper>
                 </>
