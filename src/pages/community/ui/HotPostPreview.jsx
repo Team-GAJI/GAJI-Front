@@ -15,7 +15,8 @@ const HotPostPreview = ({ key, postId, title, background, tags }) => {
             console.log(postDetail);
             navigate('/community/detail', {
                 state: {
-                    postId: postDetail,
+                    postDetail: postDetail,
+                    postId: postId,
                 },
             });
         } catch (error) {

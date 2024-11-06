@@ -25,14 +25,14 @@ const CommunityDetailPage = () => {
     const location = useLocation();
 
     //const postId = location.state?.postId || {}; // `postId`가 존재하지 않으면 빈 객체로 초기화
-    const { postId } = location.state || {};
-    const { postId2 } = location.state || {};
+    const { postDetail } = location.state || {};
+    const { postId } = location.state;
 
     // state 관리
     const [bookMarkState, setBookMarkState] = useState(false);
     const [likeState, setLikeState] = useState(false);
-    const [bookMarkCount, setBookMarkCount] = useState(postId.bookmarkCnt || 0);
-    const [likeCount, setLikeCount] = useState(postId.likeCnt || 0);
+    const [bookMarkCount, setBookMarkCount] = useState(postDetail.bookmarkCnt || 0);
+    const [likeCount, setLikeCount] = useState(postDetail.likeCnt || 0);
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
     const [isOptionVisible, setIsOptionVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState('모집 중');
@@ -88,7 +88,7 @@ const CommunityDetailPage = () => {
 
     return (
         <>
-            {postId && (
+            {postDetail && (
                 <>
                     {/* 헤더 */}
                     <HeaderWrapper>
@@ -111,16 +111,16 @@ const CommunityDetailPage = () => {
                                     alt="user profile"
                                 />
                                 <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
-                                    {postId.userNickname}
+                                    {postDetail.userNickname}
                                 </Writer>
                                 <StyledBar>|</StyledBar>
-                                {postId.type} &gt; {postId.category}
+                                {postDetail.type} &gt; {postDetail.category}
                                 <StyledBar>|</StyledBar>
-                                {postId.createdAt}
+                                {postDetail.createdAt}
                                 <StyledBar>|</StyledBar>
-                                조회 {postId.hit}
+                                조회 {postDetail.hit}
                                 <StyledBar>|</StyledBar>
-                                댓글 {postId.commentCnt}
+                                댓글 {postDetail.commentCnt}
                             </TitleDetail>
 
                             {/* 작성자 정보 모달창 */}
@@ -129,17 +129,17 @@ const CommunityDetailPage = () => {
                                 onMouseEnter={showWriterInfo}
                                 onMouseLeave={hideWriterInfo}
                             >
-                                <PostWriterInfo nickName={postId.userNickname} />
+                                <PostWriterInfo nickName={postDetail.userNickname} />
                             </PostWriterInfoWrapper>
 
                             {/* 게시글 제목 */}
-                            <Title>{postId.title}</Title>
+                            <Title>{postDetail.title}</Title>
 
                             {/* 게시글 해시태그 */}
-                            {postId.hashtagList && postId.hashtagList.length > 0 && (
+                            {postDetail.hashtagList && postDetail.hashtagList.length > 0 && (
                                 <>
                                     <HashtagWrapper>
-                                        {postId.hashtagList.map((hashtag, index) => (
+                                        {postDetail.hashtagList.map((hashtag, index) => (
                                             <Hashtag key={index}>#{hashtag.hashtagName}</Hashtag>
                                         ))}
                                     </HashtagWrapper>
@@ -166,7 +166,7 @@ const CommunityDetailPage = () => {
                                     isVisible={isReportModalVisible}
                                     onClose={hideReportModal}
                                     onReport={showReportNotice}
-                                    title={postId.title}
+                                    title={postDetail.title}
                                 />
                             </InteractionWrapper>
                         </TitleWrapper>
@@ -213,7 +213,7 @@ const CommunityDetailPage = () => {
                         <PostContentWrapper>
                             {/* 게시글 본문 */}
                             <PostContent>
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{postId.body}</ReactMarkdown>
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{postDetail.body}</ReactMarkdown>
                             </PostContent>
 
                             {/* 다음 게시물 div */}
@@ -225,7 +225,7 @@ const CommunityDetailPage = () => {
                             <StyledHr />
                             {/* 댓글 영역 */}
                             {/* <CommentContainer /> */}
-                            <StudyCommentContainer postId={postId2} type="community" />
+                            <StudyCommentContainer postId={postId} type="community" />
                         </PostContentWrapper>
                     </ContentWrapper>
                 </>

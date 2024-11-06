@@ -25,7 +25,8 @@ const BlogPreview = ({ key, postId, title, content, background, writer, ago, vie
             console.log(postDetail);
             navigate('/community/detail', {
                 state: {
-                    postId: postDetail,
+                    postDetail: postDetail,
+                    postId: postId,
                 },
             });
         } catch (error) {

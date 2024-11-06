@@ -16,7 +16,8 @@ const QuestionPreview = ({ key, postId, state, title, content, writer, ago, view
             console.log(postDetail);
             navigate('/community/detail', {
                 state: {
-                    postId: postDetail,
+                    postDetail: postDetail,
+                    postId: postId,
                 },
             });
         } catch (error) {
