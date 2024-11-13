@@ -36,7 +36,7 @@ const ItemList = ({ roomId }) => {
     }, [roomId, lastPostId, isLoading]);
 
     useEffect(() => {
-        loadPosts(); // Load posts on component mount
+        loadPosts();
     }, [loadPosts]);
 
     useEffect(() => {
@@ -54,8 +54,11 @@ const ItemList = ({ roomId }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [loadPosts, isLoading]);
 
+    // const handleItemClick = (id) => {
+    //     navigate(`/study/trouble/detail${id}`);
+    // };
     const handleItemClick = (id) => {
-        navigate(`/troubleshooting-detail/${id}`);
+        navigate(`/study/trouble/detail${id}`, { state: { postId: id } });
     };
 
     return (

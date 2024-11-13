@@ -12,37 +12,33 @@ export const registerTroubleShootingAPI = async (roomId, data) => {
 // 트러블 슈팅 게시글 무한 스크롤 방식으로 조회
 export const fetchTroubleShootingPosts = async (roomId, lastPostId = null, size = 10) => {
     try {
-        // Query parameters 설정
         const params = { size };
 
         if (lastPostId) {
             params.lastPostId = lastPostId;
         }
+        console.log(roomId);
+        console.log('Request params:', params);
 
-        // API 요청
-        const response = await api.get(`study-rooms/${roomId}/trouble`, {
-            params,
-        });
+        // 중복된 'api' 제거 및 roomId가 올바른지 확인
+        const response = await api.get(`/api/study-rooms/${roomId}/trouble/list`, { params });
 
-        // 응답 데이터 확인을 위해 콘솔 출력 추가
         console.log('API response data:', response.data);
 
-        // result가 존재하고 배열일 경우에만 반환
         const result = response.data.result;
         if (Array.isArray(result)) {
             return result;
         } else {
-            // result가 배열이 아니면 빈 배열 반환
             console.warn('Expected an array but got:', result);
             return [];
         }
     } catch (error) {
-        console.error('API 요청 중 오류 발생:', error.response ? error.response.data : error.message);
+        // console.error('API 요청 중 오류 발생:', error.response ? error.response.data : error.message);
         throw error;
     }
 };
 
-// Fetch a single troubleshooting post by its ID
+// ID로 트러블슈팅 게시글 가져오기
 export const fetchTroubleShootingPost = async (postId) => {
     try {
         const response = await api.get(`study-rooms/trouble/detail/${postId}`);

@@ -10,21 +10,21 @@ const StudyTroublePage = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
-    const roomId = location.state?.roomId || {}; // roomId가 올바르게 받아와졌는지 확인
+    const roomId = location.state?.roomId ?? null;
     console.log(roomId);
 
     const headerTitles = ['스터디 홈', '트러블 슈팅 게시판', '정보나눔 게시판', '채팅방'];
 
     const handleHeaderButtonClick = (index) => {
         if (index === 0) {
-            navigate('/studyroom', { state: { roomId: roomId } });
+            navigate('/study/room', { state: { roomId: roomId } });
         } else {
             setActiveButtonIndex(index);
         }
     };
 
     const handleCreatePost = () => {
-        navigate('/troubleshooting-register', { state: { roomId: roomId } });
+        navigate('/study/trouble/write', { state: { roomId: roomId } });
     };
 
     return (
@@ -46,7 +46,7 @@ const StudyTroublePage = () => {
                 </CategoryWrapper>
 
                 {/* ItemList 컴포넌트에 roomId를 전달합니다 */}
-                <ItemList roomId={roomId} />
+                <ItemList roomId={Number(roomId)} />
             </ContentWrapper>
         </>
     );
