@@ -21,7 +21,7 @@ import PageHeader from '../components/common/PageHeader';
 //   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 // };
 
-const StudyRoomPostPage = () => {
+const StudyRoomPost = () => {
     // 게시글 작성에서 정보 가져오기
     const location = useLocation();
     const { postData } = location.state || {};
@@ -208,7 +208,7 @@ const StudyRoomPostPage = () => {
     );
 };
 
-export default StudyRoomPostPage;
+export default StudyRoomPost;
 
 /* CSS */
 const HeaderWrapper = styled.div`

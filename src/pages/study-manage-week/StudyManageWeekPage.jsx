@@ -33,7 +33,24 @@ const StudyManageWeekPage = () => {
     const navigate = useNavigate();
     const { weeksData = [] } = useSelector((state) => state.studyWeek);
     const [selectedWeek, setSelectedWeek] = useState(0);
-    const roomId = location.state?.roomId || null;
+    // const roomId = location.state?.roomId || null;
+
+    const location = useLocation();
+    const roomId = location.state?.roomId;
+    const weekCount = location.state?.week;
+    console.log(roomId);
+
+    useEffect(() => {
+        console.log('Received roomId:', roomId);
+        console.log('Received week:', weekCount);
+    }, [roomId, weekCount]);
+
+    useEffect(() => {
+        if (weekCount && weekCount > 0) {
+            const initialWeeks = Array.from({ length: weekCount }, (_, index) => index);
+            setWeeks(initialWeeks);
+        }
+    }, [weekCount]);
 
     useEffect(() => {
         if (weeksData.length === 0) {

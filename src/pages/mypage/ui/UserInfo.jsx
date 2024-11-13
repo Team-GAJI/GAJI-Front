@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import BellIcon from '../../../assets/icons/common/bellIcon.svg?react';
+// import BellIcon from '../../../assets/icons/common/belllcon.svg?react';
 import SendIcon from '../../../assets/icons/mypage/sendicon.svg?react';
 import { Color } from '../../../components/container/Color';
 import { PuppleButton, PuppleButton2, PuppleButton3 } from '../../../components/button/Button';
@@ -59,7 +59,7 @@ const UserInfo = forwardRef(({ userInfo }, ref) => {
                 </NameEditButton>
                 <RowWrapper3>
                     <IconWithText
-                        icon={<BellIcon />}
+                        // icon={<BellIcon />}
                         text="마케팅 수신"
                         onClick={() => alert('마케팅 수신 설정이 변경되었습니다.')}
                     />

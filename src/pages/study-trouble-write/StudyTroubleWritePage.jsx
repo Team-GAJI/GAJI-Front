@@ -14,7 +14,8 @@ const StudyTroubleWritePage = () => {
     const [title, setTitle] = useState(''); // 게시글 제목을 위한 state
     const [content, setContent] = useState(''); // 게시글 내용을 위한 state
 
-    // let roomId = location.state?.roomId;
+    const roomId = location.state?.roomId;
+    console.log(roomId);
 
     // roomId가 유효하지 않은 경우 처리
     // if (typeof roomId !== 'string' && typeof roomId !== 'number') {
@@ -42,6 +43,9 @@ const StudyTroubleWritePage = () => {
     const handleNavigate = (index) => {
         if (index === 0) {
             navigate('/study/room');
+        }
+        if (index === 1) {
+            navigate('/study/trouble', { state: { roomId: roomId } });
         } else {
             setActiveButtonIndex(index);
         }

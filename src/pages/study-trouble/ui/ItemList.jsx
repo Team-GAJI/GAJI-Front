@@ -35,9 +35,9 @@ const ItemList = ({ roomId }) => {
         }
     }, [roomId, lastPostId, isLoading]);
 
-    useEffect(() => {
-        loadPosts();
-    }, [loadPosts]);
+    // useEffect(() => {
+    //     loadPosts();
+    // }, [loadPosts]);
 
     useEffect(() => {
         const handleScroll = () => {

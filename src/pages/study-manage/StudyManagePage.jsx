@@ -14,9 +14,9 @@ const StudyManagePage = () => {
 
     const location = useLocation();
     const roomId = location.state?.roomId || {};
-
+    const weekCount = location.state?.week || 0;
     //sidebar
-    const [weeks, setWeeks] = useState([...Array(9).keys()]);
+    const [weeks, setWeeks] = useState([...Array(weekCount).keys()]);
     const sidebarRef = useRef(null);
 
     const handleDelete = () => {
@@ -29,6 +29,7 @@ const StudyManagePage = () => {
     useEffect(
         () => {
             console.log(roomId);
+            console.log(weekCount);
             if (sidebarRef.current) {
                 sidebarRef.current.style.height = 'auto';
                 const newHeight = sidebarRef.current.scrollHeight;
@@ -47,7 +48,7 @@ const StudyManagePage = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
-        navigate('/study/manage-week', { state: { roomId: roomId } });
+        navigate('/study/manage-week', { state: { roomId: roomId, week: weekCount } });
     };
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
