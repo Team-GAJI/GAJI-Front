@@ -7,6 +7,7 @@ import UserProfileImg from '../../assets/images/community/userProfile.png';
 import ReportIcon from '../../assets/icons/troubleShooting/postReport.svg?react';
 import BookMarkIcon from '../../assets/icons/troubleShooting/postBookMark.svg?react';
 import LikeIcon from '../../assets/icons/troubleShooting/postLike.svg?react';
+import PageHeader from '../../components/common/PageHeader';
 
 import CommentContainer from '../study-trouble/ui/CommentContainer';
 import ReportModal from '../study-detail/ui/ReportModal';
@@ -31,7 +32,7 @@ const StudyTroubleDetailPage = () => {
     const navigate = useNavigate();
     const roomId = location.state?.roomId || {};
     const postId = location.state?.postId || {};
-
+    console.log(roomId, postId);
     const [postDetails, setPostDetails] = useState({
         title: '',
         content: '',
@@ -118,9 +119,32 @@ const StudyTroubleDetailPage = () => {
             console.error(`Error handling ${interactionType}:`, error);
         }
     };
-
+    console.log(postId); // 이 값을 StudyTroublePage에 넘김
+    // 임시 헤더입니다.
+    const headerTitles = ['스터디 홈', '트러블 슈팅 게시판', '정보나눔 게시판', '채팅방'];
+    const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+    const handleNavigate = (index) => {
+        if (index === 0) {
+            navigate('/study/room');
+        }
+        if (index === 1) {
+            navigate('/study/trouble', { state: { roomId: roomId, postId: postId } });
+        } else {
+            setActiveButtonIndex(index);
+        }
+    };
     return (
         <>
+            {/* 임시 헤더입니다. */}
+            <PageHeader
+                large="true" // large prop을 문자열로 변환하여 전달
+                pageTitle="트러블슈팅 게시판 글쓰기"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleNavigate}
+                changeColorOnClick={false}
+                changeColorOnHover={true}
+            />
             <HeaderWrapper>
                 <ReportNoticeWrapper isVisible={isReportNoticeVisible ? 1 : 0}>
                     <ReportNotice>

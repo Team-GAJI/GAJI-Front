@@ -1,16 +1,39 @@
 import { api } from '../../../app/api';
 
 // 스터디룸 트러블슈팅 게시글 등록
+// export const registerTroubleShootingAPI = async (roomId, data) => {
+//     try {
+//         const response = await api.post(`study-rooms/trouble/${roomId}`, data);
+//         console.log(response);
+//         return response.data;
+//     } catch {}
+// };
 export const registerTroubleShootingAPI = async (roomId, data) => {
     try {
         const response = await api.post(`study-rooms/trouble/${roomId}`, data);
-        console.log(response);
+
+        // 응답 전체 데이터 확인
+        console.log('Full Response:', response);
+
+        // 응답 데이터에서 result와 troublePostId 확인
+        if (!response.data || !response.data.result) {
+            console.error('Invalid response structure:', response.data);
+            throw new Error('Invalid API response structure');
+        }
+
+        if (response.data.result.troublePostId === 0 || response.data.result.troublePostId === null) {
+            console.warn('TroublePostId is invalid:', response.data.result.troublePostId);
+        }
+
         return response.data;
-    } catch {}
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
 };
 
 // 트러블 슈팅 게시글 무한 스크롤 방식으로 조회
-export const fetchTroubleShootingPosts = async (roomId, lastPostId = null, size = 10) => {
+export const fetchTroubleShootingPosts = async (roomId, lastPostId, size = 10) => {
     try {
         const params = { size };
 

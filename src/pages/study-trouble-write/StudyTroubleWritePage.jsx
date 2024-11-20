@@ -24,6 +24,7 @@ const StudyTroubleWritePage = () => {
     // }
 
     // console.log('roomId:', roomId);
+
     useEffect(() => {
         if (postId) {
             // fetchTroubleShootingPost API를 사용하여 게시글 데이터 가져오기
