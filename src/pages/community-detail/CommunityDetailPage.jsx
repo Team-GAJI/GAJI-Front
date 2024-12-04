@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ReportCheck from '../../assets/icons/studyDetail/reportCheck.svg?react';
 import PostWriterInfo from './ui/PostWriterInfo';
@@ -14,6 +14,13 @@ import remarkGfm from 'remark-gfm';
 import ReportModal from '../study-detail/ui/ReportModal';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
 import StudyCommentContainer from '../study-detail/ui/StudyCommentContainer';
+import {
+    CommunityAddLike,
+    CommunityRemoveLike,
+    CommunityAddBookmark,
+    CommunityRemoveBookmark,
+} from './api/communityInteractionAPI';
+import { communityPostAPI } from './api/communityPostAPI';
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -29,38 +36,103 @@ const CommunityDetailPage = () => {
     const { postId } = location.state;
 
     // state 관리
-    const [bookMarkState, setBookMarkState] = useState(false);
-    const [likeState, setLikeState] = useState(false);
-    const [bookMarkCount, setBookMarkCount] = useState(postDetail.bookmarkCnt || 0);
-    const [likeCount, setLikeCount] = useState(postDetail.likeCnt || 0);
+    const [bookMarkState, setBookMarkState] = useState(postDetail.bookmarkStatus);
+    const [likeState, setLikeState] = useState(postDetail.likeStatus);
+    const [bookMarkCount, setBookMarkCount] = useState(postDetail.bookmarkCnt);
+    const [likeCount, setLikeCount] = useState(postDetail.likeCnt);
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
     const [isOptionVisible, setIsOptionVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('모집 중');
+    const [selectedOption, setSelectedOption] = useState(postDetail.status);
     const [isReportModalVisible, setIsReportModalVisible] = useState(false);
     const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
     // 댓글 개수
     const [commentCount, setCommentCount] = useState(0);
 
+    // 새로고침 시 게시물 정보 다시 가져오기
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            try {
+                const postDetail = await communityPostAPI(postId);
+
+                setLikeState(postDetail.likeStatus); // 서버로부터 좋아요 상태를 가져와 설정
+                setLikeCount(postDetail.likeCnt); // 좋아요 개수 설정
+                setLikeState(postDetail.bookmarkStatus); // 서버로부터 북마크 상태를 가져와 설정
+                setLikeCount(postDetail.bookmarkCnt); // 북마크 개수 설정
+            } catch (error) {
+                console.error('게시물 정보를 불러오는 중 오류 발생:', error);
+            }
+        };
+
+        // fetchPostDetail을 호출하여 데이터를 가져옵니다.
+        fetchPostDetail();
+    }, [postId]);
+
     // 북마크, 좋아요 기능
-    const handleBookMark = () => {
-        if (bookMarkState) {
-            setBookMarkState(false);
-            setBookMarkCount((prevCount) => prevCount - 1);
-        } else {
-            setBookMarkState(true);
-            setBookMarkCount((prevCount) => prevCount + 1);
+    const handleBookMark = async () => {
+        console.log(postId);
+        try {
+            if (bookMarkState) {
+                await CommunityRemoveBookmark(postId); // 좋아요 취소 api
+                setBookMarkState(false);
+                setBookMarkCount((prevCount) => prevCount - 1);
+            } else {
+                await CommunityAddBookmark(postId); // 좋아요 api
+                setBookMarkState(true);
+                setBookMarkCount((prevCount) => prevCount + 1);
+            }
+        } catch (error) {
+            console.error('게시글 북마크 기능 중 오류 발생:', error.response ? error.response.data : error.message);
+            // 오류가 발생 시 원상태로 복구
+            setBookMarkState((prev) => !prev);
+            setBookMarkCount((prevCount) => (bookMarkState ? prevCount + 1 : prevCount - 1));
         }
     };
-    const handleLike = () => {
-        if (likeState) {
-            setLikeState(false);
-            setLikeCount((prevCount) => prevCount - 1);
-        } else {
-            setLikeState(true);
-            setLikeCount((prevCount) => prevCount + 1);
+    // const handleBookMark = () => {
+    //     if (bookMarkState) {
+    //         setBookMarkState(false);
+    //         setBookMarkCount((prevCount) => prevCount - 1);
+    //     } else {
+    //         setBookMarkState(true);
+    //         setBookMarkCount((prevCount) => prevCount + 1);
+    //     }
+    // };
+
+    const handleLike = async () => {
+        console.log(postId);
+        console.log('초기 좋아요 상태: ', postDetail.likeStatus);
+        console.log('초기 좋아요 개수: ', postDetail.likeCnt);
+        try {
+            if (likeState) {
+                await CommunityRemoveLike(postId); // 좋아요 취소 api
+                setLikeState(false);
+                setLikeCount((prevCount) => prevCount - 1);
+                console.log('좋아요 취소 후 상태: ', postDetail.likeStatus);
+                console.log('좋아요 취소 후 개수: ', postDetail.likeCnt);
+            } else {
+                await CommunityAddLike(postId); // 좋아요 api
+                setLikeState(true);
+                setLikeCount((prevCount) => prevCount + 1);
+                console.log('좋아요 후 상태: ', postDetail.likeStatus);
+                console.log('좋아요 후 개수: ', postDetail.likeCnt);
+            }
+        } catch (error) {
+            console.error('게시글 좋아요 기능 중 오류 발생:', error.response ? error.response.data : error.message);
+            // 오류가 발생 시 원상태로 복구
+            setLikeState((prev) => !prev);
+            setLikeCount((prevCount) => (likeState ? prevCount + 1 : prevCount - 1));
         }
     };
+
+    // const handleLike = () => {
+    //     if (likeState) {
+    //         setLikeState(false);
+    //         setLikeCount((prevCount) => prevCount - 1);
+    //     } else {
+    //         setLikeState(true);
+    //         setLikeCount((prevCount) => prevCount + 1);
+    //     }
+    // };
 
     // 게시글 상태 버튼 텍스트
     const toggleOptionVisibility = () => {
@@ -176,38 +248,45 @@ const CommunityDetailPage = () => {
 
                         {/* 게시글 상태 div */}
                         <PostStateWrapper>
-                            {/* 상태 버튼 */}
-                            <PostStateButton onClick={toggleOptionVisibility}>
-                                {selectedOption}
-                                <StyledDownArrowIcon isVisible={isOptionVisible} />
-                            </PostStateButton>
-                            {/* 상태 옵션 */}
-                            <PostStateOptionWrapper isVisible={isOptionVisible}>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('모집 중')}
-                                    isSelected={selectedOption === '모집 중'}
-                                >
-                                    모집 중
-                                </PostStateOption>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('모집 완료')}
-                                    isSelected={selectedOption === '모집 완료'}
-                                >
-                                    모집 완료
-                                </PostStateOption>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('미완료 질문')}
-                                    isSelected={selectedOption === '미완료 질문'}
-                                >
-                                    미완료 질문
-                                </PostStateOption>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('완료 질문')}
-                                    isSelected={selectedOption === '완료 질문'}
-                                >
-                                    완료 질문
-                                </PostStateOption>
-                            </PostStateOptionWrapper>
+                            {/* 작성자일 경우 상태버튼 */}
+                            {postDetail.writer ? (
+                                <>
+                                    <PostStateButton onClick={toggleOptionVisibility} writerTrue={postDetail.writer}>
+                                        {selectedOption}
+                                        <StyledDownArrowIcon isVisible={isOptionVisible} />
+                                    </PostStateButton>
+                                    {/* 상태 옵션 */}
+                                    <PostStateOptionWrapper isVisible={isOptionVisible}>
+                                        <PostStateOption
+                                            onClick={() => handleOptionSelect('모집 중')}
+                                            isSelected={selectedOption === '모집 중'}
+                                        >
+                                            모집 중
+                                        </PostStateOption>
+                                        <PostStateOption
+                                            onClick={() => handleOptionSelect('모집 완료')}
+                                            isSelected={selectedOption === '모집 완료'}
+                                        >
+                                            모집 완료
+                                        </PostStateOption>
+                                        <PostStateOption
+                                            onClick={() => handleOptionSelect('미완료 질문')}
+                                            isSelected={selectedOption === '미완료 질문'}
+                                        >
+                                            미완료 질문
+                                        </PostStateOption>
+                                        <PostStateOption
+                                            onClick={() => handleOptionSelect('완료 질문')}
+                                            isSelected={selectedOption === '완료 질문'}
+                                        >
+                                            완료 질문
+                                        </PostStateOption>
+                                    </PostStateOptionWrapper>
+                                </>
+                            ) : (
+                                // 작성자 아닐 경우 상태버튼
+                                <PostStateButton writerTrue={postDetail.writer}>{selectedOption}</PostStateButton>
+                            )}
                         </PostStateWrapper>
                     </HeaderWrapper>
 
@@ -419,7 +498,7 @@ const PostStateButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: ${(props) => (props.writerTrue ? 'pointer' : 'default')};
 `;
 
 const StyledDownArrowIcon = styled(DownArrowIcon)`
