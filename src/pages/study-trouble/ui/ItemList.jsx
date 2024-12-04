@@ -8,120 +8,118 @@ import { fetchTroubleShootingPosts } from '../api/troubleShootingInfoAPI';
 import { fetchTroubleShootingPost } from '../api/troubleShootingInfoAPI';
 
 const ItemList = ({ roomId, postId }) => {
-    const [items, setItems] = useState([]);
-    const [lastPostId, setLastPostId] = useState(null);
+    const [items, setItems] = useState([]); // 게시글 목록
+    const [lastPostId, setLastPostId] = useState(null); // 최대 postId
+
+    const [postData, setPostData] = useState(null);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
     const navigate = useNavigate();
-    console.log(roomId);
-    console.log(postId);
+    useEffect(() => {
+        const savedItems = JSON.parse(localStorage.getItem('items'));
+        if (savedItems) {
+            setItems(savedItems);
+        }
+    }, []);
 
-    const [postData, setPostData] = useState(null); // State to store fetched post data
-    const [error, setError] = useState(null); // 에러 상태를 추적할 상태
-    const [loading, setLoading] = useState(true); // 로딩 상태를 추적할 상태
+    useEffect(() => {
+        localStorage.setItem('items', JSON.stringify(items));
+    }, [items]);
+
     useEffect(() => {
         if (postId) {
             const fetchPost = async () => {
                 try {
+                    setIsLoading(true);
                     const data = await fetchTroubleShootingPost(postId);
-                    console.log(data);
-                    setPostData(data); // Set the fetched post data in state
-                    setLoading(false); // Set loading to false after data is fetched
-                } catch (error) {
-                    setError('Failed to fetch post data'); // Set error state in case of an error
-                    setLoading(false); // Set loading to false even if there's an error
+
+                    console.log('Fetched post data:', data);
+                    setItems((prevItems) => {
+                        const isDuplicate = prevItems.some((item) => item.id === data.result.id);
+                        if (!isDuplicate) {
+                            return [...prevItems, data.result];
+                        }
+                        return prevItems;
+                    });
+
+                    setPostData(data.result);
+                } catch (err) {
+                    console.error('Error fetching post:', err);
+                    setError('Failed to fetch post data');
+                } finally {
+                    setIsLoading(false);
                 }
             };
             fetchPost();
         }
     }, [postId]);
 
-    // const loadPosts = useCallback(async () => {
-    //     if (isLoading) return;
-    //     setIsLoading(true);
+    useEffect(() => {
+        if (roomId) {
+            const fetchPosts = async () => {
+                try {
+                    setIsLoading(true);
+                    const data = await fetchTroubleShootingPosts(roomId, lastPostId);
+                    console.log('Fetched items:', data);
 
-    //     try {
-    //         const newItems = await fetchTroubleShootingPosts(roomId, lastPostId);
-    //         console.log('Fetched items:', newItems); // 빈 배열값으로 나옴
-    //         if (!Array.isArray(newItems)) {
-    //             throw new Error('Fetched items are not an array');
-    //         }
+                    if (data.length > 0) {
+                        // 새로운 게시글 추가 후, lastPostId를 업데이트
+                        const newLastPostId = Math.max(...data.map((item) => item.id), lastPostId);
+                        const data = await fetchTroubleShootingPosts(roomId, lastPostId);
+                        // setItems((prevItems) => {
+                        //     return [...prevItems, ...data.filter((item) => !prevItems.some((existing) => existing.id === item.id))];
+                        // });
 
-    //         setItems((prevItems) => [...prevItems, ...newItems]);
+                        setLastPostId(newLastPostId);
 
-    //         if (newItems.length > 0) {
-    //             setLastPostId(newItems[newItems.length - 1].id);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching posts:', error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }, [roomId, lastPostId, isLoading]);
+                        // setItems((prevItems) => {
+                        //     // 기존 아이템들 중 이미 존재하는 아이템은 제외하고, 새로운 아이템만 추가
+                        //     const newItems = data.filter(
+                        //         (item) => !prevItems.some((existingItem) => existingItem.id === item.id),
+                        //     );
+                        //     // 새로 추가된 아이템들을 prevItems 뒤에 붙여서 반환
+                        //     return [...prevItems, ...newItems];
+                        // });
+                    }
+                } catch (err) {
+                    console.error('Error fetching posts:', err);
+                    setError('Failed to fetch posts');
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            fetchPosts();
+        }
+    }, [roomId, lastPostId]);
 
-    // useEffect(() => {
-    //     loadPosts();
-    // }, [loadPosts]);
-
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (
-    //             window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight ||
-    //             isLoading
-    //         )
-    //             return;
-
-    //         loadPosts();
-    //     };
-
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    // }, [loadPosts, isLoading]);
-
-    // const handleItemClick = (id) => {
-    //     navigate(`/study/trouble/detail${id}`);
-    // };
     const handleItemClick = (id) => {
-        navigate(`/study/trouble/detail${id}`, { state: { postId: id } });
+        navigate(`/study/trouble/detail`, { state: { postId: id, roomId } });
+
+        // navigate(`/study/trouble/detail`, { state: { postId: id } });
     };
 
-    console.log(items);
-    console.log(roomId);
     return (
         <>
-            <p>dddd</p>
-            {postData && (
-                <div>
-                    <h2>{postData.result.title}</h2> {/* 게시글 제목 출력 */}
-                    <p>{postData.result.body}</p> {/* 게시글 내용은 body에서 가져오기 */}
-                    <p>작성자: {postData.result.authorName}</p> {/* 작성자 정보 */}
-                    <p>작성일: {new Date(postData.result.createdAt).toLocaleString()}</p>{' '}
-                    {/* 작성일을 읽기 좋은 형식으로 표시 */}
-                    <p>조회수: {postData.result.viewCount}</p> {/* 조회수 */}
-                    <p>좋아요: {postData.result.likeCount}</p> {/* 좋아요 수 */}
-                    <p>북마크: {postData.result.bookmarkCount}</p> {/* 북마크 수 */}
-                </div>
-            )}
+            {/* 게시글 목록 표시 */}
             <ItemGrid>
-                {items.map((postData) => (
-                    <Item key={postData.id} onClick={() => handleItemClick(item.id)}>
+                {items.map((item) => (
+                    <Item key={item.id} onClick={() => handleItemClick(item.id)}>
                         <ItemImageWrapper>
-                            <ItemImage src={ItemImageSrc} alt={item.title} />
+                            <ItemImage src={item.imageSrc || ItemImageSrc} alt={item.title} />
                             <CommentInfo>
                                 <CommentIcon src={CommentIconSrc} alt="comment icon" />
                                 <CommentCount>{item.commentCount}</CommentCount>
                             </CommentInfo>
                         </ItemImageWrapper>
-
                         <ItemContent>
-                            <ItemTitle>{postData.result.title}</ItemTitle>
+                            <ItemTitle>{item.title}</ItemTitle>
                             <ItemDetails>
                                 <ItemUser>
                                     <UserIconImg src={UserIcon} alt="user icon" />
                                     {item.nickname}
                                 </ItemUser>
                                 <ItemTime>{new Date(item.createdAt).toLocaleDateString()}</ItemTime>
-                                <ItemViews>조회 {postData.result.viewCount}</ItemViews>
+                                <ItemViews>조회 {item.viewCount}</ItemViews>
                             </ItemDetails>
                         </ItemContent>
                     </Item>

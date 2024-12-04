@@ -37,6 +37,10 @@ const TroubleshootingWritePost = () => {
     }, [roomId]);
 
     useEffect(() => {
+        dispatch(setTitle('')); // 제목을 빈 문자열로 초기화
+    }, [roomId, dispatch]);
+
+    useEffect(() => {
         dispatch(setBody(markdown));
     }, [markdown, dispatch]);
 

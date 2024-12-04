@@ -13,8 +13,7 @@ const StudyTroublePage = () => {
     const roomId = location.state?.roomId ?? null;
     const postId = location.state?.postId || null;
 
-    console.log(roomId);
-    console.log(postId);
+    console.log(roomId, postId);
 
     const headerTitles = ['스터디 홈', '트러블 슈팅 게시판', '정보나눔 게시판', '채팅방'];
 
@@ -47,8 +46,6 @@ const StudyTroublePage = () => {
                         <CreatePostButton onClick={handleCreatePost}>+ 트러블 슈팅 등록</CreatePostButton>
                     </CategoryContainer>
                 </CategoryWrapper>
-
-                {/* ItemList 컴포넌트에 roomId를 전달합니다 */}
                 <ItemList roomId={Number(roomId)} postId={postId} />
             </ContentWrapper>
         </>

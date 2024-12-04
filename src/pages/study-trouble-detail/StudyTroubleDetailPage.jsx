@@ -32,7 +32,8 @@ const StudyTroubleDetailPage = () => {
     const navigate = useNavigate();
     const roomId = location.state?.roomId || {};
     const postId = location.state?.postId || {};
-    console.log(roomId, postId);
+    console.log(roomId, postId); // roomId가 안 나온다
+
     const [postDetails, setPostDetails] = useState({
         title: '',
         content: '',
@@ -120,6 +121,7 @@ const StudyTroubleDetailPage = () => {
         }
     };
     console.log(postId); // 이 값을 StudyTroublePage에 넘김
+
     // 임시 헤더입니다.
     const headerTitles = ['스터디 홈', '트러블 슈팅 게시판', '정보나눔 게시판', '채팅방'];
     const [activeButtonIndex, setActiveButtonIndex] = useState(1);

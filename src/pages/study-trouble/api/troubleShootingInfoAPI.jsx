@@ -43,12 +43,11 @@ export const fetchTroubleShootingPosts = async (roomId, lastPostId, size = 10) =
         console.log(roomId);
         console.log('Request params:', params);
 
-        // 중복된 'api' 제거 및 roomId가 올바른지 확인
         const response = await api.get(`/api/study-rooms/${roomId}/trouble/list`, { params });
 
-        console.log('API response data:', response.data);
-
-        const result = response.data.result;
+        // 응답에서 result 배열을 안전하게 추출
+        const result = response.data?.result || [];
+        console.log('API response data:', result);
         if (Array.isArray(result)) {
             return result;
         } else {
@@ -56,7 +55,7 @@ export const fetchTroubleShootingPosts = async (roomId, lastPostId, size = 10) =
             return [];
         }
     } catch (error) {
-        // console.error('API 요청 중 오류 발생:', error.response ? error.response.data : error.message);
+        console.error('API 요청 중 오류 발생:', error.response ? error.response.data : error.message);
         throw error;
     }
 };
