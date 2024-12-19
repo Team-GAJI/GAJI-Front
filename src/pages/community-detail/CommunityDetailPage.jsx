@@ -36,7 +36,7 @@ const CommunityDetailPage = () => {
     const { postId } = location.state;
 
     // state 관리
-    const [bookMarkState, setBookMarkState] = useState(postDetail.bookmarkStatus);
+    const [bookMarkState, setBookMarkState] = useState(postDetail.bookMarkStatus);
     const [likeState, setLikeState] = useState(postDetail.likeStatus);
     const [bookMarkCount, setBookMarkCount] = useState(postDetail.bookmarkCnt);
     const [likeCount, setLikeCount] = useState(postDetail.likeCnt);
@@ -57,82 +57,53 @@ const CommunityDetailPage = () => {
 
                 setLikeState(postDetail.likeStatus); // 서버로부터 좋아요 상태를 가져와 설정
                 setLikeCount(postDetail.likeCnt); // 좋아요 개수 설정
-                setLikeState(postDetail.bookmarkStatus); // 서버로부터 북마크 상태를 가져와 설정
-                setLikeCount(postDetail.bookmarkCnt); // 북마크 개수 설정
+                setBookMarkState(postDetail.bookMarkStatus); // 서버로부터 북마크 상태를 가져와 설정
+                setBookMarkCount(postDetail.bookmarkCnt); // 북마크 개수 설정
             } catch (error) {
                 console.error('게시물 정보를 불러오는 중 오류 발생:', error);
             }
         };
 
-        // fetchPostDetail을 호출하여 데이터를 가져옵니다.
-        fetchPostDetail();
+        fetchPostDetail(); // fetchPostDetail 호출하여 데이터 가져오기
     }, [postId]);
 
     // 북마크, 좋아요 기능
-    const handleBookMark = async () => {
-        console.log(postId);
+    const handleInteraction = async (type) => {
         try {
-            if (bookMarkState) {
-                await CommunityRemoveBookmark(postId); // 좋아요 취소 api
-                setBookMarkState(false);
-                setBookMarkCount((prevCount) => prevCount - 1);
-            } else {
-                await CommunityAddBookmark(postId); // 좋아요 api
-                setBookMarkState(true);
-                setBookMarkCount((prevCount) => prevCount + 1);
+            if (type === 'bookmark') {
+                if (bookMarkState) {
+                    await CommunityRemoveBookmark(postId); // 북마크 취소
+                    setBookMarkState(false);
+                    setBookMarkCount((prevCount) => prevCount - 1);
+                } else {
+                    await CommunityAddBookmark(postId); // 북마크 추가
+                    setBookMarkState(true);
+                    setBookMarkCount((prevCount) => prevCount + 1);
+                }
+            } else if (type === 'like') {
+                if (likeState) {
+                    await CommunityRemoveLike(postId); // 좋아요 취소
+                    setLikeState(false);
+                    setLikeCount((prevCount) => prevCount - 1);
+                } else {
+                    await CommunityAddLike(postId); // 좋아요 추가
+                    setLikeState(true);
+                    setLikeCount((prevCount) => prevCount + 1);
+                }
             }
         } catch (error) {
-            console.error('게시글 북마크 기능 중 오류 발생:', error.response ? error.response.data : error.message);
-            // 오류가 발생 시 원상태로 복구
-            setBookMarkState((prev) => !prev);
-            setBookMarkCount((prevCount) => (bookMarkState ? prevCount + 1 : prevCount - 1));
-        }
-    };
-    // const handleBookMark = () => {
-    //     if (bookMarkState) {
-    //         setBookMarkState(false);
-    //         setBookMarkCount((prevCount) => prevCount - 1);
-    //     } else {
-    //         setBookMarkState(true);
-    //         setBookMarkCount((prevCount) => prevCount + 1);
-    //     }
-    // };
+            console.error(`${type} 처리 중 오류 발생:`, error.response ? error.response.data : error.message);
 
-    const handleLike = async () => {
-        console.log(postId);
-        console.log('초기 좋아요 상태: ', postDetail.likeStatus);
-        console.log('초기 좋아요 개수: ', postDetail.likeCnt);
-        try {
-            if (likeState) {
-                await CommunityRemoveLike(postId); // 좋아요 취소 api
-                setLikeState(false);
-                setLikeCount((prevCount) => prevCount - 1);
-                console.log('좋아요 취소 후 상태: ', postDetail.likeStatus);
-                console.log('좋아요 취소 후 개수: ', postDetail.likeCnt);
-            } else {
-                await CommunityAddLike(postId); // 좋아요 api
-                setLikeState(true);
-                setLikeCount((prevCount) => prevCount + 1);
-                console.log('좋아요 후 상태: ', postDetail.likeStatus);
-                console.log('좋아요 후 개수: ', postDetail.likeCnt);
+            // 오류 발생 시 상태 복구
+            if (type === 'bookmark') {
+                setBookMarkState((prev) => !prev);
+                setBookMarkCount((prevCount) => (bookMarkState ? prevCount + 1 : prevCount - 1));
+            } else if (type === 'like') {
+                setLikeState((prev) => !prev);
+                setLikeCount((prevCount) => (likeState ? prevCount + 1 : prevCount - 1));
             }
-        } catch (error) {
-            console.error('게시글 좋아요 기능 중 오류 발생:', error.response ? error.response.data : error.message);
-            // 오류가 발생 시 원상태로 복구
-            setLikeState((prev) => !prev);
-            setLikeCount((prevCount) => (likeState ? prevCount + 1 : prevCount - 1));
         }
     };
-
-    // const handleLike = () => {
-    //     if (likeState) {
-    //         setLikeState(false);
-    //         setLikeCount((prevCount) => prevCount - 1);
-    //     } else {
-    //         setLikeState(true);
-    //         setLikeCount((prevCount) => prevCount + 1);
-    //     }
-    // };
 
     // 게시글 상태 버튼 텍스트
     const toggleOptionVisibility = () => {
@@ -224,11 +195,14 @@ const CommunityDetailPage = () => {
                             {/* 게시글 상호작용 */}
                             <InteractionWrapper>
                                 <BookMarkWrapper>
-                                    <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState} />
+                                    <StyledBookMarkIcon
+                                        onClick={() => handleInteraction('bookmark')}
+                                        isActive={bookMarkState}
+                                    />
                                     <InteractionText>{bookMarkCount}</InteractionText>
                                 </BookMarkWrapper>
                                 <BookMarkWrapper>
-                                    <StyledLikeIcon onClick={handleLike} likeState={likeState} />
+                                    <StyledLikeIcon onClick={() => handleInteraction('like')} isActive={likeState} />
                                     <InteractionText>{likeCount}</InteractionText>
                                 </BookMarkWrapper>
                                 <BookMarkWrapper>
@@ -454,14 +428,14 @@ const StyledBookMarkIcon = styled(BookMarkIcon)`
     width: 1em;
     height: 1.3125em;
     cursor: pointer;
-    fill: ${(props) => (props.bookMarkState ? '#8E59FF' : 'none')};
+    fill: ${(props) => (props.isActive ? '#8E59FF' : 'none')};
 `;
 const StyledLikeIcon = styled(LikeIcon)`
     margin-bottom: 0.1em;
     width: 1.375em;
     height: 1.25em;
     cursor: pointer;
-    fill: ${(props) => (props.likeState ? '#8E59FF' : 'none')};
+    fill: ${(props) => (props.isActive ? '#8E59FF' : 'none')};
 `;
 const StyledReportIcon = styled(ReportIcon)`
     margin-bottom: 0.1em;
