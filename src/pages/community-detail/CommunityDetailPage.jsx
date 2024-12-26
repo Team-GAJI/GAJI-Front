@@ -15,10 +15,10 @@ import ReportModal from '../study-detail/ui/ReportModal';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
 import StudyCommentContainer from '../study-detail/ui/StudyCommentContainer';
 import {
-    CommunityAddLike,
-    CommunityRemoveLike,
-    CommunityAddBookmark,
-    CommunityRemoveBookmark,
+    communityAddLike,
+    communityRemoveLike,
+    communityAddBookmark,
+    communityRemoveBookmark,
 } from './api/communityInteractionAPI';
 import { communityPostAPI } from './api/communityPostAPI';
 
@@ -72,21 +72,21 @@ const CommunityDetailPage = () => {
         try {
             if (type === 'bookmark') {
                 if (bookMarkState) {
-                    await CommunityRemoveBookmark(postId); // 북마크 취소
+                    await communityRemoveBookmark(postId); // 북마크 취소
                     setBookMarkState(false);
                     setBookMarkCount((prevCount) => prevCount - 1);
                 } else {
-                    await CommunityAddBookmark(postId); // 북마크 추가
+                    await communityAddBookmark(postId); // 북마크 추가
                     setBookMarkState(true);
                     setBookMarkCount((prevCount) => prevCount + 1);
                 }
             } else if (type === 'like') {
                 if (likeState) {
-                    await CommunityRemoveLike(postId); // 좋아요 취소
+                    await communityRemoveLike(postId); // 좋아요 취소
                     setLikeState(false);
                     setLikeCount((prevCount) => prevCount - 1);
                 } else {
-                    await CommunityAddLike(postId); // 좋아요 추가
+                    await communityAddLike(postId); // 좋아요 추가
                     setLikeState(true);
                     setLikeCount((prevCount) => prevCount + 1);
                 }

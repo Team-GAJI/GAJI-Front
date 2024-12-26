@@ -1,7 +1,7 @@
 import { api } from '../../../app/api';
 
 // 북마크 추가
-export const addBookmark = async (roomId) => {
+export const studyAddBookmark = async (roomId) => {
     try {
         const response = await api.post(`study-recruit-posts/${roomId}/bookmarks`);
         return response.data;
@@ -10,8 +10,9 @@ export const addBookmark = async (roomId) => {
         throw error;
     }
 };
+
 // 북마크 제거
-export const removeBookmark = async (roomId) => {
+export const studyRemoveBookmark = async (roomId) => {
     try {
         const response = await api.delete(`study-recruit-posts/${roomId}/bookmarks`);
         return response.data;
@@ -22,7 +23,7 @@ export const removeBookmark = async (roomId) => {
 };
 
 // 좋아요 추가
-export const addLike = async (roomId) => {
+export const studyAddLike = async (roomId) => {
     try {
         const response = await api.post(`study-recruit-posts/${roomId}/likes`);
         return response.data;
@@ -33,7 +34,7 @@ export const addLike = async (roomId) => {
 };
 
 // 좋아요 취소
-export const removeLike = async (roomId) => {
+export const studyRemoveLike = async (roomId) => {
     try {
         const response = await api.delete(`study-recruit-posts/${roomId}/likes`);
         return response.data;

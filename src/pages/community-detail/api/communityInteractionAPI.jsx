@@ -1,7 +1,7 @@
 import { api } from '../../../app/api';
 
 // 좋아요 추가
-export const CommunityAddLike = async (postId) => {
+export const communityAddLike = async (postId) => {
     try {
         const response = await api.post(`community-posts/${postId}/likes`);
         return response.data;
@@ -12,7 +12,7 @@ export const CommunityAddLike = async (postId) => {
 };
 
 // 좋아요 취소
-export const CommunityRemoveLike = async (postId) => {
+export const communityRemoveLike = async (postId) => {
     try {
         const response = await api.delete(`community-posts/${postId}/likes`);
         return response.data;
@@ -23,7 +23,7 @@ export const CommunityRemoveLike = async (postId) => {
 };
 
 // 북마크 추가
-export const CommunityAddBookmark = async (postId) => {
+export const communityAddBookmark = async (postId) => {
     try {
         const response = await api.post(`community-posts/${postId}/bookmarks`);
         return response.data;
@@ -34,7 +34,7 @@ export const CommunityAddBookmark = async (postId) => {
 };
 
 // 북마크 제거
-export const CommunityRemoveBookmark = async (postId) => {
+export const communityRemoveBookmark = async (postId) => {
     try {
         const response = await api.delete(`community-posts/${postId}/bookmarks`);
         return response.data;

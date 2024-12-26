@@ -21,46 +21,23 @@ import { useNavigate } from 'react-router-dom';
 const StudyDetailHeader = ({
     roomId,
     title,
-    bookmarks,
+    bookmarkCnt,
+    bookmarkStatus,
     views,
     nickName,
     category,
     imageUrl,
-    likes,
+    likeCnt,
+    likeStatus,
     recruitPostTypeEnum,
     userActive,
     userActiveColor,
     commentCount,
+    onInteraction,
 }) => {
-    const [bookMarkState, setBookMarkState] = useState(false);
-    const [likeState, setLikeState] = useState(false);
-    const [bookMarkCount, setBookMarkCount] = useState(bookmarks);
-    const [likeCount, setLikeCount] = useState(likes);
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
     const [isReportModalVisible, setIsReportModalVisible] = useState(false);
     const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
-
-    // 북마크 기능
-    const handleBookMark = () => {
-        if (bookMarkState) {
-            setBookMarkState(false);
-            setBookMarkCount((prevCount) => prevCount - 1);
-        } else {
-            setBookMarkState(true);
-            setBookMarkCount((prevCount) => prevCount + 1);
-        }
-    };
-
-    // 좋아요 기능
-    const handleLike = () => {
-        if (likeState) {
-            setLikeState(false);
-            setLikeCount((prevCount) => prevCount - 1);
-        } else {
-            setLikeState(true);
-            setLikeCount((prevCount) => prevCount + 1);
-        }
-    };
 
     const showWriterInfo = () => setIsWriterInfoVisible(true);
     const hideWriterInfo = () => setIsWriterInfoVisible(false);
@@ -140,12 +117,15 @@ const StudyDetailHeader = ({
                         <InteractionWrapper>
                             <JoinButton onClick={() => handleRecruit()}>스터디 가지기</JoinButton>
                             <BookMarkWrapper>
-                                <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState} />
-                                <InteractionText>{bookMarkCount}</InteractionText>
+                                <StyledBookMarkIcon
+                                    onClick={() => onInteraction('bookmark')}
+                                    isActive={bookmarkStatus}
+                                />
+                                <InteractionText>{bookmarkCnt}</InteractionText>
                             </BookMarkWrapper>
                             <BookMarkWrapper>
-                                <StyledLikeIcon onClick={handleLike} likeState={likeState} />
-                                <InteractionText>{likeCount}</InteractionText>
+                                <StyledLikeIcon onClick={() => onInteraction('like')} isActive={likeStatus} />
+                                <InteractionText>{likeCnt}</InteractionText>
                             </BookMarkWrapper>
                             <BookMarkWrapper>
                                 <StyledReportIcon onClick={showReportModal} />
@@ -338,14 +318,14 @@ const StyledBookMarkIcon = styled(BookMarkIcon)`
     width: 1em;
     height: 1.3125em;
     cursor: pointer;
-    fill: ${(props) => (props.bookMarkState ? '#8E59FF' : 'none')};
+    fill: ${(props) => (props.isActive ? '#8E59FF' : 'none')};
 `;
 const StyledLikeIcon = styled(LikeIcon)`
     margin-bottom: 0.1em;
     width: 1.375em;
     height: 1.25em;
     cursor: pointer;
-    fill: ${(props) => (props.likeState ? '#8E59FF' : 'none')};
+    fill: ${(props) => (props.isActive ? '#8E59FF' : 'none')};
 `;
 const StyledReportIcon = styled(ReportIcon)`
     margin-bottom: 0.1em;
