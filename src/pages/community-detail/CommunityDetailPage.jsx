@@ -223,43 +223,63 @@ const CommunityDetailPage = () => {
                         {/* 게시글 상태 div */}
                         <PostStateWrapper>
                             {/* 작성자일 경우 상태버튼 */}
-                            {postDetail.writer ? (
+                            {postDetail.writer && selectedOption !== '블로그' ? (
                                 <>
-                                    <PostStateButton onClick={toggleOptionVisibility} writerTrue={postDetail.writer}>
+                                    <PostStateButton
+                                        onClick={toggleOptionVisibility}
+                                        writerTrue={postDetail.writer}
+                                        selectedOption={selectedOption}
+                                    >
                                         {selectedOption}
                                         <StyledDownArrowIcon isVisible={isOptionVisible} />
                                     </PostStateButton>
                                     {/* 상태 옵션 */}
                                     <PostStateOptionWrapper isVisible={isOptionVisible}>
-                                        <PostStateOption
-                                            onClick={() => handleOptionSelect('모집 중')}
-                                            isSelected={selectedOption === '모집 중'}
-                                        >
-                                            모집 중
-                                        </PostStateOption>
-                                        <PostStateOption
-                                            onClick={() => handleOptionSelect('모집 완료')}
-                                            isSelected={selectedOption === '모집 완료'}
-                                        >
-                                            모집 완료
-                                        </PostStateOption>
-                                        <PostStateOption
-                                            onClick={() => handleOptionSelect('미완료 질문')}
-                                            isSelected={selectedOption === '미완료 질문'}
-                                        >
-                                            미완료 질문
-                                        </PostStateOption>
-                                        <PostStateOption
-                                            onClick={() => handleOptionSelect('완료 질문')}
-                                            isSelected={selectedOption === '완료 질문'}
-                                        >
-                                            완료 질문
-                                        </PostStateOption>
+                                        {/* 모집중 / 모집완료일 경우 */}
+                                        {['모집중', '모집완료'].includes(selectedOption) && (
+                                            <>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('모집중')}
+                                                    isSelected={selectedOption === '모집중'}
+                                                >
+                                                    모집 중
+                                                </PostStateOption>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('모집완료')}
+                                                    isSelected={selectedOption === '모집완료'}
+                                                >
+                                                    모집 완료
+                                                </PostStateOption>
+                                            </>
+                                        )}
+                                        {/* 미완료질문 / 완료질문일 경우 */}
+                                        {['미완료질문', '완료질문'].includes(selectedOption) && (
+                                            <>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('미완료질문')}
+                                                    isSelected={selectedOption === '미완료질문'}
+                                                >
+                                                    미완료 질문
+                                                </PostStateOption>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('완료질문')}
+                                                    isSelected={selectedOption === '완료질문'}
+                                                >
+                                                    완료 질문
+                                                </PostStateOption>
+                                            </>
+                                        )}
                                     </PostStateOptionWrapper>
                                 </>
                             ) : (
-                                // 작성자 아닐 경우 상태버튼
-                                <PostStateButton writerTrue={postDetail.writer}>{selectedOption}</PostStateButton>
+                                // 작성자 아닐 경우 상태버튼 또는 블로그일 경우
+                                <PostStateButton
+                                    onClick={toggleOptionVisibility}
+                                    writerTrue={postDetail.writer}
+                                    selectedOption={selectedOption}
+                                >
+                                    {selectedOption}
+                                </PostStateButton>
                             )}
                         </PostStateWrapper>
                     </HeaderWrapper>
@@ -472,7 +492,7 @@ const PostStateButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: ${(props) => (props.writerTrue ? 'pointer' : 'default')};
+    cursor: ${(props) => (props.writerTrue && props.selectedOption !== '블로그' ? 'pointer' : 'default')};
 `;
 
 const StyledDownArrowIcon = styled(DownArrowIcon)`
@@ -487,7 +507,7 @@ const PostStateOptionWrapper = styled.div`
     margin-top: 0.3em;
     border-radius: 10px;
     width: 11em;
-    height: 11.5385em;
+    height: 8em;
     background-color: rgba(22, 26, 63, 0.7);
     display: flex;
     flex-direction: column;
