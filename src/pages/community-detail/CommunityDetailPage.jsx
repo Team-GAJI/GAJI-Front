@@ -471,15 +471,12 @@ const InteractionText = styled.div`
 
 const PostStateWrapper = styled.div`
     color: white;
-    width: 100%;
+    width: 11em;
     font-size: 0.8125em;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: end;
-    @media (max-width: 768px) {
-        align-items: start;
-    }
+    align-items: center;
 `;
 
 const PostStateButton = styled.div`
@@ -506,7 +503,7 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
 const PostStateOptionWrapper = styled.div`
     margin-top: 0.3em;
     border-radius: 10px;
-    width: 11em;
+    width: 100%;
     height: 8em;
     background-color: rgba(22, 26, 63, 0.7);
     display: flex;
