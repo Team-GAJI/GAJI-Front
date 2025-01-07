@@ -23,18 +23,24 @@ const CommunityPage = () => {
 
     // Redux로 type 상태 가져오기
     const { type } = useSelector((state) => state.community);
+    console.log('현재 Redux type 상태:', type);
+
+    // type에 따라 activeButtonIndex 초기화
+    useEffect(() => {
+        const typeToIndexMap = {
+            프로젝트: 0,
+            질문: 1,
+            블로그: 2,
+        };
+        setActiveButtonIndex(typeToIndexMap[type] ?? 0); // type이 없으면 기본값 0
+    }, [type]);
 
     // 헤더 함수
     const headerTitles = ['프로젝트', '질문', '블로그'];
     const handleHeaderButtonClick = (index) => {
         setActiveButtonIndex(index);
-        if (index == 0) {
-            dispatch(setActiveButton('프로젝트'));
-        } else if (index == 1) {
-            dispatch(setActiveButton('질문'));
-        } else {
-            dispatch(setActiveButton('블로그'));
-        }
+        const newType = index === 0 ? '프로젝트' : index === 1 ? '질문' : '블로그';
+        dispatch(setActiveButton(newType));
     };
 
     // HOT 게시물 불러오기
