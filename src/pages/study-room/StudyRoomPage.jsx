@@ -54,7 +54,7 @@ const StudyRoomPage = () => {
                 changeColorOnClick={true}
                 changeColorOnHover={true}
             />
-            <SideBar roomId={roomId} week={weekCount} setCurrentWeek={setCurrentWeek} />
+            <SideBar studyInfo={studyInfo} roomId={roomId} week={weekCount} setCurrentWeek={setCurrentWeek} />
             <ContentWrapper>
                 <MainContent>
                     <StudySummary studyInfo={studyInfo} roomId={roomId} />
