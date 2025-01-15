@@ -39,7 +39,7 @@ const StudyRoomWritePost = ({ roomId }) => {
             //전역상태초기화 함수
             const postData = await studyRoomPostDetailAPI(response.result.roomPostId);
             console.log(postData);
-            navigate('/studyroom/post', {
+            navigate('/study/room', {
                 state: {
                     roomId: roomId,
                     postData: postData,

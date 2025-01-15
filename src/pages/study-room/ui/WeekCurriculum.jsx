@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { MinorText } from './StudySummary';
 import { weekTaskProgressAPI } from '../api/weekTaskProgressAPI';
 
-const WeekCurriculum = ({ roomId, week }) => {
+const WeekCurriculum = ({ studyInfo, roomId, week }) => {
     const nicknames = ['릴규', '디오', '따마', '지민', '스타', '하나', '연두', '워치', '샤크', '연두2'];
     const opacity = ['100%', '70%', '30%', '30%', '100%', '100%', '100%', '100%'];
 

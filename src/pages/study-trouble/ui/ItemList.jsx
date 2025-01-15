@@ -36,7 +36,7 @@ const ItemList = ({ roomId }) => {
     }, [roomId, lastPostId, isLoading]);
 
     useEffect(() => {
-        loadPosts(); // Load posts on component mount
+        loadPosts();
     }, [loadPosts]);
 
     useEffect(() => {

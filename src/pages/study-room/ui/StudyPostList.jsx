@@ -31,7 +31,7 @@ const StudyPostList = ({ roomId }) => {
             <StudyPostWrapper>
                 <ButtonWrapper>
                     <MinorText>게시글</MinorText>
-                    <PostButton onClick={() => navigate('/studyweekwrite', { state: { roomId: roomId } })}>
+                    <PostButton onClick={() => navigate('/study/room/write', { state: { roomId: roomId } })}>
                         <Icons src={Plus} alt="플러스" style={{ width: '10px', height: '10px' }} />
                         게시글 작성하기
                     </PostButton>
