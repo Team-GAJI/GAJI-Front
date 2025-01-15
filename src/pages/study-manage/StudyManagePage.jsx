@@ -14,6 +14,7 @@ const StudyManagePage = () => {
 
     const location = useLocation();
     const roomId = location.state?.roomId || {};
+    const studyInfo = location.state?.studyInfo || {};
 
     //sidebar
     const [weeks, setWeeks] = useState([...Array(9).keys()]);
@@ -80,7 +81,7 @@ const StudyManagePage = () => {
 
                 <Sidebar1 ref={sidebarRef}>
                     {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
-                    <BasicInfoButton>기본정보</BasicInfoButton>
+                    <BasicInfoButton>{studyInfo.name}</BasicInfoButton>
 
                     {weeks.map((week, index) => (
                         <React.Fragment key={week}>

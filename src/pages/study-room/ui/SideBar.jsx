@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const SideBar = ({ roomId, week, setCurrentWeek }) => {
+const SideBar = ({ roomId, week, setCurrentWeek, studyInfo }) => {
     const navigate = useNavigate();
     const handleManage = () => {
         navigate('/study/manage', { state: { roomId: roomId, studyInfo: studyInfo } });
