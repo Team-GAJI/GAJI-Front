@@ -66,20 +66,7 @@ const ItemList = ({ roomId, postId }) => {
                         // 새로운 게시글 추가 후, lastPostId를 업데이트
                         const newLastPostId = Math.max(...data.map((item) => item.id), lastPostId);
                         const data = await fetchTroubleShootingPosts(roomId, lastPostId);
-                        // setItems((prevItems) => {
-                        //     return [...prevItems, ...data.filter((item) => !prevItems.some((existing) => existing.id === item.id))];
-                        // });
-
                         setLastPostId(newLastPostId);
-
-                        // setItems((prevItems) => {
-                        //     // 기존 아이템들 중 이미 존재하는 아이템은 제외하고, 새로운 아이템만 추가
-                        //     const newItems = data.filter(
-                        //         (item) => !prevItems.some((existingItem) => existingItem.id === item.id),
-                        //     );
-                        //     // 새로 추가된 아이템들을 prevItems 뒤에 붙여서 반환
-                        //     return [...prevItems, ...newItems];
-                        // });
                     }
                 } catch (err) {
                     console.error('Error fetching posts:', err);

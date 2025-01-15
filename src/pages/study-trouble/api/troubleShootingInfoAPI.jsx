@@ -72,6 +72,18 @@ export const fetchTroubleShootingPost = async (postId) => {
     }
 };
 
+// 스터디룸 트러블슈팅 게시물 삭제
+export const delTroubleShootingPost = async (postId) => {
+    try {
+        const response = await api.delete(`study-rooms/trouble/${postId}`);
+        console.log('게시물 삭제 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('게시물 삭제 실패:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
 // 스터디룸 트러블슈팅 게시물 북마크 추가
 export const addBookmark = async (roomId, postId) => {
     try {
@@ -82,6 +94,7 @@ export const addBookmark = async (roomId, postId) => {
         throw error;
     }
 };
+
 // 스터디룸 트러블슈팅 게시물 북마크 제거
 export const removeBookmark = async (roomId, postId) => {
     try {

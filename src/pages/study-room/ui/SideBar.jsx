@@ -6,7 +6,8 @@ const SideBar = ({ roomId, week, setCurrentWeek }) => {
     const navigate = useNavigate();
     console.log('Week Count:', week);
     const handleManage = () => {
-        navigate('/study/manage', { state: { roomId: roomId } });
+        // 주차땜에 week : week 추가했어요!
+        navigate('/study/manage', { state: { roomId: roomId, week: week } });
     };
     return (
         <SidebarWrapper>

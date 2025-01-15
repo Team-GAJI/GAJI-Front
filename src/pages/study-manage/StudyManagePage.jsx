@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ManageDel from '../../assets/icons/studyManage/StudyManageDel.svg';
 import ManagePlus from '../../assets/icons/studyManage/StudyManagePlus.svg';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ManageInfo from './ui/ManageInfo';
 import ManagePeriod from './ui/StudyManagePeriod';
@@ -11,13 +11,17 @@ import PageHeader from '../../components/common/PageHeader';
 import { ContentWrapper70 } from '../../components/common/MediaWrapper';
 const StudyManagePage = () => {
     // n주차 버튼 기능
-
     const location = useLocation();
+    const navigate = useNavigate();
+
     const roomId = location.state?.roomId || {};
-    const weekCount = location.state?.week || 0;
+    const weekCount = location.state?.week || 0; // 주차 받아오기
+    console.log('Location State:', location.state);
+
     //sidebar
-    const [weeks, setWeeks] = useState([...Array(weekCount).keys()]);
+    // const [weeks, setWeeks] = useState([...Array(weekCount).keys()]);
     const sidebarRef = useRef(null);
+    const [weeks, setWeeks] = useState(() => Array.from({ length: weekCount }, (_, i) => i));
 
     const handleDelete = () => {
         setWeeks(weeks.slice(0, -1));
@@ -45,7 +49,6 @@ const StudyManagePage = () => {
         setSelectedWeek(index);
     };
     //studymanage 페이지로 이동
-    const navigate = useNavigate();
 
     const handleButtonClick = () => {
         navigate('/study/manage-week', { state: { roomId: roomId, week: weekCount } });
@@ -139,19 +142,17 @@ const Sidebar1 = styled.aside`
     flex-direction: column;
     border: 1px solid #a2a3b2;
     border-radius: 0.5em;
-    max-height: 78.5vh;
-    // width: 10%;
+    max-height: 200px;
     width: 11.25em;
     right: 3%;
     padding: 0.2em;
     padding-bottom: 1em;
     overflow-x: hidden;
 
-    // 사이드 창 전체 화면 스크롤할 때 같이 내려가게...
     position: -webkit-sticky;
     position: sticky;
     top: 5em;
-    margin-top: 2.75em;
+    margin-top: 4.75em;
 
     @media (max-width: 768px) {
         position: -webkit-sticky;
