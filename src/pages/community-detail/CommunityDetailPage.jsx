@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ReportCheck from '../../assets/icons/studyDetail/reportCheck.svg?react';
 import PostWriterInfo from './ui/PostWriterInfo';
@@ -14,6 +14,13 @@ import remarkGfm from 'remark-gfm';
 import ReportModal from '../study-detail/ui/ReportModal';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
 import StudyCommentContainer from '../study-detail/ui/StudyCommentContainer';
+import {
+    communityAddLike,
+    communityRemoveLike,
+    communityAddBookmark,
+    communityRemoveBookmark,
+} from './api/communityInteractionAPI';
+import { communityPostAPI } from './api/communityPostAPI';
 
 // 세자리마다 콤마 기능
 // const formatNumberWithCommas = (number) => {
@@ -25,37 +32,76 @@ const CommunityDetailPage = () => {
     const location = useLocation();
 
     //const postId = location.state?.postId || {}; // `postId`가 존재하지 않으면 빈 객체로 초기화
-    const { postId } = location.state || {};
-    const { postId2 } = location.state || {};
+    const { postDetail } = location.state || {};
+    const { postId } = location.state;
 
     // state 관리
-    const [bookMarkState, setBookMarkState] = useState(false);
-    const [likeState, setLikeState] = useState(false);
-    const [bookMarkCount, setBookMarkCount] = useState(postId.bookmarkCnt || 0);
-    const [likeCount, setLikeCount] = useState(postId.likeCnt || 0);
+    const [bookMarkState, setBookMarkState] = useState(postDetail.bookMarkStatus);
+    const [likeState, setLikeState] = useState(postDetail.likeStatus);
+    const [bookMarkCount, setBookMarkCount] = useState(postDetail.bookmarkCnt);
+    const [likeCount, setLikeCount] = useState(postDetail.likeCnt);
     const [isWriterInfoVisible, setIsWriterInfoVisible] = useState(false);
     const [isOptionVisible, setIsOptionVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('모집 중');
+    const [selectedOption, setSelectedOption] = useState(postDetail.status);
     const [isReportModalVisible, setIsReportModalVisible] = useState(false);
     const [isReportNoticeVisible, setIsReportNoticeVisible] = useState(false);
 
+    // 댓글 개수
+    const [commentCount, setCommentCount] = useState(0);
+
+    // 새로고침 시 게시물 정보 다시 가져오기
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            try {
+                const postDetail = await communityPostAPI(postId);
+
+                setLikeState(postDetail.likeStatus); // 서버로부터 좋아요 상태를 가져와 설정
+                setLikeCount(postDetail.likeCnt); // 좋아요 개수 설정
+                setBookMarkState(postDetail.bookMarkStatus); // 서버로부터 북마크 상태를 가져와 설정
+                setBookMarkCount(postDetail.bookmarkCnt); // 북마크 개수 설정
+            } catch (error) {
+                console.error('게시물 정보를 불러오는 중 오류 발생:', error);
+            }
+        };
+
+        fetchPostDetail(); // fetchPostDetail 호출하여 데이터 가져오기
+    }, [postId]);
+
     // 북마크, 좋아요 기능
-    const handleBookMark = () => {
-        if (bookMarkState) {
-            setBookMarkState(false);
-            setBookMarkCount((prevCount) => prevCount - 1);
-        } else {
-            setBookMarkState(true);
-            setBookMarkCount((prevCount) => prevCount + 1);
-        }
-    };
-    const handleLike = () => {
-        if (likeState) {
-            setLikeState(false);
-            setLikeCount((prevCount) => prevCount - 1);
-        } else {
-            setLikeState(true);
-            setLikeCount((prevCount) => prevCount + 1);
+    const handleInteraction = async (type) => {
+        try {
+            if (type === 'bookmark') {
+                if (bookMarkState) {
+                    await communityRemoveBookmark(postId); // 북마크 취소
+                    setBookMarkState(false);
+                    setBookMarkCount((prevCount) => prevCount - 1);
+                } else {
+                    await communityAddBookmark(postId); // 북마크 추가
+                    setBookMarkState(true);
+                    setBookMarkCount((prevCount) => prevCount + 1);
+                }
+            } else if (type === 'like') {
+                if (likeState) {
+                    await communityRemoveLike(postId); // 좋아요 취소
+                    setLikeState(false);
+                    setLikeCount((prevCount) => prevCount - 1);
+                } else {
+                    await communityAddLike(postId); // 좋아요 추가
+                    setLikeState(true);
+                    setLikeCount((prevCount) => prevCount + 1);
+                }
+            }
+        } catch (error) {
+            console.error(`${type} 처리 중 오류 발생:`, error.response ? error.response.data : error.message);
+
+            // 오류 발생 시 상태 복구
+            if (type === 'bookmark') {
+                setBookMarkState((prev) => !prev);
+                setBookMarkCount((prevCount) => (bookMarkState ? prevCount + 1 : prevCount - 1));
+            } else if (type === 'like') {
+                setLikeState((prev) => !prev);
+                setLikeCount((prevCount) => (likeState ? prevCount + 1 : prevCount - 1));
+            }
         }
     };
 
@@ -88,7 +134,7 @@ const CommunityDetailPage = () => {
 
     return (
         <>
-            {postId && (
+            {postDetail && (
                 <>
                     {/* 헤더 */}
                     <HeaderWrapper>
@@ -111,16 +157,16 @@ const CommunityDetailPage = () => {
                                     alt="user profile"
                                 />
                                 <Writer onMouseEnter={showWriterInfo} onMouseLeave={hideWriterInfo}>
-                                    {postId.userNickname}
+                                    {postDetail.userNickname}
                                 </Writer>
                                 <StyledBar>|</StyledBar>
-                                {postId.type} &gt; {postId.category}
+                                {postDetail.type} &gt; {postDetail.category}
                                 <StyledBar>|</StyledBar>
-                                {postId.createdAt}
+                                {postDetail.createdAt}
                                 <StyledBar>|</StyledBar>
-                                조회 {postId.hit}
+                                조회 {postDetail.hit}
                                 <StyledBar>|</StyledBar>
-                                댓글 {postId.commentCnt}
+                                댓글 {commentCount}
                             </TitleDetail>
 
                             {/* 작성자 정보 모달창 */}
@@ -129,17 +175,17 @@ const CommunityDetailPage = () => {
                                 onMouseEnter={showWriterInfo}
                                 onMouseLeave={hideWriterInfo}
                             >
-                                <PostWriterInfo nickName={postId.userNickname} />
+                                <PostWriterInfo nickName={postDetail.userNickname} />
                             </PostWriterInfoWrapper>
 
                             {/* 게시글 제목 */}
-                            <Title>{postId.title}</Title>
+                            <Title>{postDetail.title}</Title>
 
                             {/* 게시글 해시태그 */}
-                            {postId.hashtagList && postId.hashtagList.length > 0 && (
+                            {postDetail.hashtagList && postDetail.hashtagList.length > 0 && (
                                 <>
                                     <HashtagWrapper>
-                                        {postId.hashtagList.map((hashtag, index) => (
+                                        {postDetail.hashtagList.map((hashtag, index) => (
                                             <Hashtag key={index}>#{hashtag.hashtagName}</Hashtag>
                                         ))}
                                     </HashtagWrapper>
@@ -149,11 +195,14 @@ const CommunityDetailPage = () => {
                             {/* 게시글 상호작용 */}
                             <InteractionWrapper>
                                 <BookMarkWrapper>
-                                    <StyledBookMarkIcon onClick={handleBookMark} bookMarkState={bookMarkState} />
+                                    <StyledBookMarkIcon
+                                        onClick={() => handleInteraction('bookmark')}
+                                        isActive={bookMarkState}
+                                    />
                                     <InteractionText>{bookMarkCount}</InteractionText>
                                 </BookMarkWrapper>
                                 <BookMarkWrapper>
-                                    <StyledLikeIcon onClick={handleLike} likeState={likeState} />
+                                    <StyledLikeIcon onClick={() => handleInteraction('like')} isActive={likeState} />
                                     <InteractionText>{likeCount}</InteractionText>
                                 </BookMarkWrapper>
                                 <BookMarkWrapper>
@@ -166,45 +215,72 @@ const CommunityDetailPage = () => {
                                     isVisible={isReportModalVisible}
                                     onClose={hideReportModal}
                                     onReport={showReportNotice}
-                                    title={postId.title}
+                                    title={postDetail.title}
                                 />
                             </InteractionWrapper>
                         </TitleWrapper>
 
                         {/* 게시글 상태 div */}
                         <PostStateWrapper>
-                            {/* 상태 버튼 */}
-                            <PostStateButton onClick={toggleOptionVisibility}>
-                                {selectedOption}
-                                <StyledDownArrowIcon isVisible={isOptionVisible} />
-                            </PostStateButton>
-                            {/* 상태 옵션 */}
-                            <PostStateOptionWrapper isVisible={isOptionVisible}>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('모집 중')}
-                                    isSelected={selectedOption === '모집 중'}
+                            {/* 작성자일 경우 상태버튼 */}
+                            {postDetail.writer && selectedOption !== '블로그' ? (
+                                <>
+                                    <PostStateButton
+                                        onClick={toggleOptionVisibility}
+                                        writerTrue={postDetail.writer}
+                                        selectedOption={selectedOption}
+                                    >
+                                        {selectedOption}
+                                        <StyledDownArrowIcon isVisible={isOptionVisible} />
+                                    </PostStateButton>
+                                    {/* 상태 옵션 */}
+                                    <PostStateOptionWrapper isVisible={isOptionVisible}>
+                                        {/* 모집중 / 모집완료일 경우 */}
+                                        {['모집중', '모집완료'].includes(selectedOption) && (
+                                            <>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('모집중')}
+                                                    isSelected={selectedOption === '모집중'}
+                                                >
+                                                    모집 중
+                                                </PostStateOption>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('모집완료')}
+                                                    isSelected={selectedOption === '모집완료'}
+                                                >
+                                                    모집 완료
+                                                </PostStateOption>
+                                            </>
+                                        )}
+                                        {/* 미완료질문 / 완료질문일 경우 */}
+                                        {['미완료질문', '완료질문'].includes(selectedOption) && (
+                                            <>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('미완료질문')}
+                                                    isSelected={selectedOption === '미완료질문'}
+                                                >
+                                                    미완료 질문
+                                                </PostStateOption>
+                                                <PostStateOption
+                                                    onClick={() => handleOptionSelect('완료질문')}
+                                                    isSelected={selectedOption === '완료질문'}
+                                                >
+                                                    완료 질문
+                                                </PostStateOption>
+                                            </>
+                                        )}
+                                    </PostStateOptionWrapper>
+                                </>
+                            ) : (
+                                // 작성자 아닐 경우 상태버튼 또는 블로그일 경우
+                                <PostStateButton
+                                    onClick={toggleOptionVisibility}
+                                    writerTrue={postDetail.writer}
+                                    selectedOption={selectedOption}
                                 >
-                                    모집 중
-                                </PostStateOption>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('모집 완료')}
-                                    isSelected={selectedOption === '모집 완료'}
-                                >
-                                    모집 완료
-                                </PostStateOption>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('미완료 질문')}
-                                    isSelected={selectedOption === '미완료 질문'}
-                                >
-                                    미완료 질문
-                                </PostStateOption>
-                                <PostStateOption
-                                    onClick={() => handleOptionSelect('완료 질문')}
-                                    isSelected={selectedOption === '완료 질문'}
-                                >
-                                    완료 질문
-                                </PostStateOption>
-                            </PostStateOptionWrapper>
+                                    {selectedOption}
+                                </PostStateButton>
+                            )}
                         </PostStateWrapper>
                     </HeaderWrapper>
 
@@ -213,7 +289,7 @@ const CommunityDetailPage = () => {
                         <PostContentWrapper>
                             {/* 게시글 본문 */}
                             <PostContent>
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{postId.body}</ReactMarkdown>
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{postDetail.body}</ReactMarkdown>
                             </PostContent>
 
                             {/* 다음 게시물 div */}
@@ -225,7 +301,7 @@ const CommunityDetailPage = () => {
                             <StyledHr />
                             {/* 댓글 영역 */}
                             {/* <CommentContainer /> */}
-                            <StudyCommentContainer postId={postId2} type="community" />
+                            <StudyCommentContainer postId={postId} type="community" setCommentCount={setCommentCount} />
                         </PostContentWrapper>
                     </ContentWrapper>
                 </>
@@ -372,14 +448,14 @@ const StyledBookMarkIcon = styled(BookMarkIcon)`
     width: 1em;
     height: 1.3125em;
     cursor: pointer;
-    fill: ${(props) => (props.bookMarkState ? '#8E59FF' : 'none')};
+    fill: ${(props) => (props.isActive ? '#8E59FF' : 'none')};
 `;
 const StyledLikeIcon = styled(LikeIcon)`
     margin-bottom: 0.1em;
     width: 1.375em;
     height: 1.25em;
     cursor: pointer;
-    fill: ${(props) => (props.likeState ? '#8E59FF' : 'none')};
+    fill: ${(props) => (props.isActive ? '#8E59FF' : 'none')};
 `;
 const StyledReportIcon = styled(ReportIcon)`
     margin-bottom: 0.1em;
@@ -395,15 +471,12 @@ const InteractionText = styled.div`
 
 const PostStateWrapper = styled.div`
     color: white;
-    width: 100%;
+    width: 11em;
     font-size: 0.8125em;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: end;
-    @media (max-width: 768px) {
-        align-items: start;
-    }
+    align-items: center;
 `;
 
 const PostStateButton = styled.div`
@@ -416,7 +489,7 @@ const PostStateButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: ${(props) => (props.writerTrue && props.selectedOption !== '블로그' ? 'pointer' : 'default')};
 `;
 
 const StyledDownArrowIcon = styled(DownArrowIcon)`
@@ -430,8 +503,8 @@ const StyledDownArrowIcon = styled(DownArrowIcon)`
 const PostStateOptionWrapper = styled.div`
     margin-top: 0.3em;
     border-radius: 10px;
-    width: 11em;
-    height: 11.5385em;
+    width: 100%;
+    height: 8em;
     background-color: rgba(22, 26, 63, 0.7);
     display: flex;
     flex-direction: column;

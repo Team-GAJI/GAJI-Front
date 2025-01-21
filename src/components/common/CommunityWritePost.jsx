@@ -39,20 +39,22 @@ const CommunityWritePost = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await communityWriteAPI(data);
-            console.log(response);
-            //전역상태초기화 함수
-            const postId = await communityPostAPI(response);
+            const postId = await communityWriteAPI(data);
             console.log(postId);
+            //전역상태초기화 함수
+            const postDetail = await communityPostAPI(postId);
+            console.log(postDetail);
             navigate('/community/detail', {
                 state: {
+                    postDetail: postDetail,
                     postId: postId,
-                    //추후 수정
-                    postId2: response,
                 },
             });
+            // 제목, 내용 초기화
+            dispatch(setTitle(''));
+            dispatch(setBody(''));
         } catch (error) {
-            console.error('스터디 생성 중 오류 발생:', error);
+            console.error('커뮤니티 게시글 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
         }
     };

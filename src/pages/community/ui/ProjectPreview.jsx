@@ -14,10 +14,11 @@ const ProjectPreview = ({ key, postId, state, title, content, writer, ago, views
         try {
             const postDetail = await communityPostAPI(postId);
             console.log(postDetail);
+            console.log('postDetail:', postDetail);
             navigate('/community/detail', {
                 state: {
-                    postId: postDetail,
-                    postId2: key,
+                    postDetail: postDetail,
+                    postId: postId,
                 },
             });
         } catch (error) {

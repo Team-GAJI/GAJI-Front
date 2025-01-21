@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import StudyDetailHeader from './ui/StudyDetailHeader';
 import StudyLinkEmbed from './ui/StudyLinkEmbed';
@@ -8,11 +8,18 @@ import remarkGfm from 'remark-gfm';
 import HeightLine from '../../assets/icons/studyDetail/heightLine.svg?react';
 import { useLocation } from 'react-router-dom';
 import { ContentWrapper } from '../../components/common/MediaWrapper';
+import { studyAddLike, studyRemoveLike, studyAddBookmark, studyRemoveBookmark } from './api/studyInteraction';
+import { studyDetailAPI } from './api/studyDetailAPI';
 
 const StudyDetailPage = () => {
     const location = useLocation();
     const { studyDetail } = location.state || {};
     const { roomId } = location.state;
+    // 북마크, 좋아요
+    const [bookMarkState, setBookMarkState] = useState(studyDetail.bookmarkStatus);
+    const [likeState, setLikeState] = useState(studyDetail.likeStatus);
+    const [bookMarkCount, setBookMarkCount] = useState(studyDetail.bookmarkCnt);
+    const [likeCount, setLikeCount] = useState(studyDetail.likeCnt);
 
     // 댓글 개수
     const [commentCount, setCommentCount] = useState(0);
@@ -20,9 +27,65 @@ const StudyDetailPage = () => {
     // 날짜 형식을 변환하는 함수
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+        const month = date.getMonth() + 1; // 월은 1부터 시작하므로 1을 더함
         const day = date.getDate();
         return `${month}월 ${day}일`;
+    };
+
+    // 새로고침 시 게시물 정보 다시 가져오기
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            try {
+                const postDetail = await studyDetailAPI(roomId);
+
+                setLikeState(postDetail.likeStatus); // 서버로부터 좋아요 상태를 가져와 설정
+                setLikeCount(postDetail.likeCnt); // 좋아요 개수 설정
+                setBookMarkState(postDetail.bookmarkStatus); // 서버로부터 북마크 상태를 가져와 설정
+                setBookMarkCount(postDetail.bookmarkCnt); // 북마크 개수 설정
+            } catch (error) {
+                console.error('게시물 정보를 불러오는 중 오류 발생:', error);
+            }
+        };
+
+        fetchPostDetail(); // fetchPostDetail 호출하여 데이터 가져오기
+    }, [roomId]);
+
+    // 북마크, 좋아요 기능
+    const handleInteraction = async (type) => {
+        try {
+            if (type === 'bookmark') {
+                if (bookMarkState) {
+                    await studyRemoveBookmark(roomId); // 북마크 취소
+                    setBookMarkState(false);
+                    setBookMarkCount((prevCount) => prevCount - 1);
+                } else {
+                    await studyAddBookmark(roomId); // 북마크 추가
+                    setBookMarkState(true);
+                    setBookMarkCount((prevCount) => prevCount + 1);
+                }
+            } else if (type === 'like') {
+                if (likeState) {
+                    await studyRemoveLike(roomId); // 좋아요 취소
+                    setLikeState(false);
+                    setLikeCount((prevCount) => prevCount - 1);
+                } else {
+                    await studyAddLike(roomId); // 좋아요 추가
+                    setLikeState(true);
+                    setLikeCount((prevCount) => prevCount + 1);
+                }
+            }
+        } catch (error) {
+            console.error(`${type} 처리 중 오류 발생:`, error.response ? error.response.data : error.message);
+
+            // 오류 발생 시 상태 복구
+            if (type === 'bookmark') {
+                setBookMarkState((prev) => !prev);
+                setBookMarkCount((prevCount) => (bookMarkState ? prevCount + 1 : prevCount - 1));
+            } else if (type === 'like') {
+                setLikeState((prev) => !prev);
+                setLikeCount((prevCount) => (likeState ? prevCount + 1 : prevCount - 1));
+            }
+        }
     };
 
     return (
@@ -33,16 +96,19 @@ const StudyDetailPage = () => {
                     <StudyDetailHeader
                         roomId={roomId}
                         title={studyDetail.studyTitle}
-                        bookmarks={studyDetail.bookmarkCnt}
+                        bookmarkCnt={bookMarkCount}
+                        bookmarkStatus={bookMarkState}
                         views={studyDetail.views}
                         nickName={studyDetail.userNickName}
                         category={studyDetail.studyCategory || '카테고리 없음'}
                         imageUrl={studyDetail.imageUrl}
-                        likes={studyDetail.likeCnt}
+                        likeCnt={likeCount}
+                        likeStatus={likeState}
                         recruitPostTypeEnum={studyDetail.recruitPostTypeEnum === 'RECRUITING' ? '모집 중' : '모집 완료'}
                         userActive={studyDetail.userActive === 'ACTIVE' ? '활동중' : '자리비움'}
                         userActiveColor={studyDetail.userActive === 'ACTIVE' ? '#A8FEA1' : 'grey'}
                         commentCount={commentCount} // 댓글 개수
+                        onInteraction={handleInteraction} // 상호작용 함수
                     />
 
                     {/* 게시글 정보 */}
