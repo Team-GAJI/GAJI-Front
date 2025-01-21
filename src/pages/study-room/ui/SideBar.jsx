@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const SideBar = ({ roomId, week, setCurrentWeek }) => {
+const SideBar = ({ roomId, week, setCurrentWeek, studyInfo }) => {
     const navigate = useNavigate();
-    console.log('Week Count:', week);
     const handleManage = () => {
-        // 주차땜에 week : week 추가했어요!
-        navigate('/study/manage', { state: { roomId: roomId, week: week } });
+        navigate('/study/manage', { state: { roomId: roomId, studyInfo: studyInfo, week: week } });
     };
+
     return (
         <SidebarWrapper>
             <SidebarContainer>

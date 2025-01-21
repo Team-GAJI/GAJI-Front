@@ -13,6 +13,8 @@ const StudyManageInfo = () => {
     const [isOn, setIsOn] = useState(true);
     const [imgFile, setImgFile] = useState('');
 
+    const studyInfo = location.state?.studyInfo || {};
+
     const handleCountChange = (direction) => {
         //인원수 증가할 경우
         if (direction === 'increase') {

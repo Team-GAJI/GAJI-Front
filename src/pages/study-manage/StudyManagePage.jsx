@@ -9,6 +9,7 @@ import ManagePeriod from './ui/StudyManagePeriod';
 import StudyManageDetail from './ui/StudyManageDetail';
 import PageHeader from '../../components/common/PageHeader';
 import { ContentWrapper70 } from '../../components/common/MediaWrapper';
+
 const StudyManagePage = () => {
     // n주차 버튼 기능
     const location = useLocation();
@@ -16,7 +17,7 @@ const StudyManagePage = () => {
 
     const roomId = location.state?.roomId || {};
     const weekCount = location.state?.week || 0; // 주차 받아오기
-    console.log('Location State:', location.state);
+    const studyInfo = location.state?.studyInfo || {}; //스터디룸에서 기본정보 받아오기
 
     //sidebar
     // const [weeks, setWeeks] = useState([...Array(weekCount).keys()]);
@@ -88,7 +89,7 @@ const StudyManagePage = () => {
 
                 <Sidebar1 ref={sidebarRef}>
                     {/* 기본정보 클릭시 StudyManagePage로 넘어가기 */}
-                    <BasicInfoButton>기본정보</BasicInfoButton>
+                    <BasicInfoButton>{studyInfo.name}</BasicInfoButton>
 
                     {weeks.map((week, index) => (
                         <React.Fragment key={week}>
@@ -117,6 +118,7 @@ const StudyManagePage = () => {
 };
 
 export default StudyManagePage;
+
 const RowWrapper = styled.div`
     display: flex;
     @media (max-width: 768px) {

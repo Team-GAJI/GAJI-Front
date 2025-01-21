@@ -19,9 +19,9 @@ const StudyRoomWritePage = () => {
         setActiveButtonIndex(index);
         if (index === 0) {
             console.log(roomId);
-            navigate('/studyroom', { state: { roomId: roomId } });
+            navigate('/study/room', { state: { roomId: roomId } });
         } else if (index === 1) {
-            navigate('/troubleshooting', { state: { roomId: roomId } });
+            navigate('/study/trouble', { state: { roomId: roomId } });
         } else {
             navigate('/');
         }
