@@ -50,6 +50,9 @@ const CommunityWritePost = () => {
                     postId: postId,
                 },
             });
+            // 제목, 내용 초기화
+            dispatch(setTitle(''));
+            dispatch(setBody(''));
         } catch (error) {
             console.error('커뮤니티 게시글 생성 중 오류 발생:', error);
             // 필요에 따라 오류 처리 로직을 추가할 수 있습니다.
