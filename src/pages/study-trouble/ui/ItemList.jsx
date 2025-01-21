@@ -5,85 +5,114 @@ import UserIcon from '../../../assets/icons/common/usericon.svg';
 import ItemImageSrc from '../../../assets/images/common/Rectangle16.png';
 import CommentIconSrc from '../../../assets/images/troubleshooting/comment.png';
 import { fetchTroubleShootingPosts } from '../api/troubleShootingInfoAPI';
+import { fetchTroubleShootingPost } from '../api/troubleShootingInfoAPI';
 
-const ItemList = ({ roomId }) => {
-    const [items, setItems] = useState([]);
-    const [lastPostId, setLastPostId] = useState(null);
+const ItemList = ({ roomId, postId }) => {
+    const [items, setItems] = useState([]); // 게시글 목록
+    const [lastPostId, setLastPostId] = useState(null); // 최대 postId
+
+    const [postData, setPostData] = useState(null);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
-    const loadPosts = useCallback(async () => {
-        if (isLoading) return;
-        setIsLoading(true);
-
-        try {
-            const newItems = await fetchTroubleShootingPosts(roomId, lastPostId);
-
-            if (!Array.isArray(newItems)) {
-                throw new Error('Fetched items are not an array');
-            }
-
-            setItems((prevItems) => [...prevItems, ...newItems]);
-
-            if (newItems.length > 0) {
-                setLastPostId(newItems[newItems.length - 1].id);
-            }
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        } finally {
-            setIsLoading(false);
+    useEffect(() => {
+        const savedItems = JSON.parse(localStorage.getItem('items'));
+        if (savedItems) {
+            setItems(savedItems);
         }
-    }, [roomId, lastPostId, isLoading]);
+    }, []);
 
     useEffect(() => {
-        loadPosts();
-    }, [loadPosts]);
+        localStorage.setItem('items', JSON.stringify(items));
+    }, [items]);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (
-                window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight ||
-                isLoading
-            )
-                return;
+        if (postId) {
+            const fetchPost = async () => {
+                try {
+                    setIsLoading(true);
+                    const data = await fetchTroubleShootingPost(postId);
 
-            loadPosts();
-        };
+                    console.log('Fetched post data:', data);
+                    setItems((prevItems) => {
+                        const isDuplicate = prevItems.some((item) => item.id === data.result.id);
+                        if (!isDuplicate) {
+                            return [...prevItems, data.result];
+                        }
+                        return prevItems;
+                    });
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [loadPosts, isLoading]);
+                    setPostData(data.result);
+                } catch (err) {
+                    console.error('Error fetching post:', err);
+                    setError('Failed to fetch post data');
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            fetchPost();
+        }
+    }, [postId]);
+
+    useEffect(() => {
+        if (roomId) {
+            const fetchPosts = async () => {
+                try {
+                    setIsLoading(true);
+                    const data = await fetchTroubleShootingPosts(roomId, lastPostId);
+                    console.log('Fetched items:', data);
+
+                    if (data.length > 0) {
+                        // 새로운 게시글 추가 후, lastPostId를 업데이트
+                        const newLastPostId = Math.max(...data.map((item) => item.id), lastPostId);
+                        const data = await fetchTroubleShootingPosts(roomId, lastPostId);
+                        setLastPostId(newLastPostId);
+                    }
+                } catch (err) {
+                    console.error('Error fetching posts:', err);
+                    setError('Failed to fetch posts');
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            fetchPosts();
+        }
+    }, [roomId, lastPostId]);
 
     const handleItemClick = (id) => {
-        navigate(`/troubleshooting-detail/${id}`);
+        navigate(`/study/trouble/detail`, { state: { postId: id, roomId } });
+
+        // navigate(`/study/trouble/detail`, { state: { postId: id } });
     };
 
     return (
-        <ItemGrid>
-            {items.map((item) => (
-                <Item key={item.id} onClick={() => handleItemClick(item.id)}>
-                    <ItemImageWrapper>
-                        <ItemImage src={ItemImageSrc} alt={item.title} />
-                        <CommentInfo>
-                            <CommentIcon src={CommentIconSrc} alt="comment icon" />
-                            <CommentCount>{item.commentCount}</CommentCount>
-                        </CommentInfo>
-                    </ItemImageWrapper>
-
-                    <ItemContent>
-                        <ItemTitle>{item.title}</ItemTitle>
-                        <ItemDetails>
-                            <ItemUser>
-                                <UserIconImg src={UserIcon} alt="user icon" />
-                                {item.nickname}
-                            </ItemUser>
-                            <ItemTime>{new Date(item.createdAt).toLocaleDateString()}</ItemTime>
-                            <ItemViews>조회 {item.viewCount}</ItemViews>
-                        </ItemDetails>
-                    </ItemContent>
-                </Item>
-            ))}
-        </ItemGrid>
+        <>
+            {/* 게시글 목록 표시 */}
+            <ItemGrid>
+                {items.map((item) => (
+                    <Item key={item.id} onClick={() => handleItemClick(item.id)}>
+                        <ItemImageWrapper>
+                            <ItemImage src={item.imageSrc || ItemImageSrc} alt={item.title} />
+                            <CommentInfo>
+                                <CommentIcon src={CommentIconSrc} alt="comment icon" />
+                                <CommentCount>{item.commentCount}</CommentCount>
+                            </CommentInfo>
+                        </ItemImageWrapper>
+                        <ItemContent>
+                            <ItemTitle>{item.title}</ItemTitle>
+                            <ItemDetails>
+                                <ItemUser>
+                                    <UserIconImg src={UserIcon} alt="user icon" />
+                                    {item.nickname}
+                                </ItemUser>
+                                <ItemTime>{new Date(item.createdAt).toLocaleDateString()}</ItemTime>
+                                <ItemViews>조회 {item.viewCount}</ItemViews>
+                            </ItemDetails>
+                        </ItemContent>
+                    </Item>
+                ))}
+            </ItemGrid>
+        </>
     );
 };
 

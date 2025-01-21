@@ -20,17 +20,37 @@ import { assignmentsAPI } from './api/assignmentsAPI.jsx';
 import { weekcountAPI } from './api/weekcountAPI.jsx';
 
 import { setWeekData } from '../../redux/slice/studymanageweek/studymanageweekSlice.jsx';
+import { current } from '@reduxjs/toolkit';
 
 const StudyManageWeekPage = () => {
     const [weeks, setWeeks] = useState([0]);
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const sidebarRef = useRef(null);
 
-    const dispatch = useDispatch();
+    const assignmentsRef = useRef(null);
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { weeksData = [] } = useSelector((state) => state.studyWeek);
     const [selectedWeek, setSelectedWeek] = useState(0);
-    const roomId = location.state?.roomId || null;
+    // const roomId = location.state?.roomId || null;
+
+    const location = useLocation();
+    const roomId = location.state?.roomId;
+    const weekCount = location.state?.week;
+    console.log(roomId);
+
+    useEffect(() => {
+        console.log('Received roomId:', roomId);
+        console.log('Received week:', weekCount);
+    }, [roomId, weekCount]);
+
+    useEffect(() => {
+        if (weekCount && weekCount > 0) {
+            const initialWeeks = Array.from({ length: weekCount }, (_, index) => index);
+            setWeeks(initialWeeks);
+        }
+    }, [weekCount]);
 
     useEffect(() => {
         if (weeksData.length === 0) {
@@ -68,6 +88,13 @@ const StudyManageWeekPage = () => {
             studyPeriodEndDate: currentWeekData.studyPeriodEndDate,
         };
 
+        // 과제 등록
+        const assignmentsInfo = {
+            assignments: currentWeekData.assignments || [],
+        };
+        // const assignmentsInfo = {
+        //     assignments:  assignmentsInfo.assignments || [],
+        // };
         // 시작일과 종료일이 유효한지 확인
         if (!periodInfo.studyPeriodStartDate || !periodInfo.studyPeriodEndDate) {
             console.error('스터디 기간 정보가 누락되었습니다.');
@@ -83,11 +110,20 @@ const StudyManageWeekPage = () => {
             const periodResult = await periodAPI(roomId, selectedWeek, periodInfo);
             console.log('스터디 기한 저장 완료:', periodResult);
 
+            //assignmentsAPI 호출
+            if (assignmentsInfo.assignments.length > 0) {
+                const assignmentsResult = await assignmentsAPI(roomId, selectedWeek, assignmentsInfo);
+                console.log('등록한 과제 : ', assignmentsResult);
+            } else {
+                console.warn('과제가 비어 있습니다.');
+            }
+            // 입력한 데이터값 모두 보기
+            console.log('roomId: ', roomId);
             console.log('현재 주차 데이터:', currentWeekData);
         } catch (error) {
             console.error('저장 중 오류 발생:', error);
         }
-    }, [dispatch, roomId, selectedWeek, weeksData]);
+    }, [roomId, selectedWeek, weeksData]);
 
     const handleWeekDataChange = (field, value) => {
         const currentWeekData = weeksData[selectedWeek] || {
@@ -105,15 +141,17 @@ const StudyManageWeekPage = () => {
                 ...currentWeekData.basicInfo,
                 [field]: value,
             },
-
+            // 스터디 기한 업데이트
             ...(field === 'studyPeriodStartDate' && { studyPeriodStartDate: value }),
             ...(field === 'studyPeriodEndDate' && { studyPeriodEndDate: value }),
+            // 과제 업데이트
+            ...(field === 'assignments' && { assignments: value }), // assignments 업데이트 추가
+
+            // assignments: field === 'assignments' ? value : currentWeekData.assignments,
         };
 
         const newWeeksData = weeksData.map((week, index) => (index === selectedWeek ? updatedWeekData : week));
-
         dispatch(setWeekData({ weekIndex: selectedWeek, weekData: updatedWeekData }));
-        // dispatch(setWeekData({ weekIndex: selectedWeek, weekData: newWeeksData }));
     };
 
     const onWeekDataChange = (updatedWeekData) => {
@@ -122,7 +160,7 @@ const StudyManageWeekPage = () => {
 
     //사이드 버튼 주차 관련 코드들
     const handleButtonClick = () => {
-        navigate('/studymanage');
+        navigate('/study/manage');
     };
     const handleWeekSelect = (index) => {
         setSelectedWeek(index);
@@ -189,9 +227,17 @@ const StudyManageWeekPage = () => {
                         onWeekDataChange={handleWeekDataChange}
                         roomId={roomId}
                     />
+
+                    <ManageWeekeDetailed
+                        ref={assignmentsRef}
+                        selectedWeek={selectedWeek}
+                        weekData={weeksData}
+                        onWeekDataChange={handleWeekDataChange}
+                        roomId={roomId}
+                    />
                 </ContentWrapper70>
                 <Sidebar1 ref={sidebarRef}>
-                    <BasicInfoButton onClick={handleButtonClick}>기본정보</BasicInfoButton>
+                    <BasicInfoButton onClick={() => navigate('/study/manage')}>기본정보</BasicInfoButton>
                     {weeks.map((week, index) => (
                         <React.Fragment key={week}>
                             <SidebarButton1

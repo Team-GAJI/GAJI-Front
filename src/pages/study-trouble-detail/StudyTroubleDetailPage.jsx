@@ -7,6 +7,7 @@ import UserProfileImg from '../../assets/images/community/userProfile.png';
 import ReportIcon from '../../assets/icons/troubleShooting/postReport.svg?react';
 import BookMarkIcon from '../../assets/icons/troubleShooting/postBookMark.svg?react';
 import LikeIcon from '../../assets/icons/troubleShooting/postLike.svg?react';
+import PageHeader from '../../components/common/PageHeader';
 
 import CommentContainer from '../study-trouble/ui/CommentContainer';
 import ReportModal from '../study-detail/ui/ReportModal';
@@ -21,6 +22,7 @@ import {
     addLike,
     removeLike,
     fetchTroubleShootingPost,
+    delTroubleShootingPost,
 } from '../study-trouble/api/troubleShootingInfoAPI';
 
 // 세 자리마다 콤마 추가 함수
@@ -31,6 +33,7 @@ const StudyTroubleDetailPage = () => {
     const navigate = useNavigate();
     const roomId = location.state?.roomId || {};
     const postId = location.state?.postId || {};
+    console.log(roomId, postId);
 
     const [postDetails, setPostDetails] = useState({
         title: '',
@@ -71,6 +74,38 @@ const StudyTroubleDetailPage = () => {
         };
         fetchPostDetails();
     }, [postId]);
+
+    //게시글 삭제 API 삭제를 했는데도 postId가 남아있어 삭제가 안됨
+    const handledelPost = async () => {
+        try {
+            // 게시물 삭제 API 호출
+            const delpost = await delTroubleShootingPost(postId);
+            console.log('삭제된 게시물:', delpost);
+
+            // 상태에서 해당 게시물 제거
+            // setPostId(null); // 삭제 후 postId를 null로 설정
+            setPostDetails({
+                title: '',
+                content: '',
+                bookMarkState: false,
+                likeState: false,
+                bookMarkCount: 0,
+                likeCount: 0,
+                authorName: '',
+                createdAt: '',
+                viewCount: 0,
+                commentCount: 0,
+            }); // 게시물 내용 초기화
+
+            // localStorage에서 해당 게시물 제거 -> 이거 확인해보기 및 기존에 잘못...삭제된 거....어떻게 지우지?
+            const savedItems = JSON.parse(localStorage.getItem('items')) || [];
+            const updatedItems = savedItems.filter((item) => item.id !== postId); // 삭제할 item 필터링
+            localStorage.setItem('items', JSON.stringify(updatedItems));
+            navigate('/study/trouble');
+        } catch (error) {
+            console.error('게시물 삭제 실패:', error.message);
+        }
+    };
 
     const handleInteraction = async (interactionType) => {
         try {
@@ -118,9 +153,34 @@ const StudyTroubleDetailPage = () => {
             console.error(`Error handling ${interactionType}:`, error);
         }
     };
+    console.log(postId); // 이 값을 StudyTroublePage에 넘김
+    // console.log(postDetails.postId);
 
+    // 임시 헤더입니다.
+    const headerTitles = ['스터디 홈', '트러블 슈팅 게시판', '정보나눔 게시판', '채팅방'];
+    const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+    const handleNavigate = (index) => {
+        if (index === 0) {
+            navigate('/study/room');
+        }
+        if (index === 1) {
+            navigate('/study/trouble', { state: { roomId: roomId, postId: postId } });
+        } else {
+            setActiveButtonIndex(index);
+        }
+    };
     return (
         <>
+            {/* 임시 헤더입니다. */}
+            <PageHeader
+                large="true" // large prop을 문자열로 변환하여 전달
+                pageTitle="트러블슈팅 게시판 글쓰기"
+                headerTitles={headerTitles}
+                activeButtonIndex={activeButtonIndex}
+                onButtonClick={handleNavigate}
+                changeColorOnClick={false}
+                changeColorOnHover={true}
+            />
             <HeaderWrapper>
                 <ReportNoticeWrapper isVisible={isReportNoticeVisible ? 1 : 0}>
                     <ReportNotice>
@@ -168,6 +228,7 @@ const StudyTroubleDetailPage = () => {
                             onReport={() => setIsReportNoticeVisible(true)}
                             title={postDetails.title}
                         />
+                        <DelButton onClick={() => handledelPost(postDetails.postId)}>삭제하기</DelButton>
                     </InteractionWrapper>
                 </TitleWrapper>
             </HeaderWrapper>
@@ -176,7 +237,8 @@ const StudyTroubleDetailPage = () => {
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{postDetails.content}</ReactMarkdown>
                 </PostContent>
                 <StyledHr />
-                <CommentContainer troublePostId={postDetails.postId} />
+                <CommentContainer troublePostId={postId} />
+                {/* <CommentContainer troublePostId={postDetails.postId} /> */}
             </PostContentWrapper>
         </>
     );
@@ -188,7 +250,7 @@ export default StudyTroubleDetailPage;
 const InteractionItem = ({ Icon, count, active, onClick }) => (
     <BookMarkWrapper onClick={onClick}>
         <Icon active={active} />
-        <InteractionText>{formatNumberWithCommas(count)}</InteractionText>
+        <InteractionText>{count}</InteractionText>
     </BookMarkWrapper>
 );
 
@@ -217,6 +279,18 @@ const TitleDetail = ({ authorName, createdAt, viewCount, commentCount, setIsWrit
         </TitleDetailWrapper>
     </>
 );
+
+const DelButton = styled.button`
+    border: none;
+    border-radius: 10px;
+    width: 7em;
+    height: 2.0769em;
+    // line-height: 2.0769em;
+    background-color: #8e59ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+`;
 
 const HeaderWrapper = styled.div`
     padding: 0 13em;

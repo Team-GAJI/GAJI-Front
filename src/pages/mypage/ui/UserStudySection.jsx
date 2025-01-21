@@ -13,7 +13,7 @@ const UserStudySection = ({ title, studyList, handleStudyRoom }) => (
             {studyList && studyList.length > 0 ? (
                 studyList.map((study) => (
                     <ListItem key={study.roomId} onClick={() => handleStudyRoom(study.roomId)}>
-                        <StudyProfile src={study.thumbnail_url || studyProfileUrl} alt="Study Profile" />
+                        {/* <StudyProfile src={study.thumbnail_url || studyProfileUrl} alt="Study Profile" /> */}
                         <ColumnWrapper>
                             <StudyName>{study.name}</StudyName>
                             <StudyText>{study.description}</StudyText>

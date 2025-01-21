@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import PageHeader from '../../components/common/PageHeader';
@@ -6,28 +6,47 @@ import TroubleshootingWritePost from '../study-trouble/ui/TroubleshootingWritePo
 import { ContentWrapper60 } from '../../components/common/MediaWrapper';
 
 const StudyTroubleWritePage = () => {
-    const [activeButtonIndex, setActiveButtonIndex] = useState(1);
-
     const location = useLocation();
-    let roomId = location.state?.roomId;
-
-    // roomId가 유효하지 않은 경우 처리
-    if (typeof roomId !== 'string' && typeof roomId !== 'number') {
-        console.error('roomId가 잘못된 형식입니다:', roomId);
-        roomId = ''; // 기본값으로 빈 문자열 설정
-    }
-
-    console.log('roomId:', roomId);
-
-    // API 연결
+    const navigate = useNavigate();
+    const [activeButtonIndex, setActiveButtonIndex] = useState(1);
+    const postId = location.state?.postId || null;
+    // const postId = 57;
     const [title, setTitle] = useState(''); // 게시글 제목을 위한 state
     const [content, setContent] = useState(''); // 게시글 내용을 위한 state
 
-    const navigate = useNavigate();
+    const roomId = location.state?.roomId;
+    console.log(roomId);
+
+    // roomId가 유효하지 않은 경우 처리
+    // if (typeof roomId !== 'string' && typeof roomId !== 'number') {
+    //     console.error('roomId가 잘못된 형식입니다:', roomId);
+    //     roomId = ''; // 기본값으로 빈 문자열 설정
+    // }
+
+    // console.log('roomId:', roomId);
+
+    useEffect(() => {
+        if (postId) {
+            // fetchTroubleShootingPost API를 사용하여 게시글 데이터 가져오기
+            const fetchPostData = async () => {
+                try {
+                    const post = await fetchTroubleShootingPost(postId);
+                    setTitle(post.title);
+                    setContent(post.body);
+                } catch (error) {
+                    console.error('게시글을 가져오는 중 오류 발생:', error);
+                }
+            };
+            fetchPostData();
+        }
+    }, [postId]);
 
     const handleNavigate = (index) => {
         if (index === 0) {
-            navigate('/studyroom');
+            navigate('/study/room');
+        }
+        if (index === 1) {
+            navigate('/study/trouble', { state: { roomId: roomId } });
         } else {
             setActiveButtonIndex(index);
         }

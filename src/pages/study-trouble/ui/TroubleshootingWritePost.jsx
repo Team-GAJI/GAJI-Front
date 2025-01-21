@@ -27,6 +27,7 @@ const TroubleshootingWritePost = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const roomId = location.state?.roomId;
+    // console.log(roomId);
 
     useEffect(() => {
         if (!roomId || typeof roomId !== 'number') {
@@ -34,6 +35,10 @@ const TroubleshootingWritePost = () => {
             throw new Error('유효하지 않은 roomId입니다.');
         }
     }, [roomId]);
+
+    useEffect(() => {
+        dispatch(setTitle('')); // 제목을 빈 문자열로 초기화
+    }, [roomId, dispatch]);
 
     useEffect(() => {
         dispatch(setBody(markdown));
@@ -49,7 +54,7 @@ const TroubleshootingWritePost = () => {
             const data = { title, body: markdown };
             const response = await registerTroubleShootingAPI(roomId, data);
             console.log(response.result.troublePostId);
-            navigate(`/troubleshooting-detail`, {
+            navigate(`/study/trouble/detail`, {
                 state: { roomId: roomId, postId: response.result.troublePostId },
             });
         } catch (error) {

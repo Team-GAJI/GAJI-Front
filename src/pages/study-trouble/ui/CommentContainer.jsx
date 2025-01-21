@@ -4,7 +4,11 @@ import ProfileImg from '../../../assets/images/community/userProfileBig.png';
 import Comment from './Comment';
 import { dummyComments } from './DummyComments';
 import Loading from '../../../components/common/Loading';
-import { addComment, deleteComment } from '../api/troubleShootingInfoAPI';
+import { addComment, deleteComment, addReply } from '../api/troubleShootingInfoAPI';
+import { userInfoAPI } from '../../mypage/api/userInfoAPI';
+
+// 문제점 1 : 답글을 입력한 후 (UI)
+// 문제점 2 : 데이터 유지 X -> 새로고침
 
 const CommentContainer = ({ troublePostId }) => {
     const [commentPage, setCommentPage] = useState(1);
@@ -13,17 +17,33 @@ const CommentContainer = ({ troublePostId }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Fetch comments function
+    // 사용자 닉네임 가져올때... 사용
+    const [userNickname, setUserNickname] = useState('');
+    const fetchUserNickname = async () => {
+        try {
+            const response = await userInfoAPI();
+            const nickname = response.result.nickname;
+            console.log(nickname);
+            setUserNickname(nickname);
+        } catch (error) {
+            console.error('닉네임을 가져오는 중 오류 발생:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserNickname();
+    }, []);
+
     const getComments = useCallback(async () => {
         if (isLoading) return;
         setIsLoading(true);
         try {
             setTimeout(() => {
-                const newPosts = dummyComments.slice((commentPage - 1) * 4, commentPage * 4); // Load 4 comments per page
+                const newPosts = dummyComments.slice((commentPage - 1) * 4, commentPage * 4);
                 setComments((prevPosts) => [...prevPosts, ...newPosts]);
                 setCommentPage((prevPage) => prevPage + 1);
                 setIsLoading(false);
-            }, 1000); // Delay for 1 second before adding data
+            }, 1000);
         } catch (error) {
             console.error('Error fetching comments:', error);
             setIsLoading(false);
@@ -47,17 +67,38 @@ const CommentContainer = ({ troublePostId }) => {
         };
     }, [getComments]);
 
-    // Handle comment submission
+    //댓글 추가
     const handleAddComment = async () => {
-        if (!newComment.trim() || isSubmitting) return; // Prevent empty submissions and duplicate submissions
+        const trimmedComment = newComment.trim();
+
+        if (!trimmedComment || isSubmitting) {
+            console.error('Comment content is empty or invalid.');
+            return;
+        }
 
         setIsSubmitting(true);
         try {
             const addedComment = await addComment(troublePostId, {
-                content: newComment,
+                body: trimmedComment,
             });
-            setComments([addedComment, ...comments]); // Add new comment to the top of the list
-            setNewComment(''); // Clear input field
+
+            if (addedComment && addedComment.result && addedComment.result.commentId) {
+                setComments([
+                    {
+                        commentId: addedComment.result.commentId,
+                        commentWriter: userNickname || '닉네임',
+                        commentContent: trimmedComment,
+                        commentUserProfileImg: ProfileImg,
+                        commentTime: new Date().toLocaleString(),
+                        replies: [],
+                    },
+                    ...comments,
+                ]);
+            } else {
+                console.error('댓글 등록 후 commentId를 찾을 수 없습니다.');
+            }
+
+            setNewComment('');
         } catch (error) {
             console.error('Error adding comment:', error);
         } finally {
@@ -65,16 +106,38 @@ const CommentContainer = ({ troublePostId }) => {
         }
     };
 
-    // Handle comment deletion
+    //댓글 삭제
     const handleDeleteComment = async (commentId) => {
         try {
-            await deleteComment(commentId); // Call the deleteComment API
+            await deleteComment(commentId);
             setComments((prevComments) => prevComments.filter((comment) => comment.commentId !== commentId));
         } catch (error) {
             console.error('Error deleting comment:', error);
         }
     };
 
+    //답글달기
+    const [replyContent, setReplyContent] = useState('');
+    const handleAddReplyComment = async (commentId, content) => {
+        try {
+            const replyData = {
+                commentWriter: userNickname || '닉네임',
+                content: content,
+                commentUserProfileImg: ProfileImg,
+                time: new Date().toLocaleString(),
+            };
+
+            setComments((prevComments) =>
+                prevComments.map((comment) =>
+                    comment.commentId === commentId
+                        ? { ...comment, replies: [...comment.replies, replyData] }
+                        : comment,
+                ),
+            );
+        } catch (error) {
+            console.error('답글 추가 중 오류 발생:', error);
+        }
+    };
     // Total number of comments
     const count = comments.length;
 
@@ -91,14 +154,14 @@ const CommentContainer = ({ troublePostId }) => {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
-                    disabled={isSubmitting} // Disable input while submitting
+                    disabled={isSubmitting}
                 />
                 <SubmitButton onClick={handleAddComment} disabled={isSubmitting}>
                     등록
                 </SubmitButton>
             </InputWrapper>
 
-            {/* Comment list */}
+            {/* Comment list commentId로 작성한 글 저장 */}
             {comments.map((comment) => (
                 <Comment
                     key={comment.commentId}
@@ -107,6 +170,11 @@ const CommentContainer = ({ troublePostId }) => {
                     userProfileImg={comment.commentUserProfileImg}
                     time={comment.commentTime}
                     onDelete={() => handleDeleteComment(comment.commentId)}
+                    //답글 임시
+                    onAdd={(content) => handleAddReplyComment(comment.commentId, content)}
+                    replyContent={replyContent}
+                    setReplyContent={setReplyContent}
+                    replies={comment.replies}
                 />
             ))}
             {isLoading && <Loading />}

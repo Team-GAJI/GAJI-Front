@@ -1,38 +1,56 @@
 import { api } from '../../../app/api';
 
 // 스터디룸 트러블슈팅 게시글 등록
+// export const registerTroubleShootingAPI = async (roomId, data) => {
+//     try {
+//         const response = await api.post(`study-rooms/trouble/${roomId}`, data);
+//         console.log(response);
+//         return response.data;
+//     } catch {}
+// };
 export const registerTroubleShootingAPI = async (roomId, data) => {
     try {
         const response = await api.post(`study-rooms/trouble/${roomId}`, data);
-        console.log(response);
+
+        // 응답 전체 데이터 확인
+        console.log('Full Response:', response);
+
+        // 응답 데이터에서 result와 troublePostId 확인
+        if (!response.data || !response.data.result) {
+            console.error('Invalid response structure:', response.data);
+            throw new Error('Invalid API response structure');
+        }
+
+        if (response.data.result.troublePostId === 0 || response.data.result.troublePostId === null) {
+            console.warn('TroublePostId is invalid:', response.data.result.troublePostId);
+        }
+
         return response.data;
-    } catch {}
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
 };
 
 // 트러블 슈팅 게시글 무한 스크롤 방식으로 조회
-export const fetchTroubleShootingPosts = async (roomId, lastPostId = null, size = 10) => {
+export const fetchTroubleShootingPosts = async (roomId, lastPostId, size = 10) => {
     try {
-        // Query parameters 설정
         const params = { size };
 
         if (lastPostId) {
             params.lastPostId = lastPostId;
         }
+        console.log(roomId);
+        console.log('Request params:', params);
 
-        // API 요청
-        const response = await api.get(`study-rooms/${roomId}/trouble`, {
-            params,
-        });
+        const response = await api.get(`/api/study-rooms/${roomId}/trouble/list`, { params });
 
-        // 응답 데이터 확인을 위해 콘솔 출력 추가
-        console.log('API response data:', response.data);
-
-        // result가 존재하고 배열일 경우에만 반환
-        const result = response.data.result;
+        // 응답에서 result 배열을 안전하게 추출
+        const result = response.data?.result || [];
+        console.log('API response data:', result);
         if (Array.isArray(result)) {
             return result;
         } else {
-            // result가 배열이 아니면 빈 배열 반환
             console.warn('Expected an array but got:', result);
             return [];
         }
@@ -42,7 +60,7 @@ export const fetchTroubleShootingPosts = async (roomId, lastPostId = null, size 
     }
 };
 
-// Fetch a single troubleshooting post by its ID
+// ID로 트러블슈팅 게시글 가져오기
 export const fetchTroubleShootingPost = async (postId) => {
     try {
         const response = await api.get(`study-rooms/trouble/detail/${postId}`);
@@ -50,6 +68,18 @@ export const fetchTroubleShootingPost = async (postId) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching post:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// 스터디룸 트러블슈팅 게시물 삭제
+export const delTroubleShootingPost = async (postId) => {
+    try {
+        const response = await api.delete(`study-rooms/trouble/${postId}`);
+        console.log('게시물 삭제 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('게시물 삭제 실패:', error.response ? error.response.data : error.message);
         throw error;
     }
 };
@@ -64,6 +94,7 @@ export const addBookmark = async (roomId, postId) => {
         throw error;
     }
 };
+
 // 스터디룸 트러블슈팅 게시물 북마크 제거
 export const removeBookmark = async (roomId, postId) => {
     try {

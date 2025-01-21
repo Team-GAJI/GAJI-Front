@@ -11,22 +11,17 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData = [], onWeekDataChange }
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (selectedWeek >= 0 && weekData.length > 0) {
-            const selectedWeekData = weekData[selectedWeek] || {};
-            const startDate = selectedWeekData.studyPeriodStartDate
-                ? new Date(selectedWeekData.studyPeriodStartDate)
-                : null;
-            const endDate = selectedWeekData.studyPeriodEndDate ? new Date(selectedWeekData.studyPeriodEndDate) : null;
-
-            // 값이 이미 있을 경우, 다시 초기화하지 않도록 조건 추가
-            if (!studyPeriodStartDate && startDate) {
-                setStudyPeriodStartDate(startDate);
-            }
-            if (!studyPeriodEndDate && endDate) {
-                setStudyPeriodEndDate(endDate);
-            }
+        // 선택된 주차가 유효하고 주차 데이터가 존재할 경우
+        if (selectedWeek >= 0 && weekData.length > selectedWeek) {
+            const selectedWeekData = weekData[selectedWeek];
+            setStudyPeriodStartDate(
+                selectedWeekData?.studyPeriodStartDate ? new Date(selectedWeekData.studyPeriodStartDate) : null,
+            );
+            setStudyPeriodEndDate(
+                selectedWeekData?.studyPeriodEndDate ? new Date(selectedWeekData.studyPeriodEndDate) : null,
+            );
         }
-    }, [selectedWeek, weekData]);
+    }, [selectedWeek, weekData]); // selectedWeek, weekData가 변경될 때마다 실행
 
     const formatDate = (date) => {
         if (!(date instanceof Date) || isNaN(date.getTime())) {
@@ -37,7 +32,6 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData = [], onWeekDataChange }
         return `${month}월 ${day}일`;
     };
 
-    // 스터디 시작 날짜 변경 핸들러
     const handleStudyStartDateChange = (date) => {
         const isoDateString = date ? date.toISOString() : null;
         setStudyPeriodStartDate(date);
@@ -66,19 +60,6 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData = [], onWeekDataChange }
         );
     };
 
-    // 주차 데이터 업데이트
-    const updateWeekData = (updates) => {
-        const updatedWeekData = {
-            ...weekData[selectedWeek], // 선택된 주차 데이터 복사
-            ...updates, // 변경된 필드 업데이트
-        };
-
-        // 전체 주차 데이터 업데이트
-        const newWeekData = weekData.map((data, index) => (index === selectedWeek ? updatedWeekData : data));
-
-        onWeekDataChange(newWeekData); // 전체 데이터 전달
-    };
-
     return (
         <>
             <Container>
@@ -88,8 +69,12 @@ const StudyManageWeekPeriod = ({ selectedWeek, weekData = [], onWeekDataChange }
             <ComponentWrapper>
                 {isStudyPeriodActive && (
                     <StudyCreateCalendar
+                        startDate={studyPeriodStartDate} // 시작날 전달
+                        endDate={studyPeriodEndDate} // 종료날 전달
                         onStartDateChange={handleStudyStartDateChange}
                         onEndDateChange={handleStudyEndDateChange}
+                        // onStartDateChange={handleStudyStartDateChange}
+                        // onEndDateChange={handleStudyEndDateChange}
                     />
                 )}
 

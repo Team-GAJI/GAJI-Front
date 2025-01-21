@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PageHeader from '../../components/common/PageHeader';
@@ -10,21 +10,23 @@ const StudyTroublePage = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
-    const roomId = location.state?.roomId || {}; // roomId가 올바르게 받아와졌는지 확인
-    console.log(roomId);
+    const roomId = location.state?.roomId ?? null;
+    const postId = location.state?.postId || null;
+
+    console.log(roomId, postId);
 
     const headerTitles = ['스터디 홈', '트러블 슈팅 게시판', '정보나눔 게시판', '채팅방'];
 
     const handleHeaderButtonClick = (index) => {
         if (index === 0) {
-            navigate('/studyroom', { state: { roomId: roomId } });
+            navigate('/study/room', { state: { roomId: roomId } });
         } else {
             setActiveButtonIndex(index);
         }
     };
 
     const handleCreatePost = () => {
-        navigate('/troubleshooting-register', { state: { roomId: roomId } });
+        navigate('/study/trouble/write', { state: { roomId: roomId } });
     };
 
     return (
@@ -44,15 +46,20 @@ const StudyTroublePage = () => {
                         <CreatePostButton onClick={handleCreatePost}>+ 트러블 슈팅 등록</CreatePostButton>
                     </CategoryContainer>
                 </CategoryWrapper>
-
-                {/* ItemList 컴포넌트에 roomId를 전달합니다 */}
-                <ItemList roomId={roomId} />
+                <ItemList roomId={Number(roomId)} postId={postId} />
             </ContentWrapper>
         </>
     );
 };
 
 export default StudyTroublePage;
+const ItemTitle = styled.h2`
+    font-size: 1em;
+    margin-bottom: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`;
 
 const CategoryWrapper = styled.div`
     width: 100%;

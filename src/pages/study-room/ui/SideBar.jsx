@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const SideBar = ({ roomId, week, setCurrentWeek, studyInfo }) => {
     const navigate = useNavigate();
     const handleManage = () => {
-        navigate('/study/manage', { state: { roomId: roomId, studyInfo: studyInfo } });
+        navigate('/study/manage', { state: { roomId: roomId, studyInfo: studyInfo, week: week } });
     };
+
     return (
         <SidebarWrapper>
             <SidebarContainer>

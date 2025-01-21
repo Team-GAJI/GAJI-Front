@@ -15,14 +15,14 @@ const studyWeekSlice = createSlice({
         setWeekData: (state, action) => {
             const { weekIndex, weekData } = action.payload;
 
-            // 현재 주차 데이터가 없을 경우 초기화
+            // 주차 데이터 초기화
             if (!state.weeksData[weekIndex]) {
                 state.weeksData[weekIndex] = {
                     basicInfo: { name: '', description: '' },
                     tasks: [],
                     studyPeriodStartDate: null,
                     studyPeriodEndDate: null,
-                    assignments: [],
+                    assignments: [], // 초기값
                 };
             }
 
@@ -30,8 +30,10 @@ const studyWeekSlice = createSlice({
             state.weeksData[weekIndex] = {
                 ...state.weeksData[weekIndex], // 기존 데이터 유지
                 ...weekData, // 새로운 데이터로 업데이트
+                assignments: weekData.assignments || state.weeksData[weekIndex].assignments,
             };
         },
+
         deleteWeekData: (state, action) => {
             const { weekIndex } = action.payload;
             state.weeksData.splice(weekIndex, 1); // 주차 삭제
